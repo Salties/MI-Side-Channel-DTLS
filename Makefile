@@ -14,6 +14,6 @@ client: ${CLIENT_SRC}
 	${CC} ${CLIENT_SRC} ${LIBS} ${CPPFLAG} -o client
 
 clean:
-	rm -rf *~ ${TARGET}
+	rm -rf *~ ${TARGET} server client
 
 	
