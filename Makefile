@@ -1,19 +1,21 @@
 SERVER_SRC=midtls_server.cpp
 CLIENT_SRC=midtls_client.cpp
-SRC=*.cpp
+UTILS_SRC=utils.c
+UTILS=utils.o
 LIBS=-lpthread -lcrypto -lssl
 CC=g++
 CPPFLAG=-g -Wall
 
-all: server client
+all: server client utils.o
 
-server: ${SERVER_SRC}
-	${CC} ${SERVER_SRC} ${LIBS} ${CPPFLAG} -o server
+${UTILS}: ${UTILS_SRC}
+	${CC} -c ${UTILS_SRC} ${LIBS} ${CPPFLAG}
 
-client: ${CLIENT_SRC}
-	${CC} ${CLIENT_SRC} ${LIBS} ${CPPFLAG} -o client
+server: ${SERVER_SRC} ${UTILS}
+	${CC} ${SERVER_SRC} ${UTILS} ${LIBS} ${CPPFLAG} -o server
+
+client: ${CLIENT_SRC} ${UTILS}
+	${CC} ${CLIENT_SRC} ${UTILS} ${LIBS} ${CPPFLAG} -o client
 
 clean:
-	rm -rf *~ ${TARGET} server client
-
-	
+	rm -rf *~ *.o ${TARGET} server client
