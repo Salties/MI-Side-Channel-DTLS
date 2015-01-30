@@ -27,11 +27,18 @@ main ()
 
 void start_server(int port, const char *local_address)
 {
-	SSL_ctx *ctx;
+	SSL_CTX *ctx;
 	SSL *ssl;
 	BIO *bio;
 
 	struct sockaddr_in server = {0}, client ={0};
+	
+	server.sin_family = AF_INET;
+	server.port = htons(port);
+
+	OpenSSL_add_all_algorithms();
+	SSL_load_error_strings();
+	ctx = SSL_CTX_new(DTLSv1_server_method());
 
 	return;
 }
