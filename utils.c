@@ -1,6 +1,6 @@
-#include <utils.h>
+#include "utils.h"
 
-void initsock(sockaddr_in *addr)
+void initsock(struct sockaddr_in *addr)
 {
-	return 0;
+	return;
 }
