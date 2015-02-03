@@ -4,8 +4,5 @@
 
 void initsock(struct sockaddr_in *addr)
 {
-	memset(addr, 0, sizeof(struct sockaddr_in));
-	addr->sin_family = AF_INET:
-
 	return;
 }
