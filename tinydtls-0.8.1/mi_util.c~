@@ -49,15 +49,9 @@ int SingleOrEven_S(void *inbuf, size_t inlen, void* outbuf, size_t *outlen)
 	printf("Number:\t%u\n", *r);
 	
 	if(*r % 2)
-	{
-		printf("Single\n");
 		strncpy(outbuf, "Single\n", *outlen);
-	}
 	else
-	{
-		printf("Even\n");
 		strncpy(outbuf, "Even\n", *outlen);
-	}
 	*outlen = strlen(outbuf);
 
 	return HAS_RESPOND;
