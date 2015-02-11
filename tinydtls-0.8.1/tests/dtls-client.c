@@ -1,4 +1,5 @@
 #include "tinydtls.h"
+#include "mi_util.h"
 
 /* This is needed for apple */
 #define __APPLE_USE_RFC_3542
@@ -34,10 +35,13 @@
 #endif /* __GNUC__ */
 
 #define MAX_BUF 0xffff
+#define MAX_COUNT 10
 
+static int fd;
 static char buf[MAX_BUF];
 static size_t len = 0;
 static int connected = 0;
+static unsigned int count = 0;
 
 typedef struct
 {
@@ -72,6 +76,7 @@ static const unsigned char ecdsa_pub_key_y[] = {
 };
 
 static void GenData (char *buffer, size_t * length);
+static void Update (struct dtls_context_t *ctx);
 
 int
 IsDtlsConnected (dtls_context_t * ctx, session_t * session)
@@ -372,7 +377,7 @@ main (int argc, char **argv)
   unsigned short port = DEFAULT_PORT;
   char port_str[NI_MAXSERV] = "0";
   log_t log_level = DTLS_LOG_WARN;
-  int fd, result;
+  int result;
   int on = 1;
   int opt, res;
   session_t dst;
@@ -578,8 +583,9 @@ main (int argc, char **argv)
     {
       GenData (buf, &len);
       try_send (dtls_context, &dst, buf, len);
+      Update (dtls_context);
     }
-  while (len != 0);
+  while (count++ < MAX_COUNT);
 
   dtls_free_context (dtls_context);
   exit (0);
@@ -588,8 +594,38 @@ main (int argc, char **argv)
 static void
 GenData (char *buffer, size_t * length)
 {
-  memset(buffer, 0, *length);
-  *length = read(STDIN_FILENO, buffer, MAX_BUF);
-  printf ("length:%ld\n", *length);
+  //Fill in any data to send
+  memset (buffer, 0, *length);
+  SingleOrEven_C (buffer, length);
+  return;
+}
+
+static void
+Update (struct dtls_context_t *ctx)
+{
+  int result;
+  struct pollfd dtlsfd;
+
+  dtlsfd.fd = fd;
+  dtlsfd.events = POLLIN;
+
+  result = poll (&dtlsfd, 1, -1);
+
+  if (result < 0)
+    {				/* error */
+      if (errno != EINTR)
+	perror ("poll");
+    }
+  else if (result == 0)
+    {
+      /* timeout */
+      printf ("Time out.\n");
+    }
+  else
+    {				/* ok */
+      if (dtlsfd.revents & POLLIN)
+	dtls_handle_read (ctx);
+    }
+
   return;
 }
