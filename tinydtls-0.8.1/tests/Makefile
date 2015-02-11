@@ -41,7 +41,7 @@ SOURCES:= dtls-server.c ccm-test.c prf-test.c \
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES))
 PROGRAMS:= $(patsubst %.c, %, $(SOURCES))
 HEADERS:=
-CFLAGS:=-Wall -g -O2 
+CFLAGS:=-Wall -g
 CPPFLAGS:=-I$(top_srcdir)  -DDTLSv12 -DWITH_SHA256
 LDFLAGS:=-L$(top_builddir) 
 LDLIBS:=-ltinydtls 
@@ -60,7 +60,7 @@ check:
 	echo top_builddir: $(top_builddir)
 
 clean:
-	@rm -f $(PROGRAMS) main.o $(LIB) $(OBJECTS)
+	@rm -f $(PROGRAMS) main.o $(LIB) $(OBJECTS) *~
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir clean ; \
 	done
