@@ -17,6 +17,8 @@
 #include "tinydtls.h"
 #include "dtls.h"
 #include "debug.h"
+#include "mi_util.h"
+
 
 #define DEFAULT_PORT 20220
 
@@ -49,6 +51,13 @@ handle_sigint (int signum)
   dsrv_stop (dsrv_get_context ());
 }
 #endif
+
+#define MAX_BUF 0xffff
+
+static int
+read_from_peer (struct dtls_context_t *ctx,
+		session_t * session, uint8 * data, size_t len);
+
 
 #ifdef DTLS_PSK
 /* This function is the "key store" for tinyDTLS. It is called to
@@ -138,32 +147,7 @@ verify_ecdsa_key (struct dtls_context_t *ctx,
 #define DTLS_SERVER_CMD_CLOSE "server:close"
 #define DTLS_SERVER_CMD_RENEGOTIATE "server:renegotiate"
 
-static int
-read_from_peer (struct dtls_context_t *ctx,
-		session_t * session, uint8 * data, size_t len)
-{
-  size_t i;
-  for (i = 0; i < len; i++)
-    printf ("%c", data[i]);
-  if (len >= strlen (DTLS_SERVER_CMD_CLOSE) &&
-      !memcmp (data, DTLS_SERVER_CMD_CLOSE, strlen (DTLS_SERVER_CMD_CLOSE)))
-    {
-      printf ("server: closing connection\n");
-      dtls_close (ctx, session);
-      return len;
-    }
-  else if (len >= strlen (DTLS_SERVER_CMD_RENEGOTIATE) &&
-	   !memcmp (data, DTLS_SERVER_CMD_RENEGOTIATE,
-		    strlen (DTLS_SERVER_CMD_RENEGOTIATE)))
-    {
-      printf ("server: renegotiate connection\n");
-      dtls_renegotiate (ctx, session);
-      return len;
-    }
 
-  //return dtls_write (ctx, session, data, len);
-  return 0;
-}
 
 static int
 send_to_peer (struct dtls_context_t *ctx,
@@ -413,4 +397,48 @@ main (int argc, char **argv)
 error:
   dtls_free_context (the_context);
   exit (0);
+}
+
+#if 0
+static int
+read_from_peer (struct dtls_context_t *ctx,
+		session_t * session, uint8 * data, size_t len)
+{
+  size_t i;
+  for (i = 0; i < len; i++)
+    printf ("%c", data[i]);
+  if (len >= strlen (DTLS_SERVER_CMD_CLOSE) &&
+      !memcmp (data, DTLS_SERVER_CMD_CLOSE, strlen (DTLS_SERVER_CMD_CLOSE)))
+    {
+      printf ("server: closing connection\n");
+      dtls_close (ctx, session);
+      return len;
+    }
+  else if (len >= strlen (DTLS_SERVER_CMD_RENEGOTIATE) &&
+	   !memcmp (data, DTLS_SERVER_CMD_RENEGOTIATE,
+		    strlen (DTLS_SERVER_CMD_RENEGOTIATE)))
+    {
+      printf ("server: renegotiate connection\n");
+      dtls_renegotiate (ctx, session);
+      return len;
+    }
+
+  return dtls_write (ctx, session, data, len);
+  return 0;
+}
+#endif
+
+static int
+read_from_peer (struct dtls_context_t *ctx,
+		session_t * session, uint8 * data, size_t len)
+{
+  int respond, ret = 0;
+  uint8 outbuf[MAX_BUF] = { 0 };
+  size_t outlen = sizeof(outbuf);
+
+  if (0 != (respond = SingleOrEven_S (data, len, outbuf, &outlen)))
+    {
+      ret = dtls_write (ctx, session, outbuf, outlen);
+    }
+  return ret;
 }

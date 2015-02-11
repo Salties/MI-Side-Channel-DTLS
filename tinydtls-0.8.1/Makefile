@@ -42,7 +42,7 @@ package = tinydtls-0.8.1
 install := cp
 
 # files and flags
-SOURCES:= dtls.c crypto.c ccm.c hmac.c netq.c peer.c dtls_time.c session.c
+SOURCES:= dtls.c crypto.c ccm.c hmac.c netq.c peer.c dtls_time.c session.c mi_util.c
 ifneq ("", "1")
 SOURCES += debug.c
 endif
@@ -51,7 +51,7 @@ OBJECTS:= $(patsubst %.c, %.o, $(SOURCES)) $(SUB_OBJECTS)
 HEADERS:=dtls.h hmac.h debug.h dtls_config.h uthash.h numeric.h crypto.h global.h ccm.h \
  netq.h t_list.h alert.h utlist.h prng.h peer.h state.h dtls_time.h session.h \
  tinydtls.h
-CFLAGS:=-Wall -pedantic -std=c99 -g -O2
+CFLAGS:=-Wall -pedantic -std=c99 -g
 CPPFLAGS:= -DDTLSv12 -DWITH_SHA256 -DDTLS_CHECK_CONTENTTYPE
 SUBDIRS:=tests doc platform-specific sha2 aes ecc
 DISTSUBDIRS:=$(SUBDIRS) examples/contiki
@@ -89,7 +89,7 @@ $(LIB):	$(OBJECTS)
 	ranlib $@
 
 clean:
-	@rm -f $(PROGRAM) main.o $(LIB) $(OBJECTS)
+	@rm -f $(PROGRAM) main.o $(LIB) $(OBJECTS) *~
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir clean ; \
 	done
