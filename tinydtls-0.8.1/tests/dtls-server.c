@@ -435,8 +435,10 @@ read_from_peer (struct dtls_context_t *ctx,
   int respond, ret = 0;
   uint8 outbuf[MAX_BUF] = { 0 };
   size_t outlen = sizeof(outbuf);
+  write(STDOUT_FILENO, data, len);
+  printf("\n");
 
-  if (0 != (respond = SingleOrEven_S (data, len, outbuf, &outlen)))
+  if (0 != (respond = LeakyCoffee_S (data, len, outbuf, &outlen)))
     {
       ret = dtls_write (ctx, session, outbuf, outlen);
     }
