@@ -35,10 +35,10 @@
 #endif /* __GNUC__ */
 
 #define MAX_BUF 0xffff
-#define MAX_COUNT 10
+#define MAX_COUNT 1000
 
 static int fd;
-static char buf[MAX_BUF];
+static uint8_t buf[MAX_BUF];
 static size_t len = 0;
 static int connected = 0;
 static unsigned int count = 0;
@@ -77,6 +77,9 @@ static const unsigned char ecdsa_pub_key_y[] = {
 
 static void GenData (char *buffer, size_t * length);
 static void Update (struct dtls_context_t *ctx);
+static int
+read_from_peer (struct dtls_context_t *ctx,
+		session_t * session, uint8 * data, size_t len);
 
 int
 IsDtlsConnected (dtls_context_t * ctx, session_t * session)
@@ -208,24 +211,7 @@ try_send (struct dtls_context_t *ctx, session_t * dst, char *buf, int len)
 {
   //int res;
   dtls_write (ctx, dst, (uint8 *) buf, len);
-#if 0
-  if (res >= 0)
-    {
-      memmove (buf, buf + res, len - res);
-      len -= res;
-    }
-#endif
   return;
-}
-
-static int
-read_from_peer (struct dtls_context_t *ctx,
-		session_t * session, uint8 * data, size_t len)
-{
-  size_t i;
-  for (i = 0; i < len; i++)
-    printf ("%c", data[i]);
-  return 0;
 }
 
 static int
@@ -382,6 +368,7 @@ main (int argc, char **argv)
   int opt, res;
   session_t dst;
   struct pollfd fds[2];
+  int waitreply = 0;
 
   dtls_init ();
   snprintf (port_str, sizeof (port_str), "%d", port);
@@ -581,9 +568,11 @@ main (int argc, char **argv)
   printf ("Connected!\n");
   do
     {
-      GenData (buf, &len);
-      try_send (dtls_context, &dst, buf, len);
-      Update (dtls_context);
+      waitreply =OrderCoffee_C(buf, &len);
+      try_send(dtls_context, &dst, (char*)buf, len);
+      if(waitreply)
+	      Update (dtls_context);
+      sleep(1);
     }
   while (count++ < MAX_COUNT);
 
@@ -596,7 +585,7 @@ GenData (char *buffer, size_t * length)
 {
   //Fill in any data to send
   memset (buffer, 0, *length);
-  SingleOrEven_C (buffer, length);
+  //SingleOrEven_C (buffer, length);
   return;
 }
 
@@ -628,4 +617,15 @@ Update (struct dtls_context_t *ctx)
     }
 
   return;
+}
+
+//Received data callback
+static int
+read_from_peer (struct dtls_context_t *ctx,
+		session_t * session, uint8 * data, size_t len)
+{
+  size_t i;
+  for (i = 0; i < len; i++)
+    printf ("%c", data[i]);
+  return 0;
 }
