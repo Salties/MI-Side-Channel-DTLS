@@ -14,6 +14,8 @@
 #define MAX_PACKET 1400
 
 //For general use.
+int mi_sessiondone = 0;
+
 unsigned int mi_rand()
 {
     static int fd = 0;
@@ -77,13 +79,99 @@ typedef enum { AMERICANO, CAPPUCCINO, ESPRESSO, MOCHA, FLAVOUR, EMPTY } Coffee;
 #define STR_FLAVOUR "FLAVOUR"
 
 #define MAX_DEGREE 5
-#define SUGAR "*"
-#define MILK "@"
+#define MAX_DRINK_TIME 10
+#define SUGAR '*'
+#define MILK '*'
+#define STR_SUGAR "*"
+#define STR_MILK "@"
+#define MOOD 0
+
+Coffee TasteCoffee(uint8_t * buf, size_t len)
+{
+    char *order = (char *) buf;
+    if (!strncmp(order, STR_AMERICANO, sizeof(STR_AMERICANO) - 1))
+	return AMERICANO;
+    else if (!strncmp(order, STR_CAPPUCCINO, sizeof(STR_CAPPUCCINO) - 1))
+	return CAPPUCCINO;
+    else if (!strncmp(order, STR_ESPRESSO, sizeof(STR_ESPRESSO) - 1))
+	return ESPRESSO;
+    else if (!strncmp(order, STR_MOCHA, sizeof(STR_MOCHA) - 1))
+	return MOCHA;
+    else if (!strncmp(order, STR_FLAVOUR, sizeof(STR_FLAVOUR) - 1))
+	return FLAVOUR;
+
+    return EMPTY;
+}
+
+int TasteSugar(char *cup, size_t len)
+{
+    int degree, i;
+
+    for (i = 0, degree = 0; i < len; i++)
+	if (cup[i] == SUGAR)
+	    degree++;
+
+    return degree;
+}
+
+int TasteMilk(char *cup, size_t len)
+{
+    int degree, i;
+
+    for (i = 0, degree = 0; i < len; i++)
+	if (cup[i] == MILK)
+	    degree++;
+
+    return degree;
+}
+
+int AddSugar(char *buf, int degree)
+{
+    int i;
+    char *cup = (char *) buf;
+
+    if (degree == MOOD)
+	degree = mi_rand() % MAX_DEGREE;
+    for (i = 0; i < degree; i++)
+	strcat(cup, STR_SUGAR);
+
+    return degree;
+}
+
+int AddMilk(char *buf, int degree)
+{
+    int i;
+    char *cup = (char *) buf;
+
+    if (degree == MOOD)
+	degree = mi_rand() % MAX_DEGREE;
+    for (i = 0; i < degree; i++)
+	strcat(cup, STR_MILK);
+
+    return degree;
+}
+
+void DrinkCoffee(int seconds)
+{
+    int i;
+    printf("Drinking");
+    fflush(stdout);
+    for (i = 0; i < seconds; i++)
+      {
+	  sleep(1);
+	  printf(".");
+	  fflush(stdout);
+      }
+    printf("Done.\n");
+    return;
+}
 
 int OrderCoffee_C(uint8_t * buf, size_t * len)
 {
     Coffee choice = mi_rand() % NCOFFEE;
     char *coffeename;
+
+    mi_sessiondone = 0;
 
     switch (choice)
       {
@@ -115,53 +203,56 @@ int OrderCoffee_C(uint8_t * buf, size_t * len)
     return 1;
 }
 
-int LeakyCoffee_C(uint8_t * buf, size_t * len)
+int LeakyCoffee_C(struct dtls_context_t *ctx, session_t * dst, uint8_t * buf, size_t * len)
 {
+    static int sugarpref = 0, milkpref = 0;
+    char *cup = (char *) buf;
+    int sugardiff, milkdiff;
+    Coffee servedcoffee;
+    printf("Coffee received.\n");
+
+    switch (servedcoffee = TasteCoffee(buf, *len))
+      {
+      case AMERICANO:
+      case CAPPUCCINO:
+      case MOCHA:
+	  sugarpref = mi_rand() % MAX_DEGREE;
+	  milkpref = mi_rand() % MAX_DEGREE;
+	  sugardiff = TasteSugar(cup, *len) - sugarpref;
+	  milkdiff = TasteMilk(cup, *len) - milkpref;
+	  if (sugardiff >= 0 && milkdiff >= 0)
+	    {
+		DrinkCoffee(mi_rand() % MAX_DRINK_TIME);
+		mi_sessiondone = 1;
+	    }
+	  else
+	    {
+		char * flavourbuf = malloc(20);
+		printf("Need more flavour.\n");
+		memset(buf, 0, *len);
+		strcpy(flavourbuf, STR_FLAVOUR);
+		AddSugar(flavourbuf, 0 - sugardiff);
+		AddMilk(flavourbuf, 0 - sugardiff);
+		dtls_write(ctx, dst, (uint8_t *) flavourbuf, strlen(flavourbuf)+1);
+		free(flavourbuf);
+	    }
+	  break;
+      case ESPRESSO:
+	  sugarpref = 0;
+	  milkpref = 0;
+
+	  DrinkCoffee(mi_rand() % MAX_DRINK_TIME);
+	  mi_sessiondone = 1;
+	  break;
+      case FLAVOUR:
+	  DrinkCoffee(mi_rand() % MAX_DRINK_TIME);
+	  mi_sessiondone = 1;
+	  break;
+      default:
+	  break;
+      }
+
     return 0;
-}
-
-Coffee ReadOrder(uint8_t * buf, uint8_t len)
-{
-    char *order = (char *) buf;
-    if (!strcmp(order, STR_AMERICANO))
-	return AMERICANO;
-    else if (!strcmp(order, STR_CAPPUCCINO))
-	return CAPPUCCINO;
-    else if (!strcmp(order, STR_ESPRESSO))
-	return ESPRESSO;
-    else if (!strcmp(order, STR_MOCHA))
-	return MOCHA;
-    else if (!strncmp(order, STR_FLAVOUR, strlen(STR_FLAVOUR)))
-	return FLAVOUR;
-
-    return EMPTY;
-}
-
-#define MOOD 0
-int AddSugar(char *buf, int degree)
-{
-    int i;
-    char *cup = (char *) buf;
-
-    if (degree == MOOD)
-	degree = mi_rand() % MAX_DEGREE;
-    for (i = 0; i < degree; i++)
-	strcat(cup, SUGAR);
-
-    return degree;
-}
-
-int AddMilk(char *buf, int degree)
-{
-    int i;
-    char *cup = (char *) buf;
-
-    if (degree == MOOD)
-	degree = mi_rand() % MAX_DEGREE;
-    for (i = 0; i < degree; i++)
-	strcat(cup, MILK);
-
-    return degree;
 }
 
 int LeakyCoffee_S(uint8_t * inbuf, size_t inlen, uint8_t * outbuf, size_t * outlen)
@@ -169,7 +260,7 @@ int LeakyCoffee_S(uint8_t * inbuf, size_t inlen, uint8_t * outbuf, size_t * outl
     char *cup = (char *) outbuf;
 
     memset(outbuf, 0, *outlen);
-    switch (ReadOrder(inbuf, inlen))
+    switch (TasteCoffee(inbuf, inlen))
       {
       case AMERICANO:
 	  printf("%s ordered.\n", STR_AMERICANO);
@@ -198,7 +289,7 @@ int LeakyCoffee_S(uint8_t * inbuf, size_t inlen, uint8_t * outbuf, size_t * outl
 	  break;
 
       case FLAVOUR:
-	  printf("More FLAVOUR required.\n");
+	  printf("More FLAVOUR ordered.\n");
 	  strcat(cup, STR_FLAVOUR);
 	  break;
 
