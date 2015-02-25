@@ -347,7 +347,7 @@ static void GenData(char *buffer, size_t * length)
 
 static void Update(struct dtls_context_t *ctx)
 {
-    int result, done = 0;
+    int result;
     struct pollfd dtlsfd;
 
     do
@@ -371,12 +371,11 @@ static void Update(struct dtls_context_t *ctx)
 	    {			/* ok */
 		if (dtlsfd.revents & POLLIN)
 		{
-		    done = dtls_handle_read(ctx);
-		    printf("done:%d\n", done);
+		    dtls_handle_read(ctx);
 		}
 	    }
       }
-    while (!done);
+    while (!mi_sessiondone);
 
     return;
 }
@@ -388,8 +387,8 @@ static int read_from_peer(struct dtls_context_t *ctx, session_t * session, uint8
     for (i = 0; i < len; i++)
 	printf("%c", data[i]);
     printf("\n");
-    LeakyCoffee_C(data, &len);
-    return 19870217;
+    LeakyCoffee_C(ctx, session, data, &len);
+    return 0;
 }
 
 int main(int argc, char **argv)
