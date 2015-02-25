@@ -80,6 +80,7 @@ typedef enum { AMERICANO, CAPPUCCINO, ESPRESSO, MOCHA, FLAVOUR, EMPTY } Coffee;
 
 #define MAX_DEGREE 5
 #define MAX_DRINK_TIME 10
+#define COFFEE_COOLDOWN_TIME 5
 #define SUGAR '*'
 #define MILK '*'
 #define STR_SUGAR "*"
@@ -209,7 +210,6 @@ int LeakyCoffee_C(struct dtls_context_t *ctx, session_t * dst, uint8_t * buf, si
     char *cup = (char *) buf;
     int sugardiff, milkdiff;
     Coffee servedcoffee;
-    printf("Coffee received.\n");
 
     switch (servedcoffee = TasteCoffee(buf, *len))
       {
@@ -222,13 +222,14 @@ int LeakyCoffee_C(struct dtls_context_t *ctx, session_t * dst, uint8_t * buf, si
 	  milkdiff = TasteMilk(cup, *len) - milkpref;
 	  if (sugardiff >= 0 && milkdiff >= 0)
 	    {
-		DrinkCoffee(mi_rand() % MAX_DRINK_TIME);
+		DrinkCoffee(COFFEE_COOLDOWN_TIME + mi_rand() % MAX_DRINK_TIME);
 		mi_sessiondone = 1;
 	    }
 	  else
 	    {
 		char * flavourbuf = malloc(20);
-		printf("Need more flavour.\n");
+		printf("Need more flavour...\t");
+		fflush(stdout);
 		memset(buf, 0, *len);
 		strcpy(flavourbuf, STR_FLAVOUR);
 		AddSugar(flavourbuf, 0 - sugardiff);
@@ -240,12 +241,12 @@ int LeakyCoffee_C(struct dtls_context_t *ctx, session_t * dst, uint8_t * buf, si
       case ESPRESSO:
 	  sugarpref = 0;
 	  milkpref = 0;
-
-	  DrinkCoffee(mi_rand() % MAX_DRINK_TIME);
+	  DrinkCoffee(COFFEE_COOLDOWN_TIME + mi_rand() % MAX_DRINK_TIME);
 	  mi_sessiondone = 1;
 	  break;
       case FLAVOUR:
-	  DrinkCoffee(mi_rand() % MAX_DRINK_TIME);
+	  printf("got flavour.\n");
+	  DrinkCoffee(COFFEE_COOLDOWN_TIME + mi_rand() % MAX_DRINK_TIME);
 	  mi_sessiondone = 1;
 	  break;
       default:
@@ -257,7 +258,9 @@ int LeakyCoffee_C(struct dtls_context_t *ctx, session_t * dst, uint8_t * buf, si
 
 int LeakyCoffee_S(uint8_t * inbuf, size_t inlen, uint8_t * outbuf, size_t * outlen)
 {
-    char *cup = (char *) outbuf;
+    char *order = (char*)inbuf;
+    char *cup = (char*) outbuf;
+    int sugardegree, milkdegree;
 
     memset(outbuf, 0, *outlen);
     switch (TasteCoffee(inbuf, inlen))
@@ -291,6 +294,10 @@ int LeakyCoffee_S(uint8_t * inbuf, size_t inlen, uint8_t * outbuf, size_t * outl
       case FLAVOUR:
 	  printf("More FLAVOUR ordered.\n");
 	  strcat(cup, STR_FLAVOUR);
+	  sugardegree = TasteSugar(order, inlen);
+	  milkdegree = TasteMilk(order, inlen);
+	  AddSugar(cup, sugardegree);
+	  AddMilk(cup, milkdegree);
 	  break;
 
       default:
