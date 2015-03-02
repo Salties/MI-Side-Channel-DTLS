@@ -1,0 +1,100 @@
+\chapter{Toys}
+
+In this hello-world set-up, there is only one server and one client connected through local-link. The protocol suit we adopted is: [IPv4 or IPv6] + UDP + DTLS.  
+\\
+\textbf{Abbreviations}:
+\begin{description}
+\item[CLIENT] Client.
+\item[SERVER] Server.
+\end{description}
+
+
+
+\section{Odd or Even}
+\textbf{Odd or Even} is an extremely simple toy application. It is designed to demonstrate the fundamental idea of traffic analysis.
+
+\subsection{Description}
+CLIENT randomly generates a 32-bit unsigned integer R and sends it to SERVER. SERVER replies with a string \lq\lq{}ODD\rq\rq{} or \lq\lq{}EVEN\rq\rq{} according to the integer sent.
+
+\begin{figure}[H] \label{Fig:Odd or Even}
+\caption{Description of an Odd-or-Even session}
+\centering
+\resizebox{8cm}{!}
+{\input{./Pics/OddOrEven.tex}}
+\end{figure}
+
+\subsection{Analysis [To be completed...]}
+
+For every Odd-or-Even session, 
+
+Packets from CLIENT to SERVER:
+
+All fields for every packet are the same, except:
+1. Encrypted Application Data field in DTLS layer.
+2. Sequence Number increased by 1 every packet.
+3. Checksum in UDP layer.
+
+Packets from SERVER to CLIENT:
+
+All fields are the same for every packet except:
+1. Encrypted Application Data field in DTLS layer.
+2. Sequence Number increased by 1 every packet.
+3. Checksum in UDP layer.
+4. Length field in both DTLS layer and UDP layer. The values are always (20,41) respectively when data is "Odd" and (21,42) when data is "Even".
+
+Therefore in this application, given pre-knowledge that server responds with either "Odd" or "Even", the length field in both DTLS layer and UDP layer can directly leak the plaintext. 
+
+\section{Leaky Coffee}
+
+\subsection{Description}
+\textbf{Leaky Coffee} simulates the scenario that CLIENT initiates a Leaky-Coffee session with a request to SERVER, SERVER replies with a response and CLIENT then reacts according to the response.
+
+\subsubsection{Syntax}
+\begin{definition}
+\textit{COFFEE} is a set of strings defined as:\\
+ $COFFEE = \{  {\text{"AMERICANO"}}, \text{"CAPPUCCINO"}, \text{"ESPRESSO"}, \text{"MOCHA"}\}$
+\end{definition}
+
+\begin{definition}
+Let '*' represents SUGAR and '@' represents MILK respectively, we denote $n_*$ and $n_@$ as the number of appearances of '*' and '@' in a string. We also call $n_*$ and $n_@$ the degree of SUGAR and MILK of a string.
+\end{definition}
+
+\begin{definition}
+We define a set of string \textit{ADDITIVE} as:\\
+$ADDITIVE = \{\{ SUGAR, MILK \}^{0 - 6} | 0 \leq n_{*} \leq 3, 0 \leq n_{@} \leq 3 \}$.
+
+In another word, an instance of \textit{ADDITIVE} contains no more than 3 SUGAR and MILK.
+\end{definition}
+
+\subsubsection{Leaky-Coffee Session}
+A Leaky-Coffee session can be described as:
+
+\begin{figure}[H] \label{Fig:Leaky-Coffee Session}
+\caption{Description of a Leaky-Coffee session}
+\centering
+\resizebox{14cm}{!}
+{\input{./Pics/LeakyCoffee.tex}}
+\end{figure}
+
+\begin{description}
+\item[1] As an initiation of a conversation, CLIENT randomly picks a string $Order \in COFFEE$ and sends it to SERVER.
+
+\item[2] Upon receiving an \textit{Order}, SERVER replies with a string $\{Order || Flavour\}$ where $Flavour \in ADDITIVE$ and $||$ represents concatenation. If $Order = \text{"ESPRESSO"}$ then the degrees of both SUGAR and MILK of \textit{Flavour} are set to $0$.
+
+\item[3] CLIENT randomly generates a SUGAR requirement $r_* \in [0, 3]$ and a MILK requirement $r_@ \in [0,3]$. Then it scans the reply from \textbf{2} and computes its degrees of SUGAR and MILK. If any of the degrees does not  met the requirements, i.e. $n_* < r_*$ and/or $n_@ < r_@$, then CLIENT sends a $ FlavourRequest = \{"FLAVOUR"||\{SUGAR\}^{\max({r_* - n_*,0})} || MILK^{\max(r_@ -  n_@, 0)} \} $.
+
+\item[4] If SERVER receives a $FlavourRequest$, it echoes back $FlavourRequest$ as its $FlavourResponse$, i.e. $FlvaourResponse = FlavourRequest$.	
+\end{description}
+
+Note that the $FlavourRequest$ and $FlavourResponse$ packets are probabilistic in a Leaky-Coffee Session.
+
+\begin{example} 
+An example with $FlavourRequest$ and $FlavourResponse$:
+\begin{description}
+\item [1] 
+\end{description}
+\end{example}
+
+
+
+

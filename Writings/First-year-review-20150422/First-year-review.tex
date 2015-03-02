@@ -1,0 +1,47 @@
+\documentclass{report}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{corollary}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{example}{Example}[section]
+
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+
+%\title{First Year Review}
+\title{tinyDTLS Experiment Record}
+\author{Yan Yan}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+%\input{body.tex}
+\input{SampleApplications.tex}
+
+\bibliographystyle{ieeetran}
+\bibliography{references}
+
+
+\end{document}
