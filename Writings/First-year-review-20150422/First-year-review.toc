@@ -1,0 +1,8 @@
+\contentsline {chapter}{\numberline {1}Toys}{2}{chapter.1}
+\contentsline {section}{\numberline {1.1}Odd or Even}{2}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Description}{2}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Analysis [To be completed...]}{3}{subsection.1.1.2}
+\contentsline {section}{\numberline {1.2}Leaky Coffee}{3}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Description}{3}{subsection.1.2.1}
+\contentsline {subsubsection}{Syntax}{3}{section*.2}
+\contentsline {subsubsection}{Leaky-Coffee Session}{4}{section*.3}
