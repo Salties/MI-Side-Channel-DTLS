@@ -78,7 +78,7 @@ typedef enum { AMERICANO, CAPPUCCINO, ESPRESSO, MOCHA, FLAVOUR, EMPTY } Coffee;
 #define STR_MOCHA "MOCHA"
 #define STR_FLAVOUR "FLAVOUR"
 
-#define MAX_DEGREE 5
+#define MAX_DEGREE 4
 #define MAX_DRINK_TIME 10
 #define COFFEE_COOLDOWN_TIME 5
 #define SUGAR '*'
