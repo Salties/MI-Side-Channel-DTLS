@@ -14,9 +14,9 @@ In this hello-world set-up, there is only one server and one client connected th
 \textbf{Odd or Even} is an extremely simple toy application. It is designed to demonstrate the fundamental idea of traffic analysis.
 
 \subsection{Description}
-CLIENT randomly generates a 32-bit unsigned integer R and sends it to SERVER. SERVER replies with a string \lq\lq{}ODD\rq\rq{} or \lq\lq{}EVEN\rq\rq{} according to the integer sent.
+CLIENT randomly generates a 32-bit unsigned integer R and sends it to SERVER. SERVER replies with a string \lq\lq{}ODD\rq\rq{} or \lq\lq{}EVEN\rq\rq{} according to the integer sent.\ref{Fig: Odd or Even}
 
-\begin{figure}[H] \label{Fig:Odd or Even}
+\begin{figure}[H] \label{Fig: Odd or Even}
 \caption{Description of an Odd-or-Even session}
 \centering
 \resizebox{8cm}{!}
@@ -67,9 +67,9 @@ In another word, an instance of \textit{ADDITIVE} contains no more than 3 SUGAR 
 \end{definition}
 
 \subsubsection{Leaky-Coffee Session}
-A Leaky-Coffee session can be described as:
+A Leaky-Coffee session can be described as\ref{Fig: Leaky-Coffee Session}:
 
-\begin{figure}[H] \label{Fig:Leaky-Coffee Session}
+\begin{figure}[H] \label{Fig: Leaky-Coffee Session}
 \caption{Description of a Leaky-Coffee session}
 \centering
 \resizebox{14cm}{!}
@@ -88,13 +88,32 @@ A Leaky-Coffee session can be described as:
 
 Note that the $FlavourRequest$ and $FlavourResponse$ packets are probabilistic in a Leaky-Coffee Session.
 
-\begin{example} 
-An example with $FlavourRequest$ and $FlavourResponse$:
-\begin{description}
-\item [1] 
-\end{description}
+In this experimental implementation, CLIENT will be putted into sleep after each session for a random period of 5 to 15 seconds.
+
+\begin{example}
+An example with $FlavourRequest$ and $FlavourResponse$\ref{Fig: Leaky-Coffee Example1}:
+
+\begin{figure}[H] \label{Fig: Leaky-Coffee Example1}
+\caption{Example: A Leaky-Coffee session with $FlavourRequest$ and $FlavourResponse$}
+\centering
+\resizebox{6cm}{!}
+{\input{./Pics/LeakyCoffee_example1.tex}}
+\end{figure}
+
+In this example, CLIENT first sends an $Order$ “MOCHA”. SERVER then replies with “MOCHA*@” which implies both the SUGAR degree and MILK degree are $1$. CLIENT randomly generates a SUGAR requirement $3$ and MILK requirement $2$ and then sends a $FlavourRequest$ to request the shorted SUGAR and MILK. SERVER finally response with the requested ADDITIVE.
 \end{example}
 
+\begin{example}
+Another example without $FlavourRequest$ and $FlavourResponse$:
 
+\begin{figure}[H] \label{Fig: Leaky-Coffee Example2}
+\caption{Example: A Leaky-Coffee session without $FlavourRequest$ and $FlavourResponse$}
+\centering
+\resizebox{6cm}{!}
+{\input{./Pics/LeakyCoffee_example2.tex}}
+\end{figure}
 
+This example demonstrates a session initiated with “ESPRESSO” where no ADDITIVE will be added in the reply.
+\end{example}
 
+\section{Analysis [to be completed]}
