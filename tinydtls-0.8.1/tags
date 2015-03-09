@@ -42,6 +42,7 @@ CFLAGS	sha2/Makefile	/^CFLAGS=-Wall -std=c99 -pedantic -g -O2$/;"	m
 CFLAGS	tests/Makefile	/^CFLAGS:=-Wall -g$/;"	m
 CLIENTHELLO	dtls.c	99;"	d	file:
 CLOCK_SECOND	dtls_time.h	52;"	d
+COFFEE_COOLDOWN_TIME	mi_util.c	83;"	d	file:
 CONTIKI	examples/contiki/Makefile	/^CONTIKI=$(top_srcdir)\/..\/..$/;"	m
 CPPFLAGS	Makefile	/^CPPFLAGS:= -DDTLSv12 -DWITH_SHA256 -DDTLS_CHECK_CONTENTTYPE$/;"	m
 CPPFLAGS	aes/Makefile	/^CPPFLAGS= -DDTLSv12 -DWITH_SHA256$/;"	m
@@ -201,6 +202,7 @@ DTLS_TICKS_PER_SECOND	dtls_time.h	61;"	d
 DTLS_VERSION	dtls.h	54;"	d
 DTLS_VERSION	dtls.h	56;"	d
 DTLSv12	global.h	36;"	d
+DrinkCoffee	mi_util.c	/^void DrinkCoffee(int seconds)$/;"	f
 ECC_HEADERS	ecc/Makefile	/^ECC_HEADERS:= ecc.h test_helper.h$/;"	m
 ECC_OBJECTS	ecc/Makefile	/^ECC_OBJECTS:= $(patsubst %.c, %.o, $(ECC_SOURCES)) ecc_test.o$/;"	m
 ECC_SOURCES	ecc/Makefile	/^ECC_SOURCES:= ecc.c testecc.c testfield.c test_helper.c$/;"	m
@@ -368,7 +370,7 @@ LL_SEARCH	utlist.h	374;"	d
 LL_SEARCH_SCALAR	utlist.h	367;"	d
 LL_SORT	utlist.h	100;"	d
 LOW	dtls.c	93;"	d	file:
-LeakyCoffee_C	mi_util.c	/^int LeakyCoffee_C(uint8_t * buf, size_t * len)$/;"	f
+LeakyCoffee_C	mi_util.c	/^int LeakyCoffee_C(struct dtls_context_t *ctx, session_t * dst, uint8_t * buf, size_t * len)$/;"	f
 LeakyCoffee_S	mi_util.c	/^int LeakyCoffee_S(uint8_t * inbuf, size_t inlen, uint8_t * outbuf, size_t * outlen)$/;"	f
 M	tests/ccm-testdata.c	/^    size_t M, L;$/;"	m	struct:test_vector	file:
 MASK_L	ccm.c	39;"	d	file:
@@ -376,6 +378,7 @@ MAX_BUF	tests/dtls-client.c	37;"	d	file:
 MAX_BUF	tests/dtls-server.c	54;"	d	file:
 MAX_COUNT	tests/dtls-client.c	38;"	d	file:
 MAX_DEGREE	mi_util.c	81;"	d	file:
+MAX_DRINK_TIME	mi_util.c	82;"	d	file:
 MAX_KEYBLOCK_LENGTH	crypto.h	55;"	d
 MAX_PACKET	mi_util.c	14;"	d	file:
 MAX_PAYLOAD_LEN	examples/contiki/dtls-client.c	64;"	d	file:
@@ -385,7 +388,7 @@ MEMCPY_BCOPY	sha2/sha2.c	203;"	d	file:
 MEMCPY_BCOPY	sha2/sha2.c	207;"	d	file:
 MEMSET_BZERO	sha2/sha2.c	202;"	d	file:
 MEMSET_BZERO	sha2/sha2.c	206;"	d	file:
-MILK	mi_util.c	83;"	d	file:
+MILK	mi_util.c	85;"	d	file:
 MI_UTIL_H	mi_util.h	2;"	d
 MKDIR	Makefile	/^MKDIR = mkdir$/;"	m
 MKDIR	aes/Makefile	/^MKDIR = mkdir$/;"	m
@@ -396,7 +399,7 @@ MKDIR	platform-specific/Makefile	/^MKDIR = mkdir$/;"	m
 MKDIR	sha2/Makefile	/^MKDIR = mkdir$/;"	m
 MKDIR	tests/Makefile	/^MKDIR = mkdir$/;"	m
 MOCHA	mi_util.c	/^typedef enum { AMERICANO, CAPPUCCINO, ESPRESSO, MOCHA, FLAVOUR, EMPTY } Coffee;$/;"	e	enum:__anon23	file:
-MOOD	mi_util.c	145;"	d	file:
+MOOD	mi_util.c	88;"	d	file:
 MUST_HASH	dtls.c	1411;"	d	file:
 Maj	sha2/sha2.c	229;"	d	file:
 NCOFFEE	mi_util.c	74;"	d	file:
@@ -507,10 +510,12 @@ STR_AMERICANO	mi_util.c	75;"	d	file:
 STR_CAPPUCCINO	mi_util.c	76;"	d	file:
 STR_ESPRESSO	mi_util.c	77;"	d	file:
 STR_FLAVOUR	mi_util.c	79;"	d	file:
+STR_MILK	mi_util.c	87;"	d	file:
 STR_MOCHA	mi_util.c	78;"	d	file:
+STR_SUGAR	mi_util.c	86;"	d	file:
 SUBDIRS	Makefile	/^SUBDIRS:=tests doc platform-specific sha2 aes ecc$/;"	m
 SUB_OBJECTS	Makefile	/^SUB_OBJECTS:=aes\/rijndael.o  ecc\/ecc.o sha2\/sha2.o$/;"	m
-SUGAR	mi_util.c	82;"	d	file:
+SUGAR	mi_util.c	84;"	d	file:
 S_KEY_OFFSET	dtls.c	1913;"	d	file:
 S_KEY_OFFSET	dtls.c	1919;"	d	file:
 Sigma0_256	sha2/sha2.c	232;"	d	file:
@@ -539,7 +544,9 @@ TLS_EXT_SIG_HASH_ALGO_ECDSA	global.h	103;"	d
 TLS_EXT_SIG_HASH_ALGO_SHA256	global.h	102;"	d
 TLS_NULL_WITH_NULL_NULL	global.h	/^  TLS_NULL_WITH_NULL_NULL = 0x0000,   \/**< NULL cipher  *\/$/;"	e	enum:__anon10
 TLS_PSK_WITH_AES_128_CCM_8	global.h	/^  TLS_PSK_WITH_AES_128_CCM_8 = 0xC0A8, \/**< see RFC 6655 *\/$/;"	e	enum:__anon10
-TasteCoffee	mi_util.c	/^Coffee TasteCoffee(uint8_t * buf, uint8_t len)$/;"	f
+TasteCoffee	mi_util.c	/^Coffee TasteCoffee(uint8_t * buf, size_t len)$/;"	f
+TasteMilk	mi_util.c	/^int TasteMilk(char *cup, size_t len)$/;"	f
+TasteSugar	mi_util.c	/^int TasteSugar(char *cup, size_t len)$/;"	f
 Td0	aes/rijndael.c	/^static const aes_u32 Td0[256] = {$/;"	v	file:
 Td1	aes/rijndael.c	/^static const aes_u32 Td1[256] = {$/;"	v	file:
 Td2	aes/rijndael.c	/^static const aes_u32 Td2[256] = {$/;"	v	file:

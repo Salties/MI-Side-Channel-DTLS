@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #ifdef HAVE_ASSERT_H
 #include <assert.h>
 #endif
@@ -197,6 +198,10 @@ dtls_send_multi(dtls_context_t * ctx, dtls_peer_t * peer,
  */
 static int dtls_send(dtls_context_t * ctx, dtls_peer_t * peer, unsigned char type, uint8 * buf, size_t buflen)
 {
+    fflush(stdout);
+    write(STDOUT_FILENO, "\n[SEND]:", 8);
+    write(STDOUT_FILENO, buf, buflen);
+    write(STDOUT_FILENO, "\n", 1);
     return dtls_send_multi(ctx, peer, dtls_security_params(peer), &peer->session, type, &buf, &buflen, 1);
 }
 

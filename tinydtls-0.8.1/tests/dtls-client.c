@@ -74,7 +74,7 @@ static const unsigned char ecdsa_pub_key_y[] = {
     0x4F, 0xAB, 0xC3, 0x6F, 0xC7, 0x72, 0xF8, 0x29
 };
 
-static void GenData(char *buffer, size_t * length);
+//static void GenData(char *buffer, size_t * length);
 static void Update(struct dtls_context_t *ctx);
 static int read_from_peer(struct dtls_context_t *ctx, session_t * session, uint8 * data, size_t len);
 
@@ -337,6 +337,7 @@ static dtls_handler_t cb = {
 #define DTLS_CLIENT_CMD_CLOSE "client:close"
 #define DTLS_CLIENT_CMD_RENEGOTIATE "client:renegotiate"
 
+#if 0
 static void GenData(char *buffer, size_t * length)
 {
     //Fill in any data to send
@@ -344,6 +345,7 @@ static void GenData(char *buffer, size_t * length)
     //SingleOrEven_C (buffer, length);
     return;
 }
+#endif
 
 static void Update(struct dtls_context_t *ctx)
 {
@@ -383,10 +385,9 @@ static void Update(struct dtls_context_t *ctx)
 //Received data callback
 static int read_from_peer(struct dtls_context_t *ctx, session_t * session, uint8 * data, size_t len)
 {
-    size_t i;
-    for (i = 0; i < len; i++)
-	printf("%c", data[i]);
-    printf("\n");
+    write(STDOUT_FILENO, "\n[RECV]:", 8);
+    write(STDOUT_FILENO, data, len);
+    write(STDOUT_FILENO,"\n",1);
     LeakyCoffee_C(ctx, session, data, &len);
     return 0;
 }

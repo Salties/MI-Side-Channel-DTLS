@@ -407,8 +407,10 @@ static int read_from_peer(struct dtls_context_t *ctx, session_t * session, uint8
     int ret = 0;
     uint8 outbuf[MAX_BUF] = { 0 };
     size_t outlen = sizeof(outbuf);
+
+    write(STDOUT_FILENO, "\n[RECV]:", 8);
     write(STDOUT_FILENO, data, len);
-    printf("\n");
+    write(STDOUT_FILENO,"\n",1);
 
     if (LeakyCoffee_S(data, len, outbuf, &outlen))
       {
