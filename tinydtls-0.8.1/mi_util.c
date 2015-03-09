@@ -304,7 +304,7 @@ int LeakyCoffee_S(uint8_t * inbuf, size_t inlen, uint8_t * outbuf, size_t * outl
 	  printf("Ignored bad order.\n");
 	  return 0;
       }
-    *outlen = strlen((char *) outbuf);
+    *outlen = strlen((char *) outbuf)+1;
 
     return 1;
 }

@@ -6,4 +6,9 @@
 \contentsline {subsection}{\numberline {1.2.1}Description}{3}{subsection.1.2.1}
 \contentsline {subsubsection}{Syntax}{3}{section*.2}
 \contentsline {subsubsection}{Leaky-Coffee Session}{4}{section*.3}
-\contentsline {section}{\numberline {1.3}Analysis [to be completed]}{6}{section.1.3}
+\contentsline {subsubsection}{Implementation}{6}{section*.4}
+\contentsline {subsection}{\numberline {1.2.2}Analysis [to be completed]}{6}{subsection.1.2.2}
+\contentsline {subsubsection}{Detect Session}{6}{section*.5}
+\contentsline {subsubsection}{Isolate A Session}{6}{section*.6}
+\contentsline {subsubsection}{Determine Packets in a Session}{7}{section*.7}
+\contentsline {subsubsection}{Guessing Plaintext by Length Field of DTLS Header}{7}{section*.8}
