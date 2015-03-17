@@ -1,10 +1,11 @@
-\documentclass[12pt, ieee]{article}
+\documentclass[12pt, ieee]{report}
 
+\usepackage{appendix}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{hyperref}
-\usepackage{cleveref}
+
 \usepackage{cite}
 \usepackage{tikz}
 \usepackage{graphicx}
@@ -14,6 +15,8 @@
 \usepackage[boxruled,linesnumbered]{algorithm2e}
 \usepackage{booktabs}
 \usepackage{multirow}
+
+\usepackage{cleveref}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -47,6 +50,10 @@
 %\input{body.tex}
 
 \input{SampleApplications.tex}
+
+\begin{appendices}
+{\input{appendix.tex}}
+\end{appendices}
 
 \bibliographystyle{ieeetran}
 \bibliography{references}
