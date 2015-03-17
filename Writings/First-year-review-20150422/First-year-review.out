@@ -4,4 +4,11 @@
 \BOOKMARK [2][-]{subsection.1.1.2}{Analysis [To be completed...]}{section.1.1}% 4
 \BOOKMARK [1][-]{section.1.2}{Leaky Coffee}{chapter.1}% 5
 \BOOKMARK [2][-]{subsection.1.2.1}{Description}{section.1.2}% 6
-\BOOKMARK [2][-]{subsection.1.2.2}{Analysis [to be completed]}{section.1.2}% 7
+\BOOKMARK [1][-]{section.1.3}{Analysis of Leaky Coffee [to be completed]}{chapter.1}% 7
+\BOOKMARK [2][-]{subsection.1.3.1}{Detect Session}{section.1.3}% 8
+\BOOKMARK [2][-]{subsection.1.3.2}{Isolate A Session}{section.1.3}% 9
+\BOOKMARK [2][-]{subsection.1.3.3}{Determine Packets in a Session}{section.1.3}% 10
+\BOOKMARK [2][-]{subsection.1.3.4}{Guessing Plaintext by One Packet Length}{section.1.3}% 11
+\BOOKMARK [2][-]{subsection.1.3.5}{Guessing Plaintext Using Joint Packet Length}{section.1.3}% 12
+\BOOKMARK [2][-]{subsection.1.3.6}{Other Attacks \(Future work???\)}{section.1.3}% 13
+\BOOKMARK [0][-]{Appendix.a.A}{OrderFlavour-Length leakage channel}{}% 14
