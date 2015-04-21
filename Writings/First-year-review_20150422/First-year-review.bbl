@@ -1,0 +1,712 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{DPA}{book}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Mangard}{M.}%
+     {Stefan}{S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Oswald}{O.}%
+     {Elisabeth}{E.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Popp}{P.}%
+     {Thomas}{T.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {Springer}%
+  }
+  \strng{namehash}{MSOEPT1}
+  \strng{fullhash}{MSOEPT1}
+  \field{isbn}{978-0-387-30857-9}
+  \field{title}{Power analysis attacks - revealing the secrets of smart cards}
+  \field{year}{2007}
+\endentry
+
+\entry{Cache-Timing1}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Bernstein}{B.}%
+     {Daniel~J.}{D.~J.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{BDJ1}
+  \strng{fullhash}{BDJ1}
+  \field{note}{URL: {\tt http://cr.yp.to/papers.html\#cachetiming}}
+  \field{title}{{Cache-timing attacks on AES}}
+  \field{year}{2004}
+\endentry
+
+\entry{Cache-Timing2}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Osvik}{O.}%
+     {Dag~Arne}{D.~A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Shamir}{S.}%
+     {Adi}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Tromer}{T.}%
+     {Eran}{E.}%
+     {}{}%
+     {}{}}%
+  }
+  \keyw{dblp}
+  \strng{namehash}{ODASATE1}
+  \strng{fullhash}{ODASATE1}
+  \field{pages}{271}
+  \field{title}{Cache attacks and Countermeasures: the Case of AES.}
+  \verb{url}
+  \verb http://dblp.uni-trier.de/db/journals/iacr/iacr2005.html#OsvikST05
+  \endverb
+  \field{volume}{2005}
+  \field{journaltitle}{IACR Cryptology ePrint Archive}
+  \field{year}{2005}
+\endentry
+
+\entry{OSI}{report}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Standardization~ISO}{S.~I.}%
+     {International~Organization}{I.~O.}%
+     {for}{f.}%
+     {}{}}%
+  }
+  \keyw{iso, layer, osi, protocol}
+  \strng{namehash}{SIIOf1}
+  \strng{fullhash}{SIIOf1}
+  \field{edition}{Second}
+  \field{pages}{34\bibrangedash 65+}
+  \field{title}{{ISO/IEC 7498-1Information technology - Open Systems
+  Interconnection - Basic Reference Model: The Basic Model}}
+  \field{type}{techreport}
+  \field{month}{06}
+  \field{year}{1994}
+\endentry
+
+\entry{tinyDTLS}{misc}{}
+  \field{howpublished}{\url{http://tinydtls.sourceforge.net/}}
+  \field{title}{tinyDTLS}
+\endentry
+
+\entry{Web1}{inproceedings}{}
+  \name{author}{4}{}{%
+    {{}%
+     {Chen}{C.}%
+     {Shuo}{S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Wang}{W.}%
+     {Rui}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Wang}{W.}%
+     {XiaoFeng}{X.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Zhang}{Z.}%
+     {Kehuan}{K.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{CS+1}
+  \strng{fullhash}{CSWRWXZK1}
+  \field{booktitle}{31st {IEEE} Symposium on Security and Privacy, S{\&}P 2010,
+  16-19 May 2010, Berleley/Oakland, California, {USA}}
+  \verb{doi}
+  \verb 10.1109/SP.2010.20
+  \endverb
+  \field{pages}{191\bibrangedash 206}
+  \field{title}{Side-Channel Leaks in Web Applications: {A} Reality Today, a
+  Challenge Tomorrow}
+  \verb{url}
+  \verb http://doi.ieeecomputersociety.org/10.1109/SP.2010.20
+  \endverb
+  \field{year}{2010}
+\endentry
+
+\entry{Web2}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Mather}{M.}%
+     {Luke}{L.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Oswald}{O.}%
+     {Elisabeth}{E.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{MLOE1}
+  \strng{fullhash}{MLOE1}
+  \verb{doi}
+  \verb 10.1007/s13389-012-0036-0
+  \endverb
+  \field{number}{3}
+  \field{pages}{161\bibrangedash 177}
+  \field{title}{Pinpointing side-channel information leaks in web applications}
+  \verb{url}
+  \verb http://dx.doi.org/10.1007/s13389-012-0036-0
+  \endverb
+  \field{volume}{2}
+  \field{journaltitle}{J. Cryptographic Engineering}
+  \field{year}{2012}
+\endentry
+
+\entry{DBLP:conf/csfw/AlvimCPS12}{inproceedings}{}
+  \name{author}{4}{}{%
+    {{}%
+     {Alvim}{A.}%
+     {M{\'{a}}rio~S.}{M.~S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Chatzikokolakis}{C.}%
+     {Konstantinos}{K.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Palamidessi}{P.}%
+     {Catuscia}{C.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Smith}{S.}%
+     {Geoffrey}{G.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{AMS+1}
+  \strng{fullhash}{AMSCKPCSG1}
+  \field{booktitle}{25th {IEEE} Computer Security Foundations Symposium, {CSF}
+  2012, Cambridge, MA, USA, June 25-27, 2012}
+  \verb{doi}
+  \verb 10.1109/CSF.2012.26
+  \endverb
+  \field{pages}{265\bibrangedash 279}
+  \field{title}{Measuring Information Leakage Using Generalized Gain Functions}
+  \verb{url}
+  \verb http://doi.ieeecomputersociety.org/10.1109/CSF.2012.26
+  \endverb
+  \field{year}{2012}
+\endentry
+
+\entry{DBLP:conf/csfw/ChothiaG11}{inproceedings}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Chothia}{C.}%
+     {Tom}{T.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Guha}{G.}%
+     {Apratim}{A.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{CTGA1}
+  \strng{fullhash}{CTGA1}
+  \field{booktitle}{Proceedings of the 24th {IEEE} Computer Security
+  Foundations Symposium, {CSF} 2011, Cernay-la-Ville, France, 27-29 June, 2011}
+  \verb{doi}
+  \verb 10.1109/CSF.2011.19
+  \endverb
+  \field{pages}{177\bibrangedash 190}
+  \field{title}{A Statistical Test for Information Leaks Using Continuous
+  Mutual Information}
+  \verb{url}
+  \verb http://doi.ieeecomputersociety.org/10.1109/CSF.2011.19
+  \endverb
+  \field{year}{2011}
+\endentry
+
+\entry{Danezis_trafficanalysis}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Danezis}{D.}%
+     {George}{G.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{DG1}
+  \strng{fullhash}{DG1}
+  \field{title}{Traffic Analysis of the HTTP Protocol over TLS}
+\endentry
+
+\entry{DBLP:journals/iacr/SchaubSHCJTHGR14}{article}{}
+  \name{author}{9}{}{%
+    {{}%
+     {Schaub}{S.}%
+     {Alexander}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Schneider}{S.}%
+     {Emmanuel}{E.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hollender}{H.}%
+     {Alexandros}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Calasans}{C.}%
+     {Vinicius}{V.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Jolie}{J.}%
+     {Laurent}{L.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Touillon}{T.}%
+     {Robin}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Heuser}{H.}%
+     {Annelie}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Guilley}{G.}%
+     {Sylvain}{S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Rioul}{R.}%
+     {Olivier}{O.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{SA+1}
+  \strng{fullhash}{SASEHACVJLTRHAGSRO1}
+  \field{pages}{959}
+  \field{title}{Attacking Suggest Boxes in Web Applications Over {HTTPS} Using
+  Side-Channel Stochastic Algorithms}
+  \verb{url}
+  \verb http://eprint.iacr.org/2014/959
+  \endverb
+  \field{volume}{2014}
+  \field{journaltitle}{{IACR} Cryptology ePrint Archive}
+  \field{year}{2014}
+\endentry
+
+\entry{DBLP:conf/fse/Kelsey02}{inproceedings}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Kelsey}{K.}%
+     {John}{J.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{KJ1}
+  \strng{fullhash}{KJ1}
+  \field{booktitle}{Fast Software Encryption, 9th International Workshop, {FSE}
+  2002, Leuven, Belgium, February 4-6, 2002, Revised Papers}
+  \verb{doi}
+  \verb 10.1007/3-540-45661-9_21
+  \endverb
+  \field{pages}{263\bibrangedash 276}
+  \field{title}{Compression and Information Leakage of Plaintext}
+  \verb{url}
+  \verb http://dx.doi.org/10.1007/3-540-45661-9_21
+  \endverb
+  \field{year}{2002}
+\endentry
+
+\entry{CRIME}{misc}{}
+  \field{howpublished}{\url{https://docs.google.com/presentation/d/11eBmGiHbYcHR9gL5nDyZChu_-lCa2GizeuOfaLU2HOU/edit\#slide\=id.g1d134dff_1_222}}
+  \field{title}{The CRIME Attack}
+\endentry
+
+\entry{BREACH}{report}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Gluck}{G.}%
+     {Yoel}{Y.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Harris}{H.}%
+     {Neal}{N.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Prado}{P.}%
+     {Angelo~(Angel)}{A.~A.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{GYHNPAA1}
+  \strng{fullhash}{GYHNPAA1}
+  \field{title}{Breach: Reviving the {CRIME} Attack}
+  \verb{url}
+  \verb http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20
+  \verb seconds.pdf
+  \endverb
+  \field{type}{techreport}
+  \field{year}{2013}
+\endentry
+
+\entry{DBLP:journals/iacr/AlawatugodaSB14a}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Alawatugoda}{A.}%
+     {Janaka}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Stebila}{S.}%
+     {Douglas}{D.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Boyd}{B.}%
+     {Colin}{C.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{AJSDBC1}
+  \strng{fullhash}{AJSDBC1}
+  \field{pages}{724}
+  \field{title}{Protecting Encrypted Cookies from Compression Side-Channel
+  Attacks}
+  \verb{url}
+  \verb http://eprint.iacr.org/2014/724
+  \endverb
+  \field{volume}{2014}
+  \field{journaltitle}{{IACR} Cryptology ePrint Archive}
+  \field{year}{2014}
+\endentry
+
+\entry{DBLP:conf/eurocrypt/Vaudenay02}{inproceedings}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Vaudenay}{V.}%
+     {Serge}{S.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{VS1}
+  \strng{fullhash}{VS1}
+  \field{booktitle}{Advances in Cryptology - {EUROCRYPT} 2002, International
+  Conference on the Theory and Applications of Cryptographic Techniques,
+  Amsterdam, The Netherlands, April 28 - May 2, 2002, Proceedings}
+  \verb{doi}
+  \verb 10.1007/3-540-46035-7_35
+  \endverb
+  \field{pages}{534\bibrangedash 546}
+  \field{title}{Security Flaws Induced by {CBC} Padding - Applications to SSL,
+  IPSEC, {WTLS} ...}
+  \verb{url}
+  \verb http://dx.doi.org/10.1007/3-540-46035-7_35
+  \endverb
+  \field{year}{2002}
+\endentry
+
+\entry{DBLP:conf/sp/AlFardanP13}{inproceedings}{}
+  \name{author}{2}{}{%
+    {{}%
+     {AlFardan}{A.}%
+     {Nadhem~J.}{N.~J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Paterson}{P.}%
+     {Kenneth~G.}{K.~G.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{ANJPKG1}
+  \strng{fullhash}{ANJPKG1}
+  \field{booktitle}{2013 {IEEE} Symposium on Security and Privacy, {SP} 2013,
+  Berkeley, CA, USA, May 19-22, 2013}
+  \verb{doi}
+  \verb 10.1109/SP.2013.42
+  \endverb
+  \field{pages}{526\bibrangedash 540}
+  \field{title}{Lucky Thirteen: Breaking the {TLS} and {DTLS} Record Protocols}
+  \verb{url}
+  \verb http://dx.doi.org/10.1109/SP.2013.42
+  \endverb
+  \field{year}{2013}
+\endentry
+
+\entry{rfc791}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Postel}{P.}%
+     {J.}{J.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Internet Engineering Task Force}%
+  }
+  \list{publisher}{1}{%
+    {IETF}%
+  }
+  \strng{namehash}{PJ1}
+  \strng{fullhash}{PJ1}
+  \field{howpublished}{RFC 791 (INTERNET STANDARD)}
+  \field{note}{Updated by RFCs 1349, 2474, 6864}
+  \field{number}{791}
+  \field{series}{Request for Comments}
+  \field{title}{{Internet Protocol}}
+  \verb{url}
+  \verb http://www.ietf.org/rfc/rfc791.txt
+  \endverb
+  \field{month}{09}
+  \field{year}{1981}
+\endentry
+
+\entry{rfc2460}{misc}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Deering}{D.}%
+     {S.}{S.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hinden}{H.}%
+     {R.}{R.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Internet Engineering Task Force}%
+  }
+  \list{publisher}{1}{%
+    {IETF}%
+  }
+  \strng{namehash}{DSHR1}
+  \strng{fullhash}{DSHR1}
+  \field{howpublished}{RFC 2460 (Draft Standard)}
+  \field{note}{Updated by RFCs 5095, 5722, 5871, 6437, 6564, 6935, 6946, 7045,
+  7112}
+  \field{number}{2460}
+  \field{series}{Request for Comments}
+  \field{title}{{Internet Protocol, Version 6 (IPv6) Specification}}
+  \verb{url}
+  \verb http://www.ietf.org/rfc/rfc2460.txt
+  \endverb
+  \field{month}{12}
+  \field{year}{1998}
+\endentry
+
+\entry{rfc6282}{misc}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Hui}{H.}%
+     {J.}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Thubert}{T.}%
+     {P.}{P.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Internet Engineering Task Force}%
+  }
+  \list{publisher}{1}{%
+    {IETF}%
+  }
+  \strng{namehash}{HJTP1}
+  \strng{fullhash}{HJTP1}
+  \field{howpublished}{RFC 6282 (Proposed Standard)}
+  \field{number}{6282}
+  \field{series}{Request for Comments}
+  \field{title}{{Compression Format for IPv6 Datagrams over IEEE 802.15.4-Based
+  Networks}}
+  \verb{url}
+  \verb http://www.ietf.org/rfc/rfc6282.txt
+  \endverb
+  \field{month}{09}
+  \field{year}{2011}
+\endentry
+
+\entry{rfc6347}{misc}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Rescorla}{R.}%
+     {E.}{E.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Modadugu}{M.}%
+     {N.}{N.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Internet Engineering Task Force}%
+  }
+  \list{publisher}{1}{%
+    {IETF}%
+  }
+  \strng{namehash}{REMN1}
+  \strng{fullhash}{REMN1}
+  \field{howpublished}{RFC 6347 (Proposed Standard)}
+  \field{number}{6347}
+  \field{series}{Request for Comments}
+  \field{title}{{Datagram Transport Layer Security Version 1.2}}
+  \verb{url}
+  \verb http://www.ietf.org/rfc/rfc6347.txt
+  \endverb
+  \field{month}{01}
+  \field{year}{2012}
+\endentry
+
+\entry{rfc7252}{misc}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Shelby}{S.}%
+     {Z.}{Z.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hartke}{H.}%
+     {K.}{K.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Bormann}{B.}%
+     {C.}{C.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Internet Engineering Task Force}%
+  }
+  \list{publisher}{1}{%
+    {IETF}%
+  }
+  \strng{namehash}{SZHKBC1}
+  \strng{fullhash}{SZHKBC1}
+  \field{howpublished}{RFC 7252 (Proposed Standard)}
+  \field{number}{7252}
+  \field{series}{Request for Comments}
+  \field{title}{{The Constrained Application Protocol (CoAP)}}
+  \verb{url}
+  \verb http://www.ietf.org/rfc/rfc7252.txt
+  \endverb
+  \field{month}{06}
+  \field{year}{2014}
+\endentry
+
+\entry{rfc7251}{misc}{}
+  \name{author}{4}{}{%
+    {{}%
+     {McGrew}{M.}%
+     {D.}{D.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Bailey}{B.}%
+     {D.}{D.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Campagna}{C.}%
+     {M.}{M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Dugal}{D.}%
+     {R.}{R.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{1}{%
+    {Internet Engineering Task Force}%
+  }
+  \list{publisher}{1}{%
+    {IETF}%
+  }
+  \strng{namehash}{MD+1}
+  \strng{fullhash}{MDBDCMDR1}
+  \field{howpublished}{RFC 7251 (Informational)}
+  \field{number}{7251}
+  \field{series}{Request for Comments}
+  \field{title}{{AES-CCM Elliptic Curve Cryptography (ECC) Cipher Suites for
+  TLS}}
+  \verb{url}
+  \verb http://www.ietf.org/rfc/rfc7251.txt
+  \endverb
+  \field{month}{06}
+  \field{year}{2014}
+\endentry
+
+\entry{baum1966}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Baum}{B.}%
+     {Leonard~E.}{L.~E.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Petrie}{P.}%
+     {Ted}{T.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{publisher}{1}{%
+    {The Institute of Mathematical Statistics}%
+  }
+  \strng{namehash}{BLEPT1}
+  \strng{fullhash}{BLEPT1}
+  \verb{doi}
+  \verb 10.1214/aoms/1177699147
+  \endverb
+  \field{number}{6}
+  \field{pages}{1554\bibrangedash 1563}
+  \field{title}{Statistical Inference for Probabilistic Functions of Finite
+  State Markov Chains}
+  \verb{url}
+  \verb http://dx.doi.org/10.1214/aoms/1177699147
+  \endverb
+  \field{volume}{37}
+  \field{journaltitle}{Ann. Math. Statist.}
+  \field{month}{12}
+  \field{year}{1966}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput

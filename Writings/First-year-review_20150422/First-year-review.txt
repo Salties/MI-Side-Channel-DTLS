@@ -1,106 +1,346 @@
-tinyDTLS Experiment Record [Draft]
+PhD First Year Report:
+Information Leakage on Encrypted Network
+Traffic
 Yan Yan
-March 17, 2015
+April 6, 2015
 
 Contents
-1 Toys
-1.1 Odd or Even . . . . . . . . . . . . . . . . . . . . . . .
-1.1.1 Description . . . . . . . . . . . . . . . . . . .
-1.1.2 Analysis [To be completed...] . . . . . . . . . .
-1.2 Leaky Coffee . . . . . . . . . . . . . . . . . . . . . . .
-1.2.1 Description . . . . . . . . . . . . . . . . . . .
-1.3 Analysis of Leaky Coffee [to be completed] . . . . . .
-1.3.1 Detect Session . . . . . . . . . . . . . . . . . .
-1.3.2 Isolate A Session . . . . . . . . . . . . . . . .
-1.3.3 Determine Packets in a Session . . . . . . . .
-1.3.4 Guessing Plaintext by One Packet Length . .
-1.3.5 Guessing Plaintext Using Joint Packet Length
-1.3.6 Other Attacks (Future work???) . . . . . . . .
+1 Introduction
+1.1 Cryptography and Side Channel Attacks
+1.2 Network Traffic . . . . . . . . . . . . . .
+1.3 Side Channel Information in Packets . .
+1.4 Motivation and Challenges . . . . . . . .
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+.
+.
+.
+.
+
+2
+2
+3
+4
+5
+
+2 Literature Review
+
+7
+
+3 Progress To Date
+
+8
+
+4 Toys
+4.1 Odd or Even . . . . . . . . . . . . . . . . . . . . . . .
+4.1.1 Description . . . . . . . . . . . . . . . . . . .
+4.1.2 Analysis [To be completed...] . . . . . . . . . .
+4.2 Leaky Coffee . . . . . . . . . . . . . . . . . . . . . . .
+4.2.1 Description . . . . . . . . . . . . . . . . . . .
+4.3 Analysis of Leaky Coffee [to be completed] . . . . . .
+4.3.1 Detect Session . . . . . . . . . . . . . . . . . .
+4.3.2 Isolate A Session . . . . . . . . . . . . . . . .
+4.3.3 Determine Packets in a Session . . . . . . . .
+4.3.4 Guessing Plaintext by One Packet Length . .
+4.3.5 Guessing Plaintext Using Joint Packet Length
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+
+9
+9
+10
+10
+11
+11
+15
+15
+15
+15
+16
+22
+
+5 Plan
+
+24
+
 A OrderF lavour-Length leakage channel
+
+25
 
 1
 
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-.
-
-2
-2
-3
-3
-4
-4
-8
-8
-8
-8
-9
-15
-16
-17
-
 Chapter 1
+Introduction
+1.1
+
+Cryptography and Side Channel Attacks
+
+Cryptography derived from solving the problem of transmitting secret information through an insecure channel. The general principle in modern
+cryptography is that the encryption and decryption algorithms are assumed
+to be made public and the secrecy of messages is solely relied on the secrecy
+of the key.
+Under this assumption, cryptographic algorithms are then designed in
+various ways. Some of them are derived from hard mathematical problems
+such as Discrete Logarithm and Elliptic Curves. Provable Security provides
+mathematical proofs by modelling the algorithms in an abstracted mathematical world and reduces them to hard problems; the secrecy of message is
+then guaranteed as long as the underlying mathematical problems are not
+solved.
+However, when implemented in real world things can get out of control. Many factors considered difficult to be modelled mathematically can
+sometimes be exploited to breach the security. For example, [6] describes
+a method called Differential Power Analysis which recovers the secret key
+using power traces measured during encryption; [2] and [8] shows that the
+timing information can also reveal the secret key.
+
+2
+
+1.2
+
+Network Traffic
+
+The conceptional structure of today’s network is described in [4]. Generally
+speaking, networks are formed by protocols which are standard agreements
+implemented by nodes connected to the networks. Protocols are categorised
+as a stack of layer with the lower ones handle the fussy transportation problems and the higher ones the more sophisticated functional problems.
+Packet (or frame) is the unit of structured data transmitted through network at each layer. A typical format of packet is a protocol header followed by
+its payload. The header constitutes of several fields which contain some meta
+data of the packet while the payload is the actual data being transmitted.
+Layer
+High Application Layer
+Secure Layer
+Transport Layer
+Network Layer
+Data Link Layer
+Low Physical Layer
+
+Example Protocols
+HTTP / SMTP / NTP
+TLS / SSL / DTLS
+TCP / UDP / SCTP
+IPv4 / IPv6 / 6lowPAN
+IEEE 802.3 / IEEE 802.11
+Bluetooth / DSL
+
+Table 1.1: A Simplified 6 Layer Model
+Packet of protocols are organised recursively, i.e. headers of upper protocols is embedded into the payload of lower protocols. When a packet (or
+frame) arrives a node on the network, the headers are decapsulated sequentially from the lowest layer to the highest. Conceptional speaking, the content
+of a payload should be transparent to the protocols beneath. For instance,
+a router may only decapsulate a packet no higher than IP layer and has no
+concern about everything above.
+
+3
+
+IP payload
+TCP payload
+TLS payload
+
+IP Header TCP Header
+
+TLS Header
+
+......
+
+Figure 1.1: An example of headers and payloads
+It might be difficult in real world to prevent a third party from seeing
+a packet. For example, a packet from your laptop cannot reach Google
+server without hopping between routers and hence any corrupted router may
+breach the data; the enriching application of mobile devices made it even
+more difficult as the radio signals from one’s smart phone can be captured
+easily in a cafe.
+
+1.3
+
+Side Channel Information in Packets
+
+Theoretically speaking, encryption can be applied at any layer of a network.
+Lower the layer it is, more information is protected. However, the intense
+requirement of efficiency and bandwidth have limited the usage of cryptography, like IPSec. A trade-off between security and efficiency must be made
+and encryption at higher level protocol has eventuall adopted as a widely
+accepted solution. As a result, TLS/SSL has became the most used security
+protocol on Internet today.
+The drawback, as mentioned above, is that all headers in the lower layers
+will be transmitted in plaintext. Figure 1.2 is an example of a captured
+DTLS packet.
+
+4
+
+Figure 1.2: A Wireshark Screenshot
+As we can see in Figure 1.2, although the sniffer is not able to decrypt
+the packet, all headers until DTLS are indeed accessible.
+
+1.4
+
+Motivation and Challenges
+
+Comparing to other kinds of side channel information network traffic is a
+relatively less studied subject despite the raising concern of Internet privacy.
+The open nature of the development Internet of Things (IoT) also demands
+more security and privacy measure. Unlike the stable and already-widelydeployed Internet, the structure of IoT network is still under a developing
+process; therefore it might be worthwhile to take into concern the security
+from a early stage.
+One challenge in this project is the fundamental nature difference between network traffic and other physical side channel information. Many
+side channel attacks are aimed to recover secret key materials, such as DPA
+in [6], or Cache-timing Attack in [2] and [8].
+Although it is not certain at this stage that whether there is a link between
+the value of cryptographic key chosen and packet headers, but intuitively
+they are more likely to be independent. The reason is that the cryptography
+primitives chosen should only affect the value of ciphertext which constitutes
+the payload; hence is expected to be transparent to the lower layer protocol
+headers. However, the timing information might still be exploited to recover
+the key material.
+5
+
+Different protocol suite result into different headers and hence different
+information. As a beginning for this project, we choose to study the traffic
+generated by a DTLS implementation called tinyDTLS [1]. tinyDTLS is
+designed to be suitable for embedded systems and is one of the IoT candidates
+in the future.
+
+6
+
+Chapter 2
+Literature Review
+Part of the related literatures are the RFC specifications1 . As of this project,
+we tend to put our focus on the protocols from Network Layer to Secure
+Layer in Table 1.1 as a consideration of generality. Therefore, the following
+documents can be regarded as main references of protocol specifications:
+• RFC 791 [5]:
+RFC 791 is the IPv4 specification. IPv4 is the most widely deployed
+protocol today. Even though its successor IPv6 has been proposed for
+more than a decade, the replacing process is taking place very slowly.
+It is expected that IPv4 will remain its dominance over the next few
+years.
+• RFC 2460 [3]:
+RFC 2460 is the IPv6 specification. IPv6 is the successor of IPv4. It
+was published in 1998 due to the exhaustion of IPv4 address. Although
+kernels today usually support both IPv4 and IPv6, many applications
+are still based on IPv4. However, as a “next generation” network,
+many IoT manufacturers also have the trend of adopting IPv6 as their
+standard.
+
+1
+
+http://www.ietf.org/rfc.html
+
+7
+
+Chapter 3
+Progress To Date
+
+8
+
+Chapter 4
 Toys
 In this hello-world set-up, there is only one server and one client connected
 through local-link. The protocol suit we adopted is: [IPv4 or IPv6] + UDP
@@ -118,21 +358,21 @@ captured in plaintext by the adversary.
 the set of contents that could be transmitted between CLIENT and
 SERVER, or some specific behaviour of CLIENT and SERVER.
 
-1.1
+4.1
 
 Odd or Even
 
 Odd or Even is an extremely simple toy application. It is designed to
 demonstrate the fundamental idea of traffic analysis.
-2
+9
 
-1.1.1
+4.1.1
 
 Description
 
 CLIENT randomly generates a 32-bit unsigned integer R and sends it to
 SERVER. SERVER replies with a string “ODD” or “EVEN” according to
-the integer sent(Figure 1.1).
+the integer sent(Figure 4.1).
 
 SERVER
 
@@ -142,9 +382,9 @@ CLIENT
 
 ”ODD”/”EVEN”
 
-Figure 1.1: Description of an Odd-or-Even session
+Figure 4.1: Description of an Odd-or-Even session
 
-1.1.2
+4.1.2
 
 Analysis [To be completed...]
 
@@ -163,10 +403,10 @@ Therefore in this application, given pre-knowledge that server responds
 with either ”Odd” or ”Even”, the length field in both DTLS layer and UDP
 layer can directly leak the plaintext.
 
-3
+10
 
-1.2
-1.2.1
+4.2
+4.2.1
 
 Leaky Coffee
 Description
@@ -175,19 +415,19 @@ Leaky Coffee simulates the scenario that CLIENT initiates a Leaky-Coffee
 session with a request to SERVER, SERVER replies with a response and
 CLIENT then reacts according to the response.
 Syntax
-Definition 1.2.1. COFFEE is a set of strings defined as:
+Definition 4.2.1. COFFEE is a set of strings defined as:
 COF F EE = {”AMERICANO”, ”CAPPUCCINO”, ”ESPRESSO”, ”MOCHA”}
-Definition 1.2.2. Let ’*’ represents SUGAR and ’@’ represents MILK respectively, we denote n∗ and n@ as the number of appearances of ’*’ and ’@’
+Definition 4.2.2. Let ’*’ represents SUGAR and ’@’ represents MILK respectively, we denote n∗ and n@ as the number of appearances of ’*’ and ’@’
 in a string. We also call n∗ and n@ the degree of SUGAR and MILK of a
 string.
-Definition 1.2.3. We define a set of string ADDITIVE as:
+Definition 4.2.3. We define a set of string ADDITIVE as:
 ADDIT IV E = {{SU GAR, M ILK}0−6 |0 ≤ n∗ ≤ 3, 0 ≤ n@ ≤ 3}.
 In another word, an instance of ADDITIVE contains no more than 3
 SUGAR and MILK.
 Leaky-Coffee Session
-A Leaky-Coffee session can be described as in Figure 1.2:
+A Leaky-Coffee session can be described as in Figure 4.2:
 
-4
+11
 
 SERVER
 
@@ -203,7 +443,7 @@ If F lavour is not enough
 
 4.F lavourResponse
 
-Figure 1.2: Description of a Leaky-Coffee session
+Figure 4.2: Description of a Leaky-Coffee session
 1 As an initiation of a conversation, CLIENT randomly picks a string Order ∈
 COF F EE and sends it to SERVER.
 2 Upon receiving an Order, SERVER replies with a string {Order||F lavour}
@@ -217,9 +457,9 @@ a F lavourRequest = {”F LAV OU R”||{SU GAR}max(r∗ −n∗ ,0) ||M ILK max(
 4 If SERVER receives a F lavourRequest, it echoes back F lavourRequest
 as its F lavourResponse, i.e. F lvaourResponse = F lavourRequest.
 Note that the F lavourRequest and F lavourResponse packets are probabilistic in a Leaky-Coffee Session.
-5
+12
 
-Example 1.2.1. An example with F lavourRequest and F lavourResponse(Figure 1.3):
+Example 4.2.1. An example with F lavourRequest and F lavourResponse(Figure 4.3):
 
 CLIENT
 
@@ -233,17 +473,17 @@ SERVER
 
 ”FLAVOUR**@”
 
-Figure 1.3: Example: A Leaky-Coffee session with F lavourRequest and
+Figure 4.3: Example: A Leaky-Coffee session with F lavourRequest and
 F lavourResponse
 In this example, CLIENT first sends an Order “MOCHA”. SERVER
 then replies with “MOCHA*@” which implies both the SUGAR degree and
 MILK degree are 1. CLIENT randomly generates a SUGAR requirement 3
 and MILK requirement 2 and then sends a F lavourRequest to request the
 shorted SUGAR and MILK. SERVER finally response with the requested
-6
+13
 
 ADDITIVE.
-Example 1.2.2. Another example without F lavourRequest and F lavourResponse(Figure 1.4):
+Example 4.2.2. Another example without F lavourRequest and F lavourResponse(Figure 4.4):
 
 CLIENT
 
@@ -253,7 +493,7 @@ SERVER
 
 ”ESPRESSO”
 
-Figure 1.4: Example: A Leaky-Coffee session without F lavourRequest and
+Figure 4.4: Example: A Leaky-Coffee session without F lavourRequest and
 F lavourResponse
 This example demonstrates a session initiated with “ESPRESSO” where
 no ADDITIVE will be added in the reply.
@@ -269,20 +509,20 @@ from 5 to 15 seconds.
 We used localloop as our network interface in our experiment; thus packet
 loss is not considered. DTLS does implement retransmission at some level,
 but since the sequence number in DTLS header does not change in the retransmitted packet so it is still seemingly possible to reconstruct the equivalent packet stream without any packet loss. Even though the reconstructed
-7
+14
 
 stream will preserve all information in each header but the accurate time
 stamps will be difficult to recover.
 
-1.3
-1.3.1
+4.3
+4.3.1
 
 Analysis of Leaky Coffee [to be completed]
 Detect Session
 
 It is obvious that whenever there is a packet transmitted then there
 
-1.3.2
+4.3.2
 
 Isolate A Session
 
@@ -303,7 +543,7 @@ return FALSE
 5 end
 In our implementation, a typical guess .By continuously applying Algorithm 1 on the duplex packet stream, we can easily isolate different sessions.
 
-1.3.3
+4.3.3
 
 Determine Packets in a Session
 
@@ -313,12 +553,12 @@ each packet in Leaky Coffee as there can only be two types of session:
 4 packets presented. Further more, those packets can be identified sequentially as: < Order, Order||F lavour, F lavourRequest, F lavourResponse >
 respectively as well.
 
-8
+15
 
 2. Session without FlavourRequest and FlavourResponse. 2 packets sessions can be identified as this type of session. Those packets can
 then be identified as < Order, Order||F lavour > accordingly.
 
-1.3.4
+4.3.4
 
 Guessing Plaintext by One Packet Length
 
@@ -332,10 +572,10 @@ We denote the value of DTLS Length field as lD and the actual application
 data length as l. Our experiment shows that:
 l = lD − 17
 
-(1.1)
+(4.1)
 
 under both IPv4 and IPv6.
-Definition 1.3.1. For a specific packet in a session, let X be the set of
+Definition 4.3.1. For a specific packet in a session, let X be the set of
 plaintext and Y be the set of its corresponding content length.
 We model the plaintext and their corresponding content length (in bytes)
 as a channel:
@@ -346,10 +586,10 @@ The general idea is that with such leakage channel, an adversary can then
 “decode” the plaintext using this leakage channel.
 In this context, X is the set of packet content and Y the set of content
 length l.
-Example 1.3.1. We begin with a simple example: Order.
+Example 4.3.1. We begin with a simple example: Order.
 For Order packets, we have:
 
-9
+16
 
 W (y|x)
 5 8
@@ -370,7 +610,7 @@ P
 1/4
 1/4
 
-Table 1.1: Content-Length Channel and the probabilities of Order
+Table 4.1: Content-Length Channel and the probabilities of Order
 In this implementation, CLIENT randomly picks Order from COF F EE;
 therefore the probability for every value is 1/4. Since neither DLTS nor the
 application induces any randomness to the content length therefore it will
@@ -384,7 +624,7 @@ WP
 (”MOCHA”,5)
 (”ESPRESSO”,8)
 
-(1.2)
+(4.2)
 
 P
 1/4
@@ -392,7 +632,7 @@ P
 1/4
 1/4
 
-Table 1.2: Joint distribution of (Order, l)
+Table 4.2: Joint distribution of (Order, l)
 Then follows the marginal distribution of content length:
 P (Y = y) =
 
@@ -409,10 +649,10 @@ P
 1/4
 1/2
 
-Table 1.3: Marginal distribution of l
-10
+Table 4.3: Marginal distribution of l
+17
 
-(1.3)
+(4.3)
 
 Finally we can construct the leakage channel using Bayes’ theorem:
 P (x|y) =
@@ -420,7 +660,7 @@ P (x|y) =
 P (x)P (y|x)
 P (y)
 
-(1.4)
+(4.4)
 
 W −1 (x|y) ”AMERICANO” ”CAPPUCINO” ”ESPRESSO” ”MOCHA”
 5
@@ -430,9 +670,9 @@ W −1 (x|y) ”AMERICANO” ”CAPPUCINO” ”ESPRESSO” ”MOCHA”
 9
 1/2
 1/2
-Table 1.4: Leakage channel of Length - Order
+Table 4.4: Leakage channel of Length - Order
 The same strategy can also be applied on the second packet: Order||F lavour.
-Example 1.3.2. The first step is to compute the Content-Length channel.
+Example 4.3.2. The first step is to compute the Content-Length channel.
 Analysis on Order||F lavour packet is more complicated as it has a larger
 entropy.
 We omit the sequence of SUGAR and MILK to simplify the problem. We
@@ -446,11 +686,11 @@ It is sometimes possible to simplify the problem by breaking the PlaintextLength
 l|x ∈ COF F EE), SUGAR channel W1 (y ∈ l|x ∈ D1 ) and MILK channel
 W2 (y ∈ l|x ∈ D2 ) in this application. These sub-channels requires less computation and we will show how to reconstruct the Plaintext-Length channel
 using these sub-channels later in this section.
-Obviously that W0 is identical to Table 1.1 as the Order part in Order||F lavour
+Obviously that W0 is identical to Table 4.1 as the Order part in Order||F lavour
 is simply an echo of the first Order packet.
 W2 and W3 are actually identical:
 
-11
+18
 
 W1 (x|y) 0 1 2
 0
@@ -489,7 +729,7 @@ P
 1/4
 1/4
 
-Table 1.5: Channels of SUGAR-Length and MILK-Length
+Table 4.5: Channels of SUGAR-Length and MILK-Length
 Then we merge W1 and W2 to construct the F lavour - Length channel
 W1 ⊗ W2 ((y1 , y2 )|(x1 , x2 )) where (y1 , y2 ) ∈ l ⊗ l, (x1 , x2 ) ∈ D1 ⊗ D2 :
 W1 ⊗ W2 ((y1 , y2 )|(x1 , x2 )) (0,0) (0,1) ...
@@ -513,14 +753,14 @@ P (x1 , x2 )
 1
 1
 
-Table 1.6: F lavour-Length channel
+Table 4.6: F lavour-Length channel
 The right end column of probability is simply the joint probability of both
 inputs of W1 and W2 .
 In this application, degree of SUGAR and degree of MILK are independent variables. This implies their joint probability is simply the product of
 their marginal probabilities:
 P (x1 , x2 ) = P (x1 )P (x2 )
 
-(1.5)
+(4.5)
 
 Notice that since the output of such channel are actually the length of its
 input; therefore for a given input, its output is deterministic, i.e.
@@ -529,11 +769,11 @@ P ((y1 , y2 )|(x1 , x2 )) =
 1 if y1 = |x1 | and y2 = |x2 |
 0 otherwise
 
-(1.6)
+(4.6)
 
 The merged channel W1 ⊗W2 results in a table with size of (|X1 ||X2 |) rows
 and (|Y1 ||Y2 |) columns. This implies that the merge operation of two channels
-12
+19
 
 P
 1/16
@@ -546,7 +786,7 @@ P
 can be improved by compressing the channel.
 The first thing is that the merged output are actually lengths of both
 inputs; hence (y1 , y2 ) can be replaced by their sum: y = y1 + y2 . Therefore
-Table 1.6 can be compressed by combing columns with a same length, i.e.
+Table 4.6 can be compressed by combing columns with a same length, i.e.
 we can merge columns into one if (y1 + y2 ) = (y1 + y2 ). The combination is
 simply the vector sum of two columns
 So we can reconstruct W1 ⊗ W2 as:
@@ -574,20 +814,20 @@ P
 1/16
 1/16
 
-Table 1.7: Compressed F lavour-Length channel
-In Table 1.7, we can see that different inputs can map to the same length,
+Table 4.7: Compressed F lavour-Length channel
+In Table 4.7, we can see that different inputs can map to the same length,
 e.g. (0, 1) and (1, 0) all results to l = 1.
 Practically, we can further compress this channel with the cost of resolution of input. Generally, there are some facts that worth notice:
-• As in (1.6), length is deterministic given a content. Therefore it is a
+• As in (4.6), length is deterministic given a content. Therefore it is a
 reasonable choice to merge contents which will result into same length.
 • The intuition of combing two rows with the same length can be interpreted as follow: for two rows with the same output W (y|x = x1 ) and
 W (y|x = x2 ), the merged row represents W (y|x = x1 or x = x2 ).
 • For such a channel, each input are exclusive events; thus the probability
 of the input of merged rows is simply the sum of the probability of each
 row: P (xmerged ) = P (x1 ) + P (x2 )
-So if we compress Table 1.7 by the same (y1 +y2 ) which is indeed |F lavour|,
+So if we compress Table 4.7 by the same (y1 +y2 ) which is indeed |F lavour|,
 we will have a further compressed W1 ⊗ W2 :
-13
+20
 
 (W1 ⊗ W2 ) (y = y1 + y2 |x = x1 + x2 ) 0
 0
@@ -616,13 +856,13 @@ P
 1/8
 1/16
 
-Table 1.8: Further Compressed (with less resolution) F lavour-Length channel
-The actual degree of SUGAR and MILK are lost in Table 1.8 during this
+Table 4.8: Further Compressed (with less resolution) F lavour-Length channel
+The actual degree of SUGAR and MILK are lost in Table 4.8 during this
 compression, but it also reduced the number of rows from 161 to 7.
 By applying the same strategy again to merge the Order channel W0
 with (W1 ⊗ W2 ), we will have the OrderF lavour-Length channel W = W0 ⊗
-W1 ⊗ W2 . Then finally as described in Example 1.3.1, we can construct the
-leakage channel W −1 (x|y) (see Chapter A) for the OrderF lavour packets .
+W1 ⊗ W2 . Then finally as described in Example 4.3.1, we can construct the
+leakage channel W −1 (x|y) (see Appendix A) for the OrderF lavour packets .
 To generalise, given the distribution of the plaintext, the leakage channel
 is constructed as following:
 1 If the space of plaintext is large, break the plaintext-length channel into
@@ -632,54 +872,62 @@ the compression.
 3 Merge the sub-channels to construct the plaintext-length channel.
 4 Use Bayes’ Theorem to invert plaintext-length channel.
 Another aspect to view such leakage channel is to analyse its capacity, i.e.
-the maximum mutual information of content and length, described in [1].
+the maximum mutual information of content and length, described in [7].
 [Experiment results...(from Baikal?)]
 1
 
 (W1 ⊗ W2 ) has 4 × 4 = 16 rows.
 
-14
+21
 
-1.3.5
+4.3.5
 
 Guessing Plaintext Using Joint Packet Length
 
-In Section 1.3.4 we described a method of packet analysis against a single
+In Section 4.3.4 we described a method of packet analysis against a single
 packet in a session. It is possible to improve the analysis by looking at the
-packets jointly. As presented in [1], the sequence of packets lengths can be
+packets jointly. As presented in [7], the sequence of packets lengths can be
 viewed as a vector.
 
-Figure 1.5: Captured Leaky Coffee packets
-Example 1.3.3. For example, a 2-packets session (packet No 86 and 87) has
-been marked out in Figure 1.5. The values of DTLS Length are both 25 as
-marked in red rectangle. Their actual plaintext length can be computed as
-8 and 8 bytes respectively by Equation (1.1). So we represent the sequence
-of packet lengths (omitting the direction of packets) as:
-< 8, 8 >
-This vector can then be used in a mutual information analysis described
-in [1].
-15
+Figure 4.5: Captured Leaky Coffee packets
+Example 4.3.3. For example, a 2-packets session (packet No 86 and 87) has
+been marked out in Figure 4.5. The values of DTLS Length are both 25 as
+marked in red rectangle. Their actual plaintext length can then be computed
+as 8 and 8 bytes respectively by Equation (4.1).
+It is possible to do the single packet analysis described in Section 4.3.4
+on each of these packets. We immediately know that plaintext in the first
+packet is “ESPRESSO”; whilst the second one could be either “ESPRESSO”
+or “MOCHA” with a F lavour of length 3. However, the analysis of the
+second packet is in fact unnecessary at all as the application specifies that
+an “ESPRESSO” Order can only be responded with an “ESPRESSO” with
+NULL F lavour.
+22
 
-It is possible to do the single packet analysis described in Section 1.3.4 on
-each of these packets. The result of the first packet tells us that its plaintext
-is “ESPRESSO”; whilst the second one could be either “ESPRESSO” or
-“MOCHA” with a F lavour of length 3.
-The application specifies that the first part of the Order||F lavour is
-simply the an echo of the first packet; therefore in fact we can immediately
-tell that the second packet is actually “ESPRESSO”.
-There are several ways to utilise such knowledge, such as using some
-machine learning techniques. However, in this “intentionally crafted” Leaky
+The application specifies that the first part of the Order||F lavour simply
+echoes the first packet; therefore in fact we can immediately tell that the
+second packet is “ESPRESSO”.
+One way to model this is to “expand” the channel. Instead of using the
+content at each packet from as the input, we can write them as a vector:
+x =< x1 , x2 , ..., xn >
+and similarly, we can also write their length as another vector:
+l =< y1 , y2 , ..., yn >
+Then we can use the same strategy in Section 4.3.4 to construct the
+leakage channel W −1 (X, Y ) where x ∈ X and y ∈ Y .
+A problem in this method is the resulting channel is of the size of the
+Cartesian product of all contents in every packet. However, in this Leaky
+Coffee application most of the cells is actually 0 which could be used to reduce
+its storage space; but such optimisation is heavily application dependant.
+There are several other ways might be used to utilise joint packet length,
+such as machine learning. However, in this “intentionally crafted” Leaky
 Coffee application, the first packet seems always enough to reveal (roughly)
 the rest of plaintext in a session.
 
-1.3.6
+23
 
-Other Attacks (Future work???)
+Chapter 5
+Plan
 
-Is it feasible to estimate the distribution of plaintext given packet length
-alongside with other assumptions?
-
-16
+24
 
 Appendix A
 OrderF lavour-Length leakage
@@ -687,7 +935,7 @@ channel
 In this application, the joint probability of Order and F lavour are simply
 the product of their marginal probability. However, since “ESPRESSO” will
 always followed by F lavour of of both degree of SUGAR and MILK being
-0(see Section 1.2.1); hence
+0(see Section 4.2.1); hence
 P (x1 , x2 |“ESPRESSO”) =
 
 1 if x1 = x2 = 0
@@ -696,17 +944,33 @@ P (x1 , x2 |“ESPRESSO”) =
 Therefore
 P (“ESPRESSO”, x1 , x2 ) =
 
-17
+25
 
 1/4 if x1 = x2 = 0
 0
 otherwise
 
 Bibliography
-[1] Mather, L., and Oswald, E. Pinpointing side-channel information
+[1] tinydtls. http://tinydtls.sourceforge.net/.
+[2] Bernstein, D. J.
+Cache-timing attacks on AES.
+http://cr.yp.to/papers.html#cachetiming.
+
+URL:
+
+[3] Deering, S., and Hinden, R. RFC 2460 Internet Protocol, Version 6
+(IPv6) Specification. Internet Engineering Task Force, December 1998.
+[4] for Standardization ISO, I. O. ISO/IEC 7498-1Information technology - Open Systems Interconnection - Basic Reference Model: The
+Basic Model. Tech. rep., June 1994.
+[5] Internet Engineering Task Force. RFC 791 Internet Protocol DARPA Inernet Programm, Protocol Specification, September 1981.
+[6] Mangard, S., Oswald, E., and Popp, T. Power analysis attacks revealing the secrets of smart cards. Springer, 2007.
+[7] Mather, L., and Oswald, E. Pinpointing side-channel information
 leaks in web applications. J. Cryptographic Engineering 2, 3 (2012), 161–
 177.
+[8] Osvik, D. A., Shamir, A., and Tromer, E. Cache attacks and
+countermeasures: the case of aes. IACR Cryptology ePrint Archive 2005
+(2005), 271.
 
-18
+26
 
 

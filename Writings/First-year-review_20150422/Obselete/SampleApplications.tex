@@ -1,0 +1,389 @@
+\chapter{Toys}
+\label{Chp: Toys}
+
+In this hello-world set-up, there is only one server and one client connected through local-link. The protocol suit we adopted is: [IPv4 or IPv6] + UDP + DTLS.  
+
+All fiedls of UDP and DTLS header will be analysed.
+\\
+\textbf{Abbreviations}:
+\begin{description}
+\item[CLIENT] Client.
+\item[SERVER] Server.
+\end{description}
+
+For the attack model, we define our adversary as a passive eavesdropper, i.e.
+\begin{itemize}
+\item The adversary is allowed to use a sniffer to capture all packets transmitted between CLIENT and SERVER.
+\item Only DTLS payload is encrypted, all other contents of the packets are captured in plaintext by the adversary.
+\item The adversary has specific pre-knowledge for each application, e.g. the set of contents that could be transmitted between CLIENT and SERVER, or some specific behaviour of CLIENT and SERVER.
+\end{itemize}
+
+\section{Odd or Even}
+\textbf{Odd or Even} is an extremely simple toy application. It is designed to demonstrate the fundamental idea of traffic analysis.
+
+\subsection{Description}
+CLIENT randomly generates a 32-bit unsigned integer R and sends it to SERVER. SERVER replies with a string “ODD'' or “EVEN” according to the integer sent(\Cref{Fig: Odd or Even}).
+
+\begin{figure}[H] 
+\centering
+\resizebox{8cm}{!}
+{\input{./Pics/OddOrEven.tex}}
+\caption{Description of an Odd-or-Even session}
+\label{Fig: Odd or Even}
+\end{figure}
+
+\subsection{Analysis [To be completed...]}
+
+For every Odd-or-Even session, 
+
+Packets from CLIENT to SERVER:
+
+All fields for every packet are the same, except:
+1. Encrypted Application Data field in DTLS layer.
+2. Sequence Number increased by 1 every packet.
+3. Checksum in UDP layer.
+
+Packets from SERVER to CLIENT:
+
+All fields are the same for every packet except:
+1. Encrypted Application Data field in DTLS layer.
+2. Sequence Number increased by 1 every packet.
+3. Checksum in UDP layer.
+4. Length field in both DTLS layer and UDP layer. The values are always (20,41) respectively when data is "Odd" and (21,42) when data is "Even".
+
+Therefore in this application, given pre-knowledge that server responds with either "Odd" or "Even", the length field in both DTLS layer and UDP layer can directly leak the plaintext. 
+
+\section{Leaky Coffee}
+
+\subsection{Description}
+\textbf{Leaky Coffee} simulates the scenario that CLIENT initiates a Leaky-Coffee session with a request to SERVER, SERVER replies with a response and CLIENT then reacts according to the response.
+
+\subsubsection{Syntax}
+\begin{definition}
+\textit{COFFEE} is a set of strings defined as:\\
+ $COFFEE = \{  {\text{"AMERICANO"}}, \text{"CAPPUCCINO"}, \text{"ESPRESSO"}, \text{"MOCHA"}\}$
+\end{definition}
+
+\begin{definition}
+Let '*' represents SUGAR and '@' represents MILK respectively, we denote $n_*$ and $n_@$ as the number of appearances of '*' and '@' in a string. We also call $n_*$ and $n_@$ the degree of SUGAR and MILK of a string.
+\end{definition}
+
+\begin{definition}
+We define a set of string \textit{ADDITIVE} as:\\
+$ADDITIVE = \{\{ SUGAR, MILK \}^{0 - 6} | 0 \leq n_{*} \leq 3, 0 \leq n_{@} \leq 3 \}$.
+
+In another word, an instance of \textit{ADDITIVE} contains no more than 3 SUGAR and MILK.
+\end{definition}
+
+\subsubsection{Leaky-Coffee Session}
+A Leaky-Coffee session can be described as in \Cref{Fig: Leaky-Coffee Session}:
+
+\begin{figure}[H]
+\centering
+\resizebox{10cm}{!}
+{\input{./Pics/LeakyCoffee.tex}}
+\caption{Description of a Leaky-Coffee session}
+\label{Fig: Leaky-Coffee Session}
+\end{figure}
+
+\begin{description}
+\item[1] As an initiation of a conversation, CLIENT randomly picks a string $Order \in COFFEE$ and sends it to SERVER.
+
+\item[2] Upon receiving an \textit{Order}, SERVER replies with a string $\{Order || Flavour\}$ where $Flavour \in ADDITIVE$ and $||$ represents concatenation. If $Order = \text{"ESPRESSO"}$ then the degrees of both SUGAR and MILK of \textit{Flavour} are set to $0$\label{ESPRESSO}.
+
+\item[3] CLIENT randomly generates a SUGAR requirement $r_* \in [0, 3]$ and a MILK requirement $r_@ \in [0,3]$. Then it scans the reply from \textbf{2} and computes its degrees of SUGAR and MILK. If any of the degrees does not  met the requirements, i.e. $n_* < r_*$ and/or $n_@ < r_@$, then CLIENT sends a $ FlavourRequest = \{"FLAVOUR"||\{SUGAR\}^{\max({r_* - n_*,0})} || MILK^{\max(r_@ -  n_@, 0)} \} $.
+
+\item[4] If SERVER receives a $FlavourRequest$, it echoes back $FlavourRequest$ as its $FlavourResponse$, i.e. $FlvaourResponse = FlavourRequest$.	
+\end{description}
+
+Note that the $FlavourRequest$ and $FlavourResponse$ packets are probabilistic in a Leaky-Coffee Session.
+
+\begin{example}
+An example with $FlavourRequest$ and $FlavourResponse$(\Cref{Fig: Leaky-Coffee Example1}):
+
+{
+\begin{figure}[H]
+\centering
+\resizebox{8cm}{!}
+{\input{./Pics/LeakyCoffee_example1.tex}}
+\caption{Example: A Leaky-Coffee session with $FlavourRequest$ and $FlavourResponse$}
+\label{Fig: Leaky-Coffee Example1}
+\end{figure}
+}
+In this example, CLIENT first sends an $Order$ “MOCHA”. SERVER then replies with “MOCHA*@” which implies both the SUGAR degree and MILK degree are $1$. CLIENT randomly generates a SUGAR requirement $3$ and MILK requirement $2$ and then sends a $FlavourRequest$ to request the shorted SUGAR and MILK. SERVER finally response with the requested ADDITIVE.
+\end{example}
+
+\begin{example}
+Another example without $FlavourRequest$ and $FlavourResponse$(\Cref{Fig: Leaky-Coffee Example2}):
+
+\begin{figure}[H]
+\centering
+\resizebox{6cm}{!}
+{\input{./Pics/LeakyCoffee_example2.tex}}
+\caption{Example: A Leaky-Coffee session without $FlavourRequest$ and $FlavourResponse$}
+\label{Fig: Leaky-Coffee Example2}
+\end{figure}
+
+This example demonstrates a session initiated with “ESPRESSO” where no ADDITIVE will be added in the reply.
+\end{example}
+
+\subsubsection{Implementation}
+SERVER listens to a fixed port (20220) while CLIENT assigns an ephemeral port during each run, i.e. CLIENT’s port is selected at the beginning of each run and remains constant during the life time of that instance.
+
+In this experimental implementation, all random values are generated by the Linux kernel random number generator(/dev/urandom); thus assumed to be uniformly distributed. 
+
+After each session, CLIENT will be putted into sleep for a random period from 5 to 15 seconds.
+
+We used localloop as our network interface in our experiment; thus packet loss is not considered. DTLS does implement retransmission at some level, but since the sequence number in DTLS header does not change in the retransmitted packet so it is still seemingly possible to reconstruct the equivalent packet stream without any packet loss. Even though the reconstructed stream will preserve all information in each header but the accurate time stamps will be difficult to recover.
+
+\section{Analysis of Leaky Coffee [to be completed]}
+
+\subsection{Detect Session}
+It is obvious that whenever there is a packet transmitted then there 
+
+\subsection{Isolate A Session}
+Given the implementation, we can isolate a session from the packet stream by analysing their time stamp. 
+This is achieved by using a threshold value and then compare it with the interval of two packets. If the interval is greater than the threshold then we can guess these packets belong to different sessions.
+
+\begin{algorithm}[H]
+\KwIn{threshold $\theta$, time stamps of two continuous packets $t_1, t_2$}
+\KwOut{TRUE if the packets are of the same session, otherwise FALSE}
+{
+	\eIf{$\theta > \left| t_2 - t_1 \right|$} {
+		\Return{TRUE}\;
+	}
+	{
+		\Return{FALSE}
+	}
+}
+\caption{IsSameSession}
+\label{1}
+\end{algorithm}
+
+In our implementation, a typical guess .By continuously applying \Cref{1} on the duplex packet stream, we can easily isolate different sessions.
+
+\subsection{Determine Packets in a Session}
+Once a session has been isolated, it this not difficult to identify the type of each packet in \textbf{Leaky Coffee}  as there can only be two types of session:
+\begin{enumerate}
+\item Session with 4 packets: This type of session can be identified with 4 packets presented. Further more, those packets can be identified sequentially as: $<Order, Order||Flavour, FlavourRequest, FlavourResponse>$ respectively as well.
+
+\item \textbf{Session without \textit{FlavourRequest} and \textit{FlavourResponse}}. 2 packets sessions can be identified as this type of session. Those packets can then be identified as $<Order, Order||Flavour>$ accordingly.
+\end{enumerate}
+ 
+\subsection{Guessing Plaintext by One Packet Length} \label{Sec: Guessing Plaintext by One Packet Length}
+In this implementation, assume we have the pre-knowledge that each $Order \in COFFEE$ picked by CLIENT has an uniform distribution. Further from, the degree of SUGAR and MILK also have uniform distributions over ${0,1,2,3}$. Given these distributions, it is some how possible to make guesses of the plaintext in the packets by the length given in DTLS header, or UDP header, without trying to break the encryption primitives.
+
+We denote the value of DTLS Length field as $l_D$ and the actual application data length as $l$. Our experiment shows that:
+\begin{equation}
+l = l_D - 17 \label{Eq: Plaintext length}
+\end{equation}
+under both IPv4 and IPv6.
+
+\begin{definition}
+For a specific packet in a session, let $\mathbb{X}$ be the set of plaintext and $\mathbb{Y}$ be the set of its corresponding content length.
+
+ We model the plaintext  and their corresponding content length (in bytes) as a channel: 
+ \begin{center}
+ $W(y|x), x \in \mathbb{X}, y \in \mathbb{Y}$.
+ \end{center}
+
+And then the inverse of this channel $W^{-1}(x|y)$ can be viewed as the leakage channel of $\mathbb{Y}$.
+\end{definition}
+
+The general idea is that with such leakage channel, an adversary can then “decode” the plaintext using this leakage channel.
+
+In this context, $\mathbb{X}$ is the set of packet content and $\mathbb{Y}$ the set of content length $l$.
+
+\begin{example} \label{Exmp: Single-Order}
+We begin with a simple example: $Order$.
+
+For $Order$ packets, we have:
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable1.tex}}
+\end{center}
+\caption{Content-Length Channel and the probabilities of $Order$}
+\label{Tbl: Order1}
+\end{table}
+
+In this implementation, CLIENT randomly picks \textit{Order} from $COFFEE$; therefore the probability for every value is $1/4$. Since neither DLTS nor the application induces any randomness to the content length therefore it will always be a deterministic value.
+
+Given $W$ and the probability of $Order$, it can then compute the joint distribution of $(Order, l)$ by:
+\begin{equation}
+(\widehat{W}P)(x,y) = P(x)W(y|x)
+\end{equation}
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable2.tex}}
+\end{center}
+\caption{Joint distribution of $(Order, l)$}
+\label{Tbl: Order2}
+\end{table}
+
+Then follows the marginal distribution of content length:
+\begin{equation}
+P(Y=y) = \sum\limits_{x \in \mathbb{X}}{\widehat{W}P(x,y)}
+\end{equation}
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable3.tex}}
+\end{center}
+\caption{Marginal distribution of $l$}
+\label{Tbl: Order3}
+\end{table}
+
+Finally we can construct the leakage channel using Bayes’ theorem:
+\begin{equation}
+P(x|y) = {\frac {P(x)P(y|x)} {P(y)}} 
+\end{equation}
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable4.tex}}
+\end{center}
+\caption{Leakage channel of Length - $Order$}
+\label{Tbl: Order4}
+\end{table}
+
+\end{example}
+
+The same strategy can also be applied on the second packet: $Order || Flavour$.
+
+\begin{example}
+The first step is to compute the Content-Length channel. Analysis on $Order||Flavour$ packet is more complicated as it has a larger entropy. 
+
+We omit the sequence of SUGAR and MILK to simplify the problem. We also simplify our notation by denoting $D_1$ as the degree of SUGAR and $D_2$ the degree of MILK. Then any $Flavour$ can be represented as $(D_1, D_2)$, e.g. $(2,1)$ represents any $Flavour$ that has a degree of SUGAR 2 and degree of MILK 1.
+
+The same strategy can be applied directly on this example as well. However, the space of this channel is much more complicated in this case which are $4 $
+
+It is sometimes possible to simplify the problem by breaking the Plaintext-Length channel into several sub-channels, namely $Order$ channel $W_{0}(y \in l|x \in COFFEE)$, SUGAR channel $W_{1}(y \in l| x \in D_1)$ and MILK channel $W_{2}(y \in l | x \in D_2)$ in this application. These sub-channels requires less computation and we will show how to reconstruct the Plaintext-Length channel using these sub-channels later in this section. 
+
+Obviously that $W_0$ is identical to \Cref{Tbl: Order1} as the $Order$ part in $Order||Flavour$ is simply an echo of the first $Order$ packet. 
+
+$W_2$ and $W_3$ are actually identical:
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderFlavourTable1.tex}}
+{\input{./Tables/OrderFlavourTable2.tex}}
+\end{center}
+\caption{Channels of SUGAR-Length and MILK-Length}
+\label{Tbl: SUGAR-Length and MILK-Length}
+\end{table}
+
+Then we merge $W_1$ and $W_2$ to construct the $Flavour$ - Length channel $W_1 \otimes W_2((y_1, y_2) |(x_1, x_2))$ where $(y_1, y_2) \in l \otimes l, (x_1, x_2) \in D_1 \otimes D_2$:
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderFlavourTable3.tex}}
+\end{center}
+\caption{$Flavour$-Length channel}
+\label{Tbl: Flavour channel}
+\end{table}
+
+The right end column of probability is simply the joint probability of both inputs of $W_1$ and $W_2$. 
+
+In this application, degree of SUGAR and degree of MILK are independent variables. This implies their joint probability is simply the product of their marginal probabilities:
+\begin{equation}
+P(x_1, x_2) = P(x_1) P(x_2)
+\end{equation}
+
+Notice that since the output of such channel are actually the length of its input; therefore for a given input, its output is deterministic, i.e.
+\begin{eqnarray} 
+P((y_1,y_2)|(x_1,x_2)) =
+	\begin{cases}
+	1 &\text{if } y_1 = |x_1| \text{ and } y_2 = |x_2| \\
+	0 &\text{otherwise}
+	\end{cases}
+\label{Eq: Length Probability}
+\end{eqnarray}
+
+The merged channel $W_1 \otimes W_2$ results in a table with size of $(|X_1||X_2|)$ rows and $(|Y_1| |Y_2|)$ columns. This implies that the merge operation of two channels will potentially has an exponential time and space complexity. However, this can be improved by compressing the channel.
+
+The first thing is that the merged output are actually lengths of both inputs; hence $(y_1, y_2)$ can be replaced by their sum: $y = y_1 + y_2$. Therefore \Cref{Tbl: Flavour channel} can be compressed by combing columns with a same length, i.e. we can merge columns into one if $(y_1 + y_2) = (y\prime_1 + y\prime_2)$. The combination is simply the vector sum of two columns
+
+So we can reconstruct $W_1 \otimes W_2$ as:
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderFlavourTable4.tex}}
+\end{center}
+\caption{Compressed $Flavour$-Length channel}
+\label{Tbl: Compressed Flavour}
+\end{table}
+
+In \Cref{Tbl: Compressed Flavour}, we can see that different inputs can map to the same length, e.g. $(0,1)$ and $(1,0)$ all results to $l = 1$.
+
+Practically, we can further compress this channel with the cost of resolution of input. Generally, there are some facts that worth notice:
+\begin{itemize}
+\item As in \eqref{Eq: Length Probability},  length is deterministic given a content. Therefore it is a reasonable choice to merge contents which will result into same length.
+\item The intuition of combing two rows with the same length can be interpreted as follow: for two rows with the same output $W(y| x=x_1)$ and $W(y|x=x_2)$, the merged row represents $W(y|x=x_1 \text{ or } x = x_2 )$.
+\item For such a channel, each input are exclusive events; thus the probability of the input of merged rows is simply the sum of the probability of each row: $P(x_{merged}) = P(x_1) + P(x_2)$
+\end{itemize} 
+
+So if we compress \Cref{Tbl: Compressed Flavour} by the same $(y_1 + y_2)$ which is indeed $|Flavour|$, we will have a further compressed $W_1 \otimes W_2$:
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderFlavourTable5.tex}}
+\end{center}
+\caption{Further Compressed (with less resolution) $Flavour$-Length channel }
+\label{Tbl: Further Compressed Flavour}
+\end{table}
+
+The actual degree of SUGAR and MILK are lost in \Cref{Tbl: Further Compressed Flavour} during this compression, but it also reduced the number of rows from $16$\footnote{$(W_1 \otimes W_2)\prime$ has $4 \times 4 = 16$ rows.} to $7$.
+
+By applying the same strategy again to merge the $Order$ channel $W_0$ with $(W_1 \otimes W_2)$, we will have the $OrderFlavour$-Length channel $W = W_0 \otimes W_1 \otimes W_2$. Then finally as described in \Cref{Exmp: Single-Order}, we can construct the leakage channel $W^{-1}(x|y)$ (see \Cref{OrderFlavour leakage channel}) for the $OrderFlavour$ packets .
+\end{example}
+
+To generalise, given the distribution of the plaintext, the leakage channel is constructed as following:
+\begin{description}
+\item[1] If the space of plaintext is large, break the plaintext-length channel into several sub-channels.
+\item[2] Compute the sub-channels and compress them. Resolution may lost during the compression.
+\item[3] Merge the sub-channels to construct the plaintext-length channel.
+\item[4] Use Bayes’ Theorem to invert plaintext-length channel.
+\end{description}
+
+Another aspect to view such leakage channel is to analyse its capacity, i.e. the maximum mutual information of content and length, described in \cite{Web2}.
+
+\textbf{[Experiment results...(from Baikal?)]}
+
+\subsection{Guessing Plaintext Using Joint Packet Length}
+ In \Cref{Sec: Guessing Plaintext by One Packet Length} we described a method of packet analysis against a single packet in a session. It is possible to improve the analysis by looking at the packets jointly. As presented in \cite{Web2}, the sequence of packets lengths can be viewed as a vector.
+
+\begin{example}
+\begin{figure}[H] 
+\centering
+\resizebox{14cm}{!}
+{\includegraphics{./Pics/Wireshark01.png}}
+\caption{Captured Leaky Coffee packets}
+\label{Fig: Captured Packets 01}
+\end{figure}
+
+For example, a 2-packets session (packet No 86 and 87) has been marked out in \Cref{Fig: Captured Packets 01}. The values of DTLS Length  are both $25$ as marked in red rectangle. Their actual plaintext length can then be computed as $8$ and $8$ bytes respectively by \Cref{Eq: Plaintext length}. 
+
+It is possible to do the single packet analysis described in \Cref{Sec: Guessing Plaintext by One Packet Length} on each of these packets. We immediately know that plaintext in the first packet is “ESPRESSO”; whilst the second one could be either “ESPRESSO” or “MOCHA” with a $Flavour$ of length $3$. However, the analysis of the second packet is in fact unnecessary at all as the application specifies that an “ESPRESSO” $Order$ can only be responded with an “ESPRESSO” with NULL $Flavour$.
+
+The application specifies that the first part of the $Order||Flavour$ simply echoes the first packet; therefore in fact we can immediately tell that the second packet is “ESPRESSO”.
+\end{example}
+
+One way to model this is to “expand” the channel. Instead of using the content at each packet from as the input, we can write them as a vector:
+\begin{equation*}
+\vec{x} = <x_1, x_2, ..., x_n>
+\end{equation*}
+
+and similarly, we can also write their length as another vector:
+\begin{equation*}
+\vec{l} = <y_1, y_2, ..., y_n>
+\end{equation*}
+
+Then we can use the same strategy in \Cref{Sec: Guessing Plaintext by One Packet Length} to construct the leakage channel $W^{-1}(X, Y)$ where $\vec{x} \in X$ and $\vec{y} \in Y$. 
+
+A problem in this method is the resulting channel is of the size of the Cartesian product of all contents in every packet. However, in this Leaky Coffee application most of the cells is actually $0$ which could be used to reduce its storage space; but such optimisation is heavily application dependant.
+
+There are several other ways might be used to utilise joint packet length, such as machine learning. However, in this “intentionally crafted” Leaky Coffee application, the first packet seems always enough to reveal (roughly) the rest of plaintext in a session.
+
+
+%\subsection{Other Attacks (Future work???)}
+%Is it feasible to estimate the distribution of plaintext given packet length alongside with other assumptions?

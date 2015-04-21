@@ -1,0 +1,223 @@
+@book{DPA,
+  author    = {Stefan Mangard and
+               Elisabeth Oswald and
+               Thomas Popp},
+  title     = {Power analysis attacks - revealing the secrets of smart cards},
+  year      = {2007},
+  publisher = {Springer},
+  isbn      = {978-0-387-30857-9},
+  timestamp = {Fri, 07 Nov 2014 17:44:58 +0100},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/books/daglib/0017272},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{Cache-Timing1,
+note={URL: {\tt http://cr.yp.to/papers.html\#cachetiming}}
+,author={Daniel J. Bernstein}
+,ID={cd9faae9bd5308c440df50fc26a517b4}
+,title={{Cache-timing attacks on AES}}
+,year={2004}
+}
+
+@article{Cache-Timing2,
+  added-at = {2012-01-16T00:00:00.000+0100},
+  author = {Osvik, Dag Arne and Shamir, Adi and Tromer, Eran},
+  biburl = {http://www.bibsonomy.org/bibtex/28bead96ebf31ab5c3a438995de3b474a/dblp},
+  ee = {http://eprint.iacr.org/2005/271},
+  interhash = {ec9aef189536fccaf3128585b5bf2233},
+  intrahash = {8bead96ebf31ab5c3a438995de3b474a},
+  journal = {IACR Cryptology ePrint Archive},
+  keywords = {dblp},
+  pages = 271,
+  timestamp = {2012-01-16T00:00:00.000+0100},
+  title = {Cache attacks and Countermeasures: the Case of AES.},
+  url = {http://dblp.uni-trier.de/db/journals/iacr/iacr2005.html#OsvikST05},
+  volume = 2005,
+  year = 2005
+}
+
+@inproceedings{Web1,
+  author    = {Shuo Chen and
+               Rui Wang and
+               XiaoFeng Wang and
+               Kehuan Zhang},
+  title     = {Side-Channel Leaks in Web Applications: {A} Reality Today, a Challenge
+               Tomorrow},
+  booktitle = {31st {IEEE} Symposium on Security and Privacy, S{\&}P 2010, 16-19
+               May 2010, Berleley/Oakland, California, {USA}},
+  year      = {2010},
+  pages     = {191--206},
+  url       = {http://doi.ieeecomputersociety.org/10.1109/SP.2010.20},
+  doi       = {10.1109/SP.2010.20},
+  timestamp = {Fri, 07 Nov 2014 18:05:19 +0100},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/sp/ChenWWZ10},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@article{Web2,
+  author    = {Luke Mather and
+               Elisabeth Oswald},
+  title     = {Pinpointing side-channel information leaks in web applications},
+  journal   = {J. Cryptographic Engineering},
+  year      = {2012},
+  volume    = {2},
+  number    = {3},
+  pages     = {161--177},
+  url       = {http://dx.doi.org/10.1007/s13389-012-0036-0},
+  doi       = {10.1007/s13389-012-0036-0},
+  timestamp = {Mon, 10 Nov 2014 12:24:06 +0100},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/journals/jce/MatherO12},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
+@techreport{OSI,
+    author = {International Organization for Standardization ISO},
+    citeulike-article-id = {9080852},
+    day = {15},
+    edition = {Second},
+    keywords = {iso, layer, osi, protocol},
+    month = jun,
+    pages = {34-65+},
+    posted-at = {2011-03-30 19:52:59},
+    priority = {2},
+    title = {{ISO/IEC 7498-1Information technology - Open Systems Interconnection - Basic Reference Model: The Basic Model}},
+    year = {1994}
+}
+
+@techreport{Zigbee,
+    author = {Alliance, ZigBee},
+    citeulike-article-id = {5931942},
+    keywords = {mac},
+    month = jun,
+    posted-at = {2009-10-13 02:34:35},
+    priority = {2},
+    title = {{ZigBee specification}},
+    year = {2005}
+}
+
+@misc{DTLS,
+  added-at = {2009-11-15T15:37:34.000+0100},
+  author = {Rescorla, E. and Modadugu, N.},
+  biburl = {http://www.bibsonomy.org/bibtex/265ab2c4dd3800b723cde5e4160e0c56c/henkellermann},
+  howpublished = {RFC 4347 (Proposed Standard)},
+  interhash = {30a5ec0f20e31e456919d080ff301335},
+  intrahash = {65ab2c4dd3800b723cde5e4160e0c56c},
+  keywords = {imported},
+  month = {April},
+  number = 4347,
+  organization = {Internet Engineering Task Force},
+  publisher = {IETF},
+  series = {Request for Comments},
+  timestamp = {2009-11-15T15:37:34.000+0100},
+  title = {{Datagram Transport Layer Security}},
+  url = {http://www.ietf.org/rfc/rfc4347.txt},
+  year = 2006
+}
+
+@techreport{CoAP,
+    abstract = {{The Constrained Application Protocol (CoAP) is a specialized web transfer protocol for use with constrained nodes and constrained (e.g., low-power, lossy) networks. The nodes often have 8-bit microcontrollers with small amounts of ROM and RAM, while constrained networks such as IPv6 over Low-Power Wireless Personal Area Networks (6LoWPANs) often have high packet error rates and a typical throughput of 10s of kbit/s. The protocol is designed for machine- to-machine (M2M) applications such as smart energy and building automation.  CoAP provides a request/response interaction model between application endpoints, supports built-in discovery of services and resources, and includes key concepts of the Web such as URIs and Internet media types. CoAP is designed to easily interface with HTTP for integration with the Web while meeting specialized requirements such as multicast support, very low overhead, and simplicity for constrained environments.}},
+    address = {Fremont, CA, USA},
+    author = {Shelby, Zach and Hartke, Klaus and Bormann, Carsten},
+    citeulike-article-id = {13408498},
+    citeulike-linkout-0 = {http://www.rfc-editor.org/rfc/rfc7252.txt},
+    citeulike-linkout-1 = {http://tools.ietf.org/html/rfc7252},
+    citeulike-linkout-2 = {http://tools.ietf.org/rfc/rfc7252.txt},
+    howpublished = {Internet Requests for Comment},
+    institution = {RFC Editor},
+    issn = {2070-1721},
+    keywords = {coap, rfc},
+    month = jun,
+    number = {7252},
+    posted-at = {2014-10-25 12:21:18},
+    priority = {0},
+    publisher = {RFC Editor},
+    title = {{The Constrained Application Protocol (CoAP)}},
+    url = {http://www.rfc-editor.org/rfc/rfc7252.txt},
+    year = {2014}
+}
+
+@inproceedings{Padding_Oracle,
+   author              = {Nadhem J. AlFardan and 
+                          Kenneth G. Paterson},
+   title               = {Lucky Thirteen: Breaking the TLS and DTLS Record Protocols.},
+   booktitle           = {IEEE Symposium on Security and Privacy},
+   year                = {2013},
+   pages               = {526-540},
+   ee                  = {http://doi.ieeecomputersociety.org/10.1109/SP.2013.42},
+   crossref            = {2013},
+}
+
+@inproceedings{Compression_Ratio_Attack,
+   author              = {John Kelsey},
+   title               = {Compression and Information Leakage of Plaintext.},
+   booktitle           = {FSE},
+   year                = {2002},
+   pages               = {263-276},
+   ee                  = {http://dx.doi.org/10.1007/3-540-45661-9_21},
+   crossref            = {2002},
+}
+
+@techreport{BREACH,
+	title = {Breach: Reviving the {CRIME} Attack},
+	url = {http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf},
+	author = {Gluck, Yoel and Harris, Neal and Prado, Angelo (Angel)},
+	year = {2013}
+},
+
+@misc{tinyDTLS,
+	title = {tinyDTLS},
+	howpublished = {\url{http://tinydtls.sourceforge.net/}},
+}
+
+@manual{rfc791,
+  abstract = {The Internet Protocol is designed for use in interconnected systems of packet-switched computer communication networks. Such a system has been called a "catenet" [1]. The internet protocol provides for transmitting blocks of data called datagrams from sources to destinations, where sources and destinations are hosts identified by fixed length addresses. The internet protocol also provides for fragmentation and reassembly of long datagrams, if necessary, for transmission through "small packet" networks.},
+  added-at = {2009-03-12T15:42:50.000+0100},
+  biburl = {http://www.bibsonomy.org/bibtex/2d8634a31ce9104488bb6683a446ad2fc/lillejul},
+  citeulike-article-id = {2444670},
+  editor = {Postel, Jon},
+  interhash = {c68b30c8fe3c2f0e1292f5aa0ecfaba4},
+  intrahash = {d8634a31ce9104488bb6683a446ad2fc},
+  keywords = {internet protocol rfc},
+  month = {September},
+  organization = {Internet Engineering Task Force},
+  posted-at = {2008-02-28 18:26:08},
+  priority = {0},
+  timestamp = {2009-03-12T15:42:51.000+0100},
+  title = {RFC 791 Internet Protocol - DARPA Inernet Programm, Protocol Specification},
+  url = {http://tools.ietf.org/html/rfc791},
+  year = 1981
+}
+
+@manual{rfc2460,
+  abstract = {This document specifies version 6 of the Internet Protocol (IPv6),
+   also sometimes referred to as IP Next Generation or IPng.},
+  added-at = {2009-03-12T15:42:50.000+0100},
+  author = {Deering, S. and Hinden, R.},
+  biburl = {http://www.bibsonomy.org/bibtex/29b48a9c93836d79535af6e187e79eb9d/lillejul},
+  citeulike-article-id = {2444787},
+  interhash = {88e534a0c78684e3208125e147b56621},
+  intrahash = {9b48a9c93836d79535af6e187e79eb9d},
+  keywords = {internet protocol rfc},
+  month = {December},
+  organization = {Internet Engineering Task Force},
+  posted-at = {2008-02-28 18:40:44},
+  priority = {0},
+  timestamp = {2009-03-12T15:42:51.000+0100},
+  title = {RFC 2460 Internet Protocol, Version 6 (IPv6) Specification},
+  url = {http://tools.ietf.org/html/rfc2460},
+  year = 1998
+}
+
+
+@misc{rfc6282,
+  author="J. Hui and P. Thubert",
+  title="{Compression Format for IPv6 Datagrams over IEEE 802.15.4-Based Networks}",
+  series="Request for Comments",
+  number="6282",
+  howpublished="RFC 6282 (Proposed Standard)",
+  publisher="IETF",
+  organisation="Internet Engineering Task Force",
+  year=2011,
+  month=sep,
+  url="http://www.ietf.org/rfc/rfc6282.txt",
+}
