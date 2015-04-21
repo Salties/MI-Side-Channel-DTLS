@@ -1,0 +1,23 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Cryptography and Side Channel Attacks}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Network Traffic}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Side Channel Information in Packets}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{Motivation and Challenges}{chapter.1}% 5
+\BOOKMARK [0][-]{chapter.2}{Literature Review}{}% 6
+\BOOKMARK [1][-]{section.2.1}{Academic Publications}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.2}{Standard Specifications}{chapter.2}% 8
+\BOOKMARK [0][-]{chapter.3}{Progress To Date}{}% 9
+\BOOKMARK [1][-]{section.3.1}{Odd or Even}{chapter.3}% 10
+\BOOKMARK [2][-]{subsection.3.1.1}{Application Description}{section.3.1}% 11
+\BOOKMARK [2][-]{subsection.3.1.2}{Analysis}{section.3.1}% 12
+\BOOKMARK [1][-]{section.3.2}{Leaky Coffee}{chapter.3}% 13
+\BOOKMARK [2][-]{subsection.3.2.1}{Application Description}{section.3.2}% 14
+\BOOKMARK [1][-]{section.3.3}{Analysis of Leaky Coffee}{chapter.3}% 15
+\BOOKMARK [2][-]{subsection.3.3.1}{Session Detection}{section.3.3}% 16
+\BOOKMARK [2][-]{subsection.3.3.2}{Segmenting A Session from Continuous Traffic}{section.3.3}% 17
+\BOOKMARK [2][-]{subsection.3.3.3}{Determine Packets in a Session}{section.3.3}% 18
+\BOOKMARK [2][-]{subsection.3.3.4}{Guessing Plaintext in One Packet through Length}{section.3.3}% 19
+\BOOKMARK [2][-]{subsection.3.3.5}{Guessing Plaintext Using Joint Packet Length}{section.3.3}% 20
+\BOOKMARK [0][-]{chapter.4}{Plan}{}% 21
+\BOOKMARK [0][-]{chapter.5}{Other Activities}{}% 22
+\BOOKMARK [0][-]{appendix.A}{OrderFlavour-Length leakage channel}{}% 23

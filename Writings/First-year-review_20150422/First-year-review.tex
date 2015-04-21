@@ -1,12 +1,9 @@
-\documentclass[12pt, ieee]{report}
+\documentclass{report}
 
-\usepackage{appendix}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{hyperref}
-
-\usepackage{cite}
 \usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{float}
@@ -17,6 +14,10 @@
 \usepackage{multirow}
 
 \usepackage{cleveref}
+
+%\usepackage{cite}
+\usepackage[sorting=none, backend=bibtex]{biblatex}
+\bibliography{references,rfc}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -36,8 +37,8 @@
 \crefname{algocf}{alg.}{algs.}
 \Crefname{algocf}{Algorithm}{Algorithms}
 
-%\title{First Year Review}
-\title{tinyDTLS Experiment Record [Draft]}
+\title{PhD First Year  Report:\\ Information Leakage on Encrypted Sensor Network Traffic}
+%\title{tinyDTLS Experiment Record [Draft]}
 \author{Yan Yan}
 \date{\today}
 
@@ -47,16 +48,18 @@
 
 \tableofcontents
 
-%\input{body.tex}
+\input{Introduction.tex}
+\input{LiteratureReview.tex}
+\input{ProgressToDate.tex}
+\input{Plan.tex}
+\input{OtherActivities.tex}
 
-\input{SampleApplications.tex}
+\appendix
+\input{appendix.tex}
 
-\begin{appendices}
-{\input{appendix.tex}}
-\end{appendices}
 
-\bibliographystyle{ieeetran}
-\bibliography{references}
-
+%\bibliographystyle{ieeetran}
+%\bibliography{references,rfc}
+\printbibliography
 
 \end{document}

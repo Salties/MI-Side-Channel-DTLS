@@ -1,0 +1,19 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Half-year-review.aux
+The style file: ieeetran.bst
+Database file #1: references.bib
+A bad cross reference---entry "Padding_Oracle"
+refers to entry "2013", which doesn't exist
+A bad cross reference---entry "Compression_Ratio_Attack"
+refers to entry "2002", which doesn't exist
+Warning--I didn't find a database entry for "2013"
+Warning--I didn't find a database entry for "2002"
+-- IEEEtran.bst version 1.13 (2008/09/30) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty journal in Cache-Timing1
+Warning--missing institution in OSI
+Warning--missing institution in Zigbee
+Warning--missing institution in BREACH
+
+Done.
+(There were 2 error messages)
