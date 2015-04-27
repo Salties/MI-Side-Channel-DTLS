@@ -46,8 +46,10 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3.5}Guessing Plaintext Using Joint Packet Length}{20}{subsection.3.3.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Plan}{23}{chapter.4}
+\contentsline {subsection}{\numberline {3.3.6}Estimate plaintext distribution}{22}{subsection.3.3.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Other Activities}{24}{chapter.5}
+\contentsline {chapter}{\numberline {4}Plan}{24}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}OrderFlavour-Length leakage channel}{25}{appendix.A}
+\contentsline {chapter}{\numberline {5}Other Activities}{25}{chapter.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {A}OrderFlavour-Length leakage channel}{26}{appendix.A}
