@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.4)  27 APR 2015 17:34
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.4)  28 APR 2015 14:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1178,9 +1178,15 @@ S[]128[]CCM[]8[[]23[]],
 (./Pics/OddOrEven.tex) [9
 
 ]
-Overfull \hbox (3.77612pt too wide) in paragraph at lines 25--26
+Overfull \hbox (3.77612pt too wide) in paragraph at lines 31--32
 \OT1/cmr/m/n/10 CLIENT ran-domly gen-er-ates a 32-bit un-signed in-te-ger R and
  sends it to SERVER
+ []
+
+
+Overfull \hbox (3.99065pt too wide) in paragraph at lines 63--65
+\OML/cmm/m/it/10 COFFEE \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f[]\OML/cmm/m/it/10 
+; []; []; []\OMS/cmsy/m/n/10 g$ 
  []
 
 [10pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1
@@ -1188,191 +1194,184 @@ Overfull \hbox (3.77612pt too wide) in paragraph at lines 25--26
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.53 
-     ]
-Overfull \hbox (3.99065pt too wide) in paragraph at lines 56--58
-\OML/cmm/m/it/10 COFFEE \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f[]\OML/cmm/m/it/10 
-; []; []; []\OMS/cmsy/m/n/10 g$ 
- []
-
-(./Pics/LeakyCoffee.tex) [11]
-Overfull \hbox (3.63312pt too wide) in paragraph at lines 85--86
+l.76 \end{definition}
+                     ] (./Pics/LeakyCoffee.tex)
+Overfull \hbox (3.63312pt too wide) in paragraph at lines 92--93
 \OT1/cmr/m/n/10 where $\OML/cmm/m/it/10 Flavour \OMS/cmsy/m/n/10 2 \OML/cmm/m/i
 t/10 ADDITIVE$ \OT1/cmr/m/n/10 and $\OMS/cmsy/m/n/10 jj$ \OT1/cmr/m/n/10 rep-re
 -sents con-cate-na-tion. If $\OML/cmm/m/it/10 Order \OT1/cmr/m/n/10 =
  []
 
 
-Overfull \hbox (38.41173pt too wide) in paragraph at lines 87--88
+Overfull \hbox (38.41173pt too wide) in paragraph at lines 94--95
 \OML/cmm/m/it/10 FlavourRequest \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f\OT1/cmr/m/
 n/10 "\OML/cmm/m/it/10 FLAVOUR\OT1/cmr/m/n/10 "\OMS/cmsy/m/n/10 jjf\OML/cmm/m/i
 t/10 SUGAR\OMS/cmsy/m/n/10 g[]jj\OML/cmm/m/it/10 MILK[]\OMS/cmsy/m/n/10 g$\OT1/
 cmr/m/n/10 . 
  []
 
+[11pdfTeX warning (ext4): destination with the same identifier (name{figure.3.2
+}) has been already used, duplicate ignored
 
-Overfull \hbox (33.14839pt too wide) in paragraph at lines 95--96
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.97 \end{description}
+                      ]
+Overfull \hbox (33.14839pt too wide) in paragraph at lines 102--103
 [][]\OT1/cmr/bx/n/10 Example 3.2.1. []\OT1/cmr/m/n/10 An ex-am-ple with $\OML/c
 mm/m/it/10 FlavourRequest$ \OT1/cmr/m/n/10 and $\OML/cmm/m/it/10 FlavourRespons
 e$\OT1/cmr/m/n/10 (Figure []3.3[]): 
  []
 
-(./Pics/LeakyCoffee_example1.tex) [12pdfTeX warning (ext4): destination with th
-e same identifier (name{figure.3.2}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.106 I
-       n this example, CLIENT first sends an $Order$ “MOCHA”. SERVER the...
-]
-Overfull \hbox (70.39848pt too wide) in paragraph at lines 110--111
+(./Pics/LeakyCoffee_example1.tex)
+Overfull \hbox (70.39848pt too wide) in paragraph at lines 117--118
 [][]\OT1/cmr/bx/n/10 Example 3.2.2. []\OT1/cmr/m/n/10 An-other ex-am-ple with-o
 ut $\OML/cmm/m/it/10 FlavourRequest$ \OT1/cmr/m/n/10 and $\OML/cmm/m/it/10 Flav
 ourResponse$\OT1/cmr/m/n/10 (Figure []3.4[]): 
  []
 
-(./Pics/LeakyCoffee_example2.tex) [13pdfTeX warning (ext4): destination with th
+(./Pics/LeakyCoffee_example2.tex) [12pdfTeX warning (ext4): destination with th
 e same identifier (name{figure.3.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.119 
-      ] [14pdfTeX warning (ext4): destination with the same identifier (name{fi
+l.126 
+      ] [13pdfTeX warning (ext4): destination with the same identifier (name{fi
 gure.3.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.140 
-      ]
-Overfull \hbox (0.79999pt too wide) detected at line 154
+l.144 \subsection
+                 {Segmenting A Session from Continuous Traffic}]
+Overfull \hbox (0.79999pt too wide) detected at line 161
 |[]|
  []
 
 
-Overfull \hbox (2.5396pt too wide) in paragraph at lines 161--162
+Overfull \hbox (2.5396pt too wide) in paragraph at lines 168--169
 \OT1/cmr/m/n/10 tially as: $\OML/cmm/m/it/10 < Order; Order\OMS/cmsy/m/n/10 jj\
 OML/cmm/m/it/10 Flavour; FlavourRequest; FlavourResponse >$
  []
 
-[15pdfTeX warning (ext4): destination with the same identifier (name{algocf.1})
+[14pdfTeX warning (ext4): destination with the same identifier (name{algocf.1})
  has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.178  W
-        e model the plaintext  and their corresponding content length (in by...
-] (./Tables/OrderTable1.tex) (./Tables/OrderTable2.tex)
-(./Tables/OrderTable3.tex) [16pdfTeX warning (ext4): destination with the same 
-identifier (name{table.3.1}) has been already used, duplicate ignored
+l.177 
+      ] (./Tables/OrderTable1.tex) (./Tables/OrderTable2.tex) [15pdfTeX warning
+ (ext4): destination with the same identifier (name{table.3.1}) has been alread
+y used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.230 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.3
-.2}) has been already used, duplicate ignored
+l.226 \end{equation}
+                    pdfTeX warning (ext4): destination with the same identifier
+ (name{table.3.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.230 
-      ] (./Tables/OrderTable4.tex)
-Overfull \hbox (15.8803pt too wide) in paragraph at lines 1--238
+l.226 \end{equation}
+                    ] (./Tables/OrderTable3.tex) (./Tables/OrderTable4.tex)
+Overfull \hbox (15.8803pt too wide) in paragraph at lines 1--243
  [] 
  []
 
 
-Overfull \hbox (0.83781pt too wide) in paragraph at lines 245--246
+Overfull \hbox (0.83781pt too wide) in paragraph at lines 250--251
 []\OT1/cmr/m/n/10 The same strat-egy can also be ap-plied on the sec-ond packet
 : $\OML/cmm/m/it/10 Order\OMS/cmsy/m/n/10 jj\OML/cmm/m/it/10 Flavour$\OT1/cmr/m
 /n/10 . 
  []
 
 
-Overfull \hbox (10.94711pt too wide) in paragraph at lines 256--257
+Overfull \hbox (10.94711pt too wide) in paragraph at lines 261--262
 []\OT1/cmr/m/n/10 Obviously that $\OML/cmm/m/it/10 W[]$ \OT1/cmr/m/n/10 is iden
 -ti-cal to Ta-ble []3.1[] as the $\OML/cmm/m/it/10 Order$ \OT1/cmr/m/n/10 part 
 in $\OML/cmm/m/it/10 Order\OMS/cmsy/m/n/10 jj\OML/cmm/m/it/10 Flavour$
  []
 
-(./Tables/OrderFlavourTable1.tex) (./Tables/OrderFlavourTable2.tex) [17pdfTeX w
+(./Tables/OrderFlavourTable1.tex) (./Tables/OrderFlavourTable2.tex) [16pdfTeX w
 arning (ext4): destination with the same identifier (name{table.3.3}) has been 
 already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.268 
+l.273 
       pdfTeX warning (ext4): destination with the same identifier (name{table.3
 .4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.268 
+l.273 
       ] (./Tables/OrderFlavourTable3.tex)
-Overfull \hbox (100.57698pt too wide) in paragraph at lines 1--274
+Overfull \hbox (100.57698pt too wide) in paragraph at lines 1--279
  [] 
  []
 
-(./Tables/OrderFlavourTable4.tex) [18pdfTeX warning (ext4): destination with th
+(./Tables/OrderFlavourTable4.tex) [17pdfTeX warning (ext4): destination with th
 e same identifier (name{table.3.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.308 
-      pdfTeX warning (ext4): destination with the same identifier (name{table.3
-.6}) has been already used, duplicate ignored
+l.312 \end{table}
+                 pdfTeX warning (ext4): destination with the same identifier (n
+ame{table.3.6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.308 
-      ] (./Tables/OrderFlavourTable5.tex) [19pdfTeX warning (ext4): destination
- with the same identifier (name{table.3.7}) has been already used, duplicate ig
-nored
+l.312 \end{table}
+                 ] (./Tables/OrderFlavourTable5.tex) [18pdfTeX warning (ext4): 
+destination with the same identifier (name{table.3.7}) has been already used, d
+uplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.331 \end{example}
-                   pdfTeX warning (ext4): destination with the same identifier 
-(name{table.3.8}) has been already used, duplicate ignored
+l.335 B
+       y applying the same strategy again to merge the $Order$ channel $W_0$...
+pdfTeX warning (ext4): destination with the same identifier (name{table.3.8}) h
+as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.331 \end{example}
-                   ]
-<./Pics/Wireshark01.png, id=371, 997.7275pt x 609.27625pt>
+l.335 B
+       y applying the same strategy again to merge the $Order$ channel $W_0$...
+] <./Pics/Wireshark01.png, id=363, 997.7275pt x 609.27625pt>
 File: ./Pics/Wireshark01.png Graphic file (type png)
 
 <use ./Pics/Wireshark01.png>
-Package pdftex.def Info: ./Pics/Wireshark01.png used on input line 350.
+Package pdftex.def Info: ./Pics/Wireshark01.png used on input line 355.
 (pdftex.def)             Requested size: 997.72505pt x 609.27475pt.
 
-Overfull \hbox (53.33794pt too wide) in paragraph at lines 349--351
+Overfull \hbox (53.33794pt too wide) in paragraph at lines 354--356
  [][] 
  []
 
-[20] [21pdfTeX warning (ext4): destination with the same identifier (name{figur
+[19] [20pdfTeX warning (ext4): destination with the same identifier (name{figur
 e.3.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.373 
+l.378 
        <./Pics/Wireshark01.png>] (./Tables/OrderTable9.tex)
-(./Tables/OrderTable5.tex) (./Tables/OrderTable7.tex) [22pdfTeX warning (ext4):
+(./Tables/OrderTable5.tex) (./Tables/OrderTable7.tex) [21pdfTeX warning (ext4):
  destination with the same identifier (name{table.3.9}) has been already used, 
 duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.423 
+l.428 
       pdfTeX warning (ext4): destination with the same identifier (name{table.3
 .10}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.423 
+l.428 
       ] (./Tables/OrderTable8.tex)
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \crcr 
-l.444 \end{aligned}
+l.449 \end{aligned}
                    
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -1384,14 +1383,14 @@ nonnegative, or you can use `\delimiter <delimiter code>'.
 ! Extra \right.
 <to be read again> 
                    \crcr 
-l.444 \end{aligned}
+l.449 \end{aligned}
                    
 I'm ignoring a \right that had no matching \left.
 
 ! Missing { inserted.
 <inserted text> 
                 {
-l.444 \end{aligned}
+l.449 \end{aligned}
                    
 I've put in what seems to be necessary to fix
 the current column of the current alignment.
@@ -1400,7 +1399,7 @@ Try to go on, since this might almost work.
 ! You can't use `\eqno' in math mode.
 \endmathdisplay@a ...\df@tag \@empty \else \veqno 
                                                   \alt@tag \df@tag \fi \ifx ...
-l.445 \end{equation}
+l.450 \end{equation}
                     
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -1410,7 +1409,7 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 ! Missing \right. inserted.
 <inserted text> 
                 \right .
-l.445 \end{equation}
+l.450 \end{equation}
                     
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -1418,7 +1417,7 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-) (./Plan.tex [23pdfTeX warning (ext4): destination with the same identifier (n
+) (./Plan.tex [22pdfTeX warning (ext4): destination with the same identifier (n
 ame{table.3.11}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1432,15 +1431,15 @@ name{table.3.12}) has been already used, duplicate ignored
 l.1 \chapter
             {Plan}]
 Chapter 4.
-) (./OtherActivities.tex [24
+) (./OtherActivities.tex [23
 
 ]
 Chapter 5.
-) (./appendix.tex [25
+) (./appendix.tex [24
 
 ]
 Appendix A.
-) [26
+) [25
 
 ]
 Overfull \hbox (30.25092pt too wide) in paragraph at lines 63--63
@@ -1455,7 +1454,7 @@ Overfull \hbox (10.9887pt too wide) in paragraph at lines 63--63
 n/10 : []$\OT1/cmtt/m/n/10 http : / / doi . ieeecomputersociety .
  []
 
-[27
+[26
 
 ]
 Overfull \hbox (11.80272pt too wide) in paragraph at lines 63--63
@@ -1475,14 +1474,14 @@ Overfull \hbox (2.99565pt too wide) in paragraph at lines 63--63
 : \OT1/cmr/m/it/10 IACR Cryp-
  []
 
-[28]
+[27]
 Overfull \hbox (0.52477pt too wide) in paragraph at lines 63--63
 \OT1/cmr/m/it/10 sion 1.2\OT1/cmr/m/n/10 . RFC 6347 (Pro-posed Stan-dard). In-t
 er-net En-gi-neer-ing Task Force,
  []
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 64.
-[29]
+[28]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 64.
  (./First-year-review.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 64.
@@ -1495,8 +1494,8 @@ Package logreq Info: Writing requests to 'First-year-review.run.xml'.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 64.
  ) 
 Here is how much of TeX's memory you used:
- 22758 strings out of 493304
- 398378 string characters out of 6139872
+ 22757 strings out of 493304
+ 398371 string characters out of 6139872
  601289 words of memory out of 5000000
  25652 multiletter control sequences out of 15000+600000
  14367 words of font info for 55 fonts, out of 8000000 for 9000
@@ -1526,10 +1525,10 @@ cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
 t8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.
 pfb>
-Output written on First-year-review.pdf (30 pages, 507476 bytes).
+Output written on First-year-review.pdf (29 pages, 507103 bytes).
 PDF statistics:
- 610 PDF objects out of 1000 (max. 8388607)
- 544 compressed objects within 6 object streams
- 136 named destinations out of 1000 (max. 500000)
+ 606 PDF objects out of 1000 (max. 8388607)
+ 541 compressed objects within 6 object streams
+ 135 named destinations out of 1000 (max. 500000)
  215 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -24,32 +24,32 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1.2}Analysis}{10}{subsection.3.1.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Leaky Coffee}{11}{section.3.2}
+\contentsline {section}{\numberline {3.2}Leaky Coffee}{10}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.1}Application Description}{11}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.1}Application Description}{10}{subsection.3.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Syntax}{11}{section*.2}
+\contentsline {subsubsection}{Syntax}{10}{section*.2}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Leaky-Coffee Session}{11}{section*.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Some Implementation Details}{14}{section*.4}
+\contentsline {subsubsection}{Some Implementation Details}{13}{section*.4}
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3.3}Analysis of Leaky Coffee}{14}{section.3.3}
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3.1}Session Detection}{14}{subsection.3.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.2}Segmenting A Session from Continuous Traffic}{15}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.2}Segmenting A Session from Continuous Traffic}{14}{subsection.3.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.3}Determine Packets in a Session}{15}{subsection.3.3.3}
+\contentsline {subsection}{\numberline {3.3.3}Determine Packets in a Session}{14}{subsection.3.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.4}Guessing Plaintext in One Packet through Length}{15}{subsection.3.3.4}
+\contentsline {subsection}{\numberline {3.3.4}Guessing Plaintext in One Packet through Length}{14}{subsection.3.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.5}Guessing Plaintext Using Joint Packet Length}{20}{subsection.3.3.5}
+\contentsline {subsection}{\numberline {3.3.5}Guessing Plaintext Using Joint Packet Length}{19}{subsection.3.3.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3.6}Estimate plaintext distribution}{22}{subsection.3.3.6}
+\contentsline {subsection}{\numberline {3.3.6}Estimate plaintext distribution}{21}{subsection.3.3.6}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Plan}{24}{chapter.4}
+\contentsline {chapter}{\numberline {4}Plan}{23}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Other Activities}{25}{chapter.5}
+\contentsline {chapter}{\numberline {5}Other Activities}{24}{chapter.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}OrderFlavour-Length leakage channel}{26}{appendix.A}
+\contentsline {chapter}{\numberline {A}OrderFlavour-Length leakage channel}{25}{appendix.A}
