@@ -5,12 +5,18 @@ As a beginning of this project, our first step is to demonstrate that informatio
 
 The basic idea is to build some toy applications which model typical sensor network traffic generated through DTLS. The information leakage of toy applications are intentionally crafted to emphasise their existence.
 
-Even though both OpenSSL and GnuSSL have DTLS implemented with general features, we setted our experimental the less featured tinyDTLS\cite{tinyDTLS} due to its lightweight-ness, which is more suitable to sensor networks. However, the drawback is that only one cipher-suite, TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}, is available for the current version of tinyDTLS. All experiments are done with only two processes, a server and a client referred as SERVER and CLIENT, on a same linux host connected through local-link. The protocol suite we adopted is [IPv4 or IPv6] + UDP + DTLS. The modelled adversary is simply a passive eavesdropper.
+Even though both OpenSSL and GnuSSL have DTLS implemented with general features, we setted our experimental the less featured tinyDTLS\cite{tinyDTLS} due to its lightweight-ness, which is more suitable to sensor networks. However, the drawback is that only one cipher-suite, TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}, is available for the current version of tinyDTLS. This implies that there should be no padding scheme adopted and hence the length of plaintext and ciphertext are expected to have a linear relationship. Our experiments supported this conjecture such that:
+\begin{equation} \label{Eq: Plaintext length}
+l_D = 17 + l
+\end{equation}
+where $l$ is the length of plaintext and $l_D$ is the value in DTLS length field. According to the specifications the additional bytes is supposed to be purely a resulted of the appending MAC even though $17$ bytes is a value unlikely to be. This problem is still under investigating.
+
+All experiments are done with only two processes, a server and a client referred as SERVER and CLIENT, on a same linux host connected through local-link. The protocol suite we adopted is [IPv4 or IPv6] + UDP + DTLS. The modelled adversary is simply a passive eavesdropper.
 
 So far we have built up two toy applications, \textbf{Odd or Even} and \textbf{Leaky Coffee}, which will be explained in the next sessions alongside with corresponding traffic analysis.
 
 \section{Odd or Even}
-\textbf{Odd or Even} is an extremely simple toy application. It is designed in order to demonstrate some fundamental idea of traffic analysis.
+\textbf{Odd or Even} is a simple toy application designed  to demonstrate the fundamental idea of encrypted traffic analysis.
 
 \subsection{Application Description}
 
@@ -22,28 +28,29 @@ So far we have built up two toy applications, \textbf{Odd or Even} and \textbf{L
 \label{Fig: Odd or Even}
 \end{figure}
 
-CLIENT randomly generates a 32-bit unsigned integer R and sends it to SERVER in binary. SERVER replies with a string “ODD'' or “EVEN” according to the integer sent(\Cref{Fig: Odd or Even}).
+CLIENT randomly generates a 32-bit unsigned integer R and sends it to SERVER in binary. SERVER replies with a string “ODD'' or “EVEN” according to the value of the 32-bit $R$(\Cref{Fig: Odd or Even}).
 
 \subsection{Analysis}
+We run the application for multiple times and collected the packets it generated.
 
-For every Odd-or-Even session, 
-
-Packets from CLIENT to SERVER:
-
-All fields for every packet are the same, except:
-1. Encrypted Application Data field in DTLS layer.
-2. Sequence Number increased by 1 every packet.
-3. Checksum in UDP layer.
-
-Packets from SERVER to CLIENT:
-
-All fields are the same for every packet except:
-1. Encrypted Application Data field in DTLS layer.
-2. Sequence Number increased by 1 every packet.
-3. Checksum in UDP layer.
-4. Length field in both DTLS layer and UDP layer. The values are always (20,41) respectively when data is "Odd" and (21,42) when data is "Even".
-
-Therefore in this application, given pre-knowledge that server responds with either "Odd" or "Even", the length field in both DTLS layer and UDP layer can directly leak the plaintext. 
+%For every \textbf{Odd-or-Even} session, 
+%
+%Packets from CLIENT to SERVER:
+%
+%All fields for every packet are the same, except:
+%1. Encrypted Application Data field in DTLS layer.
+%2. Sequence Number increased by 1 every packet.
+%3. Checksum in UDP layer.
+%
+%Packets from SERVER to CLIENT:
+%
+%All fields are the same for every packet except:
+%1. Encrypted Application Data field in DTLS layer.
+%2. Sequence Number increased by 1 every packet.
+%3. Checksum in UDP layer.
+%4. Length field in both DTLS layer and UDP layer. The values are always (20,41) respectively when data is "Odd" and (21,42) when data is "Even".
+%
+%Therefore in this application, given pre-knowledge that server responds with either "Odd" or "Even", the length field in both DTLS layer and UDP layer can directly leak the plaintext. 
 
 \section{Leaky Coffee}
 \label{Sec: Leaky Coffee}
@@ -167,9 +174,7 @@ Once a session is segmented from the continuous traffic, it this not difficult t
 In this implementation, assume we have the pre-knowledge that each $Order \in COFFEE$ picked by CLIENT has an uniform distribution. Further from, the degree of SUGAR and MILK also have uniform distributions over ${0,1,2,3}$. Given these distributions, it is some how possible to make guesses of the plaintext in the packets by the length given in DTLS header, or UDP header, without trying to break the encryption primitives.
 
 We denote the value of DTLS Length field as $l_D$ and the actual application data length as $l$. Our experiment shows that:
-\begin{equation}
-l = l_D - 17 \label{Eq: Plaintext length}
-\end{equation}
+
 under both IPv4 and IPv6.
 
 \begin{definition}
