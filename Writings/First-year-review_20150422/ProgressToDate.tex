@@ -31,7 +31,7 @@ So far we have built up two toy applications, \textbf{Odd or Even} and \textbf{L
 CLIENT randomly generates a 32-bit unsigned integer R and sends it to SERVER in binary. SERVER replies with a string “ODD'' or “EVEN” according to the value of the 32-bit $R$(\Cref{Fig: Odd or Even}).
 
 \subsection{Analysis}
-We run the application for multiple times and collected the packets it generated.
+We run the application for multiple times and collected the packets it generated. As we have expected, “ODD” packets are $1$ byte shorter than “EVEN” packets which implies that an eavesdropping adversary can learn what has been sent from SERVER to CLIENT simply by looking at the packets length. However, no obvious leakage has been found in other fields of the packets.
 
 %For every \textbf{Odd-or-Even} session, 
 %
@@ -56,7 +56,17 @@ We run the application for multiple times and collected the packets it generated
 \label{Sec: Leaky Coffee}
 
 \subsection{Application Description}
-\textbf{Leaky Coffee} simulates a more complicated scenario where observable traffic information are more dependant to the contents. A complete interaction between CLIENT and SERVER is referred as a session in this context. All contents transmitted in this application are of type string.
+\textbf{Leaky Coffee} simulates a more complicated scenario where the CLIENT sends a coffee order (in string) to SERVER. SERVER echoes the order appended by some flavour (in string). CLIENT compares the amount of given flavour to an internally generated random requirement and asks SERVER again for more additive if it is insufficient. (\Cref{Fig: Description of a Leaky-Coffee session})
+
+There are two examples described in \Cref{Ex: An example with $FlavourRequest$ and $FlavourResponse$} and \Cref{Ex: A Leaky-Coffee session without $FlavourRequest$ and $FlavourResponse$}.
+
+\begin{figure}[H]
+\centering
+\resizebox{12cm}{!}
+{\input{./Pics/LeakyCoffee.tex}}
+\caption{Description of a Leaky-Coffee session}
+\label{Fig: Description of a Leaky-Coffee session}
+\end{figure}
 
 \subsubsection{Syntax}
 \begin{definition}
@@ -78,13 +88,7 @@ In another word, an instance of \textit{ADDITIVE} contains no more than 3 SUGAR 
 \subsubsection{Leaky-Coffee Session}
 A Leaky-Coffee session can be described as in \Cref{Fig: Leaky-Coffee Session}:
 
-\begin{figure}[H]
-\centering
-\resizebox{10cm}{!}
-{\input{./Pics/LeakyCoffee.tex}}
-\caption{Description of a Leaky-Coffee session}
-\label{Fig: Leaky-Coffee Session}
-\end{figure}
+
 
 \begin{description}
 \item[1] As an initiation of a session, CLIENT randomly picks a string $Order \in COFFEE$ and sends it to SERVER.
@@ -98,7 +102,7 @@ A Leaky-Coffee session can be described as in \Cref{Fig: Leaky-Coffee Session}:
 
 Note that the $FlavourRequest$ and $FlavourResponse$ packets are probabilistic in a Leaky-Coffee Session.
 
-\begin{example}
+\begin{example} \label{Ex: An example with $FlavourRequest$ and $FlavourResponse$}
 An example with $FlavourRequest$ and $FlavourResponse$(\Cref{Fig: Leaky-Coffee Example1}):
 
 {
@@ -113,7 +117,7 @@ An example with $FlavourRequest$ and $FlavourResponse$(\Cref{Fig: Leaky-Coffee E
 In this example, CLIENT first sends an $Order$ “MOCHA”. SERVER then replies with “MOCHA*@” which implies both the SUGAR degree and MILK degree are $1$. CLIENT randomly generates a SUGAR requirement $3$ and MILK requirement $2$ and then sends a $FlavourRequest$ to request the shorted SUGAR and MILK. SERVER finally response with the requested ADDITIVE.
 \end{example}
 
-\begin{example}
+\begin{example} \label{Ex: A Leaky-Coffee session without $FlavourRequest$ and $FlavourResponse$}
 Another example without $FlavourRequest$ and $FlavourResponse$(\Cref{Fig: Leaky-Coffee Example2}):
 
 \begin{figure}[H]
@@ -439,14 +443,14 @@ Then we can compute the marginal distribution of length.
 By linking \Cref{Tbl: Marginal distribution of $l$ with unknown distribution of $Order$} with \Cref{Tbl: Estimated length distribution from encrypted $Order$ packets} we have the following constrains to the content distribution:
 
 \begin{equation} \label{Eq: Plaintext Distribution Estimation}
-\left\{
+\left \{
 \begin{aligned}
 p_3 = d_1\\
 p_4 = d_2\\
 p_1 + p_2 = d_3\\
 \sum\limits_{i = 1}^4{p_i} = 1
-}\right
 \end{aligned}
+\right
 \end{equation}
 
 Any solution satisfies \Cref{Eq: Plaintext Distribution Estimation} can be viewed as a reasonable guess to the distribution of the contents.
