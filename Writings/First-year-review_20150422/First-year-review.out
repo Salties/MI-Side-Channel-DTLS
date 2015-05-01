@@ -12,13 +12,6 @@
 \BOOKMARK [2][-]{subsection.3.1.2}{Analysis}{section.3.1}% 12
 \BOOKMARK [1][-]{section.3.2}{Leaky Coffee}{chapter.3}% 13
 \BOOKMARK [2][-]{subsection.3.2.1}{Application Description}{section.3.2}% 14
-\BOOKMARK [1][-]{section.3.3}{Analysis of Leaky Coffee}{chapter.3}% 15
-\BOOKMARK [2][-]{subsection.3.3.1}{Session Detection}{section.3.3}% 16
-\BOOKMARK [2][-]{subsection.3.3.2}{Segmenting A Session from Continuous Traffic}{section.3.3}% 17
-\BOOKMARK [2][-]{subsection.3.3.3}{Determine Packets in a Session}{section.3.3}% 18
-\BOOKMARK [2][-]{subsection.3.3.4}{Guessing Plaintext in One Packet through Length}{section.3.3}% 19
-\BOOKMARK [2][-]{subsection.3.3.5}{Guessing Plaintext Using Joint Packet Length}{section.3.3}% 20
-\BOOKMARK [2][-]{subsection.3.3.6}{Estimate plaintext distribution}{section.3.3}% 21
-\BOOKMARK [0][-]{chapter.4}{Plan}{}% 22
-\BOOKMARK [0][-]{chapter.5}{Other Activities}{}% 23
-\BOOKMARK [0][-]{appendix.A}{OrderFlavour-Length leakage channel}{}% 24
+\BOOKMARK [0][-]{chapter.4}{Plan}{}% 15
+\BOOKMARK [0][-]{chapter.5}{Other Activities}{}% 16
+\BOOKMARK [0][-]{appendix.A}{OrderFlavour-Length leakage channel}{}% 17
