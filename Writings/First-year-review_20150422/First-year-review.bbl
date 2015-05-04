@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex version 2.4 $
+% $ biblatex version 2.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -672,38 +672,9 @@
   \field{year}{2014}
 \endentry
 
-\entry{baum1966}{article}{}
-  \name{author}{2}{}{%
-    {{}%
-     {Baum}{B.}%
-     {Leonard~E.}{L.~E.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Petrie}{P.}%
-     {Ted}{T.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{publisher}{1}{%
-    {The Institute of Mathematical Statistics}%
-  }
-  \strng{namehash}{BLEPT1}
-  \strng{fullhash}{BLEPT1}
-  \verb{doi}
-  \verb 10.1214/aoms/1177699147
-  \endverb
-  \field{number}{6}
-  \field{pages}{1554\bibrangedash 1563}
-  \field{title}{Statistical Inference for Probabilistic Functions of Finite
-  State Markov Chains}
-  \verb{url}
-  \verb http://dx.doi.org/10.1214/aoms/1177699147
-  \endverb
-  \field{volume}{37}
-  \field{journaltitle}{Ann. Math. Statist.}
-  \field{month}{12}
-  \field{year}{1966}
+\entry{Wireshark}{misc}{}
+  \field{howpublished}{\url{https://www.wireshark.org/}}
+  \field{title}{Wireshark}
 \endentry
 
 \lossort

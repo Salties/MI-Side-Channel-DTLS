@@ -30,10 +30,18 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{Syntaxes}{11}{section*.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{Leaky-Coffee Session}{12}{section*.3}
+\contentsline {subsubsection}{Leaky Coffee Session}{12}{section*.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Plan}{13}{chapter.4}
+\contentsline {subsubsection}{Leaky Coffee session examples}{12}{section*.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Other Activities}{14}{chapter.5}
+\contentsline {subsection}{\numberline {3.2.2}Analysis}{14}{subsection.3.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {A}OrderFlavour-Length leakage channel}{15}{appendix.A}
+\contentsline {subsection}{\numberline {3.2.3}Session Detection and Segmentation}{15}{subsection.3.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2.4}Plaintext Guessing}{16}{subsection.3.2.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}Plan}{17}{chapter.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Other Activities}{18}{chapter.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {A}OrderFlavour-Length leakage channel}{19}{appendix.A}
