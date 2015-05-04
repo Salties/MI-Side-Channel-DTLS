@@ -1,5 +1,18 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: First-year-review.aux
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: First-year-review.aux
 The style file: biblatex.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: First-year-review-blx.bib
 Database file #2: references.bib
 Database file #3: rfc.bib
@@ -18,5 +31,48 @@ Warning--I didn't find a database entry for "DBLP:conf/csfw/2011"
 Warning--I didn't find a database entry for "DBLP:conf/fse/2002"
 Warning--I didn't find a database entry for "DBLP:conf/eurocrypt/2002"
 Warning--I didn't find a database entry for "DBLP:conf/sp/2013"
-Biblatex version: 2.9
+Biblatex version: 2.8
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+You've used 25 entries,
+            6047 wiz_defined-function locations,
+            1307 strings with 13606 characters,
+and the built_in function-call counts, 74019 in all, are:
+= -- 2998
+> -- 2442
+< -- 680
++ -- 878
+- -- 887
+* -- 5041
+:= -- 4286
+add.period$ -- 0
+call.type$ -- 25
+change.case$ -- 383
+chr.to.int$ -- 76
+cite$ -- 48
+duplicate$ -- 8423
+empty$ -- 7963
+format.name$ -- 1482
+if$ -- 16843
+int.to.chr$ -- 0
+int.to.str$ -- 58
+missing$ -- 0
+newline$ -- 667
+num.names$ -- 1055
+pop$ -- 7714
+preamble$ -- 1
+purify$ -- 474
+quote$ -- 0
+skip$ -- 4430
+stack$ -- 0
+substring$ -- 1846
+swap$ -- 2786
+text.length$ -- 517
+text.prefix$ -- 0
+top$ -- 1
+type$ -- 936
+warning$ -- 0
+while$ -- 438
+width$ -- 0
+write$ -- 641
 (There were 5 error messages)
