@@ -77,7 +77,7 @@ We run the application for multiple times and collected the packets it generated
 $Order$ is an ASCII string randomly selected as:
 \begin{equation*}
 Order = \text{“AMERICANO”} | \text{“CAPPUCCINO”} | \text{“ESPRESSO”} | \text{“MOCHA”}
-\end{equation}
+\end{equation*}
 \end{definition}
 
 \begin{definition} \label{Def: Coffee}
@@ -88,21 +88,21 @@ Coffee &= Order || Milk || Sugar\\
 Milk &= \{\text{‘@’}\}^{\{0,3\}}\\
 Sugar &= \{\text{‘*’}\}^{\{0,3\}}\\
 \end{aligned}
-\end{equation}
+\end{equation*}
 \end{definition}
 
 \begin{definition} \label{Def: FlavourRequest}
 $FlavourRequest$ is an ASCII string begins with “FLAVOUR” and followed by a $Milk$ then a $Sugar$ defined in \Cref{Def: Coffee}.
 \begin{equation*}
-FlavourRequest = \text{“FLAVOUR”} || Milk || Sugar”
-\end{equation}
+FlavourRequest = \text{“FLAVOUR”} || Milk || Sugar
+\end{equation*}
 \end{definition}
 
 \begin{definition} \label{Def: FlavourResponse}
 $FlavourResponse$ is identical to $FlavourRequest$ defined in \Cref{Def: FlavourRequest}.
 \begin{equation*}
-FlavourReponse = FlavourRequest =  \text{“FLAVOUR”} || Milk || Sugar”
-\end{equation}
+FlavourReponse = FlavourRequest =  \text{“FLAVOUR”} || Milk || Sugar
+\end{equation*}
 \end{definition}
 
 \begin{definition} \label{Def: Leaky Coffee Session}
@@ -156,7 +156,6 @@ As in \Cref{Def: Leaky Coffee Session}, $FlavourRequest$ and $FlavourResponse$ o
 
 Similar to most cryptography researches, we assume the implementation of \textbf{Leaky Coffee} are made public. We model our adversary to be given the full knowledge that is observable through a sniffer\footnote{In this project, we used Wireshark\cite{Wireshark}.}, as those displayed in \Cref{Fig: Captured Leaky Coffee packets}.
 
-\begin{example}
 \begin{figure}[H] 
 \centering
 \resizebox{14cm}{!}
@@ -180,82 +179,69 @@ Further more, since there is a significant difference in the timestamp intervals
 Once a session has been segmented, we can immediately label them as described in \Cref{Def: Leaky Coffee Session}.
 
 \subsection{Plaintext Guessing} \label{Sec: Plaintext Guessing}
-Similar to \textbf{Odd or Even}(\Cref{Sec: Odd or Even}), plaintexts exchanged in \textbf{Leaky Coffee} has distinguish length which could possibly be exploited to recover the plaintexts.
+Similar to \textbf{Odd or Even}(\Cref{Sec: Odd or Even}), ciphertexts exchanged in \textbf{Leaky Coffee} has distinguish length which could possibly be exploited to recover the plaintexts.
 
-%
-%We denote the value of DTLS Length field as $l_D$ and the actual application data length as $l$. Our experiment shows that:
-%
-%under both IPv4 and IPv6.
-%
-%\begin{definition}
-%For a specific packet in a session, let $\mathbb{X}$ be the set of plaintext and $\mathbb{Y}$ be the set of its corresponding content length.
-%
-% We model the plaintext  and their corresponding content length (in bytes) as a channel: 
-% \begin{center}
-% $W(y|x), x \in \mathbb{X}, y \in \mathbb{Y}$.
-% \end{center}
-%
-%And then the inverse of this channel $W^{-1}(x|y)$ can be viewed as the leakage channel of $\mathbb{Y}$.
-%\end{definition}
-%
-%The general idea is that with such leakage channel, an adversary can then “decode” the plaintext using this leakage channel.
-%
-%In this context, $\mathbb{X}$ is the set of packet content and $\mathbb{Y}$ the set of content length $l$.
-%
-%\begin{example} \label{Exmp: Single-Order}
-%We begin with a simple example: $Order$.
-%
-%For $Order$ packets, we have:
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable1.tex}}
-%\end{center}
-%\caption{Content-Length Channel and the probabilities of $Order$}
-%\label{Tbl: Order1}
-%\end{table}
-%
-%In this implementation, CLIENT randomly picks \textit{Order} from $COFFEE$; therefore the probability for every value is $1/4$. Since neither DLTS nor the application induces any randomness to the content length therefore it will always be a deterministic value.
-%
-%Given $W$ and the probability of $Order$, it can then compute the joint distribution of $(Order, l)$ by:
-%\begin{equation}
-%(\widehat{W}P)(x,y) = P(x)W(y|x)
-%\end{equation}
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable2.tex}}
-%\end{center}
-%\caption{Joint distribution of $(Order, l)$}
-%\label{Tbl: Order2}
-%\end{table}
-%
-%Then follows the marginal distribution of content length:
-%\begin{equation}
-%P(Y=y) = \sum\limits_{x \in \mathbb{X}}{\widehat{W}P(x,y)}
-%\end{equation}
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable3.tex}}
-%\end{center}
-%\caption{Marginal distribution of $l$}
-%\label{Tbl: Order3}
-%\end{table}
-%
-%Finally we can construct the leakage channel using Bayes’ theorem:
-%\begin{equation}
-%P(x|y) = {\frac {P(x)P(y|x)} {P(y)}} 
-%\end{equation}
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable4.tex}}
-%\end{center}
-%\caption{Leakage channel of Length - $Order$}
-%\label{Tbl: Order4}
-%\end{table}
-%
-%\end{example}
+To formalise it, we model the leakage through ciphertext lengths as a channel\cite{Information_Theory}, inspired by \cite{Web2}. The general idea is to view the ciphtertext lengths as an input and plaintext the output, then the leakage problem is immediately equivalent  to the decoding problem of such a channel. 
+
+In order to do this, we first construct a  \textbf{Forward Channel} that “encodes” plaintexts to ciphertext lengths. The \textbf{Leakage Channel}, which “decodes” ciphertext lengths to plaintexts, is therefore followed by as the reversion of \textbf{Forward Channel}.
+
+\begin{definition} \label{Def: Channels}
+Let $\mathbb{X}$ be the set of possible plaintexts and $\mathbb{Y}$ the set of possible packet lengths in bytes. The \textbf{Forward Channel} is then given as  $\bf{W(y|x)}$ and \textbf{Leakage Channel} as $\bf{W^{-1}(x|y)}$ where both $x \in \mathbb{X}$ and $y \in \mathbb{Y}$.
+\end{definition}
+
+%*****2015/05/05*****%
+
+\begin{example} \label{Ex: Single-Order}
+Take $Order$ for example. For $Order$ packets, we have:
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable1.tex}}
+\end{center}
+\caption{Content-Length Channel and the probabilities of $Order$}
+\label{Tbl: Order1}
+\end{table}
+
+In this implementation, CLIENT randomly picks \textit{Order} from $COFFEE$; therefore the probability for every value is $1/4$. Since neither DLTS nor the application induces any randomness to the content length therefore it will always be a deterministic value.
+
+Given $W$ and the probability of $Order$, it can then compute the joint distribution of $(Order, l)$ by:
+\begin{equation}
+(\widehat{W}P)(x,y) = P(x)W(y|x)
+\end{equation}
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable2.tex}}
+\end{center}
+\caption{Joint distribution of $(Order, l)$}
+\label{Tbl: Order2}
+\end{table}
+
+Then follows the marginal distribution of content length:
+\begin{equation}
+P(Y=y) = \sum\limits_{x \in \mathbb{X}}{\widehat{W}P(x,y)}
+\end{equation}
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable3.tex}}
+\end{center}
+\caption{Marginal distribution of $l$}
+\label{Tbl: Order3}
+\end{table}
+
+Finally we can construct the leakage channel using Bayes’ theorem:
+\begin{equation}
+P(x|y) = {\frac {P(x)P(y|x)} {P(y)}} 
+\end{equation}
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable4.tex}}
+\end{center}
+\caption{Leakage channel of Length - $Order$}
+\label{Tbl: Order4}
+\end{table}
+\end{example}
 %
 %The same strategy can also be applied on the second packet: $Order || Flavour$.
 %

@@ -1,10 +1,10 @@
 % $ biblatex auxiliary file $
-% $ biblatex version 2.3 $
+% $ biblatex bbl format version 2.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
-% This file may safely be deleted. It will be recreated as
-% required.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
 %
 \begingroup
 \makeatletter
@@ -16,668 +16,591 @@
   {}
 \endgroup
 
-\entry{DPA}{book}{}
-  \name{author}{3}{}{%
-    {{}%
-     {Mangard}{M.}%
-     {Stefan}{S.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Oswald}{O.}%
-     {Elisabeth}{E.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Popp}{P.}%
-     {Thomas}{T.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{publisher}{1}{%
-    {Springer}%
-  }
-  \strng{namehash}{MSOEPT1}
-  \strng{fullhash}{MSOEPT1}
-  \field{isbn}{978-0-387-30857-9}
-  \field{title}{Power analysis attacks - revealing the secrets of smart cards}
-  \field{year}{2007}
-\endentry
 
-\entry{Cache-Timing1}{article}{}
-  \name{author}{1}{}{%
-    {{}%
-     {Bernstein}{B.}%
-     {Daniel~J.}{D.~J.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{BDJ1}
-  \strng{fullhash}{BDJ1}
-  \field{note}{URL: {\tt http://cr.yp.to/papers.html\#cachetiming}}
-  \field{title}{{Cache-timing attacks on AES}}
-  \field{year}{2004}
-\endentry
-
-\entry{Cache-Timing2}{article}{}
-  \name{author}{3}{}{%
-    {{}%
-     {Osvik}{O.}%
-     {Dag~Arne}{D.~A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Shamir}{S.}%
-     {Adi}{A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Tromer}{T.}%
-     {Eran}{E.}%
-     {}{}%
-     {}{}}%
-  }
-  \keyw{dblp}
-  \strng{namehash}{ODASATE1}
-  \strng{fullhash}{ODASATE1}
-  \field{pages}{271}
-  \field{title}{Cache attacks and Countermeasures: the Case of AES.}
-  \verb{url}
-  \verb http://dblp.uni-trier.de/db/journals/iacr/iacr2005.html#OsvikST05
-  \endverb
-  \field{volume}{2005}
-  \field{journaltitle}{IACR Cryptology ePrint Archive}
-  \field{year}{2005}
-\endentry
-
-\entry{OSI}{report}{}
-  \name{author}{1}{}{%
-    {{}%
-     {Standardization~ISO}{S.~I.}%
-     {International~Organization}{I.~O.}%
-     {for}{f.}%
-     {}{}}%
-  }
-  \keyw{iso, layer, osi, protocol}
-  \strng{namehash}{SIIOf1}
-  \strng{fullhash}{SIIOf1}
-  \field{edition}{Second}
-  \field{pages}{34\bibrangedash 65+}
-  \field{title}{{ISO/IEC 7498-1Information technology - Open Systems
-  Interconnection - Basic Reference Model: The Basic Model}}
-  \field{type}{techreport}
-  \field{month}{06}
-  \field{year}{1994}
-\endentry
-
-\entry{tinyDTLS}{misc}{}
-  \field{howpublished}{\url{http://tinydtls.sourceforge.net/}}
-  \field{title}{tinyDTLS}
-\endentry
-
-\entry{Web1}{inproceedings}{}
-  \name{author}{4}{}{%
-    {{}%
-     {Chen}{C.}%
-     {Shuo}{S.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Wang}{W.}%
-     {Rui}{R.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Wang}{W.}%
-     {XiaoFeng}{X.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Zhang}{Z.}%
-     {Kehuan}{K.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{CS+1}
-  \strng{fullhash}{CSWRWXZK1}
-  \field{booktitle}{31st {IEEE} Symposium on Security and Privacy, S{\&}P 2010,
-  16-19 May 2010, Berleley/Oakland, California, {USA}}
-  \verb{doi}
-  \verb 10.1109/SP.2010.20
-  \endverb
-  \field{pages}{191\bibrangedash 206}
-  \field{title}{Side-Channel Leaks in Web Applications: {A} Reality Today, a
-  Challenge Tomorrow}
-  \verb{url}
-  \verb http://doi.ieeecomputersociety.org/10.1109/SP.2010.20
-  \endverb
-  \field{year}{2010}
-\endentry
-
-\entry{Web2}{article}{}
-  \name{author}{2}{}{%
-    {{}%
-     {Mather}{M.}%
-     {Luke}{L.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Oswald}{O.}%
-     {Elisabeth}{E.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{MLOE1}
-  \strng{fullhash}{MLOE1}
-  \verb{doi}
-  \verb 10.1007/s13389-012-0036-0
-  \endverb
-  \field{number}{3}
-  \field{pages}{161\bibrangedash 177}
-  \field{title}{Pinpointing side-channel information leaks in web applications}
-  \verb{url}
-  \verb http://dx.doi.org/10.1007/s13389-012-0036-0
-  \endverb
-  \field{volume}{2}
-  \field{journaltitle}{J. Cryptographic Engineering}
-  \field{year}{2012}
-\endentry
-
-\entry{DBLP:conf/csfw/AlvimCPS12}{inproceedings}{}
-  \name{author}{4}{}{%
-    {{}%
-     {Alvim}{A.}%
-     {M{\'{a}}rio~S.}{M.~S.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Chatzikokolakis}{C.}%
-     {Konstantinos}{K.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Palamidessi}{P.}%
-     {Catuscia}{C.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Smith}{S.}%
-     {Geoffrey}{G.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{AMS+1}
-  \strng{fullhash}{AMSCKPCSG1}
-  \field{booktitle}{25th {IEEE} Computer Security Foundations Symposium, {CSF}
-  2012, Cambridge, MA, USA, June 25-27, 2012}
-  \verb{doi}
-  \verb 10.1109/CSF.2012.26
-  \endverb
-  \field{pages}{265\bibrangedash 279}
-  \field{title}{Measuring Information Leakage Using Generalized Gain Functions}
-  \verb{url}
-  \verb http://doi.ieeecomputersociety.org/10.1109/CSF.2012.26
-  \endverb
-  \field{year}{2012}
-\endentry
-
-\entry{DBLP:conf/csfw/ChothiaG11}{inproceedings}{}
-  \name{author}{2}{}{%
-    {{}%
-     {Chothia}{C.}%
-     {Tom}{T.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Guha}{G.}%
-     {Apratim}{A.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{CTGA1}
-  \strng{fullhash}{CTGA1}
-  \field{booktitle}{Proceedings of the 24th {IEEE} Computer Security
-  Foundations Symposium, {CSF} 2011, Cernay-la-Ville, France, 27-29 June, 2011}
-  \verb{doi}
-  \verb 10.1109/CSF.2011.19
-  \endverb
-  \field{pages}{177\bibrangedash 190}
-  \field{title}{A Statistical Test for Information Leaks Using Continuous
-  Mutual Information}
-  \verb{url}
-  \verb http://doi.ieeecomputersociety.org/10.1109/CSF.2011.19
-  \endverb
-  \field{year}{2011}
-\endentry
-
-\entry{Danezis_trafficanalysis}{misc}{}
-  \name{author}{1}{}{%
-    {{}%
-     {Danezis}{D.}%
-     {George}{G.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{DG1}
-  \strng{fullhash}{DG1}
-  \field{title}{Traffic Analysis of the HTTP Protocol over TLS}
-\endentry
-
-\entry{DBLP:journals/iacr/SchaubSHCJTHGR14}{article}{}
-  \name{author}{9}{}{%
-    {{}%
-     {Schaub}{S.}%
-     {Alexander}{A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Schneider}{S.}%
-     {Emmanuel}{E.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Hollender}{H.}%
-     {Alexandros}{A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Calasans}{C.}%
-     {Vinicius}{V.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Jolie}{J.}%
-     {Laurent}{L.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Touillon}{T.}%
-     {Robin}{R.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Heuser}{H.}%
-     {Annelie}{A.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Guilley}{G.}%
-     {Sylvain}{S.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Rioul}{R.}%
-     {Olivier}{O.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{SA+1}
-  \strng{fullhash}{SASEHACVJLTRHAGSRO1}
-  \field{pages}{959}
-  \field{title}{Attacking Suggest Boxes in Web Applications Over {HTTPS} Using
-  Side-Channel Stochastic Algorithms}
-  \verb{url}
-  \verb http://eprint.iacr.org/2014/959
-  \endverb
-  \field{volume}{2014}
-  \field{journaltitle}{{IACR} Cryptology ePrint Archive}
-  \field{year}{2014}
-\endentry
-
-\entry{DBLP:conf/fse/Kelsey02}{inproceedings}{}
-  \name{author}{1}{}{%
-    {{}%
-     {Kelsey}{K.}%
-     {John}{J.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{KJ1}
-  \strng{fullhash}{KJ1}
-  \field{booktitle}{Fast Software Encryption, 9th International Workshop, {FSE}
-  2002, Leuven, Belgium, February 4-6, 2002, Revised Papers}
-  \verb{doi}
-  \verb 10.1007/3-540-45661-9_21
-  \endverb
-  \field{pages}{263\bibrangedash 276}
-  \field{title}{Compression and Information Leakage of Plaintext}
-  \verb{url}
-  \verb http://dx.doi.org/10.1007/3-540-45661-9_21
-  \endverb
-  \field{year}{2002}
-\endentry
-
-\entry{CRIME}{misc}{}
-  \field{howpublished}{\url{https://docs.google.com/presentation/d/11eBmGiHbYcHR9gL5nDyZChu_-lCa2GizeuOfaLU2HOU/edit\#slide\=id.g1d134dff_1_222}}
-  \field{title}{The CRIME Attack}
-\endentry
-
-\entry{BREACH}{report}{}
-  \name{author}{3}{}{%
-    {{}%
-     {Gluck}{G.}%
-     {Yoel}{Y.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Harris}{H.}%
-     {Neal}{N.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Prado}{P.}%
-     {Angelo~(Angel)}{A.~A.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{GYHNPAA1}
-  \strng{fullhash}{GYHNPAA1}
-  \field{title}{Breach: Reviving the {CRIME} Attack}
-  \verb{url}
-  \verb http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20
-  \verb seconds.pdf
-  \endverb
-  \field{type}{techreport}
-  \field{year}{2013}
-\endentry
-
-\entry{DBLP:journals/iacr/AlawatugodaSB14a}{article}{}
-  \name{author}{3}{}{%
-    {{}%
-     {Alawatugoda}{A.}%
-     {Janaka}{J.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Stebila}{S.}%
-     {Douglas}{D.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Boyd}{B.}%
-     {Colin}{C.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{AJSDBC1}
-  \strng{fullhash}{AJSDBC1}
-  \field{pages}{724}
-  \field{title}{Protecting Encrypted Cookies from Compression Side-Channel
-  Attacks}
-  \verb{url}
-  \verb http://eprint.iacr.org/2014/724
-  \endverb
-  \field{volume}{2014}
-  \field{journaltitle}{{IACR} Cryptology ePrint Archive}
-  \field{year}{2014}
-\endentry
-
-\entry{DBLP:conf/eurocrypt/Vaudenay02}{inproceedings}{}
-  \name{author}{1}{}{%
-    {{}%
-     {Vaudenay}{V.}%
-     {Serge}{S.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{VS1}
-  \strng{fullhash}{VS1}
-  \field{booktitle}{Advances in Cryptology - {EUROCRYPT} 2002, International
-  Conference on the Theory and Applications of Cryptographic Techniques,
-  Amsterdam, The Netherlands, April 28 - May 2, 2002, Proceedings}
-  \verb{doi}
-  \verb 10.1007/3-540-46035-7_35
-  \endverb
-  \field{pages}{534\bibrangedash 546}
-  \field{title}{Security Flaws Induced by {CBC} Padding - Applications to SSL,
-  IPSEC, {WTLS} ...}
-  \verb{url}
-  \verb http://dx.doi.org/10.1007/3-540-46035-7_35
-  \endverb
-  \field{year}{2002}
-\endentry
-
-\entry{DBLP:conf/sp/AlFardanP13}{inproceedings}{}
-  \name{author}{2}{}{%
-    {{}%
-     {AlFardan}{A.}%
-     {Nadhem~J.}{N.~J.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Paterson}{P.}%
-     {Kenneth~G.}{K.~G.}%
-     {}{}%
-     {}{}}%
-  }
-  \strng{namehash}{ANJPKG1}
-  \strng{fullhash}{ANJPKG1}
-  \field{booktitle}{2013 {IEEE} Symposium on Security and Privacy, {SP} 2013,
-  Berkeley, CA, USA, May 19-22, 2013}
-  \verb{doi}
-  \verb 10.1109/SP.2013.42
-  \endverb
-  \field{pages}{526\bibrangedash 540}
-  \field{title}{Lucky Thirteen: Breaking the {TLS} and {DTLS} Record Protocols}
-  \verb{url}
-  \verb http://dx.doi.org/10.1109/SP.2013.42
-  \endverb
-  \field{year}{2013}
-\endentry
-
-\entry{rfc791}{misc}{}
-  \name{author}{1}{}{%
-    {{}%
-     {Postel}{P.}%
-     {J.}{J.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{organization}{1}{%
-    {Internet Engineering Task Force}%
-  }
-  \list{publisher}{1}{%
-    {IETF}%
-  }
-  \strng{namehash}{PJ1}
-  \strng{fullhash}{PJ1}
-  \field{howpublished}{RFC 791 (INTERNET STANDARD)}
-  \field{note}{Updated by RFCs 1349, 2474, 6864}
-  \field{number}{791}
-  \field{series}{Request for Comments}
-  \field{title}{{Internet Protocol}}
-  \verb{url}
-  \verb http://www.ietf.org/rfc/rfc791.txt
-  \endverb
-  \field{month}{09}
-  \field{year}{1981}
-\endentry
-
-\entry{rfc2460}{misc}{}
-  \name{author}{2}{}{%
-    {{}%
-     {Deering}{D.}%
-     {S.}{S.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Hinden}{H.}%
-     {R.}{R.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{organization}{1}{%
-    {Internet Engineering Task Force}%
-  }
-  \list{publisher}{1}{%
-    {IETF}%
-  }
-  \strng{namehash}{DSHR1}
-  \strng{fullhash}{DSHR1}
-  \field{howpublished}{RFC 2460 (Draft Standard)}
-  \field{note}{Updated by RFCs 5095, 5722, 5871, 6437, 6564, 6935, 6946, 7045,
-  7112}
-  \field{number}{2460}
-  \field{series}{Request for Comments}
-  \field{title}{{Internet Protocol, Version 6 (IPv6) Specification}}
-  \verb{url}
-  \verb http://www.ietf.org/rfc/rfc2460.txt
-  \endverb
-  \field{month}{12}
-  \field{year}{1998}
-\endentry
-
-\entry{rfc6282}{misc}{}
-  \name{author}{2}{}{%
-    {{}%
-     {Hui}{H.}%
-     {J.}{J.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Thubert}{T.}%
-     {P.}{P.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{organization}{1}{%
-    {Internet Engineering Task Force}%
-  }
-  \list{publisher}{1}{%
-    {IETF}%
-  }
-  \strng{namehash}{HJTP1}
-  \strng{fullhash}{HJTP1}
-  \field{howpublished}{RFC 6282 (Proposed Standard)}
-  \field{number}{6282}
-  \field{series}{Request for Comments}
-  \field{title}{{Compression Format for IPv6 Datagrams over IEEE 802.15.4-Based
-  Networks}}
-  \verb{url}
-  \verb http://www.ietf.org/rfc/rfc6282.txt
-  \endverb
-  \field{month}{09}
-  \field{year}{2011}
-\endentry
-
-\entry{rfc6347}{misc}{}
-  \name{author}{2}{}{%
-    {{}%
-     {Rescorla}{R.}%
-     {E.}{E.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Modadugu}{M.}%
-     {N.}{N.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{organization}{1}{%
-    {Internet Engineering Task Force}%
-  }
-  \list{publisher}{1}{%
-    {IETF}%
-  }
-  \strng{namehash}{REMN1}
-  \strng{fullhash}{REMN1}
-  \field{howpublished}{RFC 6347 (Proposed Standard)}
-  \field{number}{6347}
-  \field{series}{Request for Comments}
-  \field{title}{{Datagram Transport Layer Security Version 1.2}}
-  \verb{url}
-  \verb http://www.ietf.org/rfc/rfc6347.txt
-  \endverb
-  \field{month}{01}
-  \field{year}{2012}
-\endentry
-
-\entry{rfc7252}{misc}{}
-  \name{author}{3}{}{%
-    {{}%
-     {Shelby}{S.}%
-     {Z.}{Z.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Hartke}{H.}%
-     {K.}{K.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Bormann}{B.}%
-     {C.}{C.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{organization}{1}{%
-    {Internet Engineering Task Force}%
-  }
-  \list{publisher}{1}{%
-    {IETF}%
-  }
-  \strng{namehash}{SZHKBC1}
-  \strng{fullhash}{SZHKBC1}
-  \field{howpublished}{RFC 7252 (Proposed Standard)}
-  \field{number}{7252}
-  \field{series}{Request for Comments}
-  \field{title}{{The Constrained Application Protocol (CoAP)}}
-  \verb{url}
-  \verb http://www.ietf.org/rfc/rfc7252.txt
-  \endverb
-  \field{month}{06}
-  \field{year}{2014}
-\endentry
-
-\entry{rfc7251}{misc}{}
-  \name{author}{4}{}{%
-    {{}%
-     {McGrew}{M.}%
-     {D.}{D.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Bailey}{B.}%
-     {D.}{D.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Campagna}{C.}%
-     {M.}{M.}%
-     {}{}%
-     {}{}}%
-    {{}%
-     {Dugal}{D.}%
-     {R.}{R.}%
-     {}{}%
-     {}{}}%
-  }
-  \list{organization}{1}{%
-    {Internet Engineering Task Force}%
-  }
-  \list{publisher}{1}{%
-    {IETF}%
-  }
-  \strng{namehash}{MD+1}
-  \strng{fullhash}{MDBDCMDR1}
-  \field{howpublished}{RFC 7251 (Informational)}
-  \field{number}{7251}
-  \field{series}{Request for Comments}
-  \field{title}{{AES-CCM Elliptic Curve Cryptography (ECC) Cipher Suites for
-  TLS}}
-  \verb{url}
-  \verb http://www.ietf.org/rfc/rfc7251.txt
-  \endverb
-  \field{month}{06}
-  \field{year}{2014}
-\endentry
-
-\entry{Wireshark}{misc}{}
-  \field{howpublished}{\url{https://www.wireshark.org/}}
-  \field{title}{Wireshark}
-\endentry
-
-\lossort
-\endlossort
-
+\refsection{0}
+  \sortlist{entry}{none}
+    \entry{DPA}{book}{}
+      \name{labelname}{3}{}{%
+        {{hash=1cdffbc482347edefd718f61814abbc3}{Mangard}{M\bibinitperiod}{Stefan}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=cf7c0382045f06385a28d0235a0bbc97}{Oswald}{O\bibinitperiod}{Elisabeth}{E\bibinitperiod}{}{}{}{}}%
+        {{hash=34c7d868028eb76ef7d90c1f3ba5c8ec}{Popp}{P\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=1cdffbc482347edefd718f61814abbc3}{Mangard}{M\bibinitperiod}{Stefan}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=cf7c0382045f06385a28d0235a0bbc97}{Oswald}{O\bibinitperiod}{Elisabeth}{E\bibinitperiod}{}{}{}{}}%
+        {{hash=34c7d868028eb76ef7d90c1f3ba5c8ec}{Popp}{P\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{c6527fca10514b5b57a9540f156dce07}
+      \strng{fullhash}{c6527fca10514b5b57a9540f156dce07}
+      \field{sortinit}{0}
+      \field{labeltitle}{Power analysis attacks - revealing the secrets of smart cards}
+      \field{isbn}{978-0-387-30857-9}
+      \field{title}{Power analysis attacks - revealing the secrets of smart cards}
+      \field{year}{2007}
+    \endentry
+    \entry{Cache-Timing1}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=5f3bee3b8939320b1e0713b083800eac}{Bernstein}{B\bibinitperiod}{Daniel\bibnamedelima J.}{D\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=5f3bee3b8939320b1e0713b083800eac}{Bernstein}{B\bibinitperiod}{Daniel\bibnamedelima J.}{D\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{5f3bee3b8939320b1e0713b083800eac}
+      \strng{fullhash}{5f3bee3b8939320b1e0713b083800eac}
+      \field{sortinit}{0}
+      \field{labeltitle}{{Cache-timing attacks on AES}}
+      \field{note}{URL: {\tt http://cr.yp.to/papers.html\#cachetiming}}
+      \field{title}{{Cache-timing attacks on AES}}
+      \field{year}{2004}
+    \endentry
+    \entry{Cache-Timing2}{article}{}
+      \name{labelname}{3}{}{%
+        {{hash=a7ff800b07012b54383acd05331d0ec2}{Osvik}{O\bibinitperiod}{Dag\bibnamedelima Arne}{D\bibinitperiod\bibinitdelim A\bibinitperiod}{}{}{}{}}%
+        {{hash=71b77dd8ab33fe646ef25cded49e9881}{Shamir}{S\bibinitperiod}{Adi}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=a9a80df1ddea18e1b64f84a0cbcdc25f}{Tromer}{T\bibinitperiod}{Eran}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=a7ff800b07012b54383acd05331d0ec2}{Osvik}{O\bibinitperiod}{Dag\bibnamedelima Arne}{D\bibinitperiod\bibinitdelim A\bibinitperiod}{}{}{}{}}%
+        {{hash=71b77dd8ab33fe646ef25cded49e9881}{Shamir}{S\bibinitperiod}{Adi}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=a9a80df1ddea18e1b64f84a0cbcdc25f}{Tromer}{T\bibinitperiod}{Eran}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{5d5b85d85666340c2032fbfcdf1a58c6}
+      \strng{fullhash}{5d5b85d85666340c2032fbfcdf1a58c6}
+      \field{sortinit}{0}
+      \field{labeltitle}{Cache attacks and Countermeasures: the Case of AES.}
+      \field{journaltitle}{IACR Cryptology ePrint Archive}
+      \field{title}{Cache attacks and Countermeasures: the Case of AES.}
+      \field{volume}{2005}
+      \field{year}{2005}
+      \field{pages}{271}
+      \verb{url}
+      \verb http://dblp.uni-trier.de/db/journals/iacr/iacr2005.html#OsvikST05
+      \endverb
+      \keyw{dblp}
+    \endentry
+    \entry{OSI}{report}{}
+      \name{labelname}{1}{}{%
+        {{hash=990c2ebbfc4739429e2d8f433014a291}{Standardization\bibnamedelima ISO}{S\bibinitperiod\bibinitdelim I\bibinitperiod}{International\bibnamedelima Organization}{I\bibinitperiod\bibinitdelim O\bibinitperiod}{for}{f\bibinitperiod}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=990c2ebbfc4739429e2d8f433014a291}{Standardization\bibnamedelima ISO}{S\bibinitperiod\bibinitdelim I\bibinitperiod}{International\bibnamedelima Organization}{I\bibinitperiod\bibinitdelim O\bibinitperiod}{for}{f\bibinitperiod}{}{}}%
+      }
+      \strng{namehash}{990c2ebbfc4739429e2d8f433014a291}
+      \strng{fullhash}{990c2ebbfc4739429e2d8f433014a291}
+      \field{sortinit}{0}
+      \field{labeltitle}{{ISO/IEC 7498-1Information technology - Open Systems Interconnection - Basic Reference Model: The Basic Model}}
+      \field{day}{15}
+      \field{edition}{Second}
+      \field{month}{06}
+      \field{title}{{ISO/IEC 7498-1Information technology - Open Systems Interconnection - Basic Reference Model: The Basic Model}}
+      \field{type}{techreport}
+      \field{year}{1994}
+      \field{pages}{34\bibrangedash 65+}
+      \keyw{iso,layer,osi,protocol}
+    \endentry
+    \entry{tinyDTLS}{misc}{}
+      \field{sortinit}{0}
+      \field{labeltitle}{tinyDTLS}
+      \field{howpublished}{\url{http://tinydtls.sourceforge.net/}}
+      \field{title}{tinyDTLS}
+    \endentry
+    \entry{Web1}{inproceedings}{}
+      \name{labelname}{4}{}{%
+        {{hash=cae35e2754ed78d063a20159ebcf4109}{Chen}{C\bibinitperiod}{Shuo}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=9a8e37c2db183faff113a94a5dbc4914}{Wang}{W\bibinitperiod}{Rui}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=3458cd1c70f73bfd22ae3e41ff50f362}{Wang}{W\bibinitperiod}{XiaoFeng}{X\bibinitperiod}{}{}{}{}}%
+        {{hash=a8f85bd07fffd24b320aec287b5e7972}{Zhang}{Z\bibinitperiod}{Kehuan}{K\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=cae35e2754ed78d063a20159ebcf4109}{Chen}{C\bibinitperiod}{Shuo}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=9a8e37c2db183faff113a94a5dbc4914}{Wang}{W\bibinitperiod}{Rui}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=3458cd1c70f73bfd22ae3e41ff50f362}{Wang}{W\bibinitperiod}{XiaoFeng}{X\bibinitperiod}{}{}{}{}}%
+        {{hash=a8f85bd07fffd24b320aec287b5e7972}{Zhang}{Z\bibinitperiod}{Kehuan}{K\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{86d13bb4df1609c02383b83391febc3f}
+      \strng{fullhash}{f8aa0e43d4df0be312be7ee12333dd1b}
+      \field{sortinit}{0}
+      \field{labeltitle}{Side-Channel Leaks in Web Applications: {A} Reality Today, a Challenge Tomorrow}
+      \field{booktitle}{31st {IEEE} Symposium on Security and Privacy, S{\&}P 2010, 16-19 May 2010, Berleley/Oakland, California, {USA}}
+      \field{title}{Side-Channel Leaks in Web Applications: {A} Reality Today, a Challenge Tomorrow}
+      \field{year}{2010}
+      \field{pages}{191\bibrangedash 206}
+      \verb{doi}
+      \verb 10.1109/SP.2010.20
+      \endverb
+      \verb{url}
+      \verb http://doi.ieeecomputersociety.org/10.1109/SP.2010.20
+      \endverb
+    \endentry
+    \entry{Web2}{article}{}
+      \name{labelname}{2}{}{%
+        {{hash=b0f7675ad23822afa23921a03b787a56}{Mather}{M\bibinitperiod}{Luke}{L\bibinitperiod}{}{}{}{}}%
+        {{hash=cf7c0382045f06385a28d0235a0bbc97}{Oswald}{O\bibinitperiod}{Elisabeth}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=b0f7675ad23822afa23921a03b787a56}{Mather}{M\bibinitperiod}{Luke}{L\bibinitperiod}{}{}{}{}}%
+        {{hash=cf7c0382045f06385a28d0235a0bbc97}{Oswald}{O\bibinitperiod}{Elisabeth}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{860c943b351bb69b55b8df92757ba209}
+      \strng{fullhash}{860c943b351bb69b55b8df92757ba209}
+      \field{sortinit}{0}
+      \field{labeltitle}{Pinpointing side-channel information leaks in web applications}
+      \field{journaltitle}{J. Cryptographic Engineering}
+      \field{number}{3}
+      \field{title}{Pinpointing side-channel information leaks in web applications}
+      \field{volume}{2}
+      \field{year}{2012}
+      \field{pages}{161\bibrangedash 177}
+      \verb{doi}
+      \verb 10.1007/s13389-012-0036-0
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1007/s13389-012-0036-0
+      \endverb
+    \endentry
+    \entry{DBLP:conf/csfw/AlvimCPS12}{inproceedings}{}
+      \name{labelname}{4}{}{%
+        {{hash=9149a29523728a313c2391c21f7a35b6}{Alvim}{A\bibinitperiod}{Mário\bibnamedelima S.}{M\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+        {{hash=1b3525a66b6f72a92b5d4446802b8903}{Chatzikokolakis}{C\bibinitperiod}{Konstantinos}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=1be391749a3de49eae8b6aa3838278db}{Palamidessi}{P\bibinitperiod}{Catuscia}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=b38ed92c07c0bc1481d8971eb048c2d9}{Smith}{S\bibinitperiod}{Geoffrey}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=9149a29523728a313c2391c21f7a35b6}{Alvim}{A\bibinitperiod}{Mário\bibnamedelima S.}{M\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+        {{hash=1b3525a66b6f72a92b5d4446802b8903}{Chatzikokolakis}{C\bibinitperiod}{Konstantinos}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=1be391749a3de49eae8b6aa3838278db}{Palamidessi}{P\bibinitperiod}{Catuscia}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=b38ed92c07c0bc1481d8971eb048c2d9}{Smith}{S\bibinitperiod}{Geoffrey}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{76902856becfd30e53029511a33bcbb5}
+      \strng{fullhash}{83efe6d55936c99de5a6a7848bdde749}
+      \field{sortinit}{0}
+      \field{labeltitle}{Measuring Information Leakage Using Generalized Gain Functions}
+      \field{booktitle}{25th {IEEE} Computer Security Foundations Symposium, {CSF} 2012, Cambridge, MA, USA, June 25-27, 2012}
+      \field{title}{Measuring Information Leakage Using Generalized Gain Functions}
+      \field{year}{2012}
+      \field{pages}{265\bibrangedash 279}
+      \verb{doi}
+      \verb 10.1109/CSF.2012.26
+      \endverb
+      \verb{url}
+      \verb http://doi.ieeecomputersociety.org/10.1109/CSF.2012.26
+      \endverb
+    \endentry
+    \entry{DBLP:conf/csfw/ChothiaG11}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=5881a73f6ac2cff066229fc279fe63d5}{Chothia}{C\bibinitperiod}{Tom}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=cc3f73c2b32d4174198faaf0a3d09230}{Guha}{G\bibinitperiod}{Apratim}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=5881a73f6ac2cff066229fc279fe63d5}{Chothia}{C\bibinitperiod}{Tom}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=cc3f73c2b32d4174198faaf0a3d09230}{Guha}{G\bibinitperiod}{Apratim}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{52bfd83b11d1f1f658811ce64c0a7cbf}
+      \strng{fullhash}{52bfd83b11d1f1f658811ce64c0a7cbf}
+      \field{sortinit}{0}
+      \field{labeltitle}{A Statistical Test for Information Leaks Using Continuous Mutual Information}
+      \field{booktitle}{Proceedings of the 24th {IEEE} Computer Security Foundations Symposium, {CSF} 2011, Cernay-la-Ville, France, 27-29 June, 2011}
+      \field{title}{A Statistical Test for Information Leaks Using Continuous Mutual Information}
+      \field{year}{2011}
+      \field{pages}{177\bibrangedash 190}
+      \verb{doi}
+      \verb 10.1109/CSF.2011.19
+      \endverb
+      \verb{url}
+      \verb http://doi.ieeecomputersociety.org/10.1109/CSF.2011.19
+      \endverb
+    \endentry
+    \entry{Danezis_trafficanalysis}{misc}{}
+      \name{labelname}{1}{}{%
+        {{hash=c2c6fac9d2b8a325b4e9e7ee69c17da2}{Danezis}{D\bibinitperiod}{George}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=c2c6fac9d2b8a325b4e9e7ee69c17da2}{Danezis}{D\bibinitperiod}{George}{G\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{c2c6fac9d2b8a325b4e9e7ee69c17da2}
+      \strng{fullhash}{c2c6fac9d2b8a325b4e9e7ee69c17da2}
+      \field{sortinit}{0}
+      \field{labeltitle}{Traffic Analysis of the HTTP Protocol over TLS}
+      \field{title}{Traffic Analysis of the HTTP Protocol over TLS}
+    \endentry
+    \entry{DBLP:journals/iacr/SchaubSHCJTHGR14}{article}{}
+      \name{labelname}{9}{}{%
+        {{hash=29b47df6a3be5b8db03591bd3a93a751}{Schaub}{S\bibinitperiod}{Alexander}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=3f7007bdb3b63191448dc628d0af0588}{Schneider}{S\bibinitperiod}{Emmanuel}{E\bibinitperiod}{}{}{}{}}%
+        {{hash=159d49f3eb95f046892fa586d0ae293e}{Hollender}{H\bibinitperiod}{Alexandros}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=c9b4b5df84bfa7c72b27941ec7c37306}{Calasans}{C\bibinitperiod}{Vinicius}{V\bibinitperiod}{}{}{}{}}%
+        {{hash=cca06ea3a3d88284985f7afd0750a9d0}{Jolie}{J\bibinitperiod}{Laurent}{L\bibinitperiod}{}{}{}{}}%
+        {{hash=2318ac2878314a44ac2cc2358928b960}{Touillon}{T\bibinitperiod}{Robin}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=fdf6c5b7f5c9f824b657e5603b4310d1}{Heuser}{H\bibinitperiod}{Annelie}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=face7ce89856ce9610887e5d5c4eee77}{Guilley}{G\bibinitperiod}{Sylvain}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=f04385583b8e5314c25f2e9f2eb2c964}{Rioul}{R\bibinitperiod}{Olivier}{O\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{9}{}{%
+        {{hash=29b47df6a3be5b8db03591bd3a93a751}{Schaub}{S\bibinitperiod}{Alexander}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=3f7007bdb3b63191448dc628d0af0588}{Schneider}{S\bibinitperiod}{Emmanuel}{E\bibinitperiod}{}{}{}{}}%
+        {{hash=159d49f3eb95f046892fa586d0ae293e}{Hollender}{H\bibinitperiod}{Alexandros}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=c9b4b5df84bfa7c72b27941ec7c37306}{Calasans}{C\bibinitperiod}{Vinicius}{V\bibinitperiod}{}{}{}{}}%
+        {{hash=cca06ea3a3d88284985f7afd0750a9d0}{Jolie}{J\bibinitperiod}{Laurent}{L\bibinitperiod}{}{}{}{}}%
+        {{hash=2318ac2878314a44ac2cc2358928b960}{Touillon}{T\bibinitperiod}{Robin}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=fdf6c5b7f5c9f824b657e5603b4310d1}{Heuser}{H\bibinitperiod}{Annelie}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=face7ce89856ce9610887e5d5c4eee77}{Guilley}{G\bibinitperiod}{Sylvain}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=f04385583b8e5314c25f2e9f2eb2c964}{Rioul}{R\bibinitperiod}{Olivier}{O\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{b80601c9f8e9c04838dd0c6430c4b7b1}
+      \strng{fullhash}{1c4a72b8548b4b6e6728d193e24d7eaf}
+      \field{sortinit}{0}
+      \field{labeltitle}{Attacking Suggest Boxes in Web Applications Over {HTTPS} Using Side-Channel Stochastic Algorithms}
+      \field{journaltitle}{{IACR} Cryptology ePrint Archive}
+      \field{title}{Attacking Suggest Boxes in Web Applications Over {HTTPS} Using Side-Channel Stochastic Algorithms}
+      \field{volume}{2014}
+      \field{year}{2014}
+      \field{pages}{959}
+      \verb{url}
+      \verb http://eprint.iacr.org/2014/959
+      \endverb
+    \endentry
+    \entry{DBLP:conf/fse/Kelsey02}{inproceedings}{}
+      \name{labelname}{1}{}{%
+        {{hash=47fa73357b828aa53859b00946c179b1}{Kelsey}{K\bibinitperiod}{John}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=47fa73357b828aa53859b00946c179b1}{Kelsey}{K\bibinitperiod}{John}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{47fa73357b828aa53859b00946c179b1}
+      \strng{fullhash}{47fa73357b828aa53859b00946c179b1}
+      \field{sortinit}{0}
+      \field{labeltitle}{Compression and Information Leakage of Plaintext}
+      \field{booktitle}{Fast Software Encryption, 9th International Workshop, {FSE} 2002, Leuven, Belgium, February 4-6, 2002, Revised Papers}
+      \field{title}{Compression and Information Leakage of Plaintext}
+      \field{year}{2002}
+      \field{pages}{263\bibrangedash 276}
+      \verb{doi}
+      \verb 10.1007/3-540-45661-9_21
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1007/3-540-45661-9_21
+      \endverb
+    \endentry
+    \entry{CRIME}{misc}{}
+      \field{sortinit}{0}
+      \field{labeltitle}{The CRIME Attack}
+      \field{howpublished}{\url{https://docs.google.com/presentation/d/11eBmGiHbYcHR9gL5nDyZChu_-lCa2GizeuOfaLU2HOU/edit}}
+      \field{title}{The CRIME Attack}
+    \endentry
+    \entry{BREACH}{report}{}
+      \name{labelname}{3}{}{%
+        {{hash=294dadda725794b104be7430bf124d21}{Gluck}{G\bibinitperiod}{Yoel}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=ac29898b8e56aa3816a30860a71ff82a}{Harris}{H\bibinitperiod}{Neal}{N\bibinitperiod}{}{}{}{}}%
+        {{hash=07ad91a0f5c398a58eeb7e6704dd7226}{Prado}{P\bibinitperiod}{Angelo\bibnamedelima (Angel)}{A\bibinitperiod\bibinitdelim (\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=294dadda725794b104be7430bf124d21}{Gluck}{G\bibinitperiod}{Yoel}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=ac29898b8e56aa3816a30860a71ff82a}{Harris}{H\bibinitperiod}{Neal}{N\bibinitperiod}{}{}{}{}}%
+        {{hash=07ad91a0f5c398a58eeb7e6704dd7226}{Prado}{P\bibinitperiod}{Angelo\bibnamedelima (Angel)}{A\bibinitperiod\bibinitdelim (\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{b61e41aeafd61a8ebe1f3ad4e0ff202c}
+      \strng{fullhash}{b61e41aeafd61a8ebe1f3ad4e0ff202c}
+      \field{sortinit}{0}
+      \field{labeltitle}{Breach: Reviving the {CRIME} Attack}
+      \field{title}{Breach: Reviving the {CRIME} Attack}
+      \field{type}{techreport}
+      \field{year}{2013}
+      \verb{url}
+      \verb http://breachattack.com/resources/BREACH%20-%20SSL,%20gone%20in%2030%20seconds.pdf
+      \endverb
+    \endentry
+    \entry{DBLP:journals/iacr/AlawatugodaSB14a}{article}{}
+      \name{labelname}{3}{}{%
+        {{hash=08060081db256e4d6aa10ea6a3a081aa}{Alawatugoda}{A\bibinitperiod}{Janaka}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=3a8502de61eb320277cd5ba32a784d2a}{Stebila}{S\bibinitperiod}{Douglas}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=0940d603ae2a1b094e2376686c803150}{Boyd}{B\bibinitperiod}{Colin}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=08060081db256e4d6aa10ea6a3a081aa}{Alawatugoda}{A\bibinitperiod}{Janaka}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=3a8502de61eb320277cd5ba32a784d2a}{Stebila}{S\bibinitperiod}{Douglas}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=0940d603ae2a1b094e2376686c803150}{Boyd}{B\bibinitperiod}{Colin}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{e755fa51e4c36446df1b67038b71b80d}
+      \strng{fullhash}{e755fa51e4c36446df1b67038b71b80d}
+      \field{sortinit}{0}
+      \field{labeltitle}{Protecting Encrypted Cookies from Compression Side-Channel Attacks}
+      \field{journaltitle}{{IACR} Cryptology ePrint Archive}
+      \field{title}{Protecting Encrypted Cookies from Compression Side-Channel Attacks}
+      \field{volume}{2014}
+      \field{year}{2014}
+      \field{pages}{724}
+      \verb{url}
+      \verb http://eprint.iacr.org/2014/724
+      \endverb
+    \endentry
+    \entry{DBLP:conf/eurocrypt/Vaudenay02}{inproceedings}{}
+      \name{labelname}{1}{}{%
+        {{hash=bc5a970b91cc7486cc301f2500577e02}{Vaudenay}{V\bibinitperiod}{Serge}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=bc5a970b91cc7486cc301f2500577e02}{Vaudenay}{V\bibinitperiod}{Serge}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{bc5a970b91cc7486cc301f2500577e02}
+      \strng{fullhash}{bc5a970b91cc7486cc301f2500577e02}
+      \field{sortinit}{0}
+      \field{labeltitle}{Security Flaws Induced by {CBC} Padding - Applications to SSL, IPSEC, {WTLS} ...}
+      \field{booktitle}{Advances in Cryptology - {EUROCRYPT} 2002, International Conference on the Theory and Applications of Cryptographic Techniques, Amsterdam, The Netherlands, April 28 - May 2, 2002, Proceedings}
+      \field{title}{Security Flaws Induced by {CBC} Padding - Applications to SSL, IPSEC, {WTLS} ...}
+      \field{year}{2002}
+      \field{pages}{534\bibrangedash 546}
+      \verb{doi}
+      \verb 10.1007/3-540-46035-7_35
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1007/3-540-46035-7_35
+      \endverb
+    \endentry
+    \entry{DBLP:conf/sp/AlFardanP13}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=4e543c632282e6b42810b3ad89e1bf2d}{AlFardan}{A\bibinitperiod}{Nadhem\bibnamedelima J.}{N\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+        {{hash=c55e3d8a865ba44ea6941cff002e1cb7}{Paterson}{P\bibinitperiod}{Kenneth\bibnamedelima G.}{K\bibinitperiod\bibinitdelim G\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=4e543c632282e6b42810b3ad89e1bf2d}{AlFardan}{A\bibinitperiod}{Nadhem\bibnamedelima J.}{N\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+        {{hash=c55e3d8a865ba44ea6941cff002e1cb7}{Paterson}{P\bibinitperiod}{Kenneth\bibnamedelima G.}{K\bibinitperiod\bibinitdelim G\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{7b7e702061cb1fba85d0465b85874359}
+      \strng{fullhash}{7b7e702061cb1fba85d0465b85874359}
+      \field{sortinit}{0}
+      \field{labeltitle}{Lucky Thirteen: Breaking the {TLS} and {DTLS} Record Protocols}
+      \field{booktitle}{2013 {IEEE} Symposium on Security and Privacy, {SP} 2013, Berkeley, CA, USA, May 19-22, 2013}
+      \field{title}{Lucky Thirteen: Breaking the {TLS} and {DTLS} Record Protocols}
+      \field{year}{2013}
+      \field{pages}{526\bibrangedash 540}
+      \verb{doi}
+      \verb 10.1109/SP.2013.42
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1109/SP.2013.42
+      \endverb
+    \endentry
+    \entry{rfc791}{misc}{}
+      \name{labelname}{1}{}{%
+        {{hash=88dbbe3e4d39db7b8c935a7fc792eb10}{Postel}{P\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=88dbbe3e4d39db7b8c935a7fc792eb10}{Postel}{P\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{88dbbe3e4d39db7b8c935a7fc792eb10}
+      \strng{fullhash}{88dbbe3e4d39db7b8c935a7fc792eb10}
+      \field{sortinit}{0}
+      \field{labeltitle}{{Internet Protocol}}
+      \field{howpublished}{RFC 791 (INTERNET STANDARD)}
+      \field{month}{09}
+      \field{note}{Updated by RFCs 1349, 2474, 6864}
+      \field{number}{791}
+      \field{series}{Request for Comments}
+      \field{title}{{Internet Protocol}}
+      \field{year}{1981}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc791.txt
+      \endverb
+    \endentry
+    \entry{rfc2460}{misc}{}
+      \name{labelname}{2}{}{%
+        {{hash=6c931d7796455058101c218802b65c9c}{Deering}{D\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=833a25d45957e39fe252f8ec59135fa0}{Hinden}{H\bibinitperiod}{R.}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=6c931d7796455058101c218802b65c9c}{Deering}{D\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=833a25d45957e39fe252f8ec59135fa0}{Hinden}{H\bibinitperiod}{R.}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{184dbafad09ffc8e0a15911c4219a912}
+      \strng{fullhash}{184dbafad09ffc8e0a15911c4219a912}
+      \field{sortinit}{0}
+      \field{labeltitle}{{Internet Protocol, Version 6 (IPv6) Specification}}
+      \field{howpublished}{RFC 2460 (Draft Standard)}
+      \field{month}{12}
+      \field{note}{Updated by RFCs 5095, 5722, 5871, 6437, 6564, 6935, 6946, 7045, 7112}
+      \field{number}{2460}
+      \field{series}{Request for Comments}
+      \field{title}{{Internet Protocol, Version 6 (IPv6) Specification}}
+      \field{year}{1998}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc2460.txt
+      \endverb
+    \endentry
+    \entry{rfc6282}{misc}{}
+      \name{labelname}{2}{}{%
+        {{hash=111f36a320fcf3ff83187de0f829877d}{Hui}{H\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=e00cd93914d672296d7e64abb479363d}{Thubert}{T\bibinitperiod}{P.}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=111f36a320fcf3ff83187de0f829877d}{Hui}{H\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=e00cd93914d672296d7e64abb479363d}{Thubert}{T\bibinitperiod}{P.}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{e2a5b23e82340e2e98ecb7339123e234}
+      \strng{fullhash}{e2a5b23e82340e2e98ecb7339123e234}
+      \field{sortinit}{0}
+      \field{labeltitle}{{Compression Format for IPv6 Datagrams over IEEE 802.15.4-Based Networks}}
+      \field{howpublished}{RFC 6282 (Proposed Standard)}
+      \field{month}{09}
+      \field{number}{6282}
+      \field{series}{Request for Comments}
+      \field{title}{{Compression Format for IPv6 Datagrams over IEEE 802.15.4-Based Networks}}
+      \field{year}{2011}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc6282.txt
+      \endverb
+    \endentry
+    \entry{rfc6347}{misc}{}
+      \name{labelname}{2}{}{%
+        {{hash=a464ebc2e2246c94904b411d84704436}{Rescorla}{R\bibinitperiod}{E.}{E\bibinitperiod}{}{}{}{}}%
+        {{hash=54a1c98128737f96888549a186a274b2}{Modadugu}{M\bibinitperiod}{N.}{N\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=a464ebc2e2246c94904b411d84704436}{Rescorla}{R\bibinitperiod}{E.}{E\bibinitperiod}{}{}{}{}}%
+        {{hash=54a1c98128737f96888549a186a274b2}{Modadugu}{M\bibinitperiod}{N.}{N\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{9168c6edeb1359af287bda175347e4c9}
+      \strng{fullhash}{9168c6edeb1359af287bda175347e4c9}
+      \field{sortinit}{0}
+      \field{labeltitle}{{Datagram Transport Layer Security Version 1.2}}
+      \field{howpublished}{RFC 6347 (Proposed Standard)}
+      \field{month}{01}
+      \field{number}{6347}
+      \field{series}{Request for Comments}
+      \field{title}{{Datagram Transport Layer Security Version 1.2}}
+      \field{year}{2012}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc6347.txt
+      \endverb
+    \endentry
+    \entry{rfc7252}{misc}{}
+      \name{labelname}{3}{}{%
+        {{hash=f2d81e1ea270f12c663545d35dbffaae}{Shelby}{S\bibinitperiod}{Z.}{Z\bibinitperiod}{}{}{}{}}%
+        {{hash=f99a46afaf0c9a046b23ff1cc151bdf0}{Hartke}{H\bibinitperiod}{K.}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=177b52eefcf5a9c2cbc7954e89d2be3e}{Bormann}{B\bibinitperiod}{C.}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=f2d81e1ea270f12c663545d35dbffaae}{Shelby}{S\bibinitperiod}{Z.}{Z\bibinitperiod}{}{}{}{}}%
+        {{hash=f99a46afaf0c9a046b23ff1cc151bdf0}{Hartke}{H\bibinitperiod}{K.}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=177b52eefcf5a9c2cbc7954e89d2be3e}{Bormann}{B\bibinitperiod}{C.}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{419aa8c7a207dd4008c7ae2633dc65cf}
+      \strng{fullhash}{419aa8c7a207dd4008c7ae2633dc65cf}
+      \field{sortinit}{0}
+      \field{labeltitle}{{The Constrained Application Protocol (CoAP)}}
+      \field{howpublished}{RFC 7252 (Proposed Standard)}
+      \field{month}{06}
+      \field{number}{7252}
+      \field{series}{Request for Comments}
+      \field{title}{{The Constrained Application Protocol (CoAP)}}
+      \field{year}{2014}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc7252.txt
+      \endverb
+    \endentry
+    \entry{rfc7251}{misc}{}
+      \name{labelname}{4}{}{%
+        {{hash=93061876fe9d6d0d8a3475507c584e29}{McGrew}{M\bibinitperiod}{D.}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=69815f108fa3819a5b03215f812718dd}{Bailey}{B\bibinitperiod}{D.}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=0e1b43510197eafc7b7964c1f2224d24}{Campagna}{C\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=6a2915ae9750921b2d9fcf8c53d647b8}{Dugal}{D\bibinitperiod}{R.}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=93061876fe9d6d0d8a3475507c584e29}{McGrew}{M\bibinitperiod}{D.}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=69815f108fa3819a5b03215f812718dd}{Bailey}{B\bibinitperiod}{D.}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=0e1b43510197eafc7b7964c1f2224d24}{Campagna}{C\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=6a2915ae9750921b2d9fcf8c53d647b8}{Dugal}{D\bibinitperiod}{R.}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{51ab4f3e44df2943c9ffb9a562d8ba7d}
+      \strng{fullhash}{fc616948f81968f391dfb2eda15e33e5}
+      \field{sortinit}{0}
+      \field{labeltitle}{{AES-CCM Elliptic Curve Cryptography (ECC) Cipher Suites for TLS}}
+      \field{howpublished}{RFC 7251 (Informational)}
+      \field{month}{06}
+      \field{number}{7251}
+      \field{series}{Request for Comments}
+      \field{title}{{AES-CCM Elliptic Curve Cryptography (ECC) Cipher Suites for TLS}}
+      \field{year}{2014}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc7251.txt
+      \endverb
+    \endentry
+    \entry{Wireshark}{misc}{}
+      \field{sortinit}{0}
+      \field{labeltitle}{Wireshark}
+      \field{howpublished}{\url{https://www.wireshark.org/}}
+      \field{title}{Wireshark}
+    \endentry
+    \entry{Information_Theory}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=cea611271dfb4b16522bf8178e289090}{Shannon}{S\bibinitperiod}{C.\bibnamedelimi E.}{C\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=cea611271dfb4b16522bf8178e289090}{Shannon}{S\bibinitperiod}{C.\bibnamedelimi E.}{C\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{cea611271dfb4b16522bf8178e289090}
+      \strng{fullhash}{cea611271dfb4b16522bf8178e289090}
+      \field{sortinit}{0}
+      \field{labeltitle}{A Mathematical Theory of Communication}
+      \field{issn}{1559-1662}
+      \field{journaltitle}{SIGMOBILE Mob. Comput. Commun. Rev.}
+      \field{month}{01}
+      \field{number}{1}
+      \field{title}{A Mathematical Theory of Communication}
+      \field{volume}{5}
+      \field{year}{2001}
+      \field{pages}{3\bibrangedash 55}
+      \verb{doi}
+      \verb 10.1145/584091.584093
+      \endverb
+      \verb{url}
+      \verb http://doi.acm.org/10.1145/584091.584093
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
 \endinput
+
