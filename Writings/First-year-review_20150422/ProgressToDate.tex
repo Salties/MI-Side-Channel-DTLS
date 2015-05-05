@@ -15,7 +15,7 @@ All experiments are done with only two processes, a server and a client referred
 
 So far we have built up two toy applications, \textbf{Odd or Even} and \textbf{Leaky Coffee}, which will be explained in the next sessions alongside with corresponding traffic analysis.
 
-\section{Odd or Even}
+\section{Odd or Even} \label{Sec: Odd or Even}
 \textbf{Odd or Even} is a simple toy application designed  to demonstrate the fundamental idea of encrypted traffic analysis.
 
 \subsection{Application Description}
@@ -180,7 +180,8 @@ Further more, since there is a significant difference in the timestamp intervals
 Once a session has been segmented, we can immediately label them as described in \Cref{Def: Leaky Coffee Session}.
 
 \subsection{Plaintext Guessing} \label{Sec: Plaintext Guessing}
-In this implementation, assume we have the pre-knowledge that each $Order \in COFFEE$ picked by CLIENT has an uniform distribution. Further from, the degree of SUGAR and MILK also have uniform distributions over ${0,1,2,3}$. Given these distributions, it is some how possible to make guesses of the plaintext in the packets by the length given in DTLS header, or UDP header, without trying to break the encryption primitives.
+Similar to \textbf{Odd or Even}(\Cref{Sec: Odd or Even}), plaintexts exchanged in \textbf{Leaky Coffee} has distinguish length which could possibly be exploited to recover the plaintexts.
+
 %
 %We denote the value of DTLS Length field as $l_D$ and the actual application data length as $l$. Our experiment shows that:
 %
