@@ -1,78 +1,24 @@
-This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: First-year-review.aux
-The style file: biblatex.bst
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Database file #1: First-year-review-blx.bib
-Database file #2: references.bib
-Database file #3: rfc.bib
-A bad cross reference---entry "DBLP:conf/csfw/AlvimCPS12"
-refers to entry "DBLP:conf/csfw/2012", which doesn't exist
-A bad cross reference---entry "DBLP:conf/csfw/ChothiaG11"
-refers to entry "DBLP:conf/csfw/2011", which doesn't exist
-A bad cross reference---entry "DBLP:conf/fse/Kelsey02"
-refers to entry "DBLP:conf/fse/2002", which doesn't exist
-A bad cross reference---entry "DBLP:conf/eurocrypt/Vaudenay02"
-refers to entry "DBLP:conf/eurocrypt/2002", which doesn't exist
-A bad cross reference---entry "DBLP:conf/sp/AlFardanP13"
-refers to entry "DBLP:conf/sp/2013", which doesn't exist
-Warning--I didn't find a database entry for "DBLP:conf/csfw/2012"
-Warning--I didn't find a database entry for "DBLP:conf/csfw/2011"
-Warning--I didn't find a database entry for "DBLP:conf/fse/2002"
-Warning--I didn't find a database entry for "DBLP:conf/eurocrypt/2002"
-Warning--I didn't find a database entry for "DBLP:conf/sp/2013"
-Biblatex version: 2.8
-Reallocated singl_function (elt_size=4) to 100 items from 50.
-Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-You've used 25 entries,
-            6047 wiz_defined-function locations,
-            1307 strings with 13606 characters,
-and the built_in function-call counts, 74019 in all, are:
-= -- 2998
-> -- 2442
-< -- 680
-+ -- 878
-- -- 887
-* -- 5041
-:= -- 4286
-add.period$ -- 0
-call.type$ -- 25
-change.case$ -- 383
-chr.to.int$ -- 76
-cite$ -- 48
-duplicate$ -- 8423
-empty$ -- 7963
-format.name$ -- 1482
-if$ -- 16843
-int.to.chr$ -- 0
-int.to.str$ -- 58
-missing$ -- 0
-newline$ -- 667
-num.names$ -- 1055
-pop$ -- 7714
-preamble$ -- 1
-purify$ -- 474
-quote$ -- 0
-skip$ -- 4430
-stack$ -- 0
-substring$ -- 1846
-swap$ -- 2786
-text.length$ -- 517
-text.prefix$ -- 0
-top$ -- 1
-type$ -- 936
-warning$ -- 0
-while$ -- 438
-width$ -- 0
-write$ -- 641
-(There were 5 error messages)
+[0] Config.pm:318> INFO - This is Biber 1.8
+[0] Config.pm:321> INFO - Logfile is 'First-year-review.blg'
+[61] biber:275> INFO - === Tue May  5, 2015, 17:28:02
+[61] Biber.pm:333> INFO - Reading 'First-year-review.bcf'
+[111] Biber.pm:630> INFO - Found 25 citekeys in bib section 0
+[123] Biber.pm:3053> INFO - Processing section 0
+[135] Biber.pm:3190> INFO - Looking for bibtex format file 'references.bib' for section 0
+[138] bibtex.pm:933> INFO - Decoding LaTeX character macros into UTF-8
+[142] bibtex.pm:808> INFO - Found BibTeX data source 'references.bib'
+[166] Biber.pm:3190> INFO - Looking for bibtex format file 'rfc.bib' for section 0
+[568] bibtex.pm:933> INFO - Decoding LaTeX character macros into UTF-8
+[1031] bibtex.pm:808> INFO - Found BibTeX data source 'rfc.bib'
+[1436] Utils.pm:169> WARN - I didn't find a database entry for crossref 'DBLP:conf/csfw/2012' in entry 'DBLP:conf/csfw/AlvimCPS12' - ignoring (section 0)
+[1436] Utils.pm:169> WARN - I didn't find a database entry for crossref 'DBLP:conf/csfw/2011' in entry 'DBLP:conf/csfw/ChothiaG11' - ignoring (section 0)
+[1437] Utils.pm:169> WARN - I didn't find a database entry for crossref 'DBLP:conf/fse/2002' in entry 'DBLP:conf/fse/Kelsey02' - ignoring (section 0)
+[1437] Utils.pm:169> WARN - I didn't find a database entry for crossref 'DBLP:conf/eurocrypt/2002' in entry 'DBLP:conf/eurocrypt/Vaudenay02' - ignoring (section 0)
+[1437] Utils.pm:169> WARN - I didn't find a database entry for crossref 'DBLP:conf/sp/2013' in entry 'DBLP:conf/sp/AlFardanP13' - ignoring (section 0)
+[1439] Utils.pm:169> WARN - The field 'year' in entry 'Danezis_trafficanalysis' cannot be null, deleting it
+[1472] Biber.pm:2939> INFO - Overriding locale 'en_GB.UTF-8' default tailoring 'variable = shifted' with 'variable = non-ignorable'
+[1472] Biber.pm:2945> INFO - Sorting 'entry' list 'none' keys
+[1472] Biber.pm:2949> INFO - No sort tailoring available for locale 'en_GB.UTF-8'
+[1508] bbl.pm:482> INFO - Writing 'First-year-review.bbl' with encoding 'UTF-8'
+[1511] bbl.pm:555> INFO - Output to First-year-review.bbl
+[1511] Biber.pm:105> INFO - WARNINGS: 6

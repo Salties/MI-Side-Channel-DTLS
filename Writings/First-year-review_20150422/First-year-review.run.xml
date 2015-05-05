@@ -44,13 +44,13 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>First-year-review.aux</file>
-      <file>First-year-review-blx.bib</file>
+      <file>First-year-review.bcf</file>
     </provides>
     <requires type="dynamic">
       <file>First-year-review.bbl</file>
     </requires>
     <requires type="static">
+      <file>blx-dm.def</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
       <file>numeric.bbx</file>
@@ -61,14 +61,13 @@
     </requires>
   </internal>
   <external package="biblatex" priority="5" active="0">
-    <generic>bibtex</generic>
+    <generic>biber</generic>
     <cmdline>
-      <binary>bibtex</binary>
-      <option>-min-crossrefs 2</option>
+      <binary>biber</binary>
       <infile>First-year-review</infile>
     </cmdline>
     <input>
-      <file>First-year-review.aux</file>
+      <file>First-year-review.bcf</file>
     </input>
     <output>
       <file>First-year-review.bbl</file>
@@ -77,15 +76,11 @@
       <file>First-year-review.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>First-year-review.aux</file>
-      <file>First-year-review-blx.bib</file>
+      <file>First-year-review.bcf</file>
     </requires>
     <requires type="editable">
       <file>references.bib</file>
       <file>rfc.bib</file>
-    </requires>
-    <requires type="static">
-      <file>biblatex.bst</file>
     </requires>
   </external>
 </requests>
