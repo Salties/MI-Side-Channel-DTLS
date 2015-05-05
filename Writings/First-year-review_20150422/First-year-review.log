@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.4)  4 MAY 2015 15:48
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.4)  5 MAY 2015 10:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1343,13 +1343,13 @@ m/it/10 FlavourRequest$ \OT1/cmr/m/n/10 and $\OML/cmm/m/it/10 FlavourResponse$\
 OT1/cmr/m/n/10 . 
  []
 
-[15pdfTeX warning (ext4): destination with the same identifier (name{figure.3.5
-}) has been already used, duplicate ignored
+) (./Plan.tex [15pdfTeX warning (ext4): destination with the same identifier (n
+ame{figure.3.5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.359 
-       <./Pics/Wireshark01.png>]) (./Plan.tex [16]
+l.1 \chapter
+            {Plan} <./Pics/Wireshark01.png>] [16]
 Chapter 4.
 ) (./OtherActivities.tex [17
 
@@ -1438,10 +1438,10 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 64.
 ### semi simple group (level 1) entered at line 159 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 22650 strings out of 493304
- 396216 string characters out of 6139872
+ 22652 strings out of 493304
+ 396257 string characters out of 6139872
  593289 words of memory out of 5000000
- 25624 multiletter control sequences out of 15000+600000
+ 25626 multiletter control sequences out of 15000+600000
  13698 words of font info for 53 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  56i,14n,55p,1184b,1195s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1461,10 +1461,10 @@ y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on First-year-review.pdf (23 pages, 426241 bytes).
+Output written on First-year-review.pdf (23 pages, 425213 bytes).
 PDF statistics:
- 480 PDF objects out of 1000 (max. 8388607)
- 430 compressed objects within 5 object streams
+ 481 PDF objects out of 1000 (max. 8388607)
+ 431 compressed objects within 5 object streams
  97 named destinations out of 1000 (max. 500000)
  183 words of extra memory for PDF output out of 10000 (max. 10000000)
 
