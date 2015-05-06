@@ -40,6 +40,6 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2.4}Plaintext Guessing}{17}{subsection.3.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Plan}{19}{chapter.4}
+\contentsline {chapter}{\numberline {4}Plan}{20}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Other Activities}{20}{chapter.5}
+\contentsline {chapter}{\numberline {5}Other Activities}{21}{chapter.5}

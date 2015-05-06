@@ -189,63 +189,77 @@ In order to do this, we first construct a  \textbf{Forward Channel} that “enco
 Let $\mathbb{X}$ be the set of possible plaintexts and $\mathbb{Y}$ the set of possible packet lengths in bytes. The \textbf{Forward Channel} is then given as  $\bf{W(y|x)}$ and \textbf{Leakage Channel} as $\bf{W^{-1}(x|y)}$ where both $x \in \mathbb{X}$ and $y \in \mathbb{Y}$.
 \end{definition}
 
-%*****2015/05/05*****%
+\Cref{Ex: Single_Order} describes an example of how Forward Channel and Leakage Channel are constructed.
 
 \begin{example} \label{Ex: Single-Order}
-Take $Order$ for example. For $Order$ packets, we have:
+Take $Order$ for example. According to \Cref{Def: Order}, we have:
+\begin{equation*}
+\mathbb{X} = \{\text{“AMECINANO”}, \text{“CAPPUCINO”}, \text{“MOCHA”}, \text{“ESPRESSO”}\}
+\end{equation*}
 
+Hence the Forward Channel is as \Cref{Tbl: Forward Channel for Order}. 
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable1.tex}}
 \end{center}
-\caption{Content-Length Channel and the probabilities of $Order$}
-\label{Tbl: Order1}
+\caption{Forward Channel for $Order$}
+\label{Tbl: Forward Channel for Order}
 \end{table}
 
-In this implementation, CLIENT randomly picks \textit{Order} from $COFFEE$; therefore the probability for every value is $1/4$. Since neither DLTS nor the application induces any randomness to the content length therefore it will always be a deterministic value.
+The ciphertext length is fixed once the plaintext is given; therefore the probability of a ciphertext length could either be $0$ or $1$.
 
-Given $W$ and the probability of $Order$, it can then compute the joint distribution of $(Order, l)$ by:
+The joint probability immediately follows by:
 \begin{equation}
 (\widehat{W}P)(x,y) = P(x)W(y|x)
 \end{equation}
+
+Which results into \Cref{Tbl: Joint Probability of (X Y) for Order}.
 
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable2.tex}}
 \end{center}
-\caption{Joint distribution of $(Order, l)$}
-\label{Tbl: Order2}
+\caption{Joint Probability of $(\mathbb{X},\mathbb{Y})$ for $Order$}
+\label{Tbl: Joint Probability of (X Y) for Order}
 \end{table}
 
-Then follows the marginal distribution of content length:
+Since the events of each $X=x$ are exclusive, the marginal probability of $Y=y$ is the sum of each of its joint probabilities:
 \begin{equation}
 P(Y=y) = \sum\limits_{x \in \mathbb{X}}{\widehat{W}P(x,y)}
 \end{equation}
+
+The result is shown in \Cref{Tbl: Marginal Probabilities of y}.
 
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable3.tex}}
 \end{center}
-\caption{Marginal distribution of $l$}
-\label{Tbl: Order3}
+\caption{Marginal probabilities of $y$}
+\label{Tbl: Marginal Probabilities of y}
 \end{table}
 
-Finally we can construct the leakage channel using Bayes’ theorem:
+Finally we can construct the Leakage Channel using Bayes’ theorem:
 \begin{equation}
 P(x|y) = {\frac {P(x)P(y|x)} {P(y)}} 
 \end{equation}
+
+And constrcut the Leakage Channel as shown in \Cref{Tbl: Leakage Channel for Order}
+
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable4.tex}}
 \end{center}
-\caption{Leakage channel of Length - $Order$}
-\label{Tbl: Order4}
+\caption{Leakage Channel for $Order$}
+\label{Tbl: Leakage Channel for Order}
 \end{table}
+
+The Leakage Channel(\Cref{Tbl: Leakage Channel for Order}) can be then used as a guideline for an eavesdropper adversary to recover the plaintext being transmitted.
+
 \end{example}
-%
-%The same strategy can also be applied on the second packet: $Order || Flavour$.
-%
-%\begin{example}
+
+One underlining problem in this method is the need to enumerate the plaintext. In some scenarios, it is possible to mitigate this problem by reducing the size of $\mathbb{X}$ by grouping plaintexts. The cost of this mitigation is the loss of resolution in the recovered plaintext, as shown in \Cref{Ex: Single-OrderFlavour}.
+
+\begin{example} \label{Ex: Single-OrderFlavour}
 %The first step is to compute the Content-Length channel. Analysis on $Order||Flavour$ packet is more complicated as it has a larger entropy. 
 %
 %We omit the sequence of SUGAR and MILK to simplify the problem. We also simplify our notation by denoting $D_1$ as the degree of SUGAR and $D_2$ the degree of MILK. Then any $Flavour$ can be represented as $(D_1, D_2)$, e.g. $(2,1)$ represents any $Flavour$ that has a degree of SUGAR 2 and degree of MILK 1.
@@ -329,7 +343,7 @@ P(x|y) = {\frac {P(x)P(y|x)} {P(y)}}
 %The actual degree of SUGAR and MILK are lost in \Cref{Tbl: Further Compressed Flavour} during this compression, but it also reduced the number of rows from $16$\footnote{$(W_1 \otimes W_2)\prime$ has $4 \times 4 = 16$ rows.} to $7$.
 %
 %By applying the same strategy again to merge the $Order$ channel $W_0$ with $(W_1 \otimes W_2)$, we will have the $OrderFlavour$-Length channel $W = W_0 \otimes W_1 \otimes W_2$. Then finally as described in \Cref{Exmp: Single-Order}, we can construct the leakage channel $W^{-1}(x|y)$ (see \Cref{OrderFlavour leakage channel}) for the $OrderFlavour$ packets .
-%\end{example}
+\end{example}
 %
 %To generalise, given the distribution of the plaintext, the leakage channel is constructed as following:
 %\begin{description}
