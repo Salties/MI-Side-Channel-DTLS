@@ -178,6 +178,8 @@ Further more, since there is a significant difference in the timestamp intervals
 
 Once a session has been segmented, we can immediately label them as described in \Cref{Def: Leaky Coffee Session}.
 
+However,  timing information could be strongly affected by the environment; therefore the time difference threshold for a real sensor network packets could be different, even hard to define.
+
 \subsection{Plaintext Guessing} \label{Sec: Plaintext Guessing}
 Similar to \textbf{Odd or Even}(\Cref{Sec: Odd or Even}), ciphertexts exchanged in \textbf{Leaky Coffee} has distinguish length which could possibly be exploited to recover the plaintexts.
 
@@ -191,7 +193,7 @@ Let $\mathbb{X}$ be the set of possible plaintexts and $\mathbb{Y}$ the set of p
 
 \Cref{Ex: Single_Order} describes an example of how Forward Channel and Leakage Channel are constructed.
 
-\begin{example} \label{Ex: Single-Order}
+\begin{example} \label{Ex: Single_Order}
 Take $Order$ for example. According to \Cref{Def: Order}, we have:
 \begin{equation*}
 \mathbb{X} = \{\text{“AMECINANO”}, \text{“CAPPUCINO”}, \text{“MOCHA”}, \text{“ESPRESSO”}\}
@@ -228,14 +230,14 @@ Since the events of each $X=x$ are exclusive, the marginal probability of $Y=y$ 
 P(Y=y) = \sum\limits_{x \in \mathbb{X}}{\widehat{W}P(x,y)}
 \end{equation}
 
-The result is shown in \Cref{Tbl: Marginal Probabilities of y}.
+The result is shown in \Cref{Tbl: Marginal Probabilities of y for Order}.
 
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable3.tex}}
 \end{center}
-\caption{Marginal probabilities of $y$}
-\label{Tbl: Marginal Probabilities of y}
+\caption{Marginal probabilities of $y$ for $Order$}
+\label{Tbl: Marginal Probabilities of y for Order}
 \end{table}
 
 Finally we can construct the Leakage Channel using Bayes’ theorem:
@@ -255,107 +257,76 @@ And constrcut the Leakage Channel as shown in \Cref{Tbl: Leakage Channel for Ord
 
 The Leakage Channel(\Cref{Tbl: Leakage Channel for Order}) can be then used as a guideline for an eavesdropper adversary to recover the plaintext being transmitted.
 
+In fact as an implementation optimisation of this method, one can directly construct the Leakage Channel by iterating through each column of the Forward Channel without storing the intermediate tables, as described in \Cref{Alg: FC2LC}.
+
+\begin{algorithm}[H]
+ \KwIn{\\
+ Marginal probabilities $P(X=x)$\;
+ Forward Channel $W(y|x)$, where $W_{ij}=P(Y=y_j|X=x_i)$, $i \in |\mathbb{X}|, y \in |\mathbb{Y}|$
+ }
+ \KwOut{\\
+ Leakage Channel $W^{-1}(x|y)$ where $W^{-1}_{ji} = P(X=x_i | Y=y_j)$, $i \in |\mathbb{X}|, y \in |\mathbb{Y}|$
+ }
+ \Begin{
+ \tcp{Iterate over each column of $W(y|x)$}
+ \For{$j = 0$; $j < |\mathbb{Y}|$; j++}
+ {
+  	 \tcp{Reset $J[i]$, the joint probability of $P(x=x_i, y=y_j)$}
+ 	 $J[i]$ = $\vec{0}$\;
+ 	\tcp{Compute $P_y$, the marginal probability of $P(Y=y_j)$, by $J[i]$.}
+ 	\For{$P_y = 0, i=0$; $i < |\mathbb{X}|$; $i++$}
+ 	{
+ 		$J_y[i]$ =  $W_{ij}$ * $P(X = x_i)$\;
+ 		$P_y$ += $J_y[i]$\;
+ 	} 	
+ 	\tcp{Compute $W^{-1}(x | y)$}
+ 	\For{$i=0$; $i < |\mathbb{X}|$; $i++$}
+ 	{
+ 		$W^{-1}_{ji}$ = $J[i]$/ $P_y$\;
+ 	}
+ }
+return $W^{-1}(x|y)$\;
+}
+ \caption{FC2LC} \label{Alg: FC2LC}
+\end{algorithm}
+
 \end{example}
 
-One underlining problem in this method is the need to enumerate the plaintext. In some scenarios, it is possible to mitigate this problem by reducing the size of $\mathbb{X}$ by grouping plaintexts. The cost of this mitigation is the loss of resolution in the recovered plaintext, as shown in \Cref{Ex: Single-OrderFlavour}.
+One underlining problem in this method is the need to enumerate the plaintext. In some scenarios, it is possible to mitigate this problem by reducing the size of $\mathbb{X}$ by wrapping plaintexts. The cost of such mitigation is the loss of resolution in the recovered plaintext, as shown in \Cref{Ex: Single-OrderFlavour}.
 
 \begin{example} \label{Ex: Single-OrderFlavour}
-%The first step is to compute the Content-Length channel. Analysis on $Order||Flavour$ packet is more complicated as it has a larger entropy. 
-%
-%We omit the sequence of SUGAR and MILK to simplify the problem. We also simplify our notation by denoting $D_1$ as the degree of SUGAR and $D_2$ the degree of MILK. Then any $Flavour$ can be represented as $(D_1, D_2)$, e.g. $(2,1)$ represents any $Flavour$ that has a degree of SUGAR 2 and degree of MILK 1.
-%
-%The same strategy can be applied directly on this example as well. However, the space of this channel is much more complicated in this case which are $4 $
-%
-%It is sometimes possible to simplify the problem by breaking the Plaintext-Length channel into several sub-channels, namely $Order$ channel $W_{0}(y \in l|x \in COFFEE)$, SUGAR channel $W_{1}(y \in l| x \in D_1)$ and MILK channel $W_{2}(y \in l | x \in D_2)$ in this application. These sub-channels requires less computation and we will show how to reconstruct the Plaintext-Length channel using these sub-channels later in this section. 
-%
-%Obviously that $W_0$ is identical to \Cref{Tbl: Order1} as the $Order$ part in $Order||Flavour$ is simply an echo of the first $Order$ packet. 
-%
-%$W_2$ and $W_3$ are actually identical:
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderFlavourTable1.tex}}
-%{\input{./Tables/OrderFlavourTable2.tex}}
-%\end{center}
-%\caption{Channels of SUGAR-Length and MILK-Length}
-%\label{Tbl: SUGAR-Length and MILK-Length}
-%\end{table}
-%
-%Then we merge $W_1$ and $W_2$ to construct the $Flavour$ - Length channel $W_1 \otimes W_2((y_1, y_2) |(x_1, x_2))$ where $(y_1, y_2) \in l \otimes l, (x_1, x_2) \in D_1 \otimes D_2$:
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderFlavourTable3.tex}}
-%\end{center}
-%\caption{$Flavour$-Length channel}
-%\label{Tbl: Flavour channel}
-%\end{table}
-%
-%The right end column of probability is simply the joint probability of both inputs of $W_1$ and $W_2$. 
-%
-%In this application, degree of SUGAR and degree of MILK are independent variables. This implies their joint probability is simply the product of their marginal probabilities:
-%\begin{equation}
-%P(x_1, x_2) = P(x_1) P(x_2)
-%\end{equation}
-%
-%Notice that since the output of such channel are actually the length of its input; therefore for a given input, its output is deterministic, i.e.
-%\begin{eqnarray} 
-%P((y_1,y_2)|(x_1,x_2)) =
-%	\begin{cases}
-%	1 &\text{if } y_1 = |x_1| \text{ and } y_2 = |x_2| \\
-%	0 &\text{otherwise}
-%	\end{cases}
-%\label{Eq: Length Probability}
-%\end{eqnarray}
-%
-%The merged channel $W_1 \otimes W_2$ results in a table with size of $(|X_1||X_2|)$ rows and $(|Y_1| |Y_2|)$ columns. This implies that the merge operation of two channels will potentially has an exponential time and space complexity. However, this can be improved by compressing the channel.
-%
-%The first thing is that the merged output are actually lengths of both inputs; hence $(y_1, y_2)$ can be replaced by their sum: $y = y_1 + y_2$. Therefore \Cref{Tbl: Flavour channel} can be compressed by combing columns with a same length, i.e. we can merge columns into one if $(y_1 + y_2) = (y\prime_1 + y\prime_2)$. The combination is simply the vector sum of two columns
-%
-%So we can reconstruct $W_1 \otimes W_2$ as:
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderFlavourTable4.tex}}
-%\end{center}
-%\caption{Compressed $Flavour$-Length channel}
-%\label{Tbl: Compressed Flavour}
-%\end{table}
-%
-%In \Cref{Tbl: Compressed Flavour}, we can see that different inputs can map to the same length, e.g. $(0,1)$ and $(1,0)$ all results to $l = 1$.
-%
-%Practically, we can further compress this channel with the cost of resolution of input. Generally, there are some facts that worth notice:
-%\begin{itemize}
-%\item As in \eqref{Eq: Length Probability},  length is deterministic given a content. Therefore it is a reasonable choice to merge contents which will result into same length.
-%\item The intuition of combing two rows with the same length can be interpreted as follow: for two rows with the same output $W(y| x=x_1)$ and $W(y|x=x_2)$, the merged row represents $W(y|x=x_1 \text{ or } x = x_2 )$.
-%\item For such a channel, each input are exclusive events; thus the probability of the input of merged rows is simply the sum of the probability of each row: $P(x_{merged}) = P(x_1) + P(x_2)$
-%\end{itemize} 
-%
-%So if we compress \Cref{Tbl: Compressed Flavour} by the same $(y_1 + y_2)$ which is indeed $|Flavour|$, we will have a further compressed $W_1 \otimes W_2$:
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderFlavourTable5.tex}}
-%\end{center}
-%\caption{Further Compressed (with less resolution) $Flavour$-Length channel }
-%\label{Tbl: Further Compressed Flavour}
-%\end{table}
-%
-%The actual degree of SUGAR and MILK are lost in \Cref{Tbl: Further Compressed Flavour} during this compression, but it also reduced the number of rows from $16$\footnote{$(W_1 \otimes W_2)\prime$ has $4 \times 4 = 16$ rows.} to $7$.
-%
-%By applying the same strategy again to merge the $Order$ channel $W_0$ with $(W_1 \otimes W_2)$, we will have the $OrderFlavour$-Length channel $W = W_0 \otimes W_1 \otimes W_2$. Then finally as described in \Cref{Exmp: Single-Order}, we can construct the leakage channel $W^{-1}(x|y)$ (see \Cref{OrderFlavour leakage channel}) for the $OrderFlavour$ packets .
+$Coffee$(\Cref{Def: Coffee}) is relatively harder to enumerate as the various combination of $Sugar$ and $Milk$. However, if the adversary aims only to guess the first part, $Order$, then the construction of Leakage Channel can be done much more efficiently by giving up the resolution of distinguishing $Sugar$ and $Milk$. To be more specifically, the construction of Leakage Channel could be simplified by wrapping the “less important” part, in this example $Sugar$ and $Milk$, of plaintexts.
+
+Since we know the probabilities for $Sugar$ and $Milk$, therefore we can construct Forward Channel as \Cref{Tbl: Forward Channel for Coffee}.
+
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{
+{\input{./Tables/FC_Coffee.tex}}
+}
+\caption{Forward Channel for $Coffee$}
+\label{Tbl: Forward Channel for Coffee}
+\end{table}
+
+Then the Leakage Channel for $Coffee$ can be obtained by \Cref{Alg: FC2LC}, as shown in \Cref{Tbl: Leakage Channel for Coffee}.
+\begin{table}[H]
+\centering
+%\resizebox{\textwidth}{!}{
+{\input{./Tables/LC_Coffee.tex}}
+%}
+\caption{Leakage Channel for $Coffee$}
+\label{Tbl: Leakage Channel for Coffee}
+\end{table}
 \end{example}
-%
-%To generalise, given the distribution of the plaintext, the leakage channel is constructed as following:
-%\begin{description}
-%\item[1] If the space of plaintext is large, break the plaintext-length channel into several sub-channels.
-%\item[2] Compute the sub-channels and compress them. Resolution may lost during the compression.
-%\item[3] Merge the sub-channels to construct the plaintext-length channel.
-%\item[4] Use Bayes’ Theorem to invert plaintext-length channel.
-%\end{description}
-%
-%Another aspect to view such leakage channel is to analyse its capacity, i.e. the maximum mutual information of content and length, as described in \cite{Web2}.
-%
-%\subsection{Guessing Plaintext Using Joint Packet Length} \label{Sec: Guessing Plaintext Using Joint Packet Length}
+
+To summarise, a Leakage Channel can be constructed by the following steps:
+\begin{description}
+\item[1] Wrap the “unimportant part”.(optional)
+\item[2] Construct the Forward Channel.
+\item[3] Construct the Leakage Channel by \Cref{Alg: FC2LC}.
+\end{description}
+
+\subsection{Guessing Plaintext Using Joint Packet Length} \label{Sec: Guessing Plaintext Using Joint Packet Length}
 % In \Cref{Sec: Guessing Plaintext by One Packet Length} we described a method of packet analysis against a single packet in a session. It is possible to improve the analysis by looking at the packets jointly. As presented in \cite{Web2}, the sequence of packets lengths can be viewed as a vector.
 
 

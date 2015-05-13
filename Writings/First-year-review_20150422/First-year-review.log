@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.4)  6 MAY 2015 17:19
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.4)  13 MAY 2015 17:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -818,6 +818,54 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
 \bigstrutjot=\dimen189
 )
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2012/05/21 v1.0 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2012/10/14 v2.6b package option processing (HA)
+
+(/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+\XKV@toks=\toks41
+\XKV@tempa@toks=\toks42
+\XKV@depth=\count142
+File: xkeyval.tex 2012/10/14 v2.6b key=value parser (HA)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2012/05/16 v1.0 Trim and clip general TeX material
+
+(/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box47
+)
+\tc@llx=\dimen190
+\tc@lly=\dimen191
+\tc@urx=\dimen192
+\tc@ury=\dimen193
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/share/texlive/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2012/05/13 v1.0 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen194
+\adjbox@Height=\dimen195
+\adjbox@Depth=\dimen196
+\adjbox@Totalheight=\dimen197
+
+(/usr/share/texlive/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2011/09/13 v1.0 Conditionals for odd/even page detection
+\c@checkoddpage=\count143
+)
+(/usr/share/texlive/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box48
+\sift@deathcycles=\count144
+\@vwid@loff=\dimen198
+\@vwid@roff=\dimen199
+))
 (/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty
 Package: cleveref 2013/12/28 v0.19 Intelligent cross-referencing
 Package cleveref Info: `hyperref' support loaded on input line 2230.
@@ -846,55 +894,55 @@ Package: etoolbox 2011/01/03 v2.1 e-TeX tools for LaTeX
 
 (/usr/share/texlive/texmf-dist/tex/latex/etex-pkg/etex.sty
 Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
-\et@xins=\count142
+\et@xins=\count145
 )
-\etb@tempcnta=\count143
+\etb@tempcnta=\count146
 )
 (/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count144
+\lrq@indent=\count147
 
 (/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-\c@tabx@nest=\count145
-\c@listtotal=\count146
-\c@listcount=\count147
-\c@liststart=\count148
-\c@liststop=\count149
-\c@citecount=\count150
-\c@citetotal=\count151
-\c@multicitecount=\count152
-\c@multicitetotal=\count153
-\c@instcount=\count154
-\c@maxnames=\count155
-\c@minnames=\count156
-\c@maxitems=\count157
-\c@minitems=\count158
-\c@citecounter=\count159
-\c@savedcitecounter=\count160
-\c@uniquelist=\count161
-\c@uniquename=\count162
-\c@refsection=\count163
-\c@refsegment=\count164
-\c@maxextratitle=\count165
-\c@maxextratitleyear=\count166
-\c@maxextrayear=\count167
-\c@maxextraalpha=\count168
-\c@abbrvpenalty=\count169
-\c@highnamepenalty=\count170
-\c@lownamepenalty=\count171
-\c@maxparens=\count172
-\c@parenlevel=\count173
-\blx@tempcnta=\count174
-\blx@tempcntb=\count175
-\blx@tempcntc=\count176
-\blx@maxsection=\count177
-\blx@maxsegment@0=\count178
-\blx@notetype=\count179
-\blx@parenlevel@text=\count180
-\blx@parenlevel@foot=\count181
-\blx@sectionciteorder@0=\count182
+\c@tabx@nest=\count148
+\c@listtotal=\count149
+\c@listcount=\count150
+\c@liststart=\count151
+\c@liststop=\count152
+\c@citecount=\count153
+\c@citetotal=\count154
+\c@multicitecount=\count155
+\c@multicitetotal=\count156
+\c@instcount=\count157
+\c@maxnames=\count158
+\c@minnames=\count159
+\c@maxitems=\count160
+\c@minitems=\count161
+\c@citecounter=\count162
+\c@savedcitecounter=\count163
+\c@uniquelist=\count164
+\c@uniquename=\count165
+\c@refsection=\count166
+\c@refsegment=\count167
+\c@maxextratitle=\count168
+\c@maxextratitleyear=\count169
+\c@maxextrayear=\count170
+\c@maxextraalpha=\count171
+\c@abbrvpenalty=\count172
+\c@highnamepenalty=\count173
+\c@lownamepenalty=\count174
+\c@maxparens=\count175
+\c@parenlevel=\count176
+\blx@tempcnta=\count177
+\blx@tempcntb=\count178
+\blx@tempcntc=\count179
+\blx@maxsection=\count180
+\blx@maxsegment@0=\count181
+\blx@notetype=\count182
+\blx@parenlevel@text=\count183
+\blx@parenlevel@foot=\count184
+\blx@sectionciteorder@0=\count185
 \labelnumberwidth=\skip66
 \labelalphawidth=\skip67
 \shorthandwidth=\skip68
@@ -906,82 +954,82 @@ File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 \bibhang=\skip74
 \blx@bcfin=\read2
 \blx@bcfout=\write4
-\c@mincomprange=\count183
-\c@maxcomprange=\count184
-\c@mincompwidth=\count185
+\c@mincomprange=\count186
+\c@maxcomprange=\count187
+\c@mincompwidth=\count188
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def)
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count186
-\c@savedafterword=\count187
-\c@annotator=\count188
-\c@savedannotator=\count189
-\c@author=\count190
-\c@savedauthor=\count191
-\c@bookauthor=\count192
-\c@savedbookauthor=\count193
-\c@commentator=\count194
-\c@savedcommentator=\count195
-\c@editor=\count196
-\c@savededitor=\count197
-\c@editora=\count198
-\c@savededitora=\count199
-\c@editorb=\count200
-\c@savededitorb=\count201
-\c@editorc=\count202
-\c@savededitorc=\count203
-\c@foreword=\count204
-\c@savedforeword=\count205
-\c@holder=\count206
-\c@savedholder=\count207
-\c@introduction=\count208
-\c@savedintroduction=\count209
-\c@namea=\count210
-\c@savednamea=\count211
-\c@nameb=\count212
-\c@savednameb=\count213
-\c@namec=\count214
-\c@savednamec=\count215
-\c@shortauthor=\count216
-\c@savedshortauthor=\count217
-\c@shorteditor=\count218
-\c@savedshorteditor=\count219
-\c@translator=\count220
-\c@savedtranslator=\count221
-\c@labelname=\count222
-\c@savedlabelname=\count223
-\c@institution=\count224
-\c@savedinstitution=\count225
-\c@lista=\count226
-\c@savedlista=\count227
-\c@listb=\count228
-\c@savedlistb=\count229
-\c@listc=\count230
-\c@savedlistc=\count231
-\c@listd=\count232
-\c@savedlistd=\count233
+\c@afterword=\count189
+\c@savedafterword=\count190
+\c@annotator=\count191
+\c@savedannotator=\count192
+\c@author=\count193
+\c@savedauthor=\count194
+\c@bookauthor=\count195
+\c@savedbookauthor=\count196
+\c@commentator=\count197
+\c@savedcommentator=\count198
+\c@editor=\count199
+\c@savededitor=\count200
+\c@editora=\count201
+\c@savededitora=\count202
+\c@editorb=\count203
+\c@savededitorb=\count204
+\c@editorc=\count205
+\c@savededitorc=\count206
+\c@foreword=\count207
+\c@savedforeword=\count208
+\c@holder=\count209
+\c@savedholder=\count210
+\c@introduction=\count211
+\c@savedintroduction=\count212
+\c@namea=\count213
+\c@savednamea=\count214
+\c@nameb=\count215
+\c@savednameb=\count216
+\c@namec=\count217
+\c@savednamec=\count218
+\c@shortauthor=\count219
+\c@savedshortauthor=\count220
+\c@shorteditor=\count221
+\c@savedshorteditor=\count222
+\c@translator=\count223
+\c@savedtranslator=\count224
+\c@labelname=\count225
+\c@savedlabelname=\count226
+\c@institution=\count227
+\c@savedinstitution=\count228
+\c@lista=\count229
+\c@savedlista=\count230
+\c@listb=\count231
+\c@savedlistb=\count232
+\c@listc=\count233
 Normal \count register pool exhausted, switching to extended pool.
-\c@liste=\count277
-\c@savedliste=\count278
-\c@listf=\count279
-\c@savedlistf=\count280
-\c@location=\count281
-\c@savedlocation=\count282
-\c@organization=\count283
-\c@savedorganization=\count284
-\c@origlocation=\count285
-\c@savedoriglocation=\count286
-\c@origpublisher=\count287
-\c@savedorigpublisher=\count288
-\c@publisher=\count289
-\c@savedpublisher=\count290
-\c@language=\count291
-\c@savedlanguage=\count292
-\c@pageref=\count293
-\c@savedpageref=\count294
+\c@savedlistc=\count277
+\c@listd=\count278
+\c@savedlistd=\count279
+\c@liste=\count280
+\c@savedliste=\count281
+\c@listf=\count282
+\c@savedlistf=\count283
+\c@location=\count284
+\c@savedlocation=\count285
+\c@organization=\count286
+\c@savedorganization=\count287
+\c@origlocation=\count288
+\c@savedoriglocation=\count289
+\c@origpublisher=\count290
+\c@savedorigpublisher=\count291
+\c@publisher=\count292
+\c@savedpublisher=\count293
+\c@language=\count294
+\c@savedlanguage=\count295
+\c@pageref=\count296
+\c@savedpageref=\count297
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
 
@@ -993,13 +1041,13 @@ Package biblatex Info: ... file 'biblatex.def' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 
-\c@textcitecount=\count295
-\c@textcitetotal=\count296
-\c@textcitemaxnames=\count297
-\c@biburlnumpenalty=\count298
-\c@biburlucpenalty=\count299
-\c@biburllcpenalty=\count300
-\c@smartand=\count301
+\c@textcitecount=\count298
+\c@textcitetotal=\count299
+\c@textcitemaxnames=\count300
+\c@biburlnumpenalty=\count301
+\c@biburlucpenalty=\count302
+\c@biburllcpenalty=\count303
+\c@smartand=\count304
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
@@ -1011,8 +1059,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2013/11/25 v2.8a biblatex bibliography style (PK/JW/AB)
-\c@bbx:relatedcount=\count302
-\c@bbx:relatedtotal=\count303
+\c@bbx:relatedcount=\count305
+\c@bbx:relatedtotal=\count306
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
@@ -1037,18 +1085,18 @@ Package biblatex Info: ... file 'biblatex.cfg' found.
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
 File: biblatex.cfg 
 )))
-\c@theorem=\count304
-\c@definition=\count305
-\c@conjecture=\count306
-\c@example=\count307
+\c@theorem=\count307
+\c@definition=\count308
+\c@conjecture=\count309
+\c@example=\count310
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2013/11/25 v2.8a biblatex localization (PK/JW/AB)
 )
-\@quotelevel=\count308
-\@quotereset=\count309
+\@quotelevel=\count311
+\@quotereset=\count312
 
 (./First-year-review.aux)
 \openout1 = `First-year-review.aux'.
@@ -1102,7 +1150,7 @@ LaTeX Font Info:    ... okay on input line 45.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\AtBeginShipoutBox=\box47
+\AtBeginShipoutBox=\box49
 Package hyperref Info: Link coloring OFF on input line 45.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -1110,7 +1158,7 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count310
+\c@section@level=\count313
 )
 LaTeX Info: Redefining \ref on input line 45.
 LaTeX Info: Redefining \pageref on input line 45.
@@ -1124,17 +1172,17 @@ LaTeX Info: Redefining \nameref on input line 45.
 ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count311
-\scratchdimen=\dimen190
-\scratchbox=\box48
-\nofMPsegments=\count312
-\nofMParguments=\count313
-\everyMPshowfont=\toks41
-\MPscratchCnt=\count314
-\MPscratchDim=\dimen191
-\MPnumerator=\count315
-\makeMPintoPDFobject=\count316
-\everyMPtoPDFconversion=\toks42
+\scratchcounter=\count314
+\scratchdimen=\dimen200
+\scratchbox=\box50
+\nofMPsegments=\count315
+\nofMParguments=\count316
+\everyMPshowfont=\toks43
+\MPscratchCnt=\count317
+\MPscratchDim=\dimen201
+\MPnumerator=\count318
+\makeMPintoPDFobject=\count319
+\everyMPtoPDFconversion=\toks44
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -1203,7 +1251,7 @@ l.37
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.37 
-     ] <./Pics/Sniffer.png, id=133, 823.075pt x 398.48875pt>
+     ] <./Pics/Sniffer.png, id=138, 823.075pt x 398.48875pt>
 File: ./Pics/Sniffer.png Graphic file (type png)
 
 <use ./Pics/Sniffer.png>
@@ -1296,7 +1344,7 @@ e same identifier (name{figure.3.3}) has been already used, duplicate ignored
                                                   \fi \fi 
 l.153 \end{example}
                    ]
-<./Pics/Wireshark01.png, id=288, 997.7275pt x 609.27625pt>
+<./Pics/Wireshark01.png, id=293, 997.7275pt x 609.27625pt>
 File: ./Pics/Wireshark01.png Graphic file (type png)
 
 <use ./Pics/Wireshark01.png>
@@ -1320,48 +1368,65 @@ OT1/cmr/m/n/12 .
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.184 T
-       o formalise it, we model the leakage through ciphertext lengths as a ...
- <./Pics/Wireshark01.png>]
-
-LaTeX Warning: Reference `Ex: Single_Order' on page 1 undefined on input line 1
-92.
-
-(./Tables/OrderTable1.tex) (./Tables/OrderTable2.tex) [17pdfTeX warning (ext4):
- destination with the same identifier (name{table.3.1}) has been already used, 
-duplicate ignored
+l.182 
+       <./Pics/Wireshark01.png>] (./Tables/OrderTable1.tex)
+(./Tables/OrderTable2.tex) [17pdfTeX warning (ext4): destination with the same 
+identifier (name{table.3.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.225 
+l.227 
       ] (./Tables/OrderTable3.tex) (./Tables/OrderTable4.tex) [18pdfTeX warning
  (ext4): destination with the same identifier (name{table.3.2}) has been alread
 y used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.262 \begin{example} \label
-                            {Ex: Single-OrderFlavour}pdfTeX warning (ext4): des
-tination with the same identifier (name{table.3.3}) has been already used, dupl
-icate ignored
+l.261 
+      pdfTeX warning (ext4): destination with the same identifier (name{table.3
+.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.262 \begin{example} \label
-                            {Ex: Single-OrderFlavour}pdfTeX warning (ext4): des
-tination with the same identifier (name{table.3.4}) has been already used, dupl
-icate ignored
+l.261 
+      pdfTeX warning (ext4): destination with the same identifier (name{table.3
+.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.262 \begin{example} \label
-                            {Ex: Single-OrderFlavour}]) (./Plan.tex [19]
+l.261 
+      ]
+Overfull \hbox (0.79999pt too wide) detected at line 291
+|[]|
+ []
+
+[19pdfTeX warning (ext4): destination with the same identifier (name{algocf.1})
+ has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.300 S
+       ince we know the probabilities for $Sugar$ and $Milk$, therefore we c...
+] (./Tables/FC_Coffee.tex) (./Tables/LC_Coffee.tex)) (./Plan.tex [20pdfTeX warn
+ing (ext4): destination with the same identifier (name{table.3.5}) has been alr
+eady used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Plan}pdfTeX warning (ext4): destination with the same identifier (
+name{table.3.6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Plan}]
 Chapter 4.
-) (./OtherActivities.tex [20
+) (./OtherActivities.tex [21
 
 ]
 Chapter 5.
-) (./appendix.tex) [21
+) (./appendix.tex) [22
 
 ]
 Overfull \hbox (194.76932pt too wide) in paragraph at lines 64--64
@@ -1382,7 +1447,7 @@ Overfull \hbox (1.22081pt too wide) in paragraph at lines 64--64
 nnel in-for-ma-tion leaks
  []
 
-[22
+[23
 
 ]
 Overfull \hbox (4.79083pt too wide) in paragraph at lines 64--64
@@ -1402,32 +1467,28 @@ Overfull \hbox (4.84305pt too wide) in paragraph at lines 64--64
 r/m/it/12 Breach: Re-viv-ing the CRIME
  []
 
-[23]
+[24]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 65.
- [24]
+ [25]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 65.
  (./First-year-review.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 65.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 65.
 Package rerunfilecheck Info: File `First-year-review.out' has not changed.
-(rerunfilecheck)             Checksum: F4F805BD2F19A1DB43FA70A58256E61B;1229.
-
-
-LaTeX Warning: There were undefined references.
-
+(rerunfilecheck)             Checksum: E1954B971AB0C7933A7DD0E9F10704D4;1327.
 Package logreq Info: Writing requests to 'First-year-review.run.xml'.
 \openout1 = `First-year-review.run.xml'.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 65.
  ) 
 Here is how much of TeX's memory you used:
- 23428 strings out of 493304
- 412502 string characters out of 6139872
- 845490 words of memory out of 5000000
- 26361 multiletter control sequences out of 15000+600000
+ 24174 strings out of 493304
+ 424618 string characters out of 6139872
+ 860522 words of memory out of 5000000
+ 27050 multiletter control sequences out of 15000+600000
  15260 words of font info for 59 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 56i,11n,55p,1188b,1079s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,18n,55p,1188b,1095s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texl
@@ -1444,10 +1505,10 @@ share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on First-year-review.pdf (25 pages, 413637 bytes).
+Output written on First-year-review.pdf (26 pages, 423577 bytes).
 PDF statistics:
- 501 PDF objects out of 1000 (max. 8388607)
- 449 compressed objects within 5 object streams
- 108 named destinations out of 1000 (max. 500000)
- 175 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 539 PDF objects out of 1000 (max. 8388607)
+ 486 compressed objects within 5 object streams
+ 127 named destinations out of 1000 (max. 500000)
+ 183 words of extra memory for PDF output out of 10000 (max. 10000000)
 
