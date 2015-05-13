@@ -1,0 +1,15 @@
+\begin{tabular}{|c|c|}
+\hline
+y  & $P(Y=y)$ \\ \hline
+5  & 1/64     \\ \hline
+6  & 1/32     \\ \hline
+7  & 3/64     \\ \hline
+8  &          \\ \hline
+9  &          \\ \hline
+10 &          \\ \hline
+11 &          \\ \hline
+12 &          \\ \hline
+13 &          \\ \hline
+14 &          \\ \hline
+15 &          \\ \hline
+\end{tabular}
