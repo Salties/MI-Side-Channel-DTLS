@@ -40,8 +40,8 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2.4}Plaintext Guessing}{17}{subsection.3.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.5}Guessing Plaintext Using Joint Packet Length}{20}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.5}Estimate plaintext distribution}{21}{subsection.3.2.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Plan}{21}{chapter.4}
+\contentsline {chapter}{\numberline {4}Plan}{23}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {5}Other Activities}{22}{chapter.5}
+\contentsline {chapter}{\numberline {5}Other Activities}{24}{chapter.5}
