@@ -225,7 +225,7 @@ Which results into \Cref{Tbl: Joint Probability of (X Y) for Order}.
 \label{Tbl: Joint Probability of (X Y) for Order}
 \end{table}
 
-Since the events of each $X=x$ are exclusive, the marginal probability of $Y=y$ is the sum of each of its joint probabilities:
+The marginal probability $P(Y=y)$ is obtained by applying the law of total probability:
 \begin{equation}
 P(Y=y) = \sum\limits_{x \in \mathbb{X}}{\widehat{W}P(x,y)}
 \end{equation}
@@ -245,7 +245,7 @@ Finally we can construct the Leakage Channel using Bayes’ theorem:
 P(x|y) = {\frac {P(x)P(y|x)} {P(y)}} 
 \end{equation}
 
-And constrcut the Leakage Channel as shown in \Cref{Tbl: Leakage Channel for Order}
+The result is shown as \Cref{Tbl: Leakage Channel for Order}.
 
 \begin{table}[H]
 \begin{center}
@@ -257,7 +257,7 @@ And constrcut the Leakage Channel as shown in \Cref{Tbl: Leakage Channel for Ord
 
 The Leakage Channel(\Cref{Tbl: Leakage Channel for Order}) can be then used as a guideline for an eavesdropper adversary to recover the plaintext being transmitted.
 
-In fact as an implementation optimisation of this method, one can directly construct the Leakage Channel by iterating through each column of the Forward Channel without storing the intermediate tables, as described in \Cref{Alg: FC2LC}.
+In fact as an implementation optimisation of this method, one can directly construct the Leakage Channel by iterating through each column of the Forward Channel without storing any whole of the intermediate tables, as described in \Cref{Alg: FC2LC}.
 
 \begin{algorithm}[H]
  \KwIn{\\
@@ -326,103 +326,77 @@ To summarise, a Leakage Channel can be constructed by the following steps:
 \item[3] Construct the Leakage Channel by \Cref{Alg: FC2LC}.
 \end{description}
 
-\subsection{Guessing Plaintext Using Joint Packet Length} \label{Sec: Guessing Plaintext Using Joint Packet Length}
-% In \Cref{Sec: Guessing Plaintext by One Packet Length} we described a method of packet analysis against a single packet in a session. It is possible to improve the analysis by looking at the packets jointly. As presented in \cite{Web2}, the sequence of packets lengths can be viewed as a vector.
+The length analysis can be further improved by jointly analyse more packets, such as applying them to Hidden Markov Model. For example, if two packets of length $8$ continuously appears in a \textbf{Leaky Coffee} session then we can immediately conclude that the plaintexts are “ESPRESSO” and “ESPRESSO” as an “ESPRESSO” $Order$ will definitely results into an “ESPRESSO” $Coffee$. However, this method has a strong dependency on the application and thus we will not discuss further in this paper.
+
+\subsection{Estimate plaintext distribution}
+In \Cref{Sec: Plaintext Guessing} we have demonstrated how to construct a Leakage Channel given the pre-knowledge of plaintext and their probabilities. It is also possible to do it the other way around, that is, to estimate the distribution of plaintexts through ciphertexts.
+
+The general idea is that the distribution of length (as presented as $P$ column in \Cref{Tbl: Order3}) can actually be observed from the ciphertext; therefore we can revert the process and use it to estimate the distribution of plaintext.
+
+\begin{example}
+Assume we have a sample of encrypted $Order$ packet collected where we estimated the its length distribution as following: 
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable9.tex}}
+\end{center}
+\caption{Estimated length distribution from encrypted $Order$ packets}
+\label{Tbl: Estimated length distribution from encrypted $Order$ packets}
+\end{table}
+
+Similar to \Cref{Exmp: Single-Order}, the first step is to construct a Content-Length channel. The difference is that this time we do not have the pre-knowledge of plaintext distribution; therefore we represent the content distribution as unknown variables $p_i$ for each content.
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable5.tex}}
+\end{center}
+\caption{Content-Length Channel with unknown distibution of $Order$}
+\label{Tbl: Content-Length Channel with unknown distibution of $Order$}
+\end{table}
 
 
+%Since we are only interested in $p_1$ and $p_3$ and the appearance of each content is exclusive, \Cref{Tbl: Content-Length Channel with unknown distibution of $Order$} can be rewritten as \Cref{Tbl: Rewritten Content-Length Channel with unknown distibution of $Order$}.
+%
+%\begin{table}[H]
+%\begin{center}
+%{\input{./Tables/OrderTable6.tex}}
+%\end{center}
+%\caption{Rewritten Content-Length Channel with unknown distibution of $Order$}
+%\label{Tbl: Rewritten Content-Length Channel with unknown distibution of $Order$}
+%\end{table}
 
-%For example, a 2-packets session (packet No 86 and 87) has been marked out in \Cref{Fig: Captured Packets 01}. The values of DTLS Length  are both $25$ as marked in red rectangle. Their actual plaintext length can then be computed as $8$ and $8$ bytes respectively by \Cref{Eq: Plaintext length}. 
-%
-%It is possible to do the single packet analysis described in \Cref{Sec: Guessing Plaintext by One Packet Length} on each of these packets. We immediately know that plaintext in the first packet is “ESPRESSO”; whilst the second one could be either “ESPRESSO” or “MOCHA” with a $Flavour$ of length $3$. However, the analysis of the second packet is in fact unnecessary at all as the application specifies that an “ESPRESSO” $Order$ can only be responded with an “ESPRESSO” with NULL $Flavour$.
-%
-%The application specifies that the first part of the $Order||Flavour$ simply echoes the first packet; therefore in fact we can immediately tell that the second packet is “ESPRESSO”.
-%\end{example}
-%
-%One way to model this is to “expand” the channel. Instead of using the content at each packet from as the input, we can write them as a vector:
-%\begin{equation*}
-%\vec{x} = <x_1, x_2, ..., x_n>
-%\end{equation*}
-%
-%and similarly, we can also write their length as another vector:
-%\begin{equation*}
-%\vec{l} = <y_1, y_2, ..., y_n>
-%\end{equation*}
-%
-%Then we can use the same strategy in \Cref{Sec: Guessing Plaintext by One Packet Length} to construct the leakage channel $W^{-1}(X, Y)$ where $\vec{x} \in X$ and $\vec{y} \in Y$. 
-%
-%A problem in this method is the resulting channel is of the size of the Cartesian product of all contents in every packet. However, in this Leaky Coffee application most of the cells is actually $0$ which could be used to reduce its storage space; but such optimisation is heavily application dependant.
-%
-%A probably better way to model this side channel is to use Hidden Markov Model\cite{baum1966} similar to \cite{Danezis_trafficanalysis}. Techniques of Machine Learning might also be able to utilise this side channel information more efficiently. However, in this “intentionally crafted” Leaky Coffee application, the first packet seems always enough to reveal (roughly) the rest of plaintext in a session.
-%
-%\subsection{Estimate plaintext distribution}
-%In \Cref{Sec: Guessing Plaintext by One Packet Length} and \Cref{Sec: Guessing Plaintext Using Joint Packet Length} we have demonstrated how to construct a channel given the set of plaintext and their distribution. In this section, we will try to estimate the plaintext distribution by the distribution of ciphertext.
-%
-%The general idea is that the distribution of length (as presented as $P$ column in \Cref{Tbl: Order3}) can actually be observed from the ciphertext; therefore we can revert the process and use it to estimate the distribution of plaintext.
-%
-%\begin{example}
-%Assume we have a sample of encrypted $Order$ packet collected where we estimated the its length distribution as following: 
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable9.tex}}
-%\end{center}
-%\caption{Estimated length distribution from encrypted $Order$ packets}
-%\label{Tbl: Estimated length distribution from encrypted $Order$ packets}
-%\end{table}
-%
-%Similar to \Cref{Exmp: Single-Order}, the first step is to construct a Content-Length channel. The difference is that this time we do not have the pre-knowledge of plaintext distribution; therefore we represent the content distribution as unknown variables $p_i$ for each content.
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable5.tex}}
-%\end{center}
-%\caption{Content-Length Channel with unknown distibution of $Order$}
-%\label{Tbl: Content-Length Channel with unknown distibution of $Order$}
-%\end{table}
-%
-%
-%%Since we are only interested in $p_1$ and $p_3$ and the appearance of each content is exclusive, \Cref{Tbl: Content-Length Channel with unknown distibution of $Order$} can be rewritten as \Cref{Tbl: Rewritten Content-Length Channel with unknown distibution of $Order$}.
-%%
-%%\begin{table}[H]
-%%\begin{center}
-%%{\input{./Tables/OrderTable6.tex}}
-%%\end{center}
-%%\caption{Rewritten Content-Length Channel with unknown distibution of $Order$}
-%%\label{Tbl: Rewritten Content-Length Channel with unknown distibution of $Order$}
-%%\end{table}
-%
-%Their joint distribution follows immediately.
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable7.tex}}
-%\end{center}
-%\caption{Joint distribution of $(Order, l)$ with unknown distribution of $Order$}
-%\label{Tbl: Joint distribution of $(Order, l)$ with unknown distribution of $Order$}
-%\end{table}
-%
-%Then we can compute the marginal distribution of length.
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable8.tex}}
-%\end{center}
-%\caption{Marginal distribution of $l$ with unknown distribution of $Order$}
-%\label{Tbl: Marginal distribution of $l$ with unknown distribution of $Order$}
-%\end{table}
-%
-%By linking \Cref{Tbl: Marginal distribution of $l$ with unknown distribution of $Order$} with \Cref{Tbl: Estimated length distribution from encrypted $Order$ packets} we have the following constrains to the content distribution:
-%
-%\begin{equation} \label{Eq: Plaintext Distribution Estimation}
-%\left \{
-%\begin{aligned}
-%p_3 = d_1\\
-%p_4 = d_2\\
-%p_1 + p_2 = d_3\\
-%\sum\limits_{i = 1}^4{p_i} = 1
-%\end{aligned}
-%\right
-%\end{equation}
-%
-%Any solution satisfies \Cref{Eq: Plaintext Distribution Estimation} can be viewed as a reasonable guess to the distribution of the contents.
-%
-%\end{example}
+Their joint distribution follows immediately.
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable7.tex}}
+\end{center}
+\caption{Joint distribution of $(Order, l)$ with unknown distribution of $Order$}
+\label{Tbl: Joint distribution of $(Order, l)$ with unknown distribution of $Order$}
+\end{table}
+
+Then we can compute the marginal distribution of length.
+
+\begin{table}[H]
+\begin{center}
+{\input{./Tables/OrderTable8.tex}}
+\end{center}
+\caption{Marginal distribution of $l$ with unknown distribution of $Order$}
+\label{Tbl: Marginal distribution of $l$ with unknown distribution of $Order$}
+\end{table}
+
+By linking \Cref{Tbl: Marginal distribution of $l$ with unknown distribution of $Order$} with \Cref{Tbl: Estimated length distribution from encrypted $Order$ packets} we have the following constrains to the content distribution:
+
+\begin{equation} \label{Eq: Plaintext Distribution Estimation}
+\left \{
+\begin{aligned}
+p_3 = d_1\\
+p_4 = d_2\\
+p_1 + p_2 = d_3\\
+\sum\limits_{i = 1}^4{p_i} = 1
+\end{aligned}
+\right
+\end{equation}
+
+Any solution satisfies \Cref{Eq: Plaintext Distribution Estimation} can be viewed as a reasonable guess to the distribution of the contents.
+
+\end{example}
