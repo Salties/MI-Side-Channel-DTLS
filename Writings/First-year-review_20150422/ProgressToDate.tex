@@ -328,64 +328,50 @@ To summarise, a Leakage Channel can be constructed by the following steps:
 
 The length analysis can be further improved by jointly analyse more packets, such as applying them to Hidden Markov Model. For example, if two packets of length $8$ continuously appears in a \textbf{Leaky Coffee} session then we can immediately conclude that the plaintexts are “ESPRESSO” and “ESPRESSO” as an “ESPRESSO” $Order$ will definitely results into an “ESPRESSO” $Coffee$. However, this method has a strong dependency on the application and thus we will not discuss further in this paper.
 
-\subsection{Estimate plaintext distribution}
-In \Cref{Sec: Plaintext Guessing} we have demonstrated how to construct a Leakage Channel given the pre-knowledge of plaintext and their probabilities. It is also possible to do it the other way around, that is, to estimate the distribution of plaintexts through ciphertexts.
 
-The general idea is that the distribution of length (as presented as $P$ column in \Cref{Tbl: Order3}) can actually be observed from the ciphertext; therefore we can revert the process and use it to estimate the distribution of plaintext.
+\subsection{Estimate plaintext distribution}
+The lengths of ciphertext could also be exploited by itself to obtain some knowledge of the plaintext. The general idea is to treat the marginal probabilities of plaintext $P(X=x)$ as unknown variables then simultaneous them to the marginal distribution of ciphertext length which is observable to an eavesdropper adversary.
 
 \begin{example}
-Assume we have a sample of encrypted $Order$ packet collected where we estimated the its length distribution as following: 
+Assume we have a sample of encrypted $Order$ packets collected and we have estimated their length distribution as \Cref{Tbl: Estimated length distribution from encrypted Order packets}.
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable9.tex}}
 \end{center}
 \caption{Estimated length distribution from encrypted $Order$ packets}
-\label{Tbl: Estimated length distribution from encrypted $Order$ packets}
+\label{Tbl: Estimated length distribution from encrypted Order packets}
 \end{table}
 
-Similar to \Cref{Exmp: Single-Order}, the first step is to construct a Content-Length channel. The difference is that this time we do not have the pre-knowledge of plaintext distribution; therefore we represent the content distribution as unknown variables $p_i$ for each content.
+Similar to \Cref{Sec: Plaintext Guessing}, the first step is to construct the Forward Channel. The difference is that this time we do not have the pre-knowledge of plaintext distribution; therefore we represent it as unknown variables $p_i$ for each plaintext.(\Cref{Tbl: Forward Channel for Order with unknown distribution of plaintext})
 
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable5.tex}}
 \end{center}
-\caption{Content-Length Channel with unknown distibution of $Order$}
-\label{Tbl: Content-Length Channel with unknown distibution of $Order$}
+\caption{Forward Channel for $Order$ with unknown distribution of plaintext}
+\label{Tbl: Forward Channel for Order with unknown distribution of plaintext}
 \end{table}
 
-
-%Since we are only interested in $p_1$ and $p_3$ and the appearance of each content is exclusive, \Cref{Tbl: Content-Length Channel with unknown distibution of $Order$} can be rewritten as \Cref{Tbl: Rewritten Content-Length Channel with unknown distibution of $Order$}.
-%
-%\begin{table}[H]
-%\begin{center}
-%{\input{./Tables/OrderTable6.tex}}
-%\end{center}
-%\caption{Rewritten Content-Length Channel with unknown distibution of $Order$}
-%\label{Tbl: Rewritten Content-Length Channel with unknown distibution of $Order$}
-%\end{table}
-
-Their joint distribution follows immediately.
+Their joint distribution follows immediately.(\Cref{Tbl: Joint distribution with unknown distribution of plaintext})
 
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable7.tex}}
 \end{center}
-\caption{Joint distribution of $(Order, l)$ with unknown distribution of $Order$}
-\label{Tbl: Joint distribution of $(Order, l)$ with unknown distribution of $Order$}
+\caption{Joint distribution with unknown distribution of plaintext}
+\label{Tbl: Joint distribution with unknown distribution of plaintext}
 \end{table}
 
-Then we can compute the marginal distribution of length.
-
+Then we can compute the marginal distribution of length.(\Cref{Tbl: Marginal distribution of ciphertext length with unknown distribution of plaintext})
 \begin{table}[H]
 \begin{center}
 {\input{./Tables/OrderTable8.tex}}
 \end{center}
-\caption{Marginal distribution of $l$ with unknown distribution of $Order$}
-\label{Tbl: Marginal distribution of $l$ with unknown distribution of $Order$}
+\caption{Marginal distribution of ciphertext length with unknown distribution of plaintext}
+\label{Tbl: Marginal distribution of ciphertext length with unknown distribution of plaintext}
 \end{table}
 
-By linking \Cref{Tbl: Marginal distribution of $l$ with unknown distribution of $Order$} with \Cref{Tbl: Estimated length distribution from encrypted $Order$ packets} we have the following constrains to the content distribution:
-
+Since \Cref{Tbl: Marginal distribution of ciphertext length with unknown distribution of plaintext} and \Cref{Tbl: Estimated length distribution from encrypted Order packets} are expected to be the same, therefore we have:
 \begin{equation} \label{Eq: Plaintext Distribution Estimation}
 \left \{
 \begin{aligned}
@@ -397,6 +383,68 @@ p_1 + p_2 = d_3\\
 \right
 \end{equation}
 
-Any solution satisfies \Cref{Eq: Plaintext Distribution Estimation} can be viewed as a reasonable guess to the distribution of the contents.
-
+Any solution satisfies \Cref{Eq: Plaintext Distribution Estimation} can be viewed as a reasonable guess to the distribution of plaintexts.
 \end{example}
+
+
+\subsection{Counter Measure: Padding}
+Padding the plaintexts is one of the most obvious counter measure to this kind of attack as it gets harder to “decode” a ciphertext length in a Leakage Channel if multiple plaintexts are mapped to the same length in the Forward Channel.
+
+One padding scheme, we denote as \textbf{Perfect Padding}, is to pad  every plaintext to a same fixed length which is usually the maximum length of plaintexts, or some multiples of block length when a block cipher is being used. Perfect Padding perfectly eliminates the difference of ciphertext length and hence the Leakage Channel will has only one row with plaintexts having uniform distribution over it, which effectively means that the adversary dose no better than blind guessing given the ciphertext length. However, the drawback of this method is the additional bandwidth consumed by padding. Consider an extreme example where the longest plaintext has an extremely long length but rarely appears. Since every other plaintexts will have to pad to that length; therefore this padding scheme could therefore result into a horrific reduction in performance. In some scenarios such as IoT devices, this problem may be came critical.
+
+An alternative option could be padding only the sensitive plaintexts to some shorter but frequent length, or even a probabilistic length. This method is expected to provide some level of protection over the plaintexts while having a better performance than Perfect Padding. This is a typical trade-off between security and performance.
+\begin{definition}
+Let $W(y|x)$ be the unpadded Forward Channel, we denote $Pad$ as the padding scheme and $W_{pad}(y_{pad}|x) = Pad(W)$ as the padded Forward Channel.
+\end{definition}
+
+The security of the padded Leakage Channel can be measured by its capacity denoted as $C(W^{-1})$, as described in \cite{Web2}. Since Leakage Channel is the inverse of Forward Channel; therefore both of them are factually the same \textbf{mutual information} of plaintext and ciphertext length, denoted as $I(X;Y_{pad})$. We define:
+\begin{definition}
+\begin{equation}
+C=C(W_{pad}^{-1})=C(W_{pad})=I(X;Y)=\sum\limits_{y \in \mathbb{Y}}{\sum\limits_{x \in X}{p(x,y_{pad}) \log(\frac{p(x,y_{pad})}{p(x)p(y_{pad})})}}
+\end{equation}
+\end{definition}
+
+In addition, we propose the \textbf{Padding Rate} as its evaluation. Padding Rate is defined as the number of bytes required by a scheme to transmit a byte for the unpadded scheme. 
+\begin{definition}
+The Padding Rate $R$ is defined as:
+\begin{equation}
+\begin{aligned}
+R=\frac{E(y_{pad})}{E(y)}=
+\frac
+{
+\sum\limits_
+	{
+		x_i \in \mathbb{X}
+	}
+	{(
+		p(x_i)
+		\sum\limits_
+		{
+			y_{pad_j} \in \mathbb{Y}_{pad}
+		}
+		{(
+			W_{pad}(y_{pad_j}|x_i)y_{pad_j}
+		)}
+	)}
+}
+{
+\sum\limits_
+	{
+		x_i \in \mathbb{X}
+	}
+	{(
+		p(x_i)
+		\sum\limits_
+		{
+			y_j \in \mathbb{Y}
+		}
+		{(
+			W(y_j|x_i)y_j
+		)}
+	)}
+}
+\end{aligned}
+\end{equation}
+where $E$ is the expectation.
+\end{definition}
+Apparently Padding Rate for an unpadded scheme is $1$.
