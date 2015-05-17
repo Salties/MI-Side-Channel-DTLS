@@ -373,7 +373,8 @@ Then we can compute the marginal distribution of length.(\Cref{Tbl: Marginal dis
 
 Since \Cref{Tbl: Marginal distribution of ciphertext length with unknown distribution of plaintext} and \Cref{Tbl: Estimated length distribution from encrypted Order packets} are expected to be the same, therefore we have:
 \begin{equation} \label{Eq: Plaintext Distribution Estimation}
-\left \{
+\left 
+\{
 \begin{aligned}
 p_3 = d_1\\
 p_4 = d_2\\
@@ -392,12 +393,12 @@ Padding the plaintexts is one of the most obvious counter measure to this kind o
 
 One padding scheme, we denote as \textbf{Perfect Padding}, is to pad  every plaintext to a same fixed length which is usually the maximum length of plaintexts, or some multiples of block length when a block cipher is being used. Perfect Padding perfectly eliminates the difference of ciphertext length and hence the Leakage Channel will has only one row with plaintexts having uniform distribution over it, which effectively means that the adversary dose no better than blind guessing given the ciphertext length. However, the drawback of this method is the additional bandwidth consumed by padding. Consider an extreme example where the longest plaintext has an extremely long length but rarely appears. Since every other plaintexts will have to pad to that length; therefore this padding scheme could therefore result into a horrific reduction in performance. In some scenarios such as IoT devices, this problem may be came critical.
 
-An alternative option could be padding only the sensitive plaintexts to some shorter but frequent length, or even a probabilistic length. This method is expected to provide some level of protection over the plaintexts while having a better performance than Perfect Padding. This is a typical trade-off between security and performance.
+An alternative option is to pad only part of plaintexts to some shorter length which is either deterministic or probabilistic. A well designed padding scheme is expected to provide some level of protection while having a better performance than Perfect Padding. This is a typical trade-off between security and performance.
 \begin{definition}
-Let $W(y|x)$ be the unpadded Forward Channel, we denote $Pad$ as the padding scheme and $W_{pad}(y_{pad}|x) = Pad(W)$ as the padded Forward Channel.
+Let $W(y|x)$ be the unpadded Forward Channel, we denote $Pad$ as the padding function and $W_{pad}(y_{pad}|x) = Pad(W)$ as the padded Forward Channel.
 \end{definition}
 
-The security of the padded Leakage Channel can be measured by its capacity denoted as $C(W^{-1})$, as described in \cite{Web2}. Since Leakage Channel is the inverse of Forward Channel; therefore both of them are factually the same \textbf{mutual information} of plaintext and ciphertext length, denoted as $I(X;Y_{pad})$. We define:
+The security of the padded Leakage Channel can be measured by its channel capacity, denoted as $C(W^{-1})$, as described in \cite{Web2}. Since Leakage Channel is the inverse of Forward Channel; therefore both are factually the same which is the \textbf{mutual information} of plaintext and ciphertext length, denoted as $I(X;Y_{pad})$ where $X$ is the set of plaintext and $Y_{pad}$ the padded ciphtertext length. We define the channel capacity $C$ as:
 \begin{definition}
 \begin{equation}
 C=C(W_{pad}^{-1})=C(W_{pad})=I(X;Y)=\sum\limits_{y \in \mathbb{Y}}{\sum\limits_{x \in X}{p(x,y_{pad}) \log(\frac{p(x,y_{pad})}{p(x)p(y_{pad})})}}
@@ -409,7 +410,7 @@ In addition, we propose the \textbf{Padding Rate} as its evaluation. Padding Rat
 The Padding Rate $R$ is defined as:
 \begin{equation}
 \begin{aligned}
-R=\frac{E(y_{pad})}{E(y)}=
+R=\frac{E(y_{pad})}{E(y)}=\frac{\sum\limits_{x_i \in X}{(p(x_i)E(y_{pad}|x_i)})}{(\sum\limits_{x_i \in X}{p(x_i)E(y|x_i)})}=
 \frac
 {
 \sum\limits_
@@ -445,6 +446,15 @@ R=\frac{E(y_{pad})}{E(y)}=
 }
 \end{aligned}
 \end{equation}
-where $E$ is the expectation.
+where $E$ represents expectation.
 \end{definition}
-Apparently Padding Rate for an unpadded scheme is $1$.
+
+Since ciphtertext length can be directly derived from plaintext; therefore both $C$ and $R$ can be solely computed given $X$ and $Pad$. 
+
+We can define a score function which takes $C$ and $R$ as parameters to evaluate the trade-off between security and performance. Since $C$ and $R$ are determined given $X$ and $Pad$, the score function is therefore equivalent to a function of $X$ and $Pad$:
+\begin{definition}
+\begin{equation}
+S = Score(C,R) = Score’(X, Pad)
+\end{equation}
+\end{definition}
+In this paper, we leave the detailed definition of $S$ as an open question.

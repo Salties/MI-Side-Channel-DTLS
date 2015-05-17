@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  15 MAY 2015 17:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  17 MAY 2015 16:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1492,7 +1492,7 @@ l.373
 ! Missing delimiter (. inserted).
 <to be read again> 
                    \gdef 
-l.384 \end{equation}
+l.385 \end{equation}
                     
 I was expecting to see something like `(' or `\{' or
 `\}' here. If you typed, e.g., `{' instead of `\{', you
@@ -1506,8 +1506,12 @@ nonnegative, or you can use `\delimiter <delimiter code>'.
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.396 \begin{definition}
-                        ]) (./Plan.tex [23]
+l.397 \begin{definition}
+                        ]
+
+LaTeX Warning: Command \textquoteright invalid in math mode on input line 457.
+
+) (./Plan.tex [23]
 Chapter 4.
 ) (./OtherActivities.tex [24
 
@@ -1568,8 +1572,8 @@ Package logreq Info: Writing requests to 'First-year-review.run.xml'.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 65.
  ) 
 Here is how much of TeX's memory you used:
- 25812 strings out of 493105
- 471702 string characters out of 6137072
+ 25814 strings out of 493105
+ 471733 string characters out of 6137072
  899770 words of memory out of 5000000
  28650 multiletter control sequences out of 15000+600000
  15260 words of font info for 59 fonts, out of 8000000 for 9000
@@ -1592,10 +1596,10 @@ exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on First-year-review.pdf (29 pages, 442393 bytes).
+Output written on First-year-review.pdf (29 pages, 443547 bytes).
 PDF statistics:
- 583 PDF objects out of 1000 (max. 8388607)
- 525 compressed objects within 6 object streams
- 142 named destinations out of 1000 (max. 500000)
+ 585 PDF objects out of 1000 (max. 8388607)
+ 527 compressed objects within 6 object streams
+ 144 named destinations out of 1000 (max. 500000)
  191 words of extra memory for PDF output out of 10000 (max. 10000000)
 
