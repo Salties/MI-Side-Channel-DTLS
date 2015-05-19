@@ -1,19 +1,17 @@
 \chapter{Progress To Date}
 \label{Chp: Progress To Date}
 
-As a beginning of this project, our first step is to demonstrate that information leakage similar to those described in \cite{Web1} can be found when the underlying protocol is switched DTLS. The reason is that DTLS is more suitable to sensor networks comparing to TLS due to is relatively lightweight-ness. 
+As a beginning of this project, our first step is to demonstrate that information leakage similar to those described in \cite{Web1} can be found when TLS is switched to DTLS. The reason is that DTLS is presumably a more suitable protocol for sensor networks as it is relatively a more lightweight protocol. In order to do this, we built two toy applications which aimed to model some typical sensor network traffic. Further more, the toys are intentionally crafted at some level to emphasise the existence of such information leakage.
 
-The basic idea is to build some toy applications which model typical sensor network traffic generated through DTLS. The information leakage of toy applications are intentionally crafted to emphasise their existence.
-
-Even though both OpenSSL and GnuSSL have DTLS implemented with general features, we setted our experimental the less featured tinyDTLS\cite{tinyDTLS} due to its lightweight-ness, which is more suitable to sensor networks. However, the drawback is that only one cipher-suite, TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}, is available for the current version of tinyDTLS. This implies that there should be no padding scheme adopted and hence the length of plaintext and ciphertext are expected to have a linear relationship. Our experiments supported this conjecture such that:
+Although both OpenSSL and GnuSSL have DTLS implemented with general features, we set up our experiments with a less featured implementation, tinyDTLS\cite{tinyDTLS}, due to its lightweight-ness. The drawback is that only one cipher-suite, namely TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}, is available for its current version. This implies that there should be no padding scheme in the traffic and hence the length of plaintext and ciphertext are expected to have a linear relationship. Our experiments supported this conjecture such that:
 \begin{equation} \label{Eq: Plaintext length}
-l_D = 17 + l
+l_C = 17 + l_P
 \end{equation}
-where $l$ is the length of plaintext and $l_D$ is the value in DTLS length field. According to the specifications the additional bytes is supposed to be purely a resulted of the appending MAC even though $17$ bytes is a value unlikely to be. This problem is still under investigating.
+where $l_P$ is the length of plaintext and $l_C$ the length of its corresponding ciphtertext. $l_P$ is obtained from the application and $l_C$ is exactly the value in the captured DTLS length field.
 
-All experiments are done with only two processes, a server and a client referred as SERVER and CLIENT, on a same linux host connected through local-link. The protocol suite we adopted is [IPv4 or IPv6] + UDP + DTLS. The modelled adversary is simply a passive eavesdropper.
+According to the specifications the additional $17$ bytes is supposed to be the result of the MAC appended by the specification, even  though we cannot fully explain exactly why the value is at this moment. This problem is still under investigating.
 
-So far we have built up two toy applications, \textbf{Odd or Even} and \textbf{Leaky Coffee}, which will be explained in the next sessions alongside with corresponding traffic analysis.
+All experiments are done with only two processes, a server and a client referred as SERVER and CLIENT, on a same Ubuntu14.10 host connected through local-link. The protocol suite we adopted is [IPv4 or IPv6] + UDP + DTLS. The modelled adversary is simply a passive eavesdropper.
 
 \section{Odd or Even} \label{Sec: Odd or Even}
 \textbf{Odd or Even} is a simple toy application designed  to demonstrate the fundamental idea of encrypted traffic analysis.
@@ -181,15 +179,17 @@ Once a session has been segmented, we can immediately label them as described in
 However,  timing information could be strongly affected by the environment; therefore the time difference threshold for a real sensor network packets could be different, even hard to define.
 
 \subsection{Plaintext Guessing} \label{Sec: Plaintext Guessing}
-Similar to \textbf{Odd or Even}(\Cref{Sec: Odd or Even}), ciphertexts exchanged in \textbf{Leaky Coffee} has distinguish length which could possibly be exploited to recover the plaintexts.
+Similar to \textbf{Odd or Even}(\Cref{Sec: Odd or Even}), ciphertext exchanged in \textbf{Leaky Coffee} has distinguish length which could possibly be exploited to recover the plaintext.
 
 To formalise it, we model the leakage through ciphertext lengths as a channel\cite{Information_Theory}, inspired by \cite{Web2}. The general idea is to view the ciphtertext lengths as an input and plaintext the output, then the leakage problem is immediately equivalent  to the decoding problem of such a channel. 
 
-In order to do this, we first construct a  \textbf{Forward Channel} that “encodes” plaintexts to ciphertext lengths. The \textbf{Leakage Channel}, which “decodes” ciphertext lengths to plaintexts, is therefore followed by as the reversion of \textbf{Forward Channel}.
+In order to do this, we first construct a  \textbf{Forward Channel} that “encodes” plaintext to ciphertext lengths. The \textbf{Leakage Channel}, which “decodes” ciphertext lengths to plaintext, is therefore followed by as the reversion of \textbf{Forward Channel}.
 
 \begin{definition} \label{Def: Channels}
-Let $\mathbb{X}$ be the set of possible plaintexts and $\mathbb{Y}$ the set of possible packet lengths in bytes. The \textbf{Forward Channel} is then given as  $\bf{W(y|x)}$ and \textbf{Leakage Channel} as $\bf{W^{-1}(x|y)}$ where both $x \in \mathbb{X}$ and $y \in \mathbb{Y}$.
+Let $\mathbb{X}$ be the set of possible plaintext and $\mathbb{Y}$ the set of possible packet lengths in bytes. The \textbf{Forward Channel} is then given as  $\bf{W(y|x)}$ and \textbf{Leakage Channel} as $\bf{W^{-1}(x|y)}$ where both $x \in \mathbb{X}$ and $y \in \mathbb{Y}$.
 \end{definition}
+
+One thing to be noticed is that the capacity of both Forward Channel and Leakage Channel are exactly the same which is the Mutual Informaiton of $X$ and $Y$, as described in \cite{Web2}.
 
 \Cref{Ex: Single_Order} describes an example of how Forward Channel and Leakage Channel are constructed.
 
@@ -292,10 +292,10 @@ return $W^{-1}(x|y)$\;
 
 \end{example}
 
-One underlining problem in this method is the need to enumerate the plaintext. In some scenarios, it is possible to mitigate this problem by reducing the size of $\mathbb{X}$ by wrapping plaintexts. The cost of such mitigation is the loss of resolution in the recovered plaintext, as shown in \Cref{Ex: Single-OrderFlavour}.
+One underlining problem in this method is the need to enumerate the plaintext. In some scenarios, it is possible to mitigate this problem by reducing the size of $\mathbb{X}$ by wrapping plaintext. The cost of such mitigation is the loss of resolution in the recovered plaintext, as shown in \Cref{Ex: Single-OrderFlavour}.
 
 \begin{example} \label{Ex: Single-OrderFlavour}
-$Coffee$(\Cref{Def: Coffee}) is relatively harder to enumerate as the various combination of $Sugar$ and $Milk$. However, if the adversary aims only to guess the first part, $Order$, then the construction of Leakage Channel can be done much more efficiently by giving up the resolution of distinguishing $Sugar$ and $Milk$. To be more specifically, the construction of Leakage Channel could be simplified by wrapping the “less important” part, in this example $Sugar$ and $Milk$, of plaintexts.
+$Coffee$(\Cref{Def: Coffee}) is relatively harder to enumerate as the various combination of $Sugar$ and $Milk$. However, if the adversary aims only to guess the first part, $Order$, then the construction of Leakage Channel can be done much more efficiently by giving up the resolution of distinguishing $Sugar$ and $Milk$. To be more specifically, the construction of Leakage Channel could be simplified by wrapping the “less important” part, in this example $Sugar$ and $Milk$, of plaintext.
 
 Since we know the probabilities for $Sugar$ and $Milk$, therefore we can construct Forward Channel as \Cref{Tbl: Forward Channel for Coffee}.
 
@@ -326,7 +326,7 @@ To summarise, a Leakage Channel can be constructed by the following steps:
 \item[3] Construct the Leakage Channel by \Cref{Alg: FC2LC}.
 \end{description}
 
-The length analysis can be further improved by jointly analyse more packets, such as applying them to Hidden Markov Model. For example, if two packets of length $8$ continuously appears in a \textbf{Leaky Coffee} session then we can immediately conclude that the plaintexts are “ESPRESSO” and “ESPRESSO” as an “ESPRESSO” $Order$ will definitely results into an “ESPRESSO” $Coffee$. However, this method has a strong dependency on the application and thus we will not discuss further in this paper.
+The length analysis can be further improved by jointly analyse more packets, such as applying them to Hidden Markov Model. For example, if two packets of length $8$ continuously appears in a \textbf{Leaky Coffee} session then we can immediately conclude that the plaintext are “ESPRESSO” and “ESPRESSO” as an “ESPRESSO” $Order$ will definitely results into an “ESPRESSO” $Coffee$. However, this method has a strong dependency on the application and thus we will not discuss further in this paper.
 
 
 \subsection{Estimate plaintext distribution}
@@ -384,77 +384,79 @@ p_1 + p_2 = d_3\\
 \right
 \end{equation}
 
-Any solution satisfies \Cref{Eq: Plaintext Distribution Estimation} can be viewed as a reasonable guess to the distribution of plaintexts.
+Any solution satisfies \Cref{Eq: Plaintext Distribution Estimation} can be viewed as a reasonable guess to the distribution of plaintext.
 \end{example}
 
 
-\subsection{Counter Measure: Padding}
-Padding the plaintexts is one of the most obvious counter measure to this kind of attack as it gets harder to “decode” a ciphertext length in a Leakage Channel if multiple plaintexts are mapped to the same length in the Forward Channel.
+\subsection{Countermeasure: Padding}
+A countermeasure that we immediately came up with is to pad all plaintext to the maximum length. The entropy of ciphertext length will therefore equal to $0$ as all plaintext results into ciphertext with same length; hence the capacity for both Forward Channel and Leakage Channel will also be $0$ which eliminates the potential of such attack. However, such padding scheme can sometimes dramatically increase the bandwidth consumption which is critically in sensor networks.
 
-One padding scheme, we denote as \textbf{Perfect Padding}, is to pad  every plaintext to a same fixed length which is usually the maximum length of plaintexts, or some multiples of block length when a block cipher is being used. Perfect Padding perfectly eliminates the difference of ciphertext length and hence the Leakage Channel will has only one row with plaintexts having uniform distribution over it, which effectively means that the adversary dose no better than blind guessing given the ciphertext length. However, the drawback of this method is the additional bandwidth consumed by padding. Consider an extreme example where the longest plaintext has an extremely long length but rarely appears. Since every other plaintexts will have to pad to that length; therefore this padding scheme could therefore result into a horrific reduction in performance. In some scenarios such as IoT devices, this problem may be came critical.
+An alternative option is probabilistically padding plaintext to some, either deterministic or probabilistic, length. This alternative padding scheme is aimed to achieve a good decrement of the channels’ capacity while adding a relatively low overhead to the application. Two pairs of parameter can be adopted as a measurement of the security-performance trade-off:
+\begin{itemize}
+\item Capacities $(C_0,C_p)$ where $C_0$ and $C_p$ are the Leakage Channels’ capacities for unpadded and padded scheme respectively.\item Expectations for ciphertext length $(E_0,E_p)$, where $E_0$ and $E_p$ are the expectations for ciphtertext length in unpadded and padded scheme respectively.
+\end{itemize}
+All parameters, $\{C_0,C_p,E_0,E_p\}$, can be solely derived from the Forward Channels.
 
-An alternative option is to pad only part of plaintexts to some shorter length which is either deterministic or probabilistic. A well designed padding scheme is expected to provide some level of protection while having a better performance than Perfect Padding. This is a typical trade-off between security and performance.
-\begin{definition}
-Let $W(y|x)$ be the unpadded Forward Channel, we denote $Pad$ as the padding function and $W_{pad}(y_{pad}|x) = Pad(W)$ as the padded Forward Channel.
-\end{definition}
+However, we leave the measurement of these parameters and methods for designing an optimal padding scheme as open questions in this report.
 
-The security of the padded Leakage Channel can be measured by its channel capacity, denoted as $C(W^{-1})$, as described in \cite{Web2}. Since Leakage Channel is the inverse of Forward Channel; therefore both are factually the same which is the \textbf{mutual information} of plaintext and ciphertext length, denoted as $I(X;Y_{pad})$ where $X$ is the set of plaintext and $Y_{pad}$ the padded ciphtertext length. We define the channel capacity $C$ as:
-\begin{definition}
-\begin{equation}
-C=C(W_{pad}^{-1})=C(W_{pad})=I(X;Y)=\sum\limits_{y \in \mathbb{Y}}{\sum\limits_{x \in X}{p(x,y_{pad}) \log(\frac{p(x,y_{pad})}{p(x)p(y_{pad})})}}
-\end{equation}
-\end{definition}
+%Intuitively , padding the plaintext is one of the most obvious counter measure to this kind of attack as it gets harder to “decode” a ciphertext length in a Leakage Channel if multiple plaintext are mapped to the same length in the Forward Channel. 
 
-In addition, we propose the \textbf{Padding Rate} as its evaluation. Padding Rate is defined as the number of bytes required by a scheme to transmit a byte for the unpadded scheme. 
-\begin{definition}
-The Padding Rate $R$ is defined as:
-\begin{equation}
-\begin{aligned}
-R=\frac{E(y_{pad})}{E(y)}=\frac{\sum\limits_{x_i \in X}{(p(x_i)E(y_{pad}|x_i)})}{(\sum\limits_{x_i \in X}{p(x_i)E(y|x_i)})}=
-\frac
-{
-\sum\limits_
-	{
-		x_i \in \mathbb{X}
-	}
-	{(
-		p(x_i)
-		\sum\limits_
-		{
-			y_{pad_j} \in \mathbb{Y}_{pad}
-		}
-		{(
-			W_{pad}(y_{pad_j}|x_i)y_{pad_j}
-		)}
-	)}
-}
-{
-\sum\limits_
-	{
-		x_i \in \mathbb{X}
-	}
-	{(
-		p(x_i)
-		\sum\limits_
-		{
-			y_j \in \mathbb{Y}
-		}
-		{(
-			W(y_j|x_i)y_j
-		)}
-	)}
-}
-\end{aligned}
-\end{equation}
-where $E$ represents expectation.
-\end{definition}
-
-Since ciphtertext length can be directly derived from plaintext; therefore both $C$ and $R$ can be solely computed given $X$ and $Pad$. 
-
-We can define a score function which takes $C$ and $R$ as parameters to evaluate the trade-off between security and performance. Since $C$ and $R$ are determined given $X$ and $Pad$, the score function is therefore equivalent to a function of $X$ and $Pad$:
-\begin{definition}
-\begin{equation}
-S = Score(C,R) = Score’(X, Pad)
-\end{equation}
-\end{definition}
-In this paper, we leave the detailed definition of $S$ as an open question.
+%One padding scheme, we denote as \textbf{Perfect Padding}, is to pad  every plaintext to a same fixed length which is usually the maximum length of plaintext, or some multiples of block length when a block cipher is being used. Perfect Padding perfectly eliminates the difference of ciphertext length and hence the Leakage Channel will has only one row with plaintext having uniform distribution over it, which effectively means that the adversary dose no better than blind guessing given the ciphertext length. However, the drawback of this method is the additional bandwidth consumed by padding. Consider an extreme example where the longest plaintext has an extremely long length but rarely appears. Since every other plaintext will have to pad to that length; therefore this padding scheme could therefore result into a horrific reduction in performance. In some scenarios such as IoT devices, this problem may be came critical.
+%
+%An alternative option is to pad only part of plaintext to some shorter length which is either deterministic or probabilistic. A well designed padding scheme is expected to provide some level of protection while having a better performance than Perfect Padding. This is a typical trade-off between security and performance.
+%\begin{definition}
+%Let $W(y|x)$ be the unpadded Forward Channel, we denote $Pad$ as the padding function and $W_{pad}(y_{pad}|x) = Pad(W)$ as the padded Forward Channel.
+%\end{definition}
+%
+%The security of the padded Leakage Channel can be measured by its channel capacity, denoted as $C(W^{-1})$, as described in \cite{Web2}. Since Leakage Channel is the inverse of Forward Channel; therefore both are factually the same which is the \textbf{mutual information} of plaintext and ciphertext length, denoted as $I(X;Y_{pad})$ where $X$ is the set of plaintext and $Y_{pad}$ the padded ciphtertext length. We define the channel capacity $C$ as:
+%\begin{definition}
+%\begin{equation}
+%C=C(W_{pad}^{-1})=C(W_{pad})=I(X;Y)=\sum\limits_{y \in \mathbb{Y}}{\sum\limits_{x \in X}{p(x,y_{pad}) \log(\frac{p(x,y_{pad})}{p(x)p(y_{pad})})}}
+%\end{equation}
+%\end{definition}
+%
+%In addition, we propose the \textbf{Padding Rate} as its evaluation. Padding Rate is defined as the number of bytes required by a scheme to transmit a byte for the unpadded scheme. 
+%\begin{definition}
+%The Padding Rate $R$ is defined as:
+%\begin{equation}
+%\begin{aligned}
+%R=\frac{E(y_{pad})}{E(y)}=\frac{\sum\limits_{x_i \in X}{(p(x_i)E(y_{pad}|x_i)})}{(\sum\limits_{x_i \in X}{p(x_i)E(y|x_i)})}=
+%\frac
+%{
+%\sum\limits_
+%	{
+%		x_i \in \mathbb{X}
+%	}
+%	{(
+%		p(x_i)
+%		\sum\limits_
+%		{
+%			y_{pad_j} \in \mathbb{Y}_{pad}
+%		}
+%		{(
+%			W_{pad}(y_{pad_j}|x_i)y_{pad_j}
+%		)}
+%	)}
+%}
+%{
+%\sum\limits_
+%	{
+%		x_i \in \mathbb{X}
+%	}
+%	{(
+%		p(x_i)
+%		\sum\limits_
+%		{
+%			y_j \in \mathbb{Y}
+%		}
+%		{(
+%			W(y_j|x_i)y_j
+%		)}
+%	)}
+%}
+%\end{aligned}
+%\end{equation}
+%where $E$ represents expectation.
+%\end{definition}
+%
+%Since ciphtertext length can be directly derived from plaintext; therefore both $C$ and $R$ can be solely computed given $X$ and $Pad$. 

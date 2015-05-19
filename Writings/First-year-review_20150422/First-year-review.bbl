@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 2.3 $
+% $ biblatex bbl format version 2.4 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -18,7 +18,7 @@
 
 
 \refsection{0}
-  \sortlist{entry}{none}
+  \sortlist{none}{none}
     \entry{DPA}{book}{}
       \name{labelname}{3}{}{%
         {{hash=1cdffbc482347edefd718f61814abbc3}{Mangard}{M\bibinitperiod}{Stefan}{S\bibinitperiod}{}{}{}{}}%
@@ -36,6 +36,7 @@
       \strng{namehash}{c6527fca10514b5b57a9540f156dce07}
       \strng{fullhash}{c6527fca10514b5b57a9540f156dce07}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Power analysis attacks - revealing the secrets of smart cards}
       \field{isbn}{978-0-387-30857-9}
       \field{title}{Power analysis attacks - revealing the secrets of smart cards}
@@ -51,6 +52,7 @@
       \strng{namehash}{5f3bee3b8939320b1e0713b083800eac}
       \strng{fullhash}{5f3bee3b8939320b1e0713b083800eac}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{Cache-timing attacks on AES}}
       \field{note}{URL: {\tt http://cr.yp.to/papers.html\#cachetiming}}
       \field{title}{{Cache-timing attacks on AES}}
@@ -70,6 +72,7 @@
       \strng{namehash}{5d5b85d85666340c2032fbfcdf1a58c6}
       \strng{fullhash}{5d5b85d85666340c2032fbfcdf1a58c6}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Cache attacks and Countermeasures: the Case of AES.}
       \field{journaltitle}{IACR Cryptology ePrint Archive}
       \field{title}{Cache attacks and Countermeasures: the Case of AES.}
@@ -91,6 +94,7 @@
       \strng{namehash}{990c2ebbfc4739429e2d8f433014a291}
       \strng{fullhash}{990c2ebbfc4739429e2d8f433014a291}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{ISO/IEC 7498-1Information technology - Open Systems Interconnection - Basic Reference Model: The Basic Model}}
       \field{day}{15}
       \field{edition}{Second}
@@ -103,6 +107,7 @@
     \endentry
     \entry{tinyDTLS}{misc}{}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{tinyDTLS}
       \field{howpublished}{\url{http://tinydtls.sourceforge.net/}}
       \field{title}{tinyDTLS}
@@ -123,6 +128,7 @@
       \strng{namehash}{86d13bb4df1609c02383b83391febc3f}
       \strng{fullhash}{f8aa0e43d4df0be312be7ee12333dd1b}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Side-Channel Leaks in Web Applications: {A} Reality Today, a Challenge Tomorrow}
       \field{booktitle}{31st {IEEE} Symposium on Security and Privacy, S{\&}P 2010, 16-19 May 2010, Berleley/Oakland, California, {USA}}
       \field{title}{Side-Channel Leaks in Web Applications: {A} Reality Today, a Challenge Tomorrow}
@@ -147,6 +153,7 @@
       \strng{namehash}{860c943b351bb69b55b8df92757ba209}
       \strng{fullhash}{860c943b351bb69b55b8df92757ba209}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Pinpointing side-channel information leaks in web applications}
       \field{journaltitle}{J. Cryptographic Engineering}
       \field{number}{3}
@@ -163,20 +170,21 @@
     \endentry
     \entry{DBLP:conf/csfw/AlvimCPS12}{inproceedings}{}
       \name{labelname}{4}{}{%
-        {{hash=9149a29523728a313c2391c21f7a35b6}{Alvim}{A\bibinitperiod}{Mário\bibnamedelima S.}{M\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+        {{hash=fd41dd2afe5ed2ef19b16911e5dc3403}{Alvim}{A\bibinitperiod}{M{á}rio\bibnamedelima S.}{M\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
         {{hash=1b3525a66b6f72a92b5d4446802b8903}{Chatzikokolakis}{C\bibinitperiod}{Konstantinos}{K\bibinitperiod}{}{}{}{}}%
         {{hash=1be391749a3de49eae8b6aa3838278db}{Palamidessi}{P\bibinitperiod}{Catuscia}{C\bibinitperiod}{}{}{}{}}%
         {{hash=b38ed92c07c0bc1481d8971eb048c2d9}{Smith}{S\bibinitperiod}{Geoffrey}{G\bibinitperiod}{}{}{}{}}%
       }
       \name{author}{4}{}{%
-        {{hash=9149a29523728a313c2391c21f7a35b6}{Alvim}{A\bibinitperiod}{Mário\bibnamedelima S.}{M\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+        {{hash=fd41dd2afe5ed2ef19b16911e5dc3403}{Alvim}{A\bibinitperiod}{M{á}rio\bibnamedelima S.}{M\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
         {{hash=1b3525a66b6f72a92b5d4446802b8903}{Chatzikokolakis}{C\bibinitperiod}{Konstantinos}{K\bibinitperiod}{}{}{}{}}%
         {{hash=1be391749a3de49eae8b6aa3838278db}{Palamidessi}{P\bibinitperiod}{Catuscia}{C\bibinitperiod}{}{}{}{}}%
         {{hash=b38ed92c07c0bc1481d8971eb048c2d9}{Smith}{S\bibinitperiod}{Geoffrey}{G\bibinitperiod}{}{}{}{}}%
       }
-      \strng{namehash}{76902856becfd30e53029511a33bcbb5}
-      \strng{fullhash}{83efe6d55936c99de5a6a7848bdde749}
+      \strng{namehash}{25e4965c31b1edb18e62dcdf8ecab183}
+      \strng{fullhash}{c836e9f089005a63c971b95c5db34907}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Measuring Information Leakage Using Generalized Gain Functions}
       \field{booktitle}{25th {IEEE} Computer Security Foundations Symposium, {CSF} 2012, Cambridge, MA, USA, June 25-27, 2012}
       \field{title}{Measuring Information Leakage Using Generalized Gain Functions}
@@ -201,6 +209,7 @@
       \strng{namehash}{52bfd83b11d1f1f658811ce64c0a7cbf}
       \strng{fullhash}{52bfd83b11d1f1f658811ce64c0a7cbf}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{A Statistical Test for Information Leaks Using Continuous Mutual Information}
       \field{booktitle}{Proceedings of the 24th {IEEE} Computer Security Foundations Symposium, {CSF} 2011, Cernay-la-Ville, France, 27-29 June, 2011}
       \field{title}{A Statistical Test for Information Leaks Using Continuous Mutual Information}
@@ -223,6 +232,7 @@
       \strng{namehash}{c2c6fac9d2b8a325b4e9e7ee69c17da2}
       \strng{fullhash}{c2c6fac9d2b8a325b4e9e7ee69c17da2}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Traffic Analysis of the HTTP Protocol over TLS}
       \field{title}{Traffic Analysis of the HTTP Protocol over TLS}
     \endentry
@@ -252,6 +262,7 @@
       \strng{namehash}{b80601c9f8e9c04838dd0c6430c4b7b1}
       \strng{fullhash}{1c4a72b8548b4b6e6728d193e24d7eaf}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Attacking Suggest Boxes in Web Applications Over {HTTPS} Using Side-Channel Stochastic Algorithms}
       \field{journaltitle}{{IACR} Cryptology ePrint Archive}
       \field{title}{Attacking Suggest Boxes in Web Applications Over {HTTPS} Using Side-Channel Stochastic Algorithms}
@@ -272,6 +283,7 @@
       \strng{namehash}{47fa73357b828aa53859b00946c179b1}
       \strng{fullhash}{47fa73357b828aa53859b00946c179b1}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Compression and Information Leakage of Plaintext}
       \field{booktitle}{Fast Software Encryption, 9th International Workshop, {FSE} 2002, Leuven, Belgium, February 4-6, 2002, Revised Papers}
       \field{title}{Compression and Information Leakage of Plaintext}
@@ -286,6 +298,7 @@
     \endentry
     \entry{CRIME}{misc}{}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{The CRIME Attack}
       \field{howpublished}{\url{https://docs.google.com/presentation/d/11eBmGiHbYcHR9gL5nDyZChu_-lCa2GizeuOfaLU2HOU/edit}}
       \field{title}{The CRIME Attack}
@@ -304,6 +317,7 @@
       \strng{namehash}{b61e41aeafd61a8ebe1f3ad4e0ff202c}
       \strng{fullhash}{b61e41aeafd61a8ebe1f3ad4e0ff202c}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Breach: Reviving the {CRIME} Attack}
       \field{title}{Breach: Reviving the {CRIME} Attack}
       \field{type}{techreport}
@@ -326,6 +340,7 @@
       \strng{namehash}{e755fa51e4c36446df1b67038b71b80d}
       \strng{fullhash}{e755fa51e4c36446df1b67038b71b80d}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Protecting Encrypted Cookies from Compression Side-Channel Attacks}
       \field{journaltitle}{{IACR} Cryptology ePrint Archive}
       \field{title}{Protecting Encrypted Cookies from Compression Side-Channel Attacks}
@@ -346,6 +361,7 @@
       \strng{namehash}{bc5a970b91cc7486cc301f2500577e02}
       \strng{fullhash}{bc5a970b91cc7486cc301f2500577e02}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Security Flaws Induced by {CBC} Padding - Applications to SSL, IPSEC, {WTLS} ...}
       \field{booktitle}{Advances in Cryptology - {EUROCRYPT} 2002, International Conference on the Theory and Applications of Cryptographic Techniques, Amsterdam, The Netherlands, April 28 - May 2, 2002, Proceedings}
       \field{title}{Security Flaws Induced by {CBC} Padding - Applications to SSL, IPSEC, {WTLS} ...}
@@ -370,6 +386,7 @@
       \strng{namehash}{7b7e702061cb1fba85d0465b85874359}
       \strng{fullhash}{7b7e702061cb1fba85d0465b85874359}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Lucky Thirteen: Breaking the {TLS} and {DTLS} Record Protocols}
       \field{booktitle}{2013 {IEEE} Symposium on Security and Privacy, {SP} 2013, Berkeley, CA, USA, May 19-22, 2013}
       \field{title}{Lucky Thirteen: Breaking the {TLS} and {DTLS} Record Protocols}
@@ -398,6 +415,7 @@
       \strng{namehash}{88dbbe3e4d39db7b8c935a7fc792eb10}
       \strng{fullhash}{88dbbe3e4d39db7b8c935a7fc792eb10}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{Internet Protocol}}
       \field{howpublished}{RFC 791 (INTERNET STANDARD)}
       \field{month}{09}
@@ -428,6 +446,7 @@
       \strng{namehash}{184dbafad09ffc8e0a15911c4219a912}
       \strng{fullhash}{184dbafad09ffc8e0a15911c4219a912}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{Internet Protocol, Version 6 (IPv6) Specification}}
       \field{howpublished}{RFC 2460 (Draft Standard)}
       \field{month}{12}
@@ -458,6 +477,7 @@
       \strng{namehash}{e2a5b23e82340e2e98ecb7339123e234}
       \strng{fullhash}{e2a5b23e82340e2e98ecb7339123e234}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{Compression Format for IPv6 Datagrams over IEEE 802.15.4-Based Networks}}
       \field{howpublished}{RFC 6282 (Proposed Standard)}
       \field{month}{09}
@@ -487,6 +507,7 @@
       \strng{namehash}{9168c6edeb1359af287bda175347e4c9}
       \strng{fullhash}{9168c6edeb1359af287bda175347e4c9}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{Datagram Transport Layer Security Version 1.2}}
       \field{howpublished}{RFC 6347 (Proposed Standard)}
       \field{month}{01}
@@ -518,6 +539,7 @@
       \strng{namehash}{419aa8c7a207dd4008c7ae2633dc65cf}
       \strng{fullhash}{419aa8c7a207dd4008c7ae2633dc65cf}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{The Constrained Application Protocol (CoAP)}}
       \field{howpublished}{RFC 7252 (Proposed Standard)}
       \field{month}{06}
@@ -551,6 +573,7 @@
       \strng{namehash}{51ab4f3e44df2943c9ffb9a562d8ba7d}
       \strng{fullhash}{fc616948f81968f391dfb2eda15e33e5}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{{AES-CCM Elliptic Curve Cryptography (ECC) Cipher Suites for TLS}}
       \field{howpublished}{RFC 7251 (Informational)}
       \field{month}{06}
@@ -564,6 +587,7 @@
     \endentry
     \entry{Wireshark}{misc}{}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{Wireshark}
       \field{howpublished}{\url{https://www.wireshark.org/}}
       \field{title}{Wireshark}
@@ -584,6 +608,7 @@
       \strng{namehash}{cea611271dfb4b16522bf8178e289090}
       \strng{fullhash}{cea611271dfb4b16522bf8178e289090}
       \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
       \field{labeltitle}{A Mathematical Theory of Communication}
       \field{issn}{1559-1662}
       \field{journaltitle}{SIGMOBILE Mob. Comput. Commun. Rev.}
