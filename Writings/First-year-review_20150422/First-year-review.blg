@@ -1,0 +1,25 @@
+[0] Config.pm:321> INFO - This is Biber 1.9
+[0] Config.pm:324> INFO - Logfile is 'First-year-review.blg'
+[75] biber:277> INFO - === Tue May 19, 2015, 14:33:16
+[75] Biber.pm:334> INFO - Reading 'First-year-review.bcf'
+[179] Biber.pm:636> INFO - Found 25 citekeys in bib section 0
+[451] Biber.pm:3052> INFO - Processing section 0
+[650] Biber.pm:3190> INFO - Looking for bibtex format file 'references.bib' for section 0
+[665] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
+[672] bibtex.pm:853> INFO - Found BibTeX data source 'references.bib'
+[805] Biber.pm:3190> INFO - Looking for bibtex format file 'rfc.bib' for section 0
+[1330] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
+[1726] bibtex.pm:853> INFO - Found BibTeX data source 'rfc.bib'
+[2141] Utils.pm:144> WARN - I didn't find a database entry for crossref 'DBLP:conf/csfw/2012' in entry 'DBLP:conf/csfw/AlvimCPS12' - ignoring (section 0)
+[2142] Utils.pm:144> WARN - I didn't find a database entry for crossref 'DBLP:conf/csfw/2011' in entry 'DBLP:conf/csfw/ChothiaG11' - ignoring (section 0)
+[2142] Utils.pm:144> WARN - I didn't find a database entry for crossref 'DBLP:conf/fse/2002' in entry 'DBLP:conf/fse/Kelsey02' - ignoring (section 0)
+[2142] Utils.pm:144> WARN - I didn't find a database entry for crossref 'DBLP:conf/eurocrypt/2002' in entry 'DBLP:conf/eurocrypt/Vaudenay02' - ignoring (section 0)
+[2143] Utils.pm:144> WARN - I didn't find a database entry for crossref 'DBLP:conf/sp/2013' in entry 'DBLP:conf/sp/AlFardanP13' - ignoring (section 0)
+[2145] Utils.pm:144> WARN - The field 'year' in entry 'Danezis_trafficanalysis' cannot be null, deleting it
+[2466] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[2466] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[2467] Biber.pm:2929> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-US'
+[2467] Biber.pm:2933> INFO - No sort tailoring available for locale 'en-US'
+[2510] bbl.pm:517> INFO - Writing 'First-year-review.bbl' with encoding 'UTF-8'
+[2513] bbl.pm:606> INFO - Output to First-year-review.bbl
+[2513] Biber.pm:107> INFO - WARNINGS: 6

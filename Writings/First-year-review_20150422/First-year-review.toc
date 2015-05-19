@@ -42,7 +42,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2.5}Estimate plaintext distribution}{21}{subsection.3.2.5}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2.6}Counter Measure: Padding}{22}{subsection.3.2.6}
+\contentsline {subsection}{\numberline {3.2.6}Countermeasure: Padding}{22}{subsection.3.2.6}
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}Plan}{24}{chapter.4}
 \defcounter {refsection}{0}\relax 
