@@ -62,15 +62,15 @@
 static uip_ipaddr_t prefix;
 static uint8_t prefix_set;
 
-PROCESS(coap_process, "CoAP process");
+PROCESS(borderest_process, "borderest process");
 
 #if WEBSERVER==0
 /* No webserver */
-AUTOSTART_PROCESSES(&coap_process);
+AUTOSTART_PROCESSES(&borderest_process);
 #elif WEBSERVER>1
 /* Use an external webserver application */
 #include "webserver-nogui.h"
-AUTOSTART_PROCESSES(&coap_process,&webserver_nogui_process);
+AUTOSTART_PROCESSES(&borderest_process,&webserver_nogui_process);
 #else
 /* Use simple webserver with only one page for minimum footprint.
  * Multiple connections can result in interleaved tcp segments since
@@ -107,7 +107,7 @@ PROCESS_THREAD(webserver_nogui_process, ev, data)
 
   PROCESS_END();
 }
-AUTOSTART_PROCESSES(&coap_process,&webserver_nogui_process);
+AUTOSTART_PROCESSES(&borderest_process,&webserver_nogui_process);
 
 static const char *TOP = "<html><head><title>ContikiRPL</title></head><body>\n";
 static const char *BOTTOM = "</body></html>\n";
@@ -346,13 +346,13 @@ void activate_coap_resources()
 	
 	rest_activate_resource(&res_hello, "hello");
 	rest_activate_resource(&res_toggle, "leds/toggle");
-	rest_activate_resource(&res_leds, "leds/switch");
+	rest_activate_resource(&res_leds, "leds");
 
 	return;
 }
 
 /*---------------------------------------------------------------------------*/
-PROCESS_THREAD(coap_process, ev, data)
+PROCESS_THREAD(borderest_process, ev, data)
 {
   static struct etimer et;
 
