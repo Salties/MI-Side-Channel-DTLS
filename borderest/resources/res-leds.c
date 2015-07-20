@@ -44,7 +44,7 @@
 #include "rest-engine.h"
 #include "dev/leds.h"
 
-#define DEBUG 0
+#define DEBUG 1
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
@@ -56,53 +56,132 @@
 #define PRINTLLADDR(addr)
 #endif
 
-static void res_post_put_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+static void res_get_handler(void *request, void *response,
+			    uint8_t * buffer, uint16_t preferred_size,
+			    int32_t * offset);
+
+static void res_post_put_handler(void *request, void *response,
+				 uint8_t * buffer, uint16_t preferred_size,
+				 int32_t * offset);
+
 
 /*A simple actuator example, depending on the color query parameter and post variable mode, corresponding led is activated or deactivated*/
 RESOURCE(res_leds,
-         "title=\"LEDs: ?color=r|g|b, POST/PUT mode=on|off\";rt=\"Control\"",
-         NULL,
-         res_post_put_handler,
-         res_post_put_handler,
-         NULL);
+	 "title=\"LEDs: ?color=r|g|b, POST/PUT mode=on|off\";rt=\"Control\"",
+	 res_get_handler, res_post_put_handler, res_post_put_handler,
+	 NULL);
 
 static void
-res_post_put_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+res_post_put_handler(void *request, void *response, uint8_t * buffer,
+		     uint16_t preferred_size, int32_t * offset)
 {
-  size_t len = 0;
-  const char *color = NULL;
-  const char *mode = NULL;
-  uint8_t led = 0;
-  int success = 1;
+    size_t len = 0;
+    const char *color = NULL;
+    const char *mode = NULL;
+    uint8_t led = 0;
+    int success = 1;
 
-  if((len = REST.get_query_variable(request, "color", &color))) {
-    PRINTF("color %.*s\n", len, color);
+    if ((len = REST.get_query_variable(request, "color", &color)))
+      {
+	  PRINTF("color %.*s\n", len, color);
 
-    if(strncmp(color, "r", len) == 0) {
-      led = LEDS_RED;
-    } else if(strncmp(color, "g", len) == 0) {
-      led = LEDS_GREEN;
-    } else if(strncmp(color, "b", len) == 0) {
-      led = LEDS_BLUE;
-    } else {
-      success = 0;
-    }
-  } else {
-    success = 0;
-  } if(success && (len = REST.get_post_variable(request, "mode", &mode))) {
-    PRINTF("mode %s\n", mode);
+	  if (strncmp(color, "r", len) == 0)
+	    {
+		led = LEDS_RED;
+	    }
+	  else if (strncmp(color, "g", len) == 0)
+	    {
+		led = LEDS_GREEN;
+	    }
+	  else if (strncmp(color, "b", len) == 0)
+	    {
+		led = LEDS_BLUE;
+	    }
+	  else
+	    {
+		success = 0;
+	    }
+      }
+    else
+      {
+	  success = 0;
+      }
 
-    if(strncmp(mode, "on", len) == 0) {
-      leds_on(led);
-    } else if(strncmp(mode, "off", len) == 0) {
-      leds_off(led);
-    } else {
-      success = 0;
-    }
-  } else {
-    success = 0;
-  } if(!success) {
-    REST.set_response_status(response, REST.status.BAD_REQUEST);
-  }
+    PRINTF("success: %d\n", success);
+
+    if (success && (len = REST.get_post_variable(request, "mode", &mode)))
+      {
+	  PRINTF("mode %s\n", mode);
+
+	  if (strncmp(mode, "on", len) == 0)
+	    {
+		leds_on(led);
+	    }
+	  else if (strncmp(mode, "off", len) == 0)
+	    {
+		leds_off(led);
+	    }
+	  else
+	    {
+		success = 0;
+	    }
+      }
+    else
+      {
+	  success = 0;
+      }
+    if (!success)
+      {
+	  REST.set_response_status(response, REST.status.BAD_REQUEST);
+      }
 }
-#endif /* PLATFORM_HAS_LEDS */
+
+static void res_get_handler(void *request, void *response,
+			    uint8_t * buffer, uint16_t preferred_size,
+			    int32_t * offset)
+{
+	static char led_status = 0;
+	const char* colour = NULL; //RGB
+	static int length;
+
+	led_status = leds_get();
+	if(REST.get_query_variable(request, "colour", &colour))
+	{
+		length = 1;
+		switch(*colour)
+		{
+			case 'R':
+			case 'r':
+				buffer[0] = (led_status & LEDS_RED? 'R': '0');
+				break;
+
+			case 'G':
+			case 'g':
+				buffer[0] = (led_status & LEDS_GREEN? 'G': '0');
+				break;
+
+			case 'B':
+			case 'b':
+				buffer[0] = (led_status & LEDS_BLUE? 'B': '0');
+				break;
+
+			default:
+				buffer[0] = 'E';
+				break;
+		}
+	}
+	else
+	{
+		length = 3;
+		buffer[0] = (led_status & LEDS_RED? 'R': '0');
+		buffer[1] = (led_status & LEDS_GREEN? 'G': '0');
+		buffer[2] = (led_status & LEDS_BLUE? 'B': '0');
+	}
+
+	REST.set_header_content_type(response, REST.type.TEXT_PLAIN);
+	REST.set_header_etag(response, (uint8_t *)&length, 1);
+	REST.set_response_payload(response, buffer, length);
+}
+
+
+#endif				/* PLATFORM_HAS_LEDS */

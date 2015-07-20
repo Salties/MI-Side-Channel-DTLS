@@ -1,4 +1,4 @@
-CONTIKI_PROJECT=coap
+CONTIKI_PROJECT=borderest
 all: $(CONTIKI_PROJECT) 
 
 CONTIKI=../contiki
