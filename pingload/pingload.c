@@ -39,23 +39,25 @@
 #include "contiki.h"
 #include "sys/etimer.h"
 #include "sys/timer.h"
+#include "sys/clock.h"
 #include "dev/leds.h"
 #include "watchdog.h"
 #include "random.h"
 
+#include "dev/cc2538-sensors.h"
+
 #include <stdio.h>		/* For printf() */
 
-#define EXPECTED_IDLE_PERCENT (100 - EXPECTED_PAYLOAD_PERCENT)
-#define EXPECTED_PAYLOAD_PERCENT (20)
-#define GRANULARITY 500
+#define EXPECTED_IDLE (1000 - EXPECTED_PAYLOAD)
+#define EXPECTED_PAYLOAD (800)	//Processor payload (in 1/1000 ).
+//#define PAYLOAD_SCALER 1
+#define GRANULARITY 10000
 #define MAGIC_PRIME 63793
 
 /*---------------------------------------------------------------------------*/
-PROCESS(hello_world_process, "Hello world process");
-AUTOSTART_PROCESSES(&hello_world_process);
+PROCESS(pingload_process, "Pingload Process");
+AUTOSTART_PROCESSES(&pingload_process);
 /*---------------------------------------------------------------------------*/
-
-
 
 unsigned short GetRandom(unsigned int space)
 {
@@ -76,11 +78,12 @@ inline unsigned int GetPeriod(unsigned int expected)
     return (expected == 0 ? 0 : GetRandom(2 * expected + 1));
 }
 
-PROCESS_THREAD(hello_world_process, ev, data)
+PROCESS_THREAD(pingload_process, ev, data)
 {
     static struct etimer et;
     static struct timer t;
-    static unsigned short r;
+    //static unsigned short i;
+    static unsigned long long count;
     static unsigned int sleep_period, busy_period;
 
     PROCESS_BEGIN();
@@ -93,25 +96,27 @@ PROCESS_THREAD(hello_world_process, ev, data)
       {
 	  //Sleep period.
 	  leds_on(LEDS_BLUE);
-	  sleep_period = GetPeriod(EXPECTED_IDLE_PERCENT);
-	  printf("Enter sleep for %d/%d seconds...", sleep_period, GRANULARITY);
-	  etimer_set(&et,CLOCK_SECOND * sleep_period / GRANULARITY);
+	  sleep_period = GetPeriod(EXPECTED_IDLE);
+	  printf("Enter sleep for %d/%d seconds...", sleep_period,
+		 GRANULARITY);
+	  etimer_set(&et, CLOCK_SECOND * sleep_period / GRANULARITY);
 	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 	  printf("Exit.\n");
 	  leds_off(LEDS_BLUE);
 
 	  //Busy period.
 	  leds_on(LEDS_RED);
-	  busy_period = GetPeriod(EXPECTED_PAYLOAD_PERCENT);
-	  printf("Enter busy for %d/%d seconds...", busy_period, GRANULARITY);
+	  busy_period = GetPeriod(EXPECTED_PAYLOAD);
+	  printf("Enter busy for %d/%d seconds...\n", busy_period,
+		 GRANULARITY);
 	  timer_set(&t, CLOCK_SECOND * busy_period / GRANULARITY);
-	  while (!timer_expired(&t))
+	  for (count = 0; !timer_expired(&t); watchdog_periodic(), count++)
 	    {
-		r = GetRandom(MAGIC_PRIME);
-		watchdog_periodic();
-	    }
+		//Place the work load here
+		clock_wait(1);
+ 	    }
 	  leds_off(LEDS_RED);
-	  printf("Exit.(%d)\n", r);
+	  printf("Exit.(count=%lld)\n", count);
       }
 
     PROCESS_END();
