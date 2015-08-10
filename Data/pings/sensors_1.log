@@ -1,0 +1,10 @@
+Data collected for:
+payload = 200/1000
+payload cycle = 1 / 2 seconds
+payload code:
+/*---BEGIN---*/
+printf("VDD = %d mV\n", vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+printf("Temperature = %d mC\n",cc2538_temp_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+printf("Ambient light sensor = %d raw\n",als_sensor.value(0));
+/*---END---*/
+
