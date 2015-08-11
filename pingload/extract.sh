@@ -9,7 +9,7 @@ fi
 cat $1 | gawk '
 BEGIN{print "---BEGIN---"}
 {
-if($1 !~ /rtt|---|PING/ && $2!="packets")
+if($1 !~ /rtt|---|PING/ && $2 != "packets" && $3 ~ /bytes|answer/)
 	{
 		time=$1;
 		ping=$8;
