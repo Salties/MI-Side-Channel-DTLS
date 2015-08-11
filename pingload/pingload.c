@@ -48,8 +48,8 @@
 
 #include <stdio.h>		/* For printf() */
 
-#define SECOND_PRECISION (1000) //Precision for a second.
-#define EXPECTED_PAYLOAD (200)	//Processor payload ratio (over SECOND_PRECISION).
+#define SECOND_PRECISION (1000)	//Precision for a second.
+#define EXPECTED_PAYLOAD (10)	//Processor payload ratio (over SECOND_PRECISION).
 #define EXPECTED_IDLE (SECOND_PRECISION - EXPECTED_PAYLOAD)
 
 //The expected payload cycle will be SCALER/GRANUARITY seconds.
@@ -84,11 +84,24 @@ inline unsigned int GetPeriod(unsigned int expected)
     return (expected == 0 ? 0 : GetRandom(2 * expected + 1));
 }
 
+inline void Payload()
+{				//Place the work load here
+    printf("VDD = %d mV\n",
+	   vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+
+    printf("Temperature = %d mC\n",
+	   cc2538_temp_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+
+    printf("Ambient light sensor = %d raw\n", als_sensor.value(0));
+
+    return;
+}
+
 PROCESS_THREAD(pingload_process, ev, data)
 {
     static struct etimer et;
     static struct timer t;
-    //static unsigned short i;
+    static unsigned short wcounter;
     static unsigned long long count;
     static unsigned int sleep_period, busy_period;
 
@@ -109,7 +122,9 @@ PROCESS_THREAD(pingload_process, ev, data)
 	  sleep_period = GetPeriod(EXPECTED_IDLE);
 	  printf("Enter sleep for %d/%d of %d seconds...", sleep_period,
 		 GRANULARITY * SECOND_PRECISION, SCALER);
-	  etimer_set(&et, (SCALER * CLOCK_SECOND * sleep_period) / (GRANULARITY * SECOND_PRECISION ));
+	  etimer_set(&et,
+		     (SCALER * CLOCK_SECOND * sleep_period) /
+		     (GRANULARITY * SECOND_PRECISION));
 	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
 	  printf("Exit.\n");
 #ifdef LED_INDICATOR
@@ -123,22 +138,19 @@ PROCESS_THREAD(pingload_process, ev, data)
 	  busy_period = GetPeriod(EXPECTED_PAYLOAD);
 	  printf("Enter busy for %d/%d of %d seconds...\n", busy_period,
 		 GRANULARITY * SECOND_PRECISION, SCALER);
-	  timer_set(&t, (SCALER * CLOCK_SECOND * busy_period) / (GRANULARITY * SECOND_PRECISION));
-	  for (count = 0; !timer_expired(&t); watchdog_periodic(), count++)
+	  timer_set(&t,
+		    (SCALER * CLOCK_SECOND * busy_period) / (GRANULARITY *
+							     SECOND_PRECISION));
+	  do
 	    {
-		//Place the work load here
-		printf("VDD = %d mV\n",
-		       vdd3_sensor.
-		       value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
-
-		printf("Temperature = %d mC\n",
-		       cc2538_temp_sensor.
-		       value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
-
-		printf("Ambient light sensor = %d raw\n",
-		       als_sensor.value(0));
-
+		count++;
+		Payload();
+		//Reset watchdog every 10 iterates.
+		wcounter= (wcounter+1)%10;
+		if(!wcounter)
+			watchdog_periodic();
 	    }
+	  while (!timer_expired(&t));
 #ifdef LED_INDICATOR
 	  leds_off(LEDS_RED);
 #endif
@@ -147,5 +159,4 @@ PROCESS_THREAD(pingload_process, ev, data)
 
     PROCESS_END();
 }
-
 /*---------------------------------------------------------------------------*/
