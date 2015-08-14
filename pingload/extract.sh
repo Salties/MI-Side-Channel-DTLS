@@ -20,4 +20,13 @@ if($1 !~ /rtt|---|PING/ && $2 != "packets" && $3 ~ /bytes|answer/)
 	}
 }
 #END{print "---END---"}'|\
-sed -r 's/\[//g; s/\]//g; s/icmp_seq=//g; s/time=//g;' | sort -n
+sed -r 's/\[//g; s/\]//g; s/icmp_seq=//g; s/time=//g;' | sort -n |\
+gawk '
+{
+	pingvalues[$1]=$2;
+}
+END {
+	for (i = 1; i in pingvalues; i++)
+		print i" "pingvalues[i]; #Print icmp_seq and ping
+}
+'
