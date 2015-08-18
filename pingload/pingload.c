@@ -49,7 +49,7 @@
 #include <stdio.h>		/* For printf() */
 
 #define SECOND_PRECISION (1000)	//Precision for a second.
-#define EXPECTED_PAYLOAD (20)	//Processor payload ratio (over SECOND_PRECISION).
+#define EXPECTED_PAYLOAD (500)	//Processor payload ratio (over SECOND_PRECISION).
 #define EXPECTED_IDLE (SECOND_PRECISION - EXPECTED_PAYLOAD)
 
 //The expected payload cycle will be SCALER/GRANUARITY seconds.
