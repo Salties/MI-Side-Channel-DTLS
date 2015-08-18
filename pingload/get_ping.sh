@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COUNT=50
+COUNT=50000
 
 if [ $# -eq 0 ]
 then
