@@ -52,7 +52,7 @@
 #define EXPECTED_PAYLOAD (500)	//Processor payload ratio (over SECOND_PRECISION).
 #define EXPECTED_IDLE (SECOND_PRECISION - EXPECTED_PAYLOAD)
 
-//The expected payload cycle will be SCALER/GRANUARITY seconds.
+//The expected payload cycle will be SCALER/GRANULARITY seconds.
 #define SCALER 1
 #define GRANULARITY 2
 
@@ -64,6 +64,19 @@
 PROCESS(pingload_process, "Pingload Process");
 AUTOSTART_PROCESSES(&pingload_process);
 /*---------------------------------------------------------------------------*/
+
+inline void Payload()
+{				//Place the work load here
+    printf("VDD = %d mV\n",
+	   vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+
+    printf("Temperature = %d mC\n",
+	   cc2538_temp_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+
+    printf("Ambient light sensor = %d raw\n", als_sensor.value(0));
+
+    return;
+}
 
 unsigned short GetRandom(unsigned int space)
 {
@@ -82,19 +95,6 @@ inline unsigned int GetPeriod(unsigned int expected)
 {
     //Return a random period which expectation is "expected".
     return (expected == 0 ? 0 : GetRandom(2 * expected + 1));
-}
-
-inline void Payload()
-{				//Place the work load here
-    printf("VDD = %d mV\n",
-	   vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
-
-    printf("Temperature = %d mC\n",
-	   cc2538_temp_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
-
-    printf("Ambient light sensor = %d raw\n", als_sensor.value(0));
-
-    return;
 }
 
 PROCESS_THREAD(pingload_process, ev, data)
@@ -120,8 +120,8 @@ PROCESS_THREAD(pingload_process, ev, data)
 	  leds_on(LEDS_BLUE);
 #endif
 	  sleep_period = GetPeriod(EXPECTED_IDLE);
-	  printf("Enter sleep for %d/%d of %d seconds...", sleep_period,
-		 GRANULARITY * SECOND_PRECISION, SCALER);
+	  printf("Enter sleep for %d/%d of %d/%d seconds...", sleep_period,
+		 GRANULARITY * SECOND_PRECISION, SCALER, GRANULARITY);
 	  etimer_set(&et,
 		     (SCALER * CLOCK_SECOND * sleep_period) /
 		     (GRANULARITY * SECOND_PRECISION));
@@ -136,8 +136,8 @@ PROCESS_THREAD(pingload_process, ev, data)
 	  leds_on(LEDS_RED);
 #endif
 	  busy_period = GetPeriod(EXPECTED_PAYLOAD);
-	  printf("Enter busy for %d/%d of %d seconds...\n", busy_period,
-		 GRANULARITY * SECOND_PRECISION, SCALER);
+	  printf("Enter busy for %d/%d of %d/%d seconds...\n", busy_period,
+		 GRANULARITY * SECOND_PRECISION, SCALER, GRANULARITY);
 	  timer_set(&t,
 		    (SCALER * CLOCK_SECOND * busy_period) / (GRANULARITY *
 							     SECOND_PRECISION));

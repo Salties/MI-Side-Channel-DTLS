@@ -9191,3 +9191,328 @@ PING aaaa::212:4b00:41e:afc6(aaaa::212:4b00:41e:afc6) 56 data bytes
 [1439914894.571851] no answer yet for icmp_seq=8600
 [1439914894.656776] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8601 ttl=63 time=84.8 ms
 [1439914896.159903] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8602 ttl=63 time=586 ms
+[1439914897.579889] no answer yet for icmp_seq=8603
+[1439914898.587915] no answer yet for icmp_seq=8604
+[1439914899.595930] no answer yet for icmp_seq=8605
+[1439914899.902482] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8605 ttl=63 time=1314 ms
+[1439914900.597224] no answer yet for icmp_seq=8606
+[1439914901.603994] no answer yet for icmp_seq=8607
+[1439914902.404192] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8606 ttl=63 time=2808 ms
+[1439914902.603484] no answer yet for icmp_seq=8608
+[1439914903.037705] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8607 ttl=63 time=2440 ms
+[1439914903.160900] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8608 ttl=63 time=1556 ms
+[1439914903.603435] no answer yet for icmp_seq=8609
+[1439914904.611901] no answer yet for icmp_seq=8610
+[1439914905.619967] no answer yet for icmp_seq=8611
+[1439914906.627954] no answer yet for icmp_seq=8612
+[1439914906.875529] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8613 ttl=63 time=247 ms
+[1439914907.867538] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8614 ttl=63 time=238 ms
+[1439914909.032417] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8615 ttl=63 time=401 ms
+[1439914909.913332] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8616 ttl=63 time=283 ms
+[1439914911.640009] no answer yet for icmp_seq=8617
+[1439914912.280932] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8618 ttl=63 time=640 ms
+[1439914913.041840] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8619 ttl=63 time=401 ms
+[1439914913.793291] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8620 ttl=63 time=152 ms
+[1439914914.794532] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8621 ttl=63 time=152 ms
+[1439914916.651938] no answer yet for icmp_seq=8622
+[1439914917.044225] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8623 ttl=63 time=392 ms
+[1439914917.796673] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8624 ttl=63 time=144 ms
+[1439914918.793774] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8625 ttl=63 time=140 ms
+[1439914920.653869] no answer yet for icmp_seq=8626
+[1439914920.829924] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8627 ttl=63 time=175 ms
+[1439914922.653801] no answer yet for icmp_seq=8628
+[1439914922.814052] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8629 ttl=63 time=160 ms
+[1439914924.663924] no answer yet for icmp_seq=8630
+[1439914925.671933] no answer yet for icmp_seq=8631
+[1439914926.679904] no answer yet for icmp_seq=8632
+[1439914927.688001] no answer yet for icmp_seq=8633
+[1439914928.695960] no answer yet for icmp_seq=8634
+[1439914928.797827] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8635 ttl=63 time=101 ms
+[1439914929.946429] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8636 ttl=63 time=248 ms
+[1439914931.419673] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8637 ttl=63 time=720 ms
+[1439914932.707960] no answer yet for icmp_seq=8638
+[1439914933.715943] no answer yet for icmp_seq=8639
+[1439914934.723912] no answer yet for icmp_seq=8640
+[1439914934.909568] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8641 ttl=63 time=185 ms
+[1439914935.918924] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8642 ttl=63 time=193 ms
+[1439914936.803308] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8643 ttl=63 time=76.3 ms
+[1439914938.735978] no answer yet for icmp_seq=8644
+[1439914938.913805] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8645 ttl=63 time=177 ms
+[1439914940.304925] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8646 ttl=63 time=567 ms
+[1439914940.805436] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8647 ttl=63 time=67.9 ms
+[1439914941.805843] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8648 ttl=63 time=67.9 ms
+[1439914943.171783] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8649 ttl=63 time=432 ms
+[1439914943.807437] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8650 ttl=63 time=67.9 ms
+[1439914945.747902] no answer yet for icmp_seq=8651
+[1439914946.755938] no answer yet for icmp_seq=8652
+[1439914947.677443] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8653 ttl=63 time=921 ms
+[1439914947.811469] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8654 ttl=63 time=55.7 ms
+[1439914948.884308] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8655 ttl=63 time=126 ms
+[1439914949.830926] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8656 ttl=63 time=71.6 ms
+[1439914951.767886] no answer yet for icmp_seq=8657
+[1439914951.928151] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8658 ttl=63 time=160 ms
+[1439914953.775898] no answer yet for icmp_seq=8659
+[1439914954.783817] no answer yet for icmp_seq=8660
+[1439914954.936468] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8661 ttl=63 time=152 ms
+[1439914956.791969] no answer yet for icmp_seq=8662
+[1439914956.993680] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8663 ttl=63 time=201 ms
+[1439914957.937778] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8664 ttl=63 time=144 ms
+[1439914959.793803] no answer yet for icmp_seq=8665
+[1439914960.793838] no answer yet for icmp_seq=8666
+[1439914961.793839] no answer yet for icmp_seq=8667
+[1439914962.305375] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8668 ttl=63 time=511 ms
+[1439914963.442248] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8669 ttl=63 time=648 ms
+[1439914963.942774] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8670 ttl=63 time=148 ms
+[1439914964.939478] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8671 ttl=63 time=144 ms
+[1439914966.037016] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8672 ttl=63 time=240 ms
+[1439914967.186888] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8673 ttl=63 time=389 ms
+[1439914968.187868] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8674 ttl=63 time=391 ms
+[1439914968.999246] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8675 ttl=63 time=202 ms
+[1439914969.946600] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8676 ttl=63 time=148 ms
+[1439914971.323595] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8677 ttl=63 time=523 ms
+[1439914972.722487] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8678 ttl=63 time=923 ms
+[1439914972.947110] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8679 ttl=63 time=148 ms
+[1439914974.199005] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8680 ttl=63 time=398 ms
+[1439914974.949370] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8681 ttl=63 time=148 ms
+[1439914976.025469] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8682 ttl=63 time=223 ms
+[1439914977.801854] no answer yet for icmp_seq=8683
+[1439914978.574638] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8684 ttl=63 time=772 ms
+[1439914979.807908] no answer yet for icmp_seq=8685
+[1439914979.952213] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8686 ttl=63 time=144 ms
+[1439914981.815956] no answer yet for icmp_seq=8687
+[1439914982.077198] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8688 ttl=63 time=261 ms
+[1439914983.823982] no answer yet for icmp_seq=8689
+[1439914984.831923] no answer yet for icmp_seq=8690
+[1439914985.839920] no answer yet for icmp_seq=8691
+[1439914986.455598] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8692 ttl=63 time=615 ms
+[1439914986.954728] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8693 ttl=63 time=114 ms
+[1439914988.841790] no answer yet for icmp_seq=8694
+[1439914988.956446] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8695 ttl=63 time=114 ms
+[1439914990.851933] no answer yet for icmp_seq=8696
+[1439914990.958280] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8697 ttl=63 time=106 ms
+[1439914992.859953] no answer yet for icmp_seq=8698
+[1439914992.978427] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8699 ttl=63 time=118 ms
+[1439914994.518504] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8700 ttl=63 time=656 ms
+[1439914995.867943] no answer yet for icmp_seq=8701
+[1439914995.957274] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8702 ttl=63 time=89.2 ms
+[1439914997.875916] no answer yet for icmp_seq=8703
+[1439914997.960892] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8704 ttl=63 time=84.8 ms
+[1439914999.883955] no answer yet for icmp_seq=8705
+[1439915000.030397] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8706 ttl=63 time=146 ms
+[1439915001.891985] no answer yet for icmp_seq=8707
+[1439915002.899925] no answer yet for icmp_seq=8708
+[1439915003.907909] no answer yet for icmp_seq=8709
+[1439915004.205282] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8710 ttl=63 time=297 ms
+[1439915005.915887] no answer yet for icmp_seq=8711
+[1439915006.923960] no answer yet for icmp_seq=8712
+[1439915007.931950] no answer yet for icmp_seq=8713
+[1439915008.089020] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8714 ttl=63 time=156 ms
+[1439915009.940006] no answer yet for icmp_seq=8715
+[1439915010.947960] no answer yet for icmp_seq=8716
+[1439915011.377867] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8717 ttl=63 time=429 ms
+[1439915012.617977] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8718 ttl=63 time=669 ms
+[1439915013.092697] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8719 ttl=63 time=144 ms
+[1439915014.157052] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8720 ttl=63 time=208 ms
+[1439915015.345153] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8721 ttl=63 time=396 ms
+[1439915016.845300] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8722 ttl=63 time=896 ms
+[1439915017.955980] no answer yet for icmp_seq=8723
+[1439915018.963949] no answer yet for icmp_seq=8724
+[1439915019.095544] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8725 ttl=63 time=131 ms
+[1439915020.971916] no answer yet for icmp_seq=8726
+[1439915021.979944] no answer yet for icmp_seq=8727
+[1439915022.987932] no answer yet for icmp_seq=8728
+[1439915023.157565] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8729 ttl=63 time=169 ms
+[1439915024.098909] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8730 ttl=63 time=110 ms
+[1439915025.590812] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8731 ttl=63 time=601 ms
+[1439915026.099800] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8732 ttl=63 time=110 ms
+[1439915027.224306] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8733 ttl=63 time=234 ms
+[1439915028.989812] no answer yet for icmp_seq=8734
+[1439915029.224578] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8735 ttl=63 time=234 ms
+[1439915030.989814] no answer yet for icmp_seq=8736
+[1439915031.989805] no answer yet for icmp_seq=8737
+[1439915032.989843] no answer yet for icmp_seq=8738
+[1439915033.265056] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8739 ttl=63 time=275 ms
+[1439915034.181202] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8740 ttl=63 time=191 ms
+[1439915035.104965] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8741 ttl=63 time=114 ms
+[1439915036.101819] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8742 ttl=63 time=110 ms
+[1439915037.999980] no answer yet for icmp_seq=8743
+[1439915038.106180] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8744 ttl=63 time=106 ms
+[1439915039.348178] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8745 ttl=63 time=347 ms
+[1439915040.107011] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8746 ttl=63 time=106 ms
+[1439915042.001857] no answer yet for icmp_seq=8747
+[1439915042.108070] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8748 ttl=63 time=106 ms
+[1439915044.011973] no answer yet for icmp_seq=8749
+[1439915044.105422] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8750 ttl=63 time=93.3 ms
+[1439915045.107559] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8751 ttl=63 time=94.0 ms
+[1439915046.108068] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8752 ttl=63 time=93.3 ms
+[1439915047.731928] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8753 ttl=63 time=715 ms
+[1439915048.110810] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8754 ttl=63 time=93.5 ms
+[1439915050.017846] no answer yet for icmp_seq=8755
+[1439915051.017846] no answer yet for icmp_seq=8756
+[1439915051.213325] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8757 ttl=63 time=195 ms
+[1439915052.204379] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8758 ttl=63 time=185 ms
+[1439915053.113954] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8759 ttl=63 time=93.5 ms
+[1439915054.111567] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8760 ttl=63 time=89.5 ms
+[1439915055.695462] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8761 ttl=63 time=671 ms
+[1439915057.031960] no answer yet for icmp_seq=8762
+[1439915057.116846] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8763 ttl=63 time=84.7 ms
+[1439915059.033855] no answer yet for icmp_seq=8764
+[1439915059.167899] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8765 ttl=63 time=133 ms
+[1439915060.808397] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8766 ttl=63 time=773 ms
+[1439915061.670517] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8767 ttl=63 time=634 ms
+[1439915062.214031] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8768 ttl=63 time=176 ms
+[1439915064.037798] no answer yet for icmp_seq=8769
+[1439915064.485961] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8770 ttl=63 time=448 ms
+[1439915065.188772] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8771 ttl=63 time=150 ms
+[1439915066.120332] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8772 ttl=63 time=80.5 ms
+[1439915067.246979] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8773 ttl=63 time=205 ms
+[1439915068.119350] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8774 ttl=63 time=76.3 ms
+[1439915069.186582] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8775 ttl=63 time=142 ms
+[1439915070.150095] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8776 ttl=63 time=104 ms
+[1439915072.045854] no answer yet for icmp_seq=8777
+[1439915072.293092] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8778 ttl=63 time=247 ms
+[1439915074.055995] no answer yet for icmp_seq=8779
+[1439915075.063984] no answer yet for icmp_seq=8780
+[1439915075.123602] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8781 ttl=63 time=59.5 ms
+[1439915076.372233] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8782 ttl=63 time=306 ms
+[1439915077.374343] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8783 ttl=63 time=307 ms
+[1439915078.123363] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8784 ttl=63 time=55.1 ms
+[1439915079.154744] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8785 ttl=63 time=85.1 ms
+[1439915080.126477] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8786 ttl=63 time=55.7 ms
+[1439915082.079964] no answer yet for icmp_seq=8787
+[1439915082.174178] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8788 ttl=63 time=94.0 ms
+[1439915084.088014] no answer yet for icmp_seq=8789
+[1439915084.130478] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8790 ttl=63 time=42.3 ms
+[1439915086.095931] no answer yet for icmp_seq=8791
+[1439915087.103919] no answer yet for icmp_seq=8792
+[1439915087.252490] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8793 ttl=63 time=148 ms
+[1439915088.259246] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8794 ttl=63 time=153 ms
+[1439915089.379252] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8795 ttl=63 time=271 ms
+[1439915090.387126] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8796 ttl=63 time=278 ms
+[1439915092.115970] no answer yet for icmp_seq=8797
+[1439915092.631631] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8798 ttl=63 time=515 ms
+[1439915093.473103] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8799 ttl=63 time=355 ms
+[1439915094.258918] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8800 ttl=63 time=139 ms
+[1439915095.287261] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8801 ttl=63 time=167 ms
+[1439915097.127988] no answer yet for icmp_seq=8802
+[1439915097.628592] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8803 ttl=63 time=500 ms
+[1439915098.384608] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8804 ttl=63 time=255 ms
+[1439915099.261991] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8805 ttl=63 time=131 ms
+[1439915100.377090] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8806 ttl=63 time=244 ms
+[1439915102.139949] no answer yet for icmp_seq=8807
+[1439915102.263018] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8808 ttl=63 time=122 ms
+[1439915103.755912] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8809 ttl=63 time=614 ms
+[1439915105.141806] no answer yet for icmp_seq=8810
+[1439915105.264758] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8811 ttl=63 time=122 ms
+[1439915106.636885] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8812 ttl=63 time=493 ms
+[1439915107.890392] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8813 ttl=63 time=745 ms
+[1439915108.449275] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8814 ttl=63 time=303 ms
+[1439915110.155938] no answer yet for icmp_seq=8815
+[1439915110.639165] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8816 ttl=63 time=483 ms
+[1439915111.635100] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8817 ttl=63 time=478 ms
+[1439915113.157847] no answer yet for icmp_seq=8818
+[1439915113.268270] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8819 ttl=63 time=110 ms
+[1439915114.348037] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8820 ttl=63 time=188 ms
+[1439915116.167937] no answer yet for icmp_seq=8821
+[1439915116.269909] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8822 ttl=63 time=101 ms
+[1439915117.270802] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8823 ttl=63 time=101 ms
+[1439915118.268399] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8824 ttl=63 time=97.5 ms
+[1439915119.289038] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8825 ttl=63 time=116 ms
+[1439915121.173841] no answer yet for icmp_seq=8826
+[1439915122.173787] no answer yet for icmp_seq=8827
+[1439915122.389285] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8828 ttl=63 time=215 ms
+[1439915123.273278] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8829 ttl=63 time=98.0 ms
+[1439915125.183975] no answer yet for icmp_seq=8830
+[1439915125.275164] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8830 ttl=63 time=1098 ms
+[1439915126.185200] no answer yet for icmp_seq=8831
+[1439915127.191987] no answer yet for icmp_seq=8832
+[1439915127.646443] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8833 ttl=63 time=454 ms
+[1439915128.273835] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8834 ttl=63 time=80.6 ms
+[1439915130.203941] no answer yet for icmp_seq=8835
+[1439915131.211988] no answer yet for icmp_seq=8836
+[1439915132.219892] no answer yet for icmp_seq=8837
+[1439915132.519297] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8838 ttl=63 time=299 ms
+[1439915133.347480] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8839 ttl=63 time=126 ms
+[1439915134.329415] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8840 ttl=63 time=106 ms
+[1439915136.231932] no answer yet for icmp_seq=8841
+[1439915136.336801] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8842 ttl=63 time=104 ms
+[1439915137.611300] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8843 ttl=63 time=377 ms
+[1439915138.521922] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8844 ttl=63 time=286 ms
+[1439915139.279703] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8845 ttl=63 time=42.8 ms
+[1439915141.237786] no answer yet for icmp_seq=8846
+[1439915141.280309] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8847 ttl=63 time=42.3 ms
+[1439915142.289178] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8848 ttl=63 time=49.7 ms
+[1439915143.283435] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8849 ttl=63 time=42.4 ms
+[1439915144.409862] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8850 ttl=63 time=167 ms
+[1439915145.490567] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8851 ttl=63 time=246 ms
+[1439915146.888449] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8852 ttl=63 time=642 ms
+[1439915147.533048] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8853 ttl=63 time=287 ms
+[1439915148.535362] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8854 ttl=63 time=288 ms
+[1439915149.551557] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8855 ttl=63 time=303 ms
+[1439915150.410430] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8856 ttl=63 time=161 ms
+[1439915151.549430] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8857 ttl=63 time=298 ms
+[1439915152.778095] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8858 ttl=63 time=526 ms
+[1439915154.259966] no answer yet for icmp_seq=8859
+[1439915154.413222] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8860 ttl=63 time=153 ms
+[1439915156.267932] no answer yet for icmp_seq=8861
+[1439915156.426328] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8862 ttl=63 time=158 ms
+[1439915157.412822] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8863 ttl=63 time=144 ms
+[1439915159.269780] no answer yet for icmp_seq=8864
+[1439915160.269829] no answer yet for icmp_seq=8865
+[1439915160.414196] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8866 ttl=63 time=144 ms
+[1439915162.279978] no answer yet for icmp_seq=8867
+[1439915162.415699] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8868 ttl=63 time=135 ms
+[1439915164.287937] no answer yet for icmp_seq=8869
+[1439915164.415644] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8870 ttl=63 time=127 ms
+[1439915165.416713] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8871 ttl=63 time=127 ms
+[1439915166.418265] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8872 ttl=63 time=127 ms
+[1439915167.418769] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8873 ttl=63 time=127 ms
+[1439915169.299909] no answer yet for icmp_seq=8874
+[1439915170.307828] no answer yet for icmp_seq=8875
+[1439915170.418135] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8876 ttl=63 time=110 ms
+[1439915171.418893] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8877 ttl=63 time=110 ms
+[1439915172.546143] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8878 ttl=63 time=236 ms
+[1439915174.319836] no answer yet for icmp_seq=8879
+[1439915175.327989] no answer yet for icmp_seq=8880
+[1439915175.421488] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8881 ttl=63 time=93.3 ms
+[1439915177.335900] no answer yet for icmp_seq=8882
+[1439915178.344002] no answer yet for icmp_seq=8883
+[1439915178.845965] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8884 ttl=63 time=501 ms
+[1439915179.432216] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8885 ttl=63 time=86.5 ms
+[1439915180.423734] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8886 ttl=63 time=76.3 ms
+[1439915182.356005] no answer yet for icmp_seq=8887
+[1439915182.668598] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8888 ttl=63 time=312 ms
+[1439915183.425385] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8889 ttl=63 time=67.8 ms
+[1439915185.357838] no answer yet for icmp_seq=8890
+[1439915185.455607] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8891 ttl=63 time=97.6 ms
+[1439915187.367943] no answer yet for icmp_seq=8892
+[1439915187.427997] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8893 ttl=63 time=59.9 ms
+[1439915188.677482] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8894 ttl=63 time=308 ms
+[1439915189.429729] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8895 ttl=63 time=59.3 ms
+[1439915190.524231] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8896 ttl=63 time=152 ms
+[1439915192.379936] no answer yet for icmp_seq=8897
+[1439915193.387930] no answer yet for icmp_seq=8898
+[1439915194.396000] no answer yet for icmp_seq=8899
+[1439915195.403914] no answer yet for icmp_seq=8900
+[1439915196.412027] no answer yet for icmp_seq=8901
+[1439915197.419925] no answer yet for icmp_seq=8902
+[1439915198.428000] no answer yet for icmp_seq=8903
+[1439915199.435952] no answer yet for icmp_seq=8904
+[1439915200.444014] no answer yet for icmp_seq=8905
+[1439915201.451982] no answer yet for icmp_seq=8906
+[1439915202.459977] no answer yet for icmp_seq=8907
+[1439915202.561930] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8908 ttl=63 time=101 ms
+[1439915203.811507] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8909 ttl=63 time=349 ms
+[1439915205.471940] no answer yet for icmp_seq=8910
+[1439915206.479932] no answer yet for icmp_seq=8911
+[1439915206.564994] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8912 ttl=63 time=84.9 ms
+[1439915208.487998] no answer yet for icmp_seq=8913
+[1439915209.495906] no answer yet for icmp_seq=8914
+[1439915209.573637] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8915 ttl=63 time=77.6 ms
+[1439915210.565629] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8916 ttl=63 time=67.8 ms
+[1439915212.507991] no answer yet for icmp_seq=8917
+[1439915213.515942] no answer yet for icmp_seq=8918
+[1439915214.523931] no answer yet for icmp_seq=8919
+[1439915215.531901] no answer yet for icmp_seq=8920
+[1439915216.539918] no answer yet for icmp_seq=8921
+[1439915216.819079] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=8922 ttl=63 time=279 ms
