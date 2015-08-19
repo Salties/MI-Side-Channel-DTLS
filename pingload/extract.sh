@@ -23,15 +23,18 @@ do
 		-s|--sort)
 			SORT=1;
 			;;
+		-r|--responsed)
+			RESPONSED=1;
+			;;
 		*)
-			LOGFILE=$arg;
+			LOGFILE+="$arg ";
 			;;
 	esac
 done
 
 #printf "Logfile: %s\n" $LOGFILE;
 
-cat $LOGFILE | gawk '
+cat $LOGFILE | gawk  '
 #BEGIN{print "---BEGIN---"}
 {
 if($1 !~ /rtt|---|PING/ && $2 != "packets" && $3 ~ /bytes|answer/)
@@ -47,7 +50,7 @@ if($1 !~ /rtt|---|PING/ && $2 != "packets" && $3 ~ /bytes|answer/)
 #END{print "---END---"}'|\
 sed -r 's/\[//g; s/\]//g; s/icmp_seq=//g; s/time=//g;' | sort -n |\
 #gawk -v all=$ALL -v time=$TIME -v intform=$INTFORM '
-gawk -v all=$ALL -v time=$TIME -v intform=$INTFORM -v sorted=$SORT '
+gawk -v all=$ALL -v time=$TIME -v intform=$INTFORM -v sorted=$SORT -v responsed=$RESPONSED '
 {
 	pingtimes[$1] = $2;
 	pingvalues[$1] = $3;
@@ -57,6 +60,8 @@ END {
 	{
 		asort(pingvalues);
 		for ( i = 1; i in pingvalues; i++){
+			if( responsed && pingvalues[i] == 0 )
+				continue;
 			printf "%-5.1f\n", pingvalues[i];
 		}
 	}
@@ -64,6 +69,8 @@ END {
 	{
 		basetime = pingtimes[1];
 		for (i = 1; i in pingvalues; i++){
+			if( responsed && pingvalues[i] == 0 )
+				continue;
 			if( all )
 				printf "%-5d\t%-10.5f\t%-5.1f\n", i, (pingtimes[i] - basetime), pingvalues[i];	#Print icmp_sqe, date and ping.
 			else if( time )
