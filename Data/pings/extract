@@ -1,10 +1,10 @@
 #!/bin/bash
 
-
+HELPMSG="Usage: extract [-h|--help] [-s|--sort] [-a|--all] [-t|--time] [-n|--nonzero] LOGFILE"
 
 if [ $# -eq 0 ]
 then
-	echo "Usage: extract [-s|--sort|-a|--all|-t|--time|-i|--inform] LOGFILE";
+	echo $HELPMSG;
 	exit;
 fi
 
@@ -17,14 +17,18 @@ do
 		-t|--time)
 			TIME=1;
 			;;
-		-i|--intform)
-			INTFORM=1;
+		-n|--nonzero)
+			NONZERO=1;
 			;;
 		-s|--sort)
 			SORT=1;
 			;;
 		-r|--responsed)
 			RESPONSED=1;
+			;;
+		-h|--help)
+			echo $HELPMSG;
+			exit;
 			;;
 		*)
 			LOGFILE+="$arg ";
@@ -49,8 +53,7 @@ if($1 !~ /rtt|---|PING/ && $2 != "packets" && $3 ~ /bytes|answer/)
 }
 #END{print "---END---"}'|\
 sed -r 's/\[//g; s/\]//g; s/icmp_seq=//g; s/time=//g;' | sort -n |\
-#gawk -v all=$ALL -v time=$TIME -v intform=$INTFORM '
-gawk -v all=$ALL -v time=$TIME -v intform=$INTFORM -v sorted=$SORT -v responsed=$RESPONSED '
+gawk -v all=$ALL -v time=$TIME -v nonzero=$NONZERO -v sorted=$SORT -v responsed=$RESPONSED '
 {
 	pingtimes[$1] = $2;
 	pingvalues[$1] = $3;
@@ -75,7 +78,7 @@ END {
 				printf "%-5d\t%-10.5f\t%-5.1f\n", i, (pingtimes[i] - basetime), pingvalues[i];	#Print icmp_sqe, date and ping.
 			else if( time )
 				printf "%-10.5f\t%-5.1f\n", (pingtimes[i] - basetime), pingvalues[i];		#Print date and ping.
-			else if( intform )
+			else if( nonzero )
 				printf "%d\n", pingvalues[i];							#Print ping only in integers.
 			else
 				printf "%-5.1f\n", pingvalues[i];						#Print ping only.

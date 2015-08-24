@@ -1,44 +1,7 @@
-/*
- * Copyright (c) 2006, Swedish Institute of Computer Science.
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the Institute nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE INSTITUTE AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE INSTITUTE OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- *
- * This file is part of the Contiki operating system.
- *
- */
-
-/**
- * \file
- *         A very simple Contiki application showing how Contiki programs look
- * \author
- *         Adam Dunkels <adam@sics.se>
- */
 #include "contiki.h"
 #include "sys/etimer.h"
 #include "sys/timer.h"
+#include "sys/ctimer.h"
 #include "sys/clock.h"
 #include "watchdog.h"
 #include "random.h"
@@ -48,13 +11,25 @@
 
 #include <stdio.h>		/* For printf() */
 
-#define SECOND_PRECISION (1000)	//Precision for a second.
-#define EXPECTED_PAYLOAD (500)	//Processor payload ratio (over SECOND_PRECISION).
-#define EXPECTED_IDLE (SECOND_PRECISION - EXPECTED_PAYLOAD)
+#define PAYLOAD	((1))
+#define IDLE	((9))
+
+#ifndef SCALE
+#ifdef SECOND
+#define SCALE CLOCK_SECOND
+#else
+#define SCALE 1
+#endif
+#endif
+
+#define EXPECTED_PAYLOAD ((PAYLOAD * SCALE))
+#define EXPECTED_IDLE ((IDLE * SCALE))
+
+#define WATCHDOG_RESET_PERIOD (( CLOCK_SECOND/2 ))
 
 //The expected payload cycle will be SCALER/GRANULARITY seconds.
-#define SCALER 1
-#define GRANULARITY 2
+//#define SCALER 1
+//#define GRANULARITY 1
 
 #ifdef LED_INDICATOR
 #include "dev/leds.h"
@@ -64,50 +39,69 @@
 PROCESS(pingload_process, "Pingload Process");
 AUTOSTART_PROCESSES(&pingload_process);
 /*---------------------------------------------------------------------------*/
+static struct etimer idle_timer;
+static struct timer payload_timer;
+static struct ctimer resetwd_timer;
 
 inline void Payload()
-{				//Place the work load here
-    printf("VDD = %d mV\n",
-	   vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+{
+    static clock_time_t payload_start, payload_end;
 
-    printf("Temperature = %d mC\n",
-	   cc2538_temp_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED));
+    int i;
+    int vdd, temperature, light;
+    //Payload begin timeing.
+    payload_start = clock_time();
 
-    printf("Ambient light sensor = %d raw\n", als_sensor.value(0));
+    //Payload
+    vdd = 0;
+    temperature = 0;
+    light = 0;
+    for (i = 0; i < 30; i++)
+      {
+	      vdd += vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED);
+	      temperature += cc2538_temp_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED);
+	      light += als_sensor.value(0);
+#ifdef DEBUG
+	  printf("VDD = %d mV\n", vdd);
+	  printf("Temperature = %d mC\n",temperature);
+	  printf("Ambient light sensor = %d raw\n", light);
+#endif
+      }
+    printf("VDD = %d mV\n", vdd/30);
+    printf("Temperature = %d mC\n",temperature/30);
+    printf("Ambient light sensor = %d raw\n", light/30);
+
+    //Payload end timing.
+    payload_end = clock_time();
+    printf("%d ticks elapsed.\n", (int) (payload_end - payload_start));
 
     return;
 }
 
-unsigned short GetRandom(unsigned int space)
+//Return a random period which expectation is "expected" in clock ticks.
+inline clock_time_t GetPeriod(unsigned int expected)
 {
-    static int init = 0;
-
-    if (!init)
-      {
-	  random_init(clock_time() % 0xffff);
-	  init = 1;
-      }
-
-    return random_rand() % space;
+    clock_time_t r =
+	(expected == 0 ? 0 : (random_rand() % (2 * expected + 1)));
+    return r;
 }
 
-inline unsigned int GetPeriod(unsigned int expected)
+static void ResetWd(void *arg)
 {
-    //Return a random period which expectation is "expected".
-    return (expected == 0 ? 0 : GetRandom(2 * expected + 1));
+    watchdog_periodic();
+    ctimer_reset(&resetwd_timer);
+    return;
 }
 
 PROCESS_THREAD(pingload_process, ev, data)
 {
-    static struct etimer et;
-    static struct timer t;
-    static unsigned short wcounter;
-    static unsigned long long count;
-    static unsigned int sleep_period, busy_period;
+    //static unsigned long long count;
+    static clock_time_t idle_period, payload_period;
 
     PROCESS_BEGIN();
 
     printf("Hello, world\n");
+    ctimer_set(&resetwd_timer, WATCHDOG_RESET_PERIOD, &ResetWd, NULL);
 
 #ifdef LED_INDICATOR
     leds_init();
@@ -115,48 +109,42 @@ PROCESS_THREAD(pingload_process, ev, data)
 
     while (1)
       {
-	  //Sleep period.
+	  //Idle period.
+	  idle_period = GetPeriod(EXPECTED_IDLE);
 #ifdef LED_INDICATOR
 	  leds_on(LEDS_BLUE);
 #endif
-	  sleep_period = GetPeriod(EXPECTED_IDLE);
-	  printf("Enter sleep for %d/%d of %d/%d seconds...", sleep_period,
-		 GRANULARITY * SECOND_PRECISION, SCALER, GRANULARITY);
-	  etimer_set(&et,
-		     (SCALER * CLOCK_SECOND * sleep_period) /
-		     (GRANULARITY * SECOND_PRECISION));
-	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
+	  printf("Enter sleep for %d ticks(%d seconds)...",
+		 (int) idle_period, (int) idle_period / CLOCK_SECOND);
+	  etimer_set(&idle_timer, idle_period);
+	  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&idle_timer));
 	  printf("Exit.\n");
 #ifdef LED_INDICATOR
 	  leds_off(LEDS_BLUE);
 #endif
 
-	  //Busy period.
+	  //Payload period.
 #ifdef LED_INDICATOR
 	  leds_on(LEDS_RED);
 #endif
-	  busy_period = GetPeriod(EXPECTED_PAYLOAD);
-	  printf("Enter busy for %d/%d of %d/%d seconds...\n", busy_period,
-		 GRANULARITY * SECOND_PRECISION, SCALER, GRANULARITY);
-	  timer_set(&t,
-		    (SCALER * CLOCK_SECOND * busy_period) / (GRANULARITY *
-							     SECOND_PRECISION));
-	  do
-	    {
-		count++;
-		Payload();
-		//Reset watchdog every 10 iterates.
-		wcounter= (wcounter+1)%10;
-		if(!wcounter)
-			watchdog_periodic();
-	    }
-	  while (!timer_expired(&t));
+	  payload_period = GetPeriod(EXPECTED_PAYLOAD);
+	  printf("Enter busy for %d ticks(%d seconds)...\n",
+		 (int) payload_period,
+		 (int) payload_period / CLOCK_SECOND);
+	  timer_set(&payload_timer, payload_period);
+	  //Start Payload.
+	  Payload();
+	  printf("Time remained:%d\n",
+		 (int) timer_remaining(&payload_timer));
+	  //Busy wait for the remaining time.
+	  while (!timer_expired(&payload_timer))
+	      watchdog_periodic();
 #ifdef LED_INDICATOR
 	  leds_off(LEDS_RED);
 #endif
-	  printf("Exit.(count=%lld)\n", count);
       }
 
     PROCESS_END();
 }
+
 /*---------------------------------------------------------------------------*/
