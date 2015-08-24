@@ -1,6 +1,7 @@
 #!/bin/bash
 
 COUNT=50000
+INTERVAL=1
 
 if [ $# -eq 0 ]
 then
@@ -25,4 +26,4 @@ fi
 echo "Output file: ${OUTPUT}"
 
 touch ${OUTPUT}
-ping6 aaaa::212:4b00:41e:afc6 -D -c ${COUNT} -O -i 1 | tee -a ${OUTPUT}
+ping6 aaaa::212:4b00:41e:afc6 -D -c ${COUNT} -i $INTERVAL | tee -a ${OUTPUT}

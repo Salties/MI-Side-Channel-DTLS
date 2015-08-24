@@ -1,10 +1,7 @@
 CONTIKI_PROJECT = pingload
-CONTIKI=../contiki
 all: $(CONTIKI_PROJECT)
 
+CONTIKI = ../contiki
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
-CONTIKI_WITH_IPV6 = 1
-#Enable LED indicator
-#CFLAGS+= -DLED_INDICATOR
-
+CFLAGS += -DLED_INDICATOR -DSECOND
 include $(CONTIKI)/Makefile.include

@@ -1,0 +1,6 @@
+PING aaaa::212:4b00:41e:afc6(aaaa::212:4b00:41e:afc6) 56 data bytes
+[1440165344.671857] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=1 ttl=63 time=76.2 ms
+[1440165345.797406] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=2 ttl=63 time=200 ms
+PING aaaa::212:4b00:41e:afc6(aaaa::212:4b00:41e:afc6) 56 data bytes
+[1440165353.051975] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=1 ttl=63 time=101 ms
+[1440165354.549050] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=2 ttl=63 time=97.4 ms
