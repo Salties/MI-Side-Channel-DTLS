@@ -11,8 +11,8 @@
 
 #include <stdio.h>		/* For printf() */
 
-#define PAYLOAD	((20))
-#define IDLE	((80))
+#define PAYLOAD	((1))
+#define IDLE	((9))
 
 #ifndef SCALE
 #ifdef SECOND
@@ -96,8 +96,7 @@ static void ResetWd(void *arg)
 PROCESS_THREAD(pingload_process, ev, data)
 {
     //static unsigned long long count;
-    clock_time_t idle_period, payload_period, remain;
-    
+    static clock_time_t idle_period, payload_period;
 
     PROCESS_BEGIN();
 
@@ -135,14 +134,11 @@ PROCESS_THREAD(pingload_process, ev, data)
 	  timer_set(&payload_timer, payload_period);
 	  //Start Payload.
 	  Payload();
-	  remain = timer_remaining(&payload_timer);
-	  printf("Time remained:%d\n", (int)remain);
+	  printf("Time remained:%d\n",
+		 (int) timer_remaining(&payload_timer));
 	  //Busy wait for the remaining time.
 	  while (!timer_expired(&payload_timer))
-	  {
-	      clock_wait(2);
 	      watchdog_periodic();
-	  }
 #ifdef LED_INDICATOR
 	  leds_off(LEDS_RED);
 #endif

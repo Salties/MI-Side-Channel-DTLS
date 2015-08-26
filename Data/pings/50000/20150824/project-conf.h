@@ -8,6 +8,4 @@
 #define NETSTACK_CONF_MAC nullmac_driver
 #endif
 
-#define NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE 4
-
 #endif
