@@ -8,7 +8,7 @@ fi
 
 TUNSLIP=./contiki/tools/tunslip6
 
-sudo $TUNSLIP -s /dev/ttyUSB1 aaaa::1/64&  &>/dev/null;
+sudo $TUNSLIP -s /dev/ttyUSB1 aaaa::1/64
 
 if [[ $? = "0" ]];
 then
