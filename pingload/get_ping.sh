@@ -2,10 +2,10 @@
 
 COUNT=50000
 INTERVAL=1
+PINGFLAGS=""
 
 if [ $# -eq 0 ]
 then
-
 	LOGFILE=pingload.log
 else
 	if [ $1 == "clean" ]
@@ -23,8 +23,7 @@ else
 	fi
 fi
 
-
 echo "Log file: ${LOGFILE}"
 
 touch ${LOGFILE}
-ping6 aaaa::212:4b00:41e:afc6 -D -O -c ${COUNT} -i $INTERVAL | tee -a ${LOGFILE}
+ping6 aaaa::212:4b00:41e:afc6 -D -O $PINGFLAGS -c ${COUNT} -i $INTERVAL | tee -a ${LOGFILE}

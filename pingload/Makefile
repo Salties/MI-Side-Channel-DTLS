@@ -4,10 +4,13 @@ all: $(CONTIKI_PROJECT)
 CONTIKI = ../contiki
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
-#Uncomment to enable led indicator
+#Uncomment to enable led indicator.
 #CFLAGS += -DLED_INDICATOR
 
-#Uncomment to use seconds for payload and idle instead of clock ticks
+#Uncomment to use seconds for payload and idle instead of clock ticks.
 #CFLAGS += -DSECOND
+
+#Uncomment to enable null_driver instead of ContikiMAC.
+#CFLAGS += -DNULL_DRIVER
 
 include $(CONTIKI)/Makefile.include
