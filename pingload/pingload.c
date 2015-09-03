@@ -11,8 +11,8 @@
 
 #include <stdio.h>		/* For printf() */
 
-#define PAYLOAD	((20))
-#define IDLE	((80))
+#define PAYLOAD	((100))
+#define IDLE	((850))
 
 #ifndef SCALE
 #ifdef SECOND
@@ -56,7 +56,7 @@ inline void Payload()
     vdd = 0;
     temperature = 0;
     light = 0;
-    for (i = 0; i < 30; i++)
+    for (i = 0; i < 100; i++)
       {
 	      vdd += vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED);
 	      temperature += cc2538_temp_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED);
@@ -128,7 +128,8 @@ PROCESS_THREAD(pingload_process, ev, data)
 #ifdef LED_INDICATOR
 	  leds_on(LEDS_RED);
 #endif
-	  payload_period = GetPeriod(EXPECTED_PAYLOAD);
+	  //payload_period = GetPeriod(EXPECTED_PAYLOAD);
+	  payload_period = EXPECTED_PAYLOAD; 
 	  printf("Enter busy for %d ticks(%d seconds)...\n",
 		 (int) payload_period,
 		 (int) payload_period / CLOCK_SECOND);

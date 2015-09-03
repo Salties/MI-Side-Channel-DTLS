@@ -1959,3 +1959,7 @@ PING aaaa::212:4b00:41e:afc6(aaaa::212:4b00:41e:afc6) 56 data bytes
 [1440436043.000833] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=10 ttl=63 time=282 ms
 [1440436044.626832] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=11 ttl=63 time=908 ms
 [1440436047.002329] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=14 ttl=63 time=268 ms
+PING aaaa::212:4b00:41e:afc6(aaaa::212:4b00:41e:afc6) 56 data bytes
+[1440602863.360010] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=1 ttl=63 time=68.2 ms
+[1440602865.234691] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=2 ttl=63 time=941 ms
+[1440602865.360360] 64 bytes from aaaa::212:4b00:41e:afc6: icmp_seq=3 ttl=63 time=67.5 ms
