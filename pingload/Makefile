@@ -13,4 +13,7 @@ CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 #Uncomment to enable null_driver instead of ContikiMAC.
 #CFLAGS += -DNULL_DRIVER
 
+#Uncomment to use randomised payload period.
+#CFLAGS += -DRAND_PAYLOAD
+
 include $(CONTIKI)/Makefile.include

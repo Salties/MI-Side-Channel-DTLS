@@ -128,8 +128,11 @@ PROCESS_THREAD(pingload_process, ev, data)
 #ifdef LED_INDICATOR
 	  leds_on(LEDS_RED);
 #endif
-	  //payload_period = GetPeriod(EXPECTED_PAYLOAD);
+#ifdef RAND_PAYLOAD
+	  payload_period = GetPeriod(EXPECTED_PAYLOAD);
+#else
 	  payload_period = EXPECTED_PAYLOAD; 
+#endif
 	  printf("Enter busy for %d ticks(%d seconds)...\n",
 		 (int) payload_period,
 		 (int) payload_period / CLOCK_SECOND);
