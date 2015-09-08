@@ -16,4 +16,7 @@ CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 #Uncomment to use randomised payload period.
 #CFLAGS += -DRAND_PAYLOAD
 
+#Uncomment to use randomised idle period.
+#CFLAGS += -DRAND_IDLE
+
 include $(CONTIKI)/Makefile.include
