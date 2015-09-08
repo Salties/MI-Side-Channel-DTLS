@@ -111,7 +111,12 @@ PROCESS_THREAD(pingload_process, ev, data)
     while (1)
       {
 	  //Idle period.
+#ifdef RAND_IDLE
 	  idle_period = GetPeriod(EXPECTED_IDLE);
+#else
+	  idle_period = EXPECTED_IDLE;
+#endif
+
 #ifdef LED_INDICATOR
 	  leds_on(LEDS_BLUE);
 #endif
