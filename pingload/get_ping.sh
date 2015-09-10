@@ -3,6 +3,9 @@
 COUNT=50000
 INTERVAL=1
 PINGFLAGS=""
+TARGET="aaaa::212:4b00:41e:afc6" #cc2538dk #2
+#TARGET="aaaa::212:7400:e33:1389" #Telos B
+
 
 if [ $# -eq 0 ]
 then
@@ -26,4 +29,4 @@ fi
 echo "Log file: ${LOGFILE}"
 
 touch ${LOGFILE}
-ping6 aaaa::212:4b00:41e:afc6 -D -O $PINGFLAGS -c ${COUNT} -i $INTERVAL | tee -a ${LOGFILE}
+ping6 ${TARGET} -D -O $PINGFLAGS -c ${COUNT} -i $INTERVAL | tee -a ${LOGFILE}
