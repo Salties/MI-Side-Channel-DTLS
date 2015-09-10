@@ -11,8 +11,8 @@
 
 #include <stdio.h>		/* For printf() */
 
-#define PAYLOAD	((100))
-#define IDLE	((850))
+#define PAYLOAD	((250))
+#define IDLE	((750))
 
 #ifndef SCALE
 #ifdef SECOND
