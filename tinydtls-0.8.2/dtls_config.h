@@ -8,7 +8,7 @@
 /* #undef DTLS_ECC */
 
 /* Define to 1 if building with PSK support */
-/* #undef DTLS_PSK */
+#define DTLS_PSK 1
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 /* #undef HAVE_ARPA_INET_H */

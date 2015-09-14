@@ -162,7 +162,7 @@ free_context(dtls_context_t *context) {
 void
 dtls_init() {
   dtls_clock_init();
-  crypto_init();
+  tinydtls_crypto_init();
   netq_init();
   peer_init();
 }
@@ -3601,8 +3601,6 @@ dtls_handle_message(dtls_context_t *ctx,
   /* check if we have DTLS state for addr/port/ifindex */
   peer = dtls_get_peer(ctx, session);
 
-  printf("dtls_handle_message()\n");
-  
   if (!peer) {
     dtls_debug("dtls_handle_message: PEER NOT FOUND\n");
     dtls_dsrv_log_addr(DTLS_LOG_DEBUG, "peer addr", session);
