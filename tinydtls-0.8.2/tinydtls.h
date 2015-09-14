@@ -37,7 +37,7 @@
 /* #undef DTLS_ECC */
 
 /** Defined to 1 if tinydtls is built with support for PSK */
-/* #undef DTLS_PSK */
+#define DTLS_PSK 1
 
 /** Defined to 1 if tinydtls is built for Contiki OS */
 #define WITH_CONTIKI 1
