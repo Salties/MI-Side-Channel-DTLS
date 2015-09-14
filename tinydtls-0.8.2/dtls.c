@@ -3601,6 +3601,8 @@ dtls_handle_message(dtls_context_t *ctx,
   /* check if we have DTLS state for addr/port/ifindex */
   peer = dtls_get_peer(ctx, session);
 
+  printf("dtls_handle_message()\n");
+  
   if (!peer) {
     dtls_debug("dtls_handle_message: PEER NOT FOUND\n");
     dtls_dsrv_log_addr(DTLS_LOG_DEBUG, "peer addr", session);
