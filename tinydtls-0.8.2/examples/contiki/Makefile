@@ -33,7 +33,7 @@ all: dtls-server dtls-client
 	$(MAKE) $(MAKEFLAGS) clean
 	$(MAKE) $(MAKEFLAGS) ROLE=client dtls-client
 
-CONTIKI=$(HOME)/MyRepository/contiki
+CONTIKI=$(CONTIKI_ROOT)
 
 WITH_UIP6=1
 UIP_CONF_IPV6=1
