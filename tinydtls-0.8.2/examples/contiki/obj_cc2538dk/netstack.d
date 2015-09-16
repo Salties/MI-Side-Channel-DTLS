@@ -1,0 +1,25 @@
+obj_cc2538dk/netstack.o: \
+ /home/yy12135/MyRepository/contiki/core/net/netstack.c \
+ /home/yy12135/MyRepository/contiki/core/./net/netstack.h \
+ /home/yy12135/MyRepository/contiki/platform/cc2538dk/./contiki-conf.h \
+ /home/yy12135/MyRepository/contiki/platform/cc2538dk/dev/board.h \
+ /home/yy12135/MyRepository/contiki/cpu/cc2538/./dev/gpio.h \
+ /home/yy12135/MyRepository/contiki/cpu/cc2538/./reg.h \
+ /home/yy12135/MyRepository/contiki/cpu/cc2538/./dev/nvic.h \
+ /home/yy12135/MyRepository/contiki/core/./net/llsec/llsec.h \
+ /home/yy12135/MyRepository/contiki/core/./net/mac/mac.h \
+ /home/yy12135/MyRepository/contiki/core/./dev/radio.h \
+ /home/yy12135/MyRepository/contiki/core/./net/mac/rdc.h \
+ /home/yy12135/MyRepository/contiki/core/./net/mac/framer.h
+ /home/yy12135/MyRepository/contiki/core/net/netstack.c :
+ /home/yy12135/MyRepository/contiki/core/./net/netstack.h :
+ /home/yy12135/MyRepository/contiki/platform/cc2538dk/./contiki-conf.h :
+ /home/yy12135/MyRepository/contiki/platform/cc2538dk/dev/board.h :
+ /home/yy12135/MyRepository/contiki/cpu/cc2538/./dev/gpio.h :
+ /home/yy12135/MyRepository/contiki/cpu/cc2538/./reg.h :
+ /home/yy12135/MyRepository/contiki/cpu/cc2538/./dev/nvic.h :
+ /home/yy12135/MyRepository/contiki/core/./net/llsec/llsec.h :
+ /home/yy12135/MyRepository/contiki/core/./net/mac/mac.h :
+ /home/yy12135/MyRepository/contiki/core/./dev/radio.h :
+ /home/yy12135/MyRepository/contiki/core/./net/mac/rdc.h :
+ /home/yy12135/MyRepository/contiki/core/./net/mac/framer.h :

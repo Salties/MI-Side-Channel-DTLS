@@ -53,8 +53,11 @@
 #define WEBSERVER_CONF_CFS_CONNS 2
 #endif
 
+//Explicitly disable ecc in this project.
 #ifdef DTLS_ECC
 #undef DTLS_ECC
 #endif
+
+#define WATCHDOG_CONF_ENABLE 0
 
 #endif /* PROJECT_ROUTER_CONF_H_ */
