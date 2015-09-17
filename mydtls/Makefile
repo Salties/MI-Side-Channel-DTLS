@@ -1,9 +1,10 @@
-CONTIKI_PROJECT = dtls-client dtls-server
+CONTIKI_PROJECT = dtls-server dtls-client
 all: $(CONTIKI_PROJECT)
 
-CONTIKI = ../contiki
-CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+CONTIKI = $(CONTIKI_ROOT)
+APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
 
-APPS += tinydtls tinydtls/aes tinydtls/sha2 tinydtls/ecc
+CFLAGS += -DPLATFORM_$(TARGET)
+CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
 include $(CONTIKI)/Makefile.include

@@ -1,39 +1,6 @@
-/*
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the Institute nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE INSTITUTE AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE INSTITUTE OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- *
- * This file is part of the Contiki operating system.
- *
- */
-
 #include "contiki.h"
 #include "contiki-lib.h"
 #include "contiki-net.h"
-
-#if UIP_CONF_IPV6_RPL
-#include "net/rpl/rpl.h"
-#endif /* UIP_CONF_IPV6_RPL */
 
 #include <string.h>
 
@@ -47,10 +14,6 @@
 #include "debug.h"
 #include "dtls.h"
 
-#ifdef ENABLE_POWERTRACE
-#include "powertrace.h"
-#endif
-
 #define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
 #define UIP_UDP_BUF  ((struct uip_udp_hdr *)&uip_buf[UIP_LLIPH_LEN])
 
@@ -60,6 +23,7 @@ static struct uip_udp_conn *server_conn;
 
 static dtls_context_t *dtls_context;
 
+#if 0
 static const unsigned char ecdsa_priv_key[] = {
 			0xD9, 0xE2, 0x70, 0x7A, 0x72, 0xDA, 0x6A, 0x05,
 			0x04, 0x99, 0x5C, 0x86, 0xED, 0xDB, 0xE3, 0xEF,
@@ -77,6 +41,7 @@ static const unsigned char ecdsa_pub_key_y[] = {
 			0x1D, 0xDC, 0xF4, 0xF4, 0x2E, 0x2F, 0x26, 0x31,
 			0xD0, 0x43, 0xB1, 0xFB, 0x03, 0xE2, 0x2F, 0x4D,
 			0x17, 0xDE, 0x43, 0xF9, 0xF9, 0xAD, 0xEE, 0x70};
+#endif
 
 static int
 read_from_peer(struct dtls_context_t *ctx, 
@@ -148,7 +113,6 @@ get_psk_info(struct dtls_context_t *ctx, const session_t *session,
 	  dtls_warn("buffer too small for PSK");
 	  return dtls_alert_fatal_create(DTLS_ALERT_INTERNAL_ERROR);
 	}
-
 	memcpy(result, psk[i].key, psk[i].key_length);
 	return psk[i].key_length;
       }
@@ -158,32 +122,6 @@ get_psk_info(struct dtls_context_t *ctx, const session_t *session,
   return dtls_alert_fatal_create(DTLS_ALERT_DECRYPT_ERROR);
 }
 #endif /* DTLS_PSK */
-
-#ifdef DTLS_ECC
-static int
-get_ecdsa_key(struct dtls_context_t *ctx,
-	      const session_t *session,
-	      const dtls_ecdsa_key_t **result) {
-  static const dtls_ecdsa_key_t ecdsa_key = {
-    .curve = DTLS_ECDH_CURVE_SECP256R1,
-    .priv_key = ecdsa_priv_key,
-    .pub_key_x = ecdsa_pub_key_x,
-    .pub_key_y = ecdsa_pub_key_y
-  };
-
-  *result = &ecdsa_key;
-  return 0;
-}
-
-static int
-verify_ecdsa_key(struct dtls_context_t *ctx,
-		 const session_t *session,
-		 const unsigned char *other_pub_x,
-		 const unsigned char *other_pub_y,
-		 size_t key_size) {
-  return 0;
-}
-#endif /* DTLS_ECC */
 
 PROCESS(udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES(&udp_server_process);
@@ -218,28 +156,6 @@ print_local_addresses(void)
   }
 }
 
-#if 0
-static void
-create_rpl_dag(uip_ipaddr_t *ipaddr)
-{
-  struct uip_ds6_addr *root_if;
-
-  root_if = uip_ds6_addr_lookup(ipaddr);
-  if(root_if != NULL) {
-    rpl_dag_t *dag;
-    uip_ipaddr_t prefix;
-    
-    rpl_set_root(RPL_DEFAULT_INSTANCE, ipaddr);
-    dag = rpl_get_any_dag();
-    uip_ip6addr(&prefix, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
-    rpl_set_prefix(dag, &prefix, 64);
-    PRINTF("created a new RPL dag\n");
-  } else {
-    PRINTF("failed to create a new RPL DAG\n");
-  }
-}
-#endif
-
 void
 init_dtls() {
   static dtls_handler_t cb = {
@@ -249,40 +165,9 @@ init_dtls() {
 #ifdef DTLS_PSK
     .get_psk_info = get_psk_info,
 #endif /* DTLS_PSK */
-#ifdef DTLS_ECC
-    .get_ecdsa_key = get_ecdsa_key,
-    .verify_ecdsa_key = verify_ecdsa_key
-#endif /* DTLS_ECC */
   };
-#if 0
-  uip_ipaddr_t ipaddr;
-  /* struct uip_ds6_addr *root_if; */
-#endif /* UIP_CONF_ROUTER */
 
   PRINTF("DTLS server started\n");
-
-#if 0  /* TEST */
-  memset(&tmp_addr, 0, sizeof(rimeaddr_t));
-  if(get_eui64_from_eeprom(tmp_addr.u8));
-#if UIP_CONF_IPV6
-  memcpy(&uip_lladdr.addr, &tmp_addr.u8, 8);
-#endif
-#endif /* TEST */
-
-#if 0
-/*   uip_ip6addr(&ipaddr, 0xaaaa, 0, 0, 0, 0, 0, 0, 0); */
-/*   uip_ds6_set_addr_iid(&ipaddr, &uip_lladdr); */
-/*   uip_ds6_addr_add(&ipaddr, 0, ADDR_AUTOCONF); */
-
-/*   create_rpl_dag(&ipaddr); */
-/* #else */
-  /* uip_ds6_addr_add(&ipaddr, 0, ADDR_AUTOCONF); */
-
-  uip_ip6addr(&ipaddr, 0xaaaa, 0,0,0,0x0200,0,0,0x0003);
-  uip_ds6_addr_add(&ipaddr, 0, ADDR_MANUAL);
-
-  create_rpl_dag(&ipaddr);
-#endif /* UIP_CONF_ROUTER */
 
   server_conn = udp_new(NULL, 0, NULL);
   udp_bind(server_conn, UIP_HTONS(20220));
@@ -309,22 +194,11 @@ PROCESS_THREAD(udp_server_process, ev, data)
     PROCESS_EXIT();
   }
 
-#ifdef ENABLE_POWERTRACE
-  powertrace_start(CLOCK_SECOND * 2); 
-#endif
-
   while(1) {
     PROCESS_WAIT_EVENT();
     if(ev == tcpip_event) {
       dtls_handle_read(dtls_context);
     }
-#if 0
-    if (bytes_read > 0) {
-      /* dtls_handle_message(dtls_context, &the_session, readbuf, bytes_read); */
-      read_from_peer(dtls_context, &the_session, readbuf, bytes_read);
-    }
-    dtls_handle_message(ctx, &session, uip_appdata, bytes_read);
-#endif
   }
 
   PROCESS_END();
