@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COUNT=50000
+COUNT=100
 INTERVAL=1
 PINGFLAGS=""
 TARGET="aaaa::212:4b00:41e:afc6" #cc2538dk #2
