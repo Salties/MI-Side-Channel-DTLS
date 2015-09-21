@@ -43,15 +43,44 @@ static const unsigned char ecdsa_pub_key_y[] = {
 			0x17, 0xDE, 0x43, 0xF9, 0xF9, 0xAD, 0xEE, 0x70};
 #endif
 
+static char* INVALID_COMMAND = "INVALID COMMAND\r\n";
+
+#define SPACE 20
+int ReadSensors(uint8* data, size_t* plen)
+{
+	int count, value, size;
+	
+	for(count = 0, value = 0; count < SPACE; count++)
+	{
+		value += random_rand() % 100;
+	}
+	value /= SPACE;
+	size = snprintf((char*)data, *plen, "READ: %d\r\n", value);
+	*plen = size;
+	
+	return size;
+}
+
+#define MAX_BUF 45
 static int
 read_from_peer(struct dtls_context_t *ctx, 
 	       session_t *session, uint8 *data, size_t len) {
-  size_t i;
-  for (i = 0; i < len; i++)
-    PRINTF("%c", data[i]);
+  
+  uint8 buf[MAX_BUF];
+  size_t buflen = MAX_BUF;
 
-  /* echo incoming application data */
-  dtls_write(ctx, session, data, len);
+  if(!strncasecmp("GET\r\n",(char*)data,3))
+  {
+	  printf("Received GET\n");
+	  memset(buf, 0, MAX_BUF);
+	  ReadSensors(buf, &buflen);
+	  printf("Sending: %s", buf);
+	  dtls_write(ctx, session, buf, buflen);
+  }
+  else
+  {
+	dtls_write(ctx, session, (uint8*)INVALID_COMMAND, strlen(INVALID_COMMAND));  
+  }
   return 0;
 }
 
@@ -126,6 +155,7 @@ get_psk_info(struct dtls_context_t *ctx, const session_t *session,
 PROCESS(udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
+
 static void
 dtls_handle_read(dtls_context_t *ctx) {
   session_t session;
@@ -139,6 +169,7 @@ dtls_handle_read(dtls_context_t *ctx) {
   }
 }
 /*---------------------------------------------------------------------------*/
+
 static void
 print_local_addresses(void)
 {
