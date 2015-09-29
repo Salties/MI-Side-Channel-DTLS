@@ -128,8 +128,8 @@ void init()
 
     PRINTF("DTLS server started\n");
 
-    udp_socket_register(&server_conn, &dtls_context, DtlsServerCB);
-    udp_socket_bind(&server_conn, 20220)；
+    udp_socket_register(&server_conn, dtls_context, DtlsServerCB);
+    udp_socket_bind(&server_conn, 20220);
 
     dtls_set_log_level(DTLS_LOG_DEBUG);
 
@@ -138,15 +138,17 @@ void init()
 	dtls_set_handler(dtls_context, &cb);
 }
 
-void DtlsServerCB(struct udp_socket *c,
-		  void *ptr,
-		  const uip_ipaddr_t * source_addr,
-		  uint16_t source_port,
-		  const uip_ipaddr_t * dest_addr,
-		  uint16_t dest_port, const uint8_t * data,
+void DtlsServerCB(struct udp_socket *sock,
+		  void *apparg,
+		  const uip_ipaddr_t * remoteaddr,
+		  uint16_t remoteport,
+		  const uip_ipaddr_t * localaddr,
+		  uint16_t localport, const uint8_t * data,
 		  uint16_t datalen)
-{
-	printf("packet received.\n");
+{	
+	printf("%d bytes received from port %d.\n", datalen, remoteport);
+	dtls_handle_read((dtls_context_t *)apparg);
+	
     return;
 }
 
@@ -166,6 +168,8 @@ PROCESS_THREAD(udp_server_process, ev, data)
 
     while (1)
       {
+		  PROCESS_YIELD();
+#if 0
 	  PROCESS_WAIT_EVENT();
 	  printf("tcpip");
 	  if (ev == tcpip_event)
@@ -173,6 +177,7 @@ PROCESS_THREAD(udp_server_process, ev, data)
 				  printf("tcpip event.\n");
 			dtls_handle_read(dtls_context);
 	    }
+#endif
       }
 
     PROCESS_END();
