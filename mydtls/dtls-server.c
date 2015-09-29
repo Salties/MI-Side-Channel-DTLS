@@ -10,7 +10,7 @@
 #define DEBUG DEBUG_PRINT
 #endif
 #include "net/ip/uip-debug.h"
-#include "simple-udp.h"
+#include "net/ip/udp-socket.h"
 
 #include "debug.h"
 #include "dtls.h"
@@ -20,185 +20,162 @@
 
 #define MAX_PAYLOAD_LEN 120
 
-#define DTLS_PORT 20220
-
-static struct uip_udp_conn *server_conn;
-
+//static struct uip_udp_conn *server_conn;
+static struct udp_socket server_conn;
+void DtlsServerCB(struct udp_socket *c, void *ptr,
+		  const uip_ipaddr_t * source_addr, uint16_t source_port,
+		  const uip_ipaddr_t * dest_addr, uint16_t dest_port,
+		  const uint8_t * data, uint16_t datalen);
 static dtls_context_t *dtls_context;
 
-static struct simple_udp_connection simple_conn;
-
-static char* INVALID_COMMAND = "INVALID COMMAND\r\n";
+static char *INVALID_COMMAND = "INVALID COMMAND\r\n";
 
 #define SPACE 20
-int ReadSensors(uint8* data, size_t* plen)
+int ReadSensors(uint8 * data, size_t * plen)
 {
-	int count, value, size;
-	
-	for(count = 0, value = 0; count < SPACE; count++)
-	{
-		value += random_rand() % 100;
-	}
-	value /= SPACE;
-	size = snprintf((char*)data, *plen, "READ: %d\r\n", value);
-	*plen = size;
-	
-	return size;
+    int count, value, size;
+
+    for (count = 0, value = 0; count < SPACE; count++)
+      {
+	  value += random_rand() % 100;
+      }
+    value /= SPACE;
+    size = snprintf((char *) data, *plen, "READ: %d\r\n", value);
+    *plen = size;
+
+    return size;
 }
 
 #define MAX_BUF 45
 static int
-read_from_peer(struct dtls_context_t *ctx, 
-	       session_t *session, uint8 *data, size_t len) {
-  
-  uint8 buf[MAX_BUF];
-  size_t buflen = MAX_BUF;
+read_from_peer(struct dtls_context_t *ctx,
+	       session_t * session, uint8 * data, size_t len)
+{
 
-  if(!strncasecmp("GET\r\n",(char*)data,3))
-  {
+    uint8 buf[MAX_BUF];
+    size_t buflen = MAX_BUF;
+
+    if (!strncasecmp("GET\r\n", (char *) data, 3))
+      {
 	  printf("Received GET\n");
 	  memset(buf, 0, MAX_BUF);
 	  ReadSensors(buf, &buflen);
 	  printf("Sending: %s", buf);
 	  dtls_write(ctx, session, buf, buflen);
-  }
-  else
-  {
-	dtls_write(ctx, session, (uint8*)INVALID_COMMAND, strlen(INVALID_COMMAND));  
-  }
-  return 0;
-}
-
-static void
-print_local_addresses(void)
-{
-  int i;
-  uint8_t state;
-
-  PRINTF("Server IPv6 addresses: \n");
-  for(i = 0; i < UIP_DS6_ADDR_NB; i++) {
-    state = uip_ds6_if.addr_list[i].state;
-    if(uip_ds6_if.addr_list[i].isused &&
-       (state == ADDR_TENTATIVE || state == ADDR_PREFERRED)) {
-      PRINT6ADDR(&uip_ds6_if.addr_list[i].ipaddr);
-      PRINTF("\n");
-    }
-  }
+      }
+    else
+      {
+	  dtls_write(ctx, session, (uint8 *) INVALID_COMMAND,
+		     strlen(INVALID_COMMAND));
+      }
+    return 0;
 }
 
 static int
-send_to_peer(struct dtls_context_t *ctx, 
-	     session_t *session, uint8 *data, size_t len) {
+send_to_peer(struct dtls_context_t *ctx,
+	     session_t * session, uint8 * data, size_t len)
+{
 
-  struct uip_udp_conn *conn = (struct uip_udp_conn *)dtls_get_app_data(ctx);
+    struct uip_udp_conn *conn =
+	(struct uip_udp_conn *) dtls_get_app_data(ctx);
 
-  uip_ipaddr_copy(&conn->ripaddr, &session->addr);
-  conn->rport = session->port;
+    uip_ipaddr_copy(&conn->ripaddr, &session->addr);
+    conn->rport = session->port;
 
-  PRINTF("send to ");
-  PRINT6ADDR(&conn->ripaddr);
-  PRINTF(":%u\n", uip_ntohs(conn->rport));
+    PRINTF("send to ");
+    PRINT6ADDR(&conn->ripaddr);
+    PRINTF(":%u\n", uip_ntohs(conn->rport));
 
-  uip_udp_packet_send(conn, data, len);
+    uip_udp_packet_send(conn, data, len);
 
-  /* Restore server connection to allow data from any node */
-  memset(&conn->ripaddr, 0, sizeof(conn->ripaddr));
-  memset(&conn->rport, 0, sizeof(conn->rport));
+    /* Restore server connection to allow data from any node */
+    memset(&conn->ripaddr, 0, sizeof(conn->ripaddr));
+    memset(&conn->rport, 0, sizeof(conn->rport));
 
-  return len;
+    return len;
 }
 
 PROCESS(udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES(&udp_server_process);
 /*---------------------------------------------------------------------------*/
 
-#if 0
-static void
-dtls_handle_read(dtls_context_t *ctx) {
-  session_t session;
+static void dtls_handle_read(dtls_context_t * ctx)
+{
+    session_t session;
 
-  if(uip_newdata()) {
-    uip_ipaddr_copy(&session.addr, &UIP_IP_BUF->srcipaddr);
-    session.port = UIP_UDP_BUF->srcport;
-    session.size = sizeof(session.addr) + sizeof(session.port); 
-    dtls_handle_message(ctx, &session, uip_appdata, uip_datalen());
-  }
+    if (uip_newdata())
+      {
+	  uip_ipaddr_copy(&session.addr, &UIP_IP_BUF->srcipaddr);
+	  session.port = UIP_UDP_BUF->srcport;
+	  session.size = sizeof(session.addr) + sizeof(session.port);
+
+	  dtls_handle_message(ctx, &session, uip_appdata, uip_datalen());
+      }
 }
-#endif
+
 /*---------------------------------------------------------------------------*/
 
-
-static void
-dtls_server_callback(struct simple_udp_connection *conn,
-         const uip_ipaddr_t *srcaddr,
-         uint16_t srcport,
-         const uip_ipaddr_t *dstaddr,
-         uint16_t dstport,
-         const uint8_t *data,
-         uint16_t datalen)
+void init()
 {
-  PRINTF("Data received on port %d from port %d with length %d\n",
-         receiver_port, sender_port, datalen);
-  
-  session.port = UIP_UDP_BUF->sender_port;
-  session.port = 
-  
-}
-
-void
-init_dtls() {
-  static dtls_handler_t cb = {
-    .write = send_to_peer,
-    .read  = read_from_peer,
-    .event = NULL,
+    static dtls_handler_t cb = {
+	.write = send_to_peer,
+	.read = read_from_peer,
+	.event = NULL,
 #ifdef DTLS_PSK
-    .get_psk_info = get_psk_info,
-#endif /* DTLS_PSK */
-  };
+	.get_psk_info = get_psk_info,
+#endif				/* DTLS_PSK */
+    };
 
-  PRINTF("DTLS server started\n");
+    PRINTF("DTLS server started\n");
 
-  //server_conn = udp_new(NULL, 0, NULL);
-  //udp_bind(server_conn, UIP_HTONS(20220));
-	
-  simple_udp_register(&simple_conn, 0, NULL, DTLS_PORT, dtls_server_callback);
+    udp_socket_register(&server_conn, &dtls_context, DtlsServerCB);
+    udp_socket_bind(&server_conn, 20220)；
 
-  dtls_set_log_level(DTLS_LOG_DEBUG);
+    dtls_set_log_level(DTLS_LOG_DEBUG);
 
-  dtls_context = dtls_new_context(server_conn);
-  if (dtls_context)
-    dtls_set_handler(dtls_context, &cb);
+    dtls_context = dtls_new_context(&server_conn.udp_conn);
+    if (dtls_context)
+	dtls_set_handler(dtls_context, &cb);
 }
 
-
+void DtlsServerCB(struct udp_socket *c,
+		  void *ptr,
+		  const uip_ipaddr_t * source_addr,
+		  uint16_t source_port,
+		  const uip_ipaddr_t * dest_addr,
+		  uint16_t dest_port, const uint8_t * data,
+		  uint16_t datalen)
+{
+	printf("packet received.\n");
+    return;
+}
 
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(udp_server_process, ev, data)
 {
-  PROCESS_BEGIN();
+    PROCESS_BEGIN();
 
-  dtls_init();
-  init_dtls();
+    dtls_init();
+    init();
 
-  print_local_addresses();
+    if (!dtls_context)
+      {
+	  dtls_emerg("cannot create context\n");
+	  PROCESS_EXIT();
+      }
 
-  if (!dtls_context) {
-    dtls_emerg("cannot create context\n");
-    PROCESS_EXIT();
-  }
+    while (1)
+      {
+	  PROCESS_WAIT_EVENT();
+	  printf("tcpip");
+	  if (ev == tcpip_event)
+	    {
+				  printf("tcpip event.\n");
+			dtls_handle_read(dtls_context);
+	    }
+      }
 
-
-
-  while(1) {
-#if 0
-    PROCESS_WAIT_EVENT();
-    if(ev == tcpip_event) {
-      dtls_handle_read(dtls_context);
-    }
-#endif
-	PROCESS_YIELD();
-  }
-
-  PROCESS_END();
+    PROCESS_END();
 }
+
 /*---------------------------------------------------------------------------*/
