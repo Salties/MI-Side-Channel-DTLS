@@ -129,7 +129,6 @@ send_to_peer(struct dtls_context_t *ctx,
 }
 
 #ifdef DTLS_PSK
-#if 0
 static unsigned char psk_id[PSK_ID_MAXLEN] = PSK_DEFAULT_IDENTITY;
 static size_t psk_id_length = sizeof(PSK_DEFAULT_IDENTITY) - 1;
 static unsigned char psk_key[PSK_MAXLEN] = PSK_DEFAULT_KEY;
@@ -140,7 +139,6 @@ static size_t psk_key_length = sizeof(PSK_DEFAULT_KEY) - 1;
 #else
 #define UNUSED_PARAM
 #endif /* __GNUC__ */
-
 
 /* This function is the "key store" for tinyDTLS. It is called to
  * retrieve a key for the given identity within this particular
@@ -178,7 +176,6 @@ get_psk_info(struct dtls_context_t *ctx UNUSED_PARAM,
 
   return dtls_alert_fatal_create(DTLS_ALERT_INTERNAL_ERROR);
 }
-#endif
 #endif /* DTLS_PSK */
 
 #ifdef DTLS_ECC
