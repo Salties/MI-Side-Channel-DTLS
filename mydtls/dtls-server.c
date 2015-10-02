@@ -17,18 +17,59 @@
 
 #define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
 #define UIP_UDP_BUF  ((struct uip_udp_hdr *)&uip_buf[UIP_LLIPH_LEN])
-
+#define INVALID_COMMAND "INVALID COMMAND\r\n"
 #define MAX_PAYLOAD_LEN 120
 
-//static struct uip_udp_conn *server_conn;
 static struct udp_socket server_conn;
-void DtlsServerCB (struct udp_socket *c, void *ptr,
+static dtls_context_t *dtls_context = NULL;
+
+void DtlsServerCb (struct udp_socket *c, void *ptr,
 		   const uip_ipaddr_t * source_addr, uint16_t source_port,
 		   const uip_ipaddr_t * dest_addr, uint16_t dest_port,
 		   const uint8_t * data, uint16_t datalen);
-static dtls_context_t *dtls_context = NULL;
 
-static char *INVALID_COMMAND = "INVALID COMMAND\r\n";
+
+/* This function is the "key store" for tinyDTLS. It is called to
+ * retrieve a key for the given identity within this particular
+ * session. */
+int
+get_psk_info(struct dtls_context_t *ctx, const session_t *session,
+	     dtls_credentials_type_t type,
+	     const unsigned char *id, size_t id_len,
+	     unsigned char *result, size_t result_length) {
+
+  struct keymap_t {
+    unsigned char *id; size_t id_length;
+    unsigned char *key; size_t key_length;
+  } psk[3] = {
+    { (unsigned char *)"Client_identity", 15,
+      (unsigned char *)"secretPSK", 9 },
+    { (unsigned char *)"default identity", 16,
+      (unsigned char *)"\x11\x22\x33", 3 },
+    { (unsigned char *)"\0", 2,
+      (unsigned char *)"", 1 }
+  };
+
+  if (type != DTLS_PSK_KEY) {
+    return 0;
+  }
+
+  if (id) {
+    int i;
+    for (i = 0; i < sizeof(psk)/sizeof(struct keymap_t); i++) {
+      if (id_len == psk[i].id_length && memcmp(id, psk[i].id, id_len) == 0) {
+	if (result_length < psk[i].key_length) {
+	  dtls_warn("buffer too small for PSK");
+	  return dtls_alert_fatal_create(DTLS_ALERT_INTERNAL_ERROR);
+	}
+	memcpy(result, psk[i].key, psk[i].key_length);
+	return psk[i].key_length;
+      }
+    }
+  }
+
+  return dtls_alert_fatal_create(DTLS_ALERT_DECRYPT_ERROR);
+}
 
 #define SPACE 20
 int
@@ -49,7 +90,7 @@ ReadSensors (uint8 * data, size_t * plen)
 
 #define MAX_BUF 128
 int
-read_from_peer (struct dtls_context_t *ctx,
+DtlsReadCb (struct dtls_context_t *ctx,
 		session_t * session, uint8 * data, size_t len)
 {
   uint8 buf[MAX_BUF];
@@ -65,59 +106,34 @@ read_from_peer (struct dtls_context_t *ctx,
     }
   else
     {
-      dtls_write (ctx, session, (uint8 *) INVALID_COMMAND,
+      dtls_write (ctx, session, (unsigned char *)INVALID_COMMAND,
 		  strlen (INVALID_COMMAND));
     }
   return 0;
 }
 
 int
-send_to_peer (struct dtls_context_t *ctx,
+DtlsSendCb (struct dtls_context_t *ctx,
 	      session_t * session, uint8 * data, size_t len)
 {
   struct udp_socket *conn = (struct udp_socket *) dtls_get_app_data (ctx);
 
-//  uip_ipaddr_copy (&conn->ripaddr, &session->addr);
-//  conn->rport = session->port;
-  printf("In send_to_peer()\n");
   PRINTF ("send to ");
   PRINT6ADDR (&session->addr);
   PRINTF (":%u\n", uip_ntohs(session->port));
 
-  //uip_udp_packet_send (conn, data, len);
-  /* Restore server connection to allow data from any node */
-  //memset (&conn->ripaddr, 0, sizeof (conn->ripaddr));
-  //memset (&conn->rport, 0, sizeof (conn->rport));
   return udp_socket_sendto(conn, data, len, &session->addr, session->port);
 }
 
 PROCESS (udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES (&udp_server_process);
-/*---------------------------------------------------------------------------*/
-#if 0
-static void
-dtls_handle_read (dtls_context_t * ctx)
-{
-  session_t session;
-
-  if (uip_newdata ())
-    {
-      uip_ipaddr_copy (&session.addr, &UIP_IP_BUF->srcipaddr);
-      session.port = UIP_UDP_BUF->srcport;
-      session.size = sizeof (session.addr) + sizeof (session.port);
-
-      dtls_handle_message (ctx, &session, uip_appdata, uip_datalen ());
-    }
-}
-#endif
-/*---------------------------------------------------------------------------*/
 
 void
-init ()
+Init ()
 {
   static dtls_handler_t cb = {
-    .write = send_to_peer,
-    .read = read_from_peer,
+    .write = DtlsSendCb,
+    .read = DtlsReadCb,
     .event = NULL,
 #ifdef DTLS_PSK
     .get_psk_info = get_psk_info,
@@ -126,21 +142,19 @@ init ()
 
   PRINTF ("DTLS server started\n");
   dtls_context = dtls_new_context (&server_conn);
-  //PRINTF("write():%lu\n", (void *)cb.write);
-  udp_socket_register (&server_conn, dtls_context, DtlsServerCB);
+
+  //Regist a DTLS port.
+  udp_socket_register (&server_conn, dtls_context, DtlsServerCb);
   udp_socket_bind (&server_conn, 20220);
 
   dtls_set_log_level (DTLS_LOG_DEBUG);
 
-  //printf("1 dtls_context: %d\n", (int)dtls_context);
-
-  printf("dtls_context: %d\n", (int)dtls_context);
   if (dtls_context)
     dtls_set_handler(dtls_context, &cb);
 }
 
 void
-DtlsServerCB (struct udp_socket *sock,
+DtlsServerCb (struct udp_socket *sock,
 	      void *apparg,
 	      const uip_ipaddr_t * remoteaddr,
 	      uint16_t remoteport,
@@ -172,7 +186,7 @@ PROCESS_THREAD (udp_server_process, ev, data)
   PROCESS_BEGIN ();
 
   dtls_init ();
-  init ();
+  Init ();
 
   if (!dtls_context)
     {
