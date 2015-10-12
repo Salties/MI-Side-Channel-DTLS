@@ -1,5 +1,5 @@
 all: broadcast-example unicast-sender unicast-receiver
-APPS=servreg-hack
+#APPS=servreg-hack
 CONTIKI=$(CONTIKI_ROOT)
 
 CONTIKI_WITH_IPV6 = 1
