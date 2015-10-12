@@ -3,7 +3,7 @@
 
 #define UIP_CONF_TCP 0
 
-//#define ENABLE_LLSEC
+#define ENABLE_LLSEC
 
 //RDC driver
 //#undef NETSTACK_CONF_RDC
