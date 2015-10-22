@@ -55,8 +55,8 @@
 static struct simple_udp_connection unicast_connection;
 //static uint8_t sendbuf[]={0x00,0x00,0x00,0x00};
 //static uint8_t sendbuf[]={0xFF,0xFF,0xFF,0xFF};
-static uint8_t sendbuf[]={0xFF,0x00,0xFF,0x00};
-static int sendlen = 4;
+static uint8_t sendbuf[]={0x12,0x34,0x56,0x78};
+static int sendlen = 2;
 
 /*---------------------------------------------------------------------------*/
 PROCESS(unicast_sender_process, "Unicast sender example process");
