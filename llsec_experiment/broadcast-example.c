@@ -50,8 +50,11 @@
 
 static struct simple_udp_connection broadcast_connection;
 
-static uint8_t sendbuf[4]={0x00,0x00,0x00,0x00};
-//static uint8_t sendbuf[4]={0xff,0xff,0xff,0xff};
+//static uint8_t sendbuf[4] = {0x00, 0x00, 0x00, 0x00};
+//static uint8_t sendbuf[4]={0x12,0x34,0x56,0x78};
+static uint8_t sendbuf[4]={0xff,0xff,0xff,0xff};
+
+static int sendlen = 1;
 
 /*---------------------------------------------------------------------------*/
 PROCESS(broadcast_example_process, "UDP broadcast example process");
@@ -91,7 +94,7 @@ PROCESS_THREAD(broadcast_example_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
     printf("Sending broadcast\n");
     uip_create_linklocal_allnodes_mcast(&addr);
-    simple_udp_sendto(&broadcast_connection, sendbuf, 4, &addr);
+    simple_udp_sendto(&broadcast_connection, sendbuf, sendlen, &addr);
   }
 
   PROCESS_END();

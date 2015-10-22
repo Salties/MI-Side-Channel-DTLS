@@ -3,7 +3,7 @@
 
 #define UIP_CONF_TCP 0
 
-#define ENABLE_LLSEC
+#define ENABLE_LLSEC 0
 
 //RDC driver
 //#undef NETSTACK_CONF_RDC
@@ -18,7 +18,7 @@
 
 //#define NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE 8
 
-#ifdef ENABLE_LLSEC
+#if (ENABLE_LLSEC == 1)
 #undef NETSTACK_CONF_LLSEC
 #define NETSTACK_CONF_LLSEC noncoresec_driver
 #undef LLSEC802154_CONF_SECURITY_LEVEL
