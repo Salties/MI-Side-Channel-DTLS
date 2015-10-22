@@ -74,6 +74,8 @@ inline void Payload()
     avg = sum / count;
     printf("Average = %d\n", avg);
     uip_create_linklocal_allnodes_mcast(&addr);
+
+    //Broadcast reading.
     simple_udp_sendto(&broadcast_connection, &avg, sizeof(avg), &addr);
 
     //Payload end timing.
