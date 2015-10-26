@@ -1,7 +1,7 @@
 CONTIKI_PROJECT = pingload
 all: $(CONTIKI_PROJECT)
 
-CONTIKI = ../contiki
+CONTIKI = $(CONTIKI_ROOT)
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
 #Uncomment to enable led indicator.
