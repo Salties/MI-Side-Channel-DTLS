@@ -15,8 +15,6 @@
 
 #include "debug.h"
 #include "dtls.h"
-#include "servreg-hack.h"
-
 
 #define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
 #define UIP_UDP_BUF  ((struct uip_udp_hdr *)&uip_buf[UIP_LLIPH_LEN])
@@ -29,28 +27,32 @@
 static struct udp_socket server_conn;
 static dtls_context_t *dtls_context = NULL;
 
-static void
-create_rpl_dag(uip_ipaddr_t *ipaddr)
-{
 #ifdef SERVER_RPL_DAG
-  struct uip_ds6_addr *root_if;
+static void
+create_rpl_dag (uip_ipaddr_t * ipaddr)
+{
 
-  root_if = uip_ds6_addr_lookup(ipaddr);
-  if(root_if != NULL) {
-    rpl_dag_t *dag;
-    uip_ipaddr_t prefix;
-    
-    rpl_set_root(RPL_DEFAULT_INSTANCE, ipaddr);
-    dag = rpl_get_any_dag();
-    uip_ip6addr(&prefix, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
-    rpl_set_prefix(dag, &prefix, 64);
-    PRINTF("created a new RPL dag\n");
-  } else {
-    PRINTF("failed to create a new RPL DAG\n");
-  }
-#endif
-  return;
+    struct uip_ds6_addr *root_if;
+
+    root_if = uip_ds6_addr_lookup (ipaddr);
+    if (root_if != NULL)
+      {
+          rpl_dag_t *dag;
+          uip_ipaddr_t prefix;
+
+          rpl_set_root (RPL_DEFAULT_INSTANCE, ipaddr);
+          dag = rpl_get_any_dag ();
+          uip_ip6addr (&prefix, 0xaaaa, 0, 0, 0, 0, 0, 0, 0);
+          rpl_set_prefix (dag, &prefix, 64);
+          PRINTF ("created a new RPL dag\n");
+      }
+    else
+      {
+          PRINTF ("failed to create a new RPL DAG\n");
+      }
+    return;
 }
+#endif
 
 void DtlsServerCb (struct udp_socket *c, void *ptr,
                    const uip_ipaddr_t * source_addr, uint16_t source_port,
@@ -256,18 +258,17 @@ PROCESS (udp_server_process, "UDP server process");
 AUTOSTART_PROCESSES (&udp_server_process);
 PROCESS_THREAD (udp_server_process, ev, data)
 {
-    static uip_ipaddr_t *ipaddr;
+//    static uip_ipaddr_t *ipaddr;
 
     PROCESS_BEGIN ();
-    
+
+#ifdef SERVER_RPL_DAG
+    create_rpl_dag (ipaddr);
+#endif
     dtls_init ();
     Init ();
 
-    servreg_hack_init ();
-
-    ipaddr = set_global_address ();
-    create_rpl_dag(ipaddr);
-    servreg_hack_register (DTLS_SERVICE_ID, ipaddr);
+//    ipaddr = set_global_address ();
 
     if (!dtls_context)
       {

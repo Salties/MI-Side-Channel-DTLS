@@ -33,7 +33,7 @@ ETAGS = /usr/bin/etags
 
 prefix = /usr/local
 exec_prefix = ${prefix}
-abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls
+abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2
 top_builddir = .
 libdir = ${exec_prefix}/lib
 includedir = ${prefix}/include/tinydtls
