@@ -48,6 +48,28 @@ def PrintHelp():
 	print "extractri.py LOGFILE [-c CLIENT_ID[=1]] [-s SERVER_ID[=2]] [-t TIMEOUT[=500]] [LENGTH SPEC]";
 	exit();
     return;
+
+def GetResponseIntervals(records, client, server):
+    ri = list();
+    #If a packet from client to server is followed by a packet from server to client, 
+    #then we consider them to be a request and a response.
+    i = 0;
+    lastreq = lastrpy = 0;
+    #FIXME: Searching is a substring matching problem... and I'm not doing the fancy algorithms here.
+    while i < len(records): 
+	#If the packet is client => server, mark it as request.
+	if (records[i].srcid is str(client)) and (records[i].dstid == str(server)):
+	    lastreq = i;
+	#If the packet is server => client, mark it as response. 
+	elif (records[i].srcid is str(server)) and (records[i].dstid is str(client)):
+	    lastrpy = i;
+	#If a request is followed by a response, we mark them as a session.
+	if lastrpy - lastreq is 1:
+	    #Then compute the response interval as their time difference and put it into the result.
+	    ri.append(int(records[lastrpy].time) - int(records[lastreq].time));
+	i += 1;
+    
+    return ri;
     
 #Main
 PrintHelp();
@@ -74,7 +96,7 @@ if '-s' in cmdargs:
     server = cmdargs[index + 1];
     del(cmdargs[index : index + 2]);
 else:
-    server = 1;
+    server = 2;
 
 #Set maximum timeout. (Optional)
 if '-t' in cmdargs:
@@ -104,5 +126,10 @@ while True:
 #Print filtered packets.    
 for rec in records:
     rec.PrintRecord();
+
+#Extrac response interval from records.
+ri = GetResponseIntervals(records, client, server);
+print "Response Intervals:"
+print ri;
 
 exit();
