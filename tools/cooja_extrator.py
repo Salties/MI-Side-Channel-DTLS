@@ -1,6 +1,16 @@
 #!/usr/bin/python
 
-import sys
+'''
+README:
+This program extract traffic features from cooja simulator radio dump (with '6lowPAN analyser with PCAP' option).
+'''
+
+import sys;
+
+#Default settings.
+timeout = 500;
+client = 1;
+server = 2;
 
 class Record:
     def __init__(self, packet_dump):
@@ -43,11 +53,37 @@ class Record:
         return;
 
 def PrintHelp():
+    print "Usage: Extract packets from a cooja radio dump.";
+    print "extractri.py LOGFILE [-c CLIENT_ID[=1]] [-s SERVER_ID[=2]] [-t TIMEOUT[=500]] [LENGTHSPEC]";
+    exit();
+
+def Init():
+    global timeout, client, server;
     if len(sys.argv) <= 1 or '-h' in sys.argv or '--help' in sys.argv:
-	print "Usage: Extract packets from a cooja radio dump.";
-	print "extractri.py LOGFILE [-c CLIENT_ID[=1]] [-s SERVER_ID[=2]] [-t TIMEOUT[=500]] [LENGTH SPEC]";
-	exit();
+	PrintHelp();
+    
+    #Parse command line arguments.
+    cmdargs = sys.argv;
+    #Set maximum timeout. (Optional)
+    if '-t' in cmdargs:
+	index = cmdargs.index('-t');
+	timeout = cmdargs[index + 1];
+	del(cmdargs[index : index+2]);
+	
+    #Set client's node ID. (Optional)
+    if '-c' in cmdargs:
+	index = cmdargs.index('-c');
+	client = cmdargs[index + 1];
+	del(cmdargs[index : index + 2]);
+
+    #Set server's node ID. (Optional)
+    if '-s' in cmdargs:
+	index = cmdargs.index('-s');
+	server = cmdargs[index + 1];
+	del(cmdargs[index : index + 2]);
+	
     return;
+
 
 def GetResponseIntervals(records, client, server):
     ri = list();
@@ -72,39 +108,17 @@ def GetResponseIntervals(records, client, server):
     return ri;
     
 #Main
-PrintHelp();
+Init();
 
-#Parse command line arguments.
-cmdargs = sys.argv;
+
 
 #Open a cooja radio log specified by command line argument.
 logfilename = cmdargs[1];
 logfile = open(logfilename, 'r');
 del(cmdargs[1]);
 
-#Set client's node ID. (Optional)
-if '-c' in cmdargs:
-    index = cmdargs.index('-c');
-    client = cmdargs[index + 1];
-    del(cmdargs[index : index + 2]);
-else:
-    client = 1;
 
-#Set server's node ID. (Optional)
-if '-s' in cmdargs:
-    index = cmdargs.index('-s');
-    server = cmdargs[index + 1];
-    del(cmdargs[index : index + 2]);
-else:
-    server = 2;
 
-#Set maximum timeout. (Optional)
-if '-t' in cmdargs:
-    index = cmdargs.index('-t');
-    timeout = cmdargs[index + 1];
-    del(cmdargs[index : index+2]);
-else:
-    timeout = 500;
 
 #Specify packet length. (Optional)
 lenspec = list();
@@ -129,7 +143,6 @@ for rec in records:
 
 #Extrac response interval from records.
 ri = GetResponseIntervals(records, client, server);
-print "Response Intervals:"
-print ri;
+print "Response Intervals = %s" % str(ri)
 
 exit();
