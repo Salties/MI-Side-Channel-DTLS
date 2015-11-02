@@ -1,4 +1,5 @@
-CONTIKI_PROJECT = dtls-server dtls-client
+#CONTIKI_PROJECT = dtls-server dtls-client
+CONTIKI_PROJECT = dtls-server
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = $(CONTIKI_ROOT)
