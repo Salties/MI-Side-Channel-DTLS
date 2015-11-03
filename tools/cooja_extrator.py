@@ -19,7 +19,7 @@ class Record:
         segments = packet_dump.split();
         # A captured packet of cooja is of the form:
         # 'Time'+'Src_ID'+'Dts_ID'+'Length'+'Mac_Protocol'+'Packet_Type'+'Src_Addr'+'Dst_Addr'...
-        self.time = segments[0];
+        self.time = int(segments[0]);
         self.srcid = segments[1];
         self.dstid = segments[2];
         self.length = segments[3].replace(':',''); # Remove the last colon in length filed.
@@ -74,7 +74,7 @@ def Init():
     #Set maximum timeout. (Optional)
     if '-t' in cmdargs:
 	index = cmdargs.index('-t');
-	timeout = cmdargs[index + 1];
+	timeout = int(cmdargs[index + 1]);
 	del(cmdargs[index : index+2]);
 	
     #Set client's node ID. (Optional)
@@ -106,15 +106,18 @@ def GetResponseIntervals(records, client, server):
     #FIXME: Searching is a substring matching problem... and I'm not doing the fancy algorithms here.
     while i < len(records): 
 	#If the packet is client => server, mark it as request.
-	if (records[i].srcid is str(client)) and (records[i].dstid == str(server)):
+	if (records[i].srcid == str(client)) and (records[i].dstid == str(server)):
 	    lastreq = i;
 	#If the packet is server => client, mark it as response. 
-	elif (records[i].srcid is str(server)) and (records[i].dstid is str(client)):
+	elif (records[i].srcid == str(server)) and (records[i].dstid == str(client)):
 	    lastrpy = i;
 	#If a request is followed by a response, we mark them as a session.
 	if lastrpy - lastreq is 1:
-	    #Then compute the response interval as their time difference and put it into the result.
-	    ri.append(int(records[lastrpy].time) - int(records[lastreq].time));
+	    #Then compute the response interval as their time difference.
+	    respintv = records[lastrpy].time - records[lastreq].time;
+	    if respintv <= timeout:
+		#Record it if within timeout.
+		ri.append(respintv);
 	i += 1;
     
     return ri;

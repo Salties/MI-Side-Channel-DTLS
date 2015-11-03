@@ -10,7 +10,7 @@ import csv;
 
 #Default settings.
 logfile=0;
-timeout = 500;
+timeout = 10000;
 client = 'aaaa::1';
 server = 'aaaa::200:0:0:2';
 lenspec=list();
@@ -79,7 +79,7 @@ def Init():
     #Set maximum timeout. (Optional)
     if '-t' in cmdargs:
 	index = cmdargs.index('-t');
-	timeout = cmdargs[index + 1];
+	timeout = int(cmdargs[index + 1]);
 	del(cmdargs[index : index+2]);
 	
     #Set client's node ID. (Optional)
@@ -125,8 +125,11 @@ def GetResponseIntervals(records, client, server):
 	    lastrpy = i;
 	#If a request is followed by a response, we mark them as a session.
 	if lastrpy - lastreq is 1:
-	    #Then compute the response interval as their time difference and put it into the result.
-	    ri.append(int(records[lastrpy].time - records[lastreq].time));
+	    #Then compute the response interval as their time difference.
+	    respintv = records[lastrpy].time - records[lastreq].time;
+	    #Record it if within timeout.
+	    if respintv <= timeout:
+		ri.append(respintv);
 	i += 1;
     
     return ri;
