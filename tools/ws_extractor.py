@@ -61,7 +61,7 @@ class Record:
 
 def PrintHelp():
     print "Usage: Extract packets from wireshark csv.";
-    print "ws_extractor.py LOGFILE [-c CLIENT_ID[=1]] [-s SERVER_ID[=2]] [-t TIMEOUT[=500]] [-k KEYWORD] [LENGTHSPEC]";
+    print "ws_extractor.py LOGFILE [-c CLIENT[=%s]] [-s SERVER[=%s]] [-t TIMEOUT[=500]] [-k KEYWORD] [LENGTHSPEC]" % (client, server);
     exit();
 
 def Init():
