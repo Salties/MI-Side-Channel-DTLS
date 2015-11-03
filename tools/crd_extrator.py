@@ -55,8 +55,8 @@ class Record:
         return;
 
 def PrintHelp():
-    print "Usage: Extract packets from a cooja radio dump.";
-    print "extractri.py LOGFILE [-c CLIENT_ID[=1]] [-s SERVER_ID[=2]] [-t TIMEOUT[=500]] [LENGTHSPEC]";
+    print "Usage: Extract packet features from a cooja radio dump.";
+    print "crd_extractri.py LOGFILE [-c CLIENT_ID[=1]] [-s SERVER_ID[=2]] [-t TIMEOUT[=500]] [LENGTHSPEC]";
     exit();
 
 def Init():
