@@ -47,8 +47,10 @@ class Record:
     
     def PrintRecord(self):
 	#Print the packet. MAC Protocol is ignored.
-	print('%s %s %s %s %s %s' %\
-	(self.time, self.srcid, self.dstid, self.length, self.packtype, self.others));
+	print('%s\t%s\t => \t%s\t%s\t%s' %\
+	(self.time, self.srcid, self.dstid, self.length, self.packtype));
+#	print('%s\t%s\t => %s\t%s\t%s\t%s' %\
+#	(self.time, self.srcid, self.dstid, self.length, self.packtype, ''.join(self.others)));
 	return;
     
     def __del__(self):
@@ -142,6 +144,6 @@ for rec in records:
 
 #Extrac response interval from records.
 ri = GetResponseIntervals(records, client, server);
-print "Response Intervals = %s" % str(ri)
+print "RIs = %s" % str(ri)
 
 exit();
