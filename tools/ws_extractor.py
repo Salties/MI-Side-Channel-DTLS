@@ -29,6 +29,8 @@ class Record:
 	self.protocol = segments[4].strip('"');
 	self.length = segments[5].strip('"');
 	self.info = segments[6].strip("\n").strip('"');
+	if(len(segments) > 6):
+	    self.other = segments[7:];
         return;
 
     def IsData(self, lenspec=[]):
@@ -60,7 +62,7 @@ class Record:
         return;
 
 def PrintHelp():
-    print "Usage: Extract packet features from wireshark csv.";
+    print "Usage: Extract packet features from a wireshark csv.";
     print "ws_extractor.py LOGFILE [-c CLIENT[=%s]] [-s SERVER[=%s]] [-t TIMEOUT[=500]] [-k KEYWORD] [LENGTHSPEC]" % (client, server);
     exit();
 
@@ -129,7 +131,7 @@ def GetResponseIntervals(records, client, server):
 	    respintv = records[lastrpy].time - records[lastreq].time;
 	    #Record it if within timeout.
 	    if respintv <= timeout:
-		ri.append(respintv);
+		ri.append(int(respintv));
 	i += 1;
     
     return ri;
@@ -157,6 +159,6 @@ for rec in records:
 
 #Extrac response interval from records.
 ri = GetResponseIntervals(records, client, server);
-print "Response Intervals = %s" % str(ri);
+print "RIs = %s" % str(ri);
 
 exit();
