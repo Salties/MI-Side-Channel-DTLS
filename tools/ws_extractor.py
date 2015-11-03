@@ -52,7 +52,7 @@ class Record:
     
     def PrintRecord(self):
 	#Print the packet. MAC Protocol is ignored.
-        print('%s\t%s\t => \t%s\t%s\t%s\t%s' %\
+        print('%010f\t%s\t => \t%s\t%s\t%s\t%s' %\
 	(self.time, self.src, self.dst, self.length, self.protocol, self.info));
 	return;
     
@@ -113,17 +113,15 @@ def GetResponseIntervals(records, client, server):
     #then we consider them to be a request and a response.
     i = 0;
     lastreq = lastrpy = 0;
-    print "Client=\"%s\", Server=\"%s\"" % (client, server);
     #FIXME: Searching is a substring matching problem... and I'm not doing the fancy algorithms here.
     while i < len(records): 
-	#If the packet is client => server, mark it as request.
         src = records[i].src;
         dst = records[i].dst;
-
+	#If the packet is client => server, mark it as request.
 	if (src == client) and (dst == server):
 	    lastreq = i;
 	#If the packet is server => client, mark it as response. 
-	elif (records[i].src == server) and (records[i].dst == client):
+	elif (src == server) and (dst == client):
 	    lastrpy = i;
 	#If a request is followed by a response, we mark them as a session.
 	if lastrpy - lastreq is 1:
@@ -156,6 +154,6 @@ for rec in records:
 
 #Extrac response interval from records.
 ri = GetResponseIntervals(records, client, server);
-print "Response Intervals = %s" % str(ri)
+print "Response Intervals = %s" % str(ri);
 
 exit();
