@@ -4,6 +4,7 @@
 #include "net/ip/uip-debug.h"
 #include "net/ip/udp-socket.h"
 #include "clock.h"
+#include "watchdog.h"
 
 #ifdef SERVER_RPL_DAG
 #include "net/rpl/rpl.h"
@@ -15,7 +16,7 @@
 #include "dtls.h"
 
 #ifndef DEBUG
-//#define DEBUG DEBUG_PRINT
+#define DEBUG DEBUG_PRINT
 #endif
 
 #define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
@@ -23,10 +24,11 @@
 #define INVALID_COMMAND "INVALID COMMAND\r\n"
 #define MAX_PAYLOAD_LEN 120
 #define MAX_BUF 128
-#define SAMPLING_SPACE 20
-#define DTLS_SERVICE_ID 217
 
-#define NULL_REPLY
+#define SAMPLING_SPACE 50
+
+//Enable NULL_REPLY to measure the base response time.
+#define NULL_REPLY 1
 
 static struct udp_socket server_conn;
 static dtls_context_t *dtls_context = NULL;
@@ -86,10 +88,11 @@ static void DtlsServerCb(struct udp_socket *, void *, const uip_ipaddr_t *,
 //This function is the "key store" for tinyDTLS. It is called to
 //retrieve a key for the given identity within this particular
 //session.
-static int get_psk_info(struct dtls_context_t *ctx, const session_t * session,
-             dtls_credentials_type_t type,
-             const unsigned char *id, size_t id_len,
-             unsigned char *result, size_t result_length)
+static int get_psk_info(struct dtls_context_t *ctx,
+                        const session_t * session,
+                        dtls_credentials_type_t type,
+                        const unsigned char *id, size_t id_len,
+                        unsigned char *result, size_t result_length)
 {
     struct keymap_t {
         unsigned char *id;
@@ -129,17 +132,17 @@ static int get_psk_info(struct dtls_context_t *ctx, const session_t * session,
 }
 
 #ifndef NULL_REPLY
-//ReadSensors() generates content in the reply.
+//ReadSensors() simulates a sensor reading process.
 int ReadSensors(uint8 * data, size_t * len)
 {
     int count, value, size;
 
     //Computes an average of some random values...
     for (count = 0, value = 0; count < SAMPLING_SPACE; count++) {
-        value += random_rand() % 100;
+        value = (value + random_rand()) % 30;
+        watchdog_periodic();
     }
-    value /= SAMPLING_SPACE;
-    size = snprintf((char *) data, *len, "READ: %d\r\n", value);
+    size = snprintf((char *) data, *len, "%02u\r\n", value);
     *len = size;
 
     return size;
@@ -148,14 +151,17 @@ int ReadSensors(uint8 * data, size_t * len)
 //ReadSensors() generates a null reply which is used to measure the base line response interval.
 int ReadSensors(uint8 * data, size_t * len)
 {
-    data[0] = '0';
-    data[1] = '\n';
-    *len = 2;
-    return 2;
+	//Set data to "00\r\n".
+	data[0] = '0';
+	data[1] = '0';
+	data[2] = '\r';
+	data[3] = '\n';
+    *len = 4;
+    return 3;
 }
 #endif
 
-//DtlsReadCb() is called by DTLS module after DTLS module decrypts a data packet.
+//DtlsReadCb() is called by DTLS module after DTLS module decrypts a data packet. This funtion can also be considered as the main function of server message handler.
 int DtlsReadCb(struct dtls_context_t *ctx,
                session_t * session, uint8 * data, size_t len)
 {
@@ -167,10 +173,12 @@ int DtlsReadCb(struct dtls_context_t *ctx,
     if (!strncasecmp("GET\n", (char *) data, 4)) {
         PRINTF("Received GET\n");
         memset(buf, 0, MAX_BUF);
-	begin = clock_time();
+        begin = clock_time();	//Start timing.
         ReadSensors(buf, &buflen);
-	end = clock_time();
-	printf("ReadSensors Execution Time = %u\n", (unsigned int)(end - begin));
+        end = clock_time();	//End timing.
+        printf("ReadSensors Execution Time = %u - %u = %u \n",
+               (unsigned int) end, (unsigned int) begin,
+               (unsigned int) (end - begin));
         PRINTF("Sending: %s", buf);
         dtls_write(ctx, session, buf, buflen);
     } else {
