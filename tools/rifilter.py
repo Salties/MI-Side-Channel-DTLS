@@ -1,10 +1,17 @@
 #!/usr/bin/python
 
 import sys
+import os.path
 
 #Main
-fp = open(sys.argv[1], 'r');
-fltr = sys.argv[2:];
+if len(sys.argv) < 2: 
+    exit();
+elif os.path.isfile(sys.argv[1]):
+    fp = open(sys.argv[1], 'r');
+else:
+    fp = sys.stdin;
+
+fltr = sys.argv[1:];
 ris = fp.read().split();
 
 #Remove RIs in filter.
