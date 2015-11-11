@@ -4,24 +4,24 @@ import sys
 import os.path
 
 #Main
-if len(sys.argv) < 2: 
-    exit();
-elif os.path.isfile(sys.argv[1]):
-    fp = open(sys.argv[1], 'r');
-else:
-    fp = sys.stdin;
+fp = sys.stdin; #Use stdin as default.
+fltr = list();
+if len(sys.argv) > 1:
+    if os.path.isfile(sys.argv[1]):
+        fp = open(sys.argv[1], 'r');
+    else:
+        fltr = sys.argv[1:];
 
-fltr = sys.argv[1:];
 ris = fp.read().split();
 
 #Remove RIs in filter.
-i = 0;
-while i < len(ris):
-    if ris[i] in fltr:
-	del ris[i];
-	continue;
-    i = i + 1;
+if len(fltr) > 0:
+    i = 0;
+    while i < len(ris):
+        if ris[i] in fltr:
+            del ris[i];
+            continue;
+        i = i + 1;
     
 for ri in ris:
-    print "%s" % ri,;
-print "";
+    print "%s" % ri;
