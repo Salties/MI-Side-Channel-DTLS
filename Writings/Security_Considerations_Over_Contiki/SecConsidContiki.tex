@@ -1,0 +1,64 @@
+\documentclass[12pt]{extreport}
+
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{fontenc}
+\usepackage[boxruled,linesnumbered]{algorithm2e}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{cleveref}
+
+\usepackage[sorting=none, backend=biber]{biblatex}
+%Bibliographies
+\bibliography{references,rfc}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem*{corollary}{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+
+\crefname{algocf}{alg.}{algs.}
+\Crefname{algocf}{Algorithm}{Algorithms}
+
+%Title
+\title{Some Security Considerations over Contiki-based Sensor Network}
+%Authors
+\author{Yan Yan}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+%Content Files
+%\input{body.tex}
+
+\appendix
+\input{appendix.tex}
+
+
+%\bibliographystyle{ieeetran}
+%\bibliography{references,rfc}
+\printbibliography
+
+\end{document}
