@@ -1,22 +1,15 @@
-CONTIKI_PROJECT = pingload
+#CONTIKI_PROJECT = dtls-server dtls-client
+CONTIKI_PROJECT = dtls-server
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = $(CONTIKI_ROOT)
-CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
+#APPS += servreg-hack
 
-#Uncomment to enable led indicator.
-#CFLAGS += -DLED_INDICATOR
-
-#Uncomment to use seconds for payload and idle instead of clock ticks.
-#CFLAGS += -DSECOND
-
-#Uncomment to enable null_driver instead of ContikiMAC.
+#Uncomment to enable null mac and rdc driver
 #CFLAGS += -DNULL_DRIVER
 
-#Uncomment to use randomised payload period.
-#CFLAGS += -DRAND_PAYLOAD
-
-#Uncomment to use randomised idle period.
-#CFLAGS += -DRAND_IDLE
+CFLAGS += -DPLATFORM_$(TARGET)
+CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
 include $(CONTIKI)/Makefile.include
