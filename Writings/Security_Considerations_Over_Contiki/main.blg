@@ -1,0 +1,15 @@
+[2] Config.pm:321> INFO - This is Biber 1.9
+[2] Config.pm:324> INFO - Logfile is 'main.blg'
+[66] biber:277> INFO - === ä¸ 12æ  7, 2015, 15:26:47
+[67] Biber.pm:334> INFO - Reading 'main.bcf'
+[159] Biber.pm:636> INFO - Found 2 citekeys in bib section 0
+[178] Biber.pm:3052> INFO - Processing section 0
+[203] Biber.pm:3190> INFO - Looking for bibtex format file 'references.bib' for section 0
+[204] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
+[204] bibtex.pm:853> INFO - Found BibTeX data source 'references.bib'
+[258] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[258] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[259] Biber.pm:2929> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-US'
+[259] Biber.pm:2933> INFO - No sort tailoring available for locale 'en-US'
+[263] bbl.pm:517> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[264] bbl.pm:606> INFO - Output to main.bbl
