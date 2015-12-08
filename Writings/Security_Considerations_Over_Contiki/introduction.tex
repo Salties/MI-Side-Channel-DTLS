@@ -12,15 +12,25 @@ All experiments are done within the Cooja simulator.
 The setup is as described in \Cref{fig: Setup}.
 
 \begin{figure}
-\centering{
-	\includegraphics[width=1\textwidth]{fig/setup.png}
+\centering
+{
+	\includegraphics[width=0.7\textwidth,]{fig/setup.png}
 }
 \caption{Experiment setup} \label{fig: Setup}
 \end{figure}
 
 \begin{itemize}
 \item{\bf Adversary} is the malicious party that tries to recover information from the encrypted traffic.
-\item{\bf Border Router}, or BR, is a device that connects the adversary to the sensor network. However, this is only allowed when LLSEC is disabled. 
+\item{\bf Border Router}, or BR, is a device that connects the adversary to the sensor network. However, \textbf{BR is not allowed when LLSEC is enabled} as the adversary does not have the key and hence cannot connect into the network. 
 \item{\bf Sniffer} is a device that passively captures all traffics in the sensor network. 
 \item{\bf Target} and {\bf Nodes} are sensors deployed in the sensor network. They communicates to each other through encrypted channels.
+\item{\bf Sensor Network} discussed in this paper is a 6LowPAN network.
 \end{itemize}
+
+\section{Adversary Power}
+
+The powers assumed in the experiments are considered to be practical in real life.
+
+When LLSEC is enabled, all traffic, including RPL\footnote{Routing Procol for Low-power and Lossy Networks} messages, are encrypted; therefore no external nodes can connect to the network. The only power for the adversary is to passively sniff all the traffic.
+
+In other cases where LLSEC is disabled, the adversary will be  enabled to join the sensor network through a BR and hence is also capable to send ICMP messages to the target(s).
