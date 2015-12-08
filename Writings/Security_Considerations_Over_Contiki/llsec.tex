@@ -6,12 +6,13 @@ Introducing cryptography at a lower level has several benefits. Firstly, more da
 
 Imposing cryptography at a lower level also brings more challenge to the design of sensor network architecture. The first problem is its overhead. Even for a node that only tries to retransmits the packet to its next hop, it must decrypt the whole packet to extract its routing information, and then re-encrypt it before retransmission. This is particularly problematic in a mesh wireless sensor network as it could potentially lead to performance and energy consumption problems. Key management is also challenging due to the lossy and power optimised nature of wireless sensor network.
 
-It is also noticeable that some packet features are not hidden even with LLSEC enabled, such as packet length, timing information and part of the MAC header including source MAC address and destination MAC address.
+It is also noticeable that some packet features are not hidden even with LLSEC enabled, such as packet length, timing information and part of the MAC header.
 
 \section{Non core security} \label{sec: noncoresec}
 
 \section{802.15.4 security}
 
 \section{Reset Problem}
+\subsection{Initial Vector}
 
 \section{Distinctive packet length for RPL packets}
