@@ -6,11 +6,12 @@
 \BOOKMARK [1][-]{section.2.1}{Non core security}{chapter.2}% 6
 \BOOKMARK [1][-]{section.2.2}{802.15.4 security}{chapter.2}% 7
 \BOOKMARK [1][-]{section.2.3}{Reset Problem}{chapter.2}% 8
-\BOOKMARK [1][-]{section.2.4}{Distinctive packet length for RPL packets}{chapter.2}% 9
-\BOOKMARK [0][-]{chapter.3}{DTLS}{}% 10
-\BOOKMARK [1][-]{section.3.1}{Conflicting MTU between DTLS and 6lowPAN}{chapter.3}% 11
-\BOOKMARK [1][-]{section.3.2}{Overloading DTLS with LLSEC}{chapter.3}% 12
-\BOOKMARK [0][-]{chapter.4}{Application Detection}{}% 13
-\BOOKMARK [1][-]{section.4.1}{Packet Length}{chapter.4}% 14
-\BOOKMARK [1][-]{section.4.2}{Response Time}{chapter.4}% 15
-\BOOKMARK [1][-]{section.4.3}{Pingload: Ping side-channel for Payload }{chapter.4}% 16
+\BOOKMARK [2][-]{subsection.2.3.1}{Initial Vector}{section.2.3}% 9
+\BOOKMARK [1][-]{section.2.4}{Distinctive packet length for RPL packets}{chapter.2}% 10
+\BOOKMARK [0][-]{chapter.3}{DTLS}{}% 11
+\BOOKMARK [1][-]{section.3.1}{Conflicting MTU between DTLS and 6lowPAN}{chapter.3}% 12
+\BOOKMARK [1][-]{section.3.2}{Overloading DTLS with LLSEC}{chapter.3}% 13
+\BOOKMARK [0][-]{chapter.4}{Application Detection}{}% 14
+\BOOKMARK [1][-]{section.4.1}{Packet Length}{chapter.4}% 15
+\BOOKMARK [1][-]{section.4.2}{Response Time}{chapter.4}% 16
+\BOOKMARK [1][-]{section.4.3}{Pingload: Ping side-channel for Payload }{chapter.4}% 17
