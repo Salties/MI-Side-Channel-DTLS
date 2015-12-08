@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  7 DEC 2015 15:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  7 DEC 2015 18:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1130,35 +1130,84 @@ Package biblatex Info: ... file 'biblatex.cfg' found.
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
 File: biblatex.cfg 
 )))
-\c@theorem=\count307
-\c@definition=\count308
-\c@conjecture=\count309
-\c@example=\count310
+(/usr/share/texlive/texmf-dist/tex/latex/svg/svg.sty
+Package: svg 2012/09/05 v1.0 SVG inclusion and extraction
+
+(/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen203
+\captionmargin@=\dimen204
+\captionwidth=\dimen205
+\caption@tempdima=\dimen206
+\caption@indent=\dimen207
+\caption@parindent=\dimen208
+\caption@hangindent=\dimen209
+)
+\c@ContinuedFloat=\count307
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+)
+\c@KVtest=\count308
+\sf@farskip=\skip80
+\sf@captopadj=\dimen210
+\sf@capskip=\skip81
+\sf@nearskip=\skip82
+\c@subfigure=\count309
+\c@subfigure@save=\count310
+\c@lofdepth=\count311
+\c@subtable=\count312
+\c@subtable@save=\count313
+\c@lotdepth=\count314
+\sf@top=\skip83
+\sf@bottom=\skip84
+)
+(/usr/share/texlive/texmf-dist/tex/latex/import/import.sty
+Package: import 2009/03/23  v 5.1
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/transparent.sty
+Package: transparent 2007/01/08 v1.0 Transparency via pdfTeX's color stack (HO)
+
+)
+\SVG@out@width=\skip85
+\SVG@out@height=\skip86
+\c@svgfigure=\count315
+)
+\c@theorem=\count316
+\c@definition=\count317
+\c@conjecture=\count318
+\c@example=\count319
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2014/06/25 v2.9a biblatex localization (PK/JW/AB)
 )
-\@quotelevel=\count311
-\@quotereset=\count312
+\@quotelevel=\count320
+\@quotereset=\count321
  (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1194,18 +1243,18 @@ LaTeX Font Info:    ... okay on input line 47.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box51
-Package hyperref Info: Link coloring OFF on input line 47.
+Package hyperref Info: Link coloring OFF on input line 49.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count313
+\c@section@level=\count322
 )
-LaTeX Info: Redefining \ref on input line 47.
-LaTeX Info: Redefining \pageref on input line 47.
-LaTeX Info: Redefining \nameref on input line 47.
+LaTeX Info: Redefining \ref on input line 49.
+LaTeX Info: Redefining \pageref on input line 49.
+LaTeX Info: Redefining \nameref on input line 49.
 
 (./main.out) (./main.out)
 \@outlinefile=\write5
@@ -1214,16 +1263,16 @@ LaTeX Info: Redefining \nameref on input line 47.
  ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count314
-\scratchdimen=\dimen203
+\scratchcounter=\count323
+\scratchdimen=\dimen211
 \scratchbox=\box52
-\nofMPsegments=\count315
-\nofMParguments=\count316
+\nofMPsegments=\count324
+\nofMParguments=\count325
 \everyMPshowfont=\toks46
-\MPscratchCnt=\count317
-\MPscratchDim=\dimen204
-\MPnumerator=\count318
-\makeMPintoPDFobject=\count319
+\MPscratchCnt=\count326
+\MPscratchDim=\dimen212
+\MPnumerator=\count327
+\makeMPintoPDFobject=\count328
 \everyMPtoPDFconversion=\toks47
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -1249,13 +1298,16 @@ Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
 
 (./main.bbl)
-Package biblatex Info: Reference section=0 on input line 47.
-Package biblatex Info: Reference segment=0 on input line 47.
-LaTeX Font Info:    Try loading font information for U+msa on input line 50.
+Package biblatex Info: Reference section=0 on input line 49.
+Package biblatex Info: Reference segment=0 on input line 49.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 52.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 50.
+LaTeX Font Info:    Try loading font information for U+msb on input line 52.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1280,14 +1332,24 @@ Overfull \hbox (1.08247pt too wide) in paragraph at lines 2--3
 nk Layer Se-cu-rity (LLSEC)
  []
 
+<fig/setup.png, id=98, 845.40843pt x 597.73312pt>
+File: fig/setup.png Graphic file (type png)
+ <use fig/setup.png>
+Package pdftex.def Info: fig/setup.png used on input line 16.
+(pdftex.def)             Requested size: 433.62pt x 306.5819pt.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 22.
 
-LaTeX Warning: Citation 'tinydtls' on page 2 undefined on input line 7.
-
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 22.
 ) (./llsec.tex [2
 
 ]
+[3 <./fig/setup.png>]
 Chapter 2.
-) (./dtls.tex [3
+) (./dtls.tex [4
 
 ]
 Chapter 3.
@@ -1296,60 +1358,46 @@ Overfull \hbox (3.13545pt too wide) in paragraph at lines 3--3
 []\OT1/cmr/bx/n/17.28 Conflicting MTU be-tween DTLS and 6low-PAN 
  []
 
-) (./appdetect.tex [4
+) (./appdetect.tex [5
 
 ]
 Chapter 4.
-) (./appendix.tex) [5
+) (./appendix.tex) [6
 
-] [6
+] [7
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 68.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 68.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 70.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 68.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 68.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: B5EA8E2D6BDEB6C88797C2B2AC9703DD;883
-(rerunfilecheck)             After:  A0852C50B84650C5F8594707919F5294;883.
-
-LaTeX Warning: There were undefined references.
-
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                main
-(biblatex)                and rerun LaTeX afterwards.
-
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 70.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 92B74379AE939CCF227F2D75CFD0D827;957.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 68.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 70.
  ) 
 Here is how much of TeX's memory you used:
- 25395 strings out of 493105
- 462724 string characters out of 6137072
- 885532 words of memory out of 5000000
- 28414 multiletter control sequences out of 15000+600000
+ 26707 strings out of 493105
+ 486220 string characters out of 6137072
+ 911258 words of memory out of 5000000
+ 29696 multiletter control sequences out of 15000+600000
  13519 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,6n,54p,939b,1032s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,6n,98p,926b,1030s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on main.pdf (7 pages, 81743 bytes).
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on main.pdf (8 pages, 135714 bytes).
 PDF statistics:
- 152 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
- 25 named destinations out of 1000 (max. 500000)
- 125 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 173 PDF objects out of 1000 (max. 8388607)
+ 152 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 138 words of extra memory for PDF output out of 10000 (max. 10000000)
 
