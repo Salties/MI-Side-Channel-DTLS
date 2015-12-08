@@ -60,6 +60,13 @@
       \verb https://github.com/kkrentz/contiki/wiki
       \endverb
     \endentry
+    \entry{tinydtls}{misc}{}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \verb{url}
+      \verb http://sourceforge.net/projects/tinydtls/
+      \endverb
+    \endentry
   \endsortlist
 \endrefsection
 \endinput
