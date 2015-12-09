@@ -8,11 +8,44 @@ Imposing cryptography at a lower level also brings more challenge to the design 
 
 It is also noticeable that some packet features are not hidden even with LLSEC enabled, such as packet length, timing information and part of the MAC header.
 
-\section{Non core security} \label{sec: noncoresec}
+\section{802.15.4 Security: {\it noncoresec}} \label{sec: noncoresec}
+{\it noncoresec}\cite{LLSEC} is the current implementation of LLSEC in Contiki. It corresponds to the AES\_CCM\_16 ciphersuite in 802.15.4 standard. This section briefly describes how it works.
 
-\section{802.15.4 security}
+\begin{itemize}
+\item {\bf Key Management}: All nodes share a network wide AES key for both encryption and authentication. The key is hardcoded during the setup stage.
 
-\section{Reset Problem}
-\subsection{Initial Vector}
+\item{\bf AEAD\footnote{Authenticated Encryption with Associated Data}}: {\it noncoresec} implements AES\_CCM\_16 \footnote{CCM mode of AES-128 with 16 bytes MAC} as described in 802.15.4\cite{802154}. CCM mode turns AES into a stream cipher. The same key is used for both encryption and authentication.
+
+\item{\bf Initial Vector (IV, or nonce)}: The IV for each packet is constructed from certain fields of unencrypted MAC frame header and therefore is public.
+\end{itemize}
+
+\section{Weak IV}
+
+\begin{table}
+\centering
+\begin{tabular}{| l | l | l | l | l |}
+\hline
+Flags(1) & Addresses(8) & Frame Counter(4) & Security Level(1) & Block Counter(2)       \\ \hline
+\end{tabular}
+\caption{IV of 802.15.4 Frame with Security} \label{Tbl: 802154 Frame}
+\end{table}
+
+One problem within the {\it noncoresec} implementation is the low variance of IV. The IV is a $16$ byte bit-string constitutes of the following fields(\Cref{Tbl: 802154 Frame}):
+\begin{itemize}
+\item {\bf Flags (1 byte)}: This field contains part of the MAC frame header. It is identical for most (basically all) of the data packets.
+
+\item{\bf Source Address (8 bytes)}: This is mapped from the source address field of the frame.
+
+\item{\bf Frame Counter (4 bytes)}: This field increases by 1 for each frame sent.
+
+\item{\bf Security Level (1 byte)}: This field indicates which ciphersuite to be used for this frame. In the case of AES\_CCM\_16, this is constantly 0x7.
+
+\item{\bf Block Counter (2 bytes)}: This field begins from 0x0 and increases by 0x1 for each block in CCM mode. The block length for AES-128 is 16 bytes. The 2 bytes counter is sufficient as the minimum MTU required by 6lowPAN standard\cite{rfc4944} is 127 bytes; therefore a packet can only contain no more than 8 blocks of data.
+\end{itemize}
+
+The problem of this design is the ...... {\bf CONTINUE FROM HERE}
+
+\subsection{Reset Problem}
+The weak IV also leads to a plaintext recovery attack that simply requires to reboot the target node.
 
 \section{Distinctive packet length for RPL packets}
