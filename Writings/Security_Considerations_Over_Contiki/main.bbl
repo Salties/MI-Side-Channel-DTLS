@@ -67,6 +67,64 @@
       \verb http://sourceforge.net/projects/tinydtls/
       \endverb
     \endentry
+    \entry{802154}{report}{}
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{IEEE Standard for Information Technology- Telecommunications and Information Exchange Between Systems- Local and Metropolitan Area Networks- Specific Requirements Part 15.4: Wireless Medium Access Control (MAC) and Physical Layer (PHY) Specifications for Low-Rate Wireless Personal Area Networks (WPANs)}}
+      \field{abstract}{{IEEE Std 802.15.4-2003 defined the protocol and compatible interconnection for data communication devices using low-data-rate, low-power, and low-complexity short-range radio frequency (RF) transmissions in a wireless personal area network (WPAN). This revision extends the market applicability of IEEE Std 802.15.4, removes ambiguities in the standard, and makes improvements revealed by implementations of IEEE Std 802.15.4-2003.}}
+      \field{booktitle}{IEEE Std 802.15.4-2006 (Revision of IEEE Std 802.15.4-2003)}
+      \field{isbn}{0-7381-4996-9}
+      \field{journaltitle}{IEEE Std 802.15.4-2006 (Revision of IEEE Std 802.15.4-2003)}
+      \field{title}{{IEEE Standard for Information Technology- Telecommunications and Information Exchange Between Systems- Local and Metropolitan Area Networks- Specific Requirements Part 15.4: Wireless Medium Access Control (MAC) and Physical Layer (PHY) Specifications for Low-Rate Wireless Personal Area Networks (WPANs)}}
+      \field{type}{techreport}
+      \field{year}{2006}
+      \field{pages}{0\_1\bibrangedash 305}
+      \verb{doi}
+      \verb 10.1109/ieeestd.2006.232110
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1109/ieeestd.2006.232110
+      \endverb
+      \keyw{wsn}
+    \endentry
+    \entry{rfc4944}{misc}{}
+      \name{labelname}{4}{}{%
+        {{hash=824e2406f90d7ed65dbe11fff8ff319a}{Montenegro}{M\bibinitperiod}{G.}{G\bibinitperiod}{}{}{}{}}%
+        {{hash=ebfcde9e3f2cd61b982067284a09fe85}{Kushalnagar}{K\bibinitperiod}{N.}{N\bibinitperiod}{}{}{}{}}%
+        {{hash=111f36a320fcf3ff83187de0f829877d}{Hui}{H\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=7cded5d7bd50a19e3580d90953fc36c3}{Culler}{C\bibinitperiod}{D.}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=824e2406f90d7ed65dbe11fff8ff319a}{Montenegro}{M\bibinitperiod}{G.}{G\bibinitperiod}{}{}{}{}}%
+        {{hash=ebfcde9e3f2cd61b982067284a09fe85}{Kushalnagar}{K\bibinitperiod}{N.}{N\bibinitperiod}{}{}{}{}}%
+        {{hash=111f36a320fcf3ff83187de0f829877d}{Hui}{H\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=7cded5d7bd50a19e3580d90953fc36c3}{Culler}{C\bibinitperiod}{D.}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{020138be8874c6c8d2c9ab02173bfe37}
+      \strng{fullhash}{a98408386500260829f32ad1a642d24f}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Transmission of IPv6 Packets over IEEE 802.15.4 Networks}}
+      \field{howpublished}{RFC 4944 (Proposed Standard)}
+      \field{month}{09}
+      \field{note}{Updated by RFCs 6282, 6775}
+      \field{number}{4944}
+      \field{series}{Request for Comments}
+      \field{title}{{Transmission of IPv6 Packets over IEEE 802.15.4 Networks}}
+      \field{year}{2007}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc4944.txt
+      \endverb
+    \endentry
   \endsortlist
 \endrefsection
 \endinput
