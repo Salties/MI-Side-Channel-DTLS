@@ -19,6 +19,8 @@ It is also noticeable that some packet features are not hidden even with LLSEC e
 \item{\bf Initial Vector (IV, or nonce)}: The IV for each packet is constructed from certain fields of unencrypted MAC frame header and therefore is public.
 \end{itemize}
 
+An adversary without the knowledge cannot join the sensor network as he cannot sent out a valid RPL message.
+
 \section{Weak IV}
 
 \begin{table}
@@ -32,7 +34,7 @@ Flags(1) & Addresses(8) & Frame Counter(4) & Security Level(1) & Block Counter(2
 
 One problem within the {\it noncoresec} implementation is the low variance of IV. The IV is a $16$ byte bit-string constitutes of the following fields(\Cref{Tbl: 802154 Frame}):
 \begin{itemize}
-\item {\bf Flags (1 byte)}: This field contains part of the MAC frame header. It is identical for most (basically all) of the data packets.
+\item {\bf Flags (1 byte)}: This field contains part of the MAC frame header. It is identical to most (basically all) of the data packets.
 
 \item{\bf Source Address (8 bytes)}: This is mapped from the source address field of the frame.
 
@@ -40,12 +42,39 @@ One problem within the {\it noncoresec} implementation is the low variance of IV
 
 \item{\bf Security Level (1 byte)}: This field indicates which ciphersuite to be used for this frame. In the case of AES\_CCM\_16, this is constantly 0x7.
 
-\item{\bf Block Counter (2 bytes)}: This field begins from 0x0 and increases by 0x1 for each block in CCM mode. The block length for AES-128 is 16 bytes. The 2 bytes counter is sufficient as the minimum MTU required by 6lowPAN standard\cite{rfc4944} is 127 bytes; therefore a packet can only contain no more than 8 blocks of data.
+\item{\bf Block Counter (2 bytes)}: This field begins from 0x0 and increases by 0x1 for each block in CCM mode. The block length for AES-128 is 16 bytes. The 2 bytes counter is sufficient as it supports up to $2^{32}$ bytes of data whereas the minimum MTU\footnote{Maximum Transmit Unit, simply speaking this is the maximum length of a packet.} required by 6lowPAN standard\cite{rfc4944} is $127$ bytes.
 \end{itemize}
 
-The problem of this design is the ...... {\bf CONTINUE FROM HERE}
+In the current {\it noncresec} implementation, \textbf{Flags} and \textbf{Security Level} are constant. \textbf{Block Counter} always begins from 0x0 and the \textbf{Source Address} is also constant for a specific device. Such design leaves the 4 bytes \textbf{Frame Counter} the only field that is variable. This indicates that only $2^32$ messages are allowed which is cryptographically considered to be inappropriate.
 
 \subsection{Reset Problem}
-The weak IV also leads to a plaintext recovery attack that simply requires to reboot the target node.
+The low variance of IV leads to a plaintext leakage problem which only requires the adversary to reboot the target node. 
+
+The idea is that rebooting the device resets the \textbf{Frame Counter} to 0x0; hence once a pair of packets with same \textbf{Frame Counter} is found, the difference of their plaintext can be computed by their ciphertext:
+\begin{equation*}
+\Delta p = c_1 \oplus c_2
+\end{equation}
+where $\Delta p$ is the difference of plaintexts. $c_1$ and $c_2$ are their ciphertext respectively.
+
+\begin{example}
+\begin{figure}
+\centering
+{
+	\includegraphics[width=0.9\textwidth,]{fig/resetproblem.png} 
+}
+\caption{Captured packets with {\it noncoresec} enabled} \label{Fig: reset problem}
+\end{figure}
+
+\Cref{Fig: reset problem} demonstrates some packet captured\footnote{The duplicated packets are caused by the retransmission of ContikiMAC\cite{ContikiMAC}.} with {\it noncoresec} enabled. These packets are captured with a sensor broadcasting a 4 byte integer with left being $[00000000]_{16}$ and right $[12345678]_{16}$. The marked are the corresponding ciphertexts which are $[00127401]_{16}$ and $[12262279]_{16}$ respectively.
+
+As we can see, the difference of ciphertext is exactly the difference of plaintext:
+\begin{equation*}
+\Delta p = [00127401]_{16} \oplus [12262269]_{16} = [12345678]_{16}
+\end{equation}
+\end{example}
 
 \section{Distinctive packet length for RPL packets}
+Some RPL packets are shorter than the minimum length of data packets which can be used to distinguish the packets.
+
+\section{Performance issue}
+The header overhead with LLSEC enabled is 20 bytes which is relatively a large overhead comparing to the 127 bytes MTU requirement of 6LowPAN standard\cite{rfc4944}.

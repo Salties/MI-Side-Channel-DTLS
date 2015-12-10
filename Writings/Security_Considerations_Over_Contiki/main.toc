@@ -16,20 +16,22 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.2}Weak IV}{6}{section.2.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2.1}Reset Problem}{6}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.1}Reset Problem}{7}{subsection.2.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2.3}Distinctive packet length for RPL packets}{7}{section.2.3}
+\contentsline {section}{\numberline {2.3}Distinctive packet length for RPL packets}{8}{section.2.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {3}DTLS}{8}{chapter.3}
+\contentsline {section}{\numberline {2.4}Performance issue}{8}{section.2.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Conflicting MTU between DTLS and 6lowPAN}{8}{section.3.1}
+\contentsline {chapter}{\numberline {3}DTLS}{9}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Overloading DTLS with LLSEC}{8}{section.3.2}
+\contentsline {section}{\numberline {3.1}Conflicting MTU between DTLS and 6lowPAN}{9}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Application Detection}{9}{chapter.4}
+\contentsline {section}{\numberline {3.2}Overloading DTLS with LLSEC}{9}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Packet Length}{9}{section.4.1}
+\contentsline {chapter}{\numberline {4}Application Detection}{10}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Response Time}{9}{section.4.2}
+\contentsline {section}{\numberline {4.1}Packet Length}{10}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Pingload: Ping side-channel for Payload }{9}{section.4.3}
+\contentsline {section}{\numberline {4.2}Response Time}{10}{section.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}Pingload: Ping side-channel for Payload }{10}{section.4.3}

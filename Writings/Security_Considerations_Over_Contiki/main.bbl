@@ -125,6 +125,21 @@
       \verb http://www.ietf.org/rfc/rfc4944.txt
       \endverb
     \endentry
+    \entry{ContikiMAC}{misc}{}
+      \name{labelname}{1}{}{%
+        {{hash=298b842d17be52c979ec078531d1cfbe}{Dunkels}{D\bibinitperiod}{Adam}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=298b842d17be52c979ec078531d1cfbe}{Dunkels}{D\bibinitperiod}{Adam}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{298b842d17be52c979ec078531d1cfbe}
+      \strng{fullhash}{298b842d17be52c979ec078531d1cfbe}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{The ContikiMAC Radio Duty Cycling Protocol}
+      \field{title}{The ContikiMAC Radio Duty Cycling Protocol}
+      \field{year}{2011}
+    \endentry
   \endsortlist
 \endrefsection
 \endinput
