@@ -1952,6 +1952,8 @@
     <bcf:citekey order="4">LLSEC</bcf:citekey>
     <bcf:citekey order="5">802154</bcf:citekey>
     <bcf:citekey order="6">rfc4944</bcf:citekey>
+    <bcf:citekey order="7">ContikiMAC</bcf:citekey>
+    <bcf:citekey order="8">rfc4944</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="none" type="entry" sortscheme="none">
   <bcf:sorting>
