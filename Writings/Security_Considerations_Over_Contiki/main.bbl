@@ -140,6 +140,110 @@
       \field{title}{The ContikiMAC Radio Duty Cycling Protocol}
       \field{year}{2011}
     \endentry
+    \entry{CoDTLS}{misc}{}
+      \name{labelname}{1}{}{%
+        {{hash=4f02a3d7e83820beabad78ce517cf393}{Lars\bibnamedelima Schmertmann}{L\bibinitperiod\bibinitdelim S\bibinitperiod}{Carsten\bibnamedelima Bormann}{C\bibinitperiod\bibinitdelim B\bibinitperiod}{}{}{Klaus\bibnamedelima Hartke}{K\bibinitperiod\bibinitdelim H\bibinitperiod}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=4f02a3d7e83820beabad78ce517cf393}{Lars\bibnamedelima Schmertmann}{L\bibinitperiod\bibinitdelim S\bibinitperiod}{Carsten\bibnamedelima Bormann}{C\bibinitperiod\bibinitdelim B\bibinitperiod}{}{}{Klaus\bibnamedelima Hartke}{K\bibinitperiod\bibinitdelim H\bibinitperiod}}%
+      }
+      \strng{namehash}{4f02a3d7e83820beabad78ce517cf393}
+      \strng{fullhash}{4f02a3d7e83820beabad78ce517cf393}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{CoDTLS: DTLS handshakes over CoAP}
+      \field{title}{CoDTLS: DTLS handshakes over CoAP}
+      \field{year}{2015}
+      \verb{url}
+      \verb https://tools.ietf.org/html/draft-schmertmann-dice-codtls-01
+      \endverb
+    \endentry
+    \entry{rfc1122}{misc}{}
+      \name{labelname}{1}{}{%
+        {{hash=fcd157f313f3295ce8a9c796f6a62ac4}{Braden}{B\bibinitperiod}{R.}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=fcd157f313f3295ce8a9c796f6a62ac4}{Braden}{B\bibinitperiod}{R.}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Internet Engineering Task Force}%
+      }
+      \list{publisher}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{fcd157f313f3295ce8a9c796f6a62ac4}
+      \strng{fullhash}{fcd157f313f3295ce8a9c796f6a62ac4}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Requirements for Internet Hosts - Communication Layers}}
+      \field{howpublished}{RFC 1122 (INTERNET STANDARD)}
+      \field{month}{10}
+      \field{note}{Updated by RFCs 1349, 4379, 5884, 6093, 6298, 6633, 6864}
+      \field{number}{1122}
+      \field{series}{Request for Comments}
+      \field{title}{{Requirements for Internet Hosts - Communication Layers}}
+      \field{year}{1989}
+      \verb{url}
+      \verb http://www.ietf.org/rfc/rfc1122.txt
+      \endverb
+    \endentry
+    \entry{Peekaboo}{inproceedings}{}
+      \name{labelname}{4}{}{%
+        {{hash=5bc7ab44bebf07b452398685eac5183c}{Dyer}{D\bibinitperiod}{K.P.}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=399aea8b0a79d7fe19d45916d0c015f4}{Coull}{C\bibinitperiod}{S.E.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=e67dd74a9d0ba9027556a2c574a12480}{Ristenpart}{R\bibinitperiod}{T.}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=1fae1705055a0c75921a9388a493463a}{Shrimpton}{S\bibinitperiod}{T.}{T\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=5bc7ab44bebf07b452398685eac5183c}{Dyer}{D\bibinitperiod}{K.P.}{K\bibinitperiod}{}{}{}{}}%
+        {{hash=399aea8b0a79d7fe19d45916d0c015f4}{Coull}{C\bibinitperiod}{S.E.}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=e67dd74a9d0ba9027556a2c574a12480}{Ristenpart}{R\bibinitperiod}{T.}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=1fae1705055a0c75921a9388a493463a}{Shrimpton}{S\bibinitperiod}{T.}{T\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{e632cade88a340313704f73955dea157}
+      \strng{fullhash}{ab6e3ebcfd96f546196a8512edb43f93}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{Peek-a-Boo, I Still See You: Why Efficient Traffic Analysis Countermeasures Fail}
+      \field{booktitle}{Security and Privacy (SP), 2012 IEEE Symposium on}
+      \field{issn}{1081-6011}
+      \field{month}{05}
+      \field{title}{Peek-a-Boo, I Still See You: Why Efficient Traffic Analysis Countermeasures Fail}
+      \field{year}{2012}
+      \field{pages}{332\bibrangedash 346}
+      \verb{doi}
+      \verb 10.1109/SP.2012.28
+      \endverb
+      \keyw{Web sites;cryptography;hypermedia;telecommunication traffic;HTTP traffic;IPsec;SSH;TA attack;TLS;Web site identification;attack/countermeasure pairings;downstream bandwidth;encrypted tunnel;encryption;general-purpose TA countermeasures;security;traffic analysis attack;traffic analysis countermeasures;traffic morphing scheme;upstream bandwidth;Accuracy;Bandwidth;Encryption;Support vector machines;Vectors;Web pages;encrypted traffic;machine learning;padding;privacy;traffic analysis countermeasures}
+    \endentry
+    \entry{rsatiming}{inproceedings}{}
+      \name{labelname}{1}{}{%
+        {{hash=cf63d4beae7148c600509bcb036f85f3}{Kocher}{K\bibinitperiod}{Paul\bibnamedelima C.}{P\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=cf63d4beae7148c600509bcb036f85f3}{Kocher}{K\bibinitperiod}{Paul\bibnamedelima C.}{P\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {London, UK, UK}%
+      }
+      \list{publisher}{1}{%
+        {Springer-Verlag}%
+      }
+      \strng{namehash}{cf63d4beae7148c600509bcb036f85f3}
+      \strng{fullhash}{cf63d4beae7148c600509bcb036f85f3}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and Other Systems}
+      \field{booktitle}{Proceedings of the 16th Annual International Cryptology Conference on Advances in Cryptology}
+      \field{isbn}{3-540-61512-1}
+      \field{series}{CRYPTO '96}
+      \field{title}{Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and Other Systems}
+      \field{year}{1996}
+      \field{pages}{104\bibrangedash 113}
+      \verb{url}
+      \verb http://dl.acm.org/citation.cfm?id=646761.706156
+      \endverb
+    \endentry
   \endsortlist
 \endrefsection
 \endinput

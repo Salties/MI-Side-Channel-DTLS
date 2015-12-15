@@ -53,7 +53,7 @@ The low variance of IV leads to a plaintext leakage problem which only requires 
 The idea is that rebooting the device resets the \textbf{Frame Counter} to 0x0; hence once a pair of packets with same \textbf{Frame Counter} is found, the difference of their plaintext can be computed by their ciphertext:
 \begin{equation*}
 \Delta p = c_1 \oplus c_2
-\end{equation}
+\end{equation*}
 where $\Delta p$ is the difference of plaintexts. $c_1$ and $c_2$ are their ciphertext respectively.
 
 \begin{example}
@@ -68,7 +68,7 @@ where $\Delta p$ is the difference of plaintexts. $c_1$ and $c_2$ are their ciph
 \Cref{Fig: reset problem} demonstrates some packet captured\footnote{The duplicated packets are caused by the retransmission of ContikiMAC\cite{ContikiMAC}.} with {\it noncoresec} enabled. These packets are captured with a sensor broadcasting a 4 byte integer with left being $[00000000]_{16}$ and right $[12345678]_{16}$. The marked are the corresponding ciphertexts which are $[00127401]_{16}$ and $[12262279]_{16}$ respectively.
 
 As we can see, the difference of ciphertext is exactly the difference of plaintext:
-\begin{equation*}
+\begin{equation}
 \Delta p = [00127401]_{16} \oplus [12262269]_{16} = [12345678]_{16}
 \end{equation}
 \end{example}

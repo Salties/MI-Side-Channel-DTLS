@@ -1,7 +1,27 @@
 \chapter{DTLS}
+DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 
+\section{Implementation Issues}
+tinydtls\cite{tinydtls} currently supports two ciphersuites, namely TLS\_PSK\_WITH\_AES\_128\_CCM\_8 and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8. 
 
+However, we encountered several difficulties when trying to set up a  network with DTLS.
 
-\section{Conflicting MTU between DTLS and 6lowPAN}
-The abandoned CoDTLS.
+\begin{description}
+\item[Low Computational Power] \hfill \\
+Curve computation requires relatively a large amount of computational power. Even using a relatively power platform (CC2538), it still takes minutes to complete a DTLS handshake with
+TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8.
+
+\item[Low Bandwidth] \hfill \\
+The 6LowPAN standard specifies that the minimum MTU is 127 bytes whilst 67 (87 with LLSEC) bytes are occupied by protocol headers until UDP, which leaves 60 (40 with LLSEC) bytes available for UDP layer payload. This value can be easily exceeded even during the handshake, such like using a longer key. Some attempts have been made to solve this issue, e.g. CoDTLS\cite{CoDTLS}\footnote{This draft has been abandoned for some reason we do not know.}.
+
+\item[Code Size] \hfill \\
+The tinydtls fails to fit into some devices, e.g. skymote, as its size of code is too large.
+\end{description}
+
+Therefore although TLS\_PSK\_WITH\_AES\_128\_CCM\_8 is less flexible (and probably less secure) as it uses a pre-shared master secret than TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8, it is still considered to be a relatively practical security measure as it requires less resources.
+
+\section{No multicast support}
+Some application protocols, such as CoAP, utilises the multicast feature of 6LowPAN whilst TLS is a protocol designated for securing communications between two parties, so is DTLS.
+
 \section{Overloading DTLS with LLSEC}
+Adopting both security measures at the same time is possible as they are implemented at different layers. However, it is questionable whether this will bring more security, as both {\it noncoresec} and TLS\_PSK\_WITH\_AES\_128\_CCM\_8 are using 128 bit AES with CCM mode as their cryptographic primitive.
