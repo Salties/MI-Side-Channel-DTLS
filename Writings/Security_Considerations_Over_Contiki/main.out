@@ -10,9 +10,15 @@
 \BOOKMARK [1][-]{section.2.3}{Distinctive packet length for RPL packets}{chapter.2}% 10
 \BOOKMARK [1][-]{section.2.4}{Performance issue}{chapter.2}% 11
 \BOOKMARK [0][-]{chapter.3}{DTLS}{}% 12
-\BOOKMARK [1][-]{section.3.1}{Conflicting MTU between DTLS and 6lowPAN}{chapter.3}% 13
-\BOOKMARK [1][-]{section.3.2}{Overloading DTLS with LLSEC}{chapter.3}% 14
-\BOOKMARK [0][-]{chapter.4}{Application Detection}{}% 15
-\BOOKMARK [1][-]{section.4.1}{Packet Length}{chapter.4}% 16
-\BOOKMARK [1][-]{section.4.2}{Response Time}{chapter.4}% 17
-\BOOKMARK [1][-]{section.4.3}{Pingload: Ping side-channel for Payload }{chapter.4}% 18
+\BOOKMARK [1][-]{section.3.1}{Implementation Issues}{chapter.3}% 13
+\BOOKMARK [1][-]{section.3.2}{No multicast support}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.3}{Overloading DTLS with LLSEC}{chapter.3}% 15
+\BOOKMARK [0][-]{chapter.4}{Application Detection}{}% 16
+\BOOKMARK [1][-]{section.4.1}{Network Protocol Headers}{chapter.4}% 17
+\BOOKMARK [1][-]{section.4.2}{Packet Length}{chapter.4}% 18
+\BOOKMARK [1][-]{section.4.3}{Timing Packet Response}{chapter.4}% 19
+\BOOKMARK [1][-]{section.4.4}{PINGLOAD: PING side-channel for Payload }{chapter.4}% 20
+\BOOKMARK [2][-]{subsection.4.4.1}{Hypothesis}{section.4.4}% 21
+\BOOKMARK [2][-]{subsection.4.4.2}{Experiment Result}{section.4.4}% 22
+\BOOKMARK [2][-]{subsection.4.4.3}{General Hypothetical Model}{section.4.4}% 23
+\BOOKMARK [0][-]{chapter.5}{Fulture Work}{}% 24

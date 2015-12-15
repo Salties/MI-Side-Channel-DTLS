@@ -24,14 +24,26 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}DTLS}{9}{chapter.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.1}Conflicting MTU between DTLS and 6lowPAN}{9}{section.3.1}
+\contentsline {section}{\numberline {3.1}Implementation Issues}{9}{section.3.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3.2}Overloading DTLS with LLSEC}{9}{section.3.2}
+\contentsline {section}{\numberline {3.2}No multicast support}{10}{section.3.2}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\numberline {4}Application Detection}{10}{chapter.4}
+\contentsline {section}{\numberline {3.3}Overloading DTLS with LLSEC}{10}{section.3.3}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.1}Packet Length}{10}{section.4.1}
+\contentsline {chapter}{\numberline {4}Application Detection}{11}{chapter.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.2}Response Time}{10}{section.4.2}
+\contentsline {section}{\numberline {4.1}Network Protocol Headers}{11}{section.4.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4.3}Pingload: Ping side-channel for Payload }{10}{section.4.3}
+\contentsline {section}{\numberline {4.2}Packet Length}{11}{section.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.3}Timing Packet Response}{11}{section.4.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4.4}PINGLOAD: PING side-channel for Payload }{13}{section.4.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4.1}Hypothesis}{13}{subsection.4.4.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4.2}Experiment Result}{15}{subsection.4.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {4.4.3}General Hypothetical Model}{15}{subsection.4.4.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}Fulture Work}{16}{chapter.5}

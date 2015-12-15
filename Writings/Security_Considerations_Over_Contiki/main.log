@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  10 DEC 2015 16:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  15 DEC 2015 18:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1332,7 +1332,7 @@ Overfull \hbox (1.08247pt too wide) in paragraph at lines 2--3
 nk Layer Se-cu-rity (LLSEC)
  []
 
-<fig/setup.png, id=114, 845.40843pt x 597.73312pt>
+<fig/setup.png, id=144, 845.40843pt x 597.73312pt>
 File: fig/setup.png Graphic file (type png)
  <use fig/setup.png>
 Package pdftex.def Info: fig/setup.png used on input line 17.
@@ -1356,76 +1356,77 @@ Overfull \hbox (3.93036pt too wide) in paragraph at lines 28--32
  [][] 
  []
 
-[6]
-
-! LaTeX Error: \begin{equation*} on input line 54 ended by \end{equation}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.56 \end{equation}
-                   
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-<fig/resetproblem.png, id=166, 965.6075pt x 704.6325pt>
+[6] <fig/resetproblem.png, id=196, 965.6075pt x 704.6325pt>
 File: fig/resetproblem.png Graphic file (type png)
 
 <use fig/resetproblem.png>
 Package pdftex.def Info: fig/resetproblem.png used on input line 63.
 (pdftex.def)             Requested size: 390.25534pt x 284.78325pt.
-
-
-! LaTeX Error: \begin{equation*} on input line 71 ended by \end{equation}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.73 \end{equation}
-                   
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-[7 <./fig/resetproblem.png>]) (./dtls.tex [8]
+ [7 <./fig/resetproblem.png>]) (./dtls.tex [8]
 Chapter 3.
 
-Overfull \hbox (3.13545pt too wide) in paragraph at lines 3--3
-[]\OT1/cmr/bx/n/17.28 Conflicting MTU be-tween DTLS and 6low-PAN 
+Overfull \hbox (22.65526pt too wide) in paragraph at lines 5--6
+\OT1/cmr/m/n/12 tinydtls[[]3[]] cur-rently sup-ports two ci-pher-suites, namely
+ TLS[]PSK[]WITH[]AES[]128[]CCM[]8
  []
 
-) (./appdetect.tex [9
 
-]
+Overfull \hbox (97.6984pt too wide) in paragraph at lines 21--22
+\OT1/cmr/m/n/12 bly less se-cure) as it uses a pre-shared mas-ter se-cret than 
+TLS[]ECDHE[]ECDSA[]WITH[]AES[]128[]CCM[]8,
+ []
+
+[9
+
+]) (./appdetect.tex [10]
 Chapter 4.
-) (./appendix.tex) [10
+[11
 
-] [11
+] <fig/responsetime.png, id=238, 965.6075pt x 712.6625pt>
+File: fig/responsetime.png Graphic file (type png)
 
-]
+<use fig/responsetime.png>
+Package pdftex.def Info: fig/responsetime.png used on input line 23.
+(pdftex.def)             Requested size: 433.62pt x 320.03183pt.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `!tbp') on input line 29.
+
+[12 <./fig/responsetime.png>]
+<fig/pingri.png, id=259, 965.6075pt x 712.6625pt>
+File: fig/pingri.png Graphic file (type png)
+ <use fig/pingri.png>
+Package pdftex.def Info: fig/pingri.png used on input line 72.
+(pdftex.def)             Requested size: 390.25534pt x 288.02864pt.
+ [13]
+[14 <./fig/pingri.png>]) (./fulture.tex [15]
+Chapter 5.
+) (./appendix.tex) [16
+
+] [17
+
+] [18]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 70.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 70.
  (./main.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 70.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 70.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A8B275692417B2DE66579A87E5D50D2D;1155.
+(rerunfilecheck)             Checksum: 990108C021A8FCDD3258BDBDCA249F08;1546.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 70.
  ) 
 Here is how much of TeX's memory you used:
- 26760 strings out of 493105
- 487026 string characters out of 6137072
- 913562 words of memory out of 5000000
- 29726 multiletter control sequences out of 15000+600000
+ 26823 strings out of 493105
+ 488452 string characters out of 6137072
+ 914899 words of memory out of 5000000
+ 29754 multiletter control sequences out of 15000+600000
  14818 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,8n,98p,926b,1028s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,8n,98p,1053b,1045s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/tex
@@ -1437,10 +1438,10 @@ ublic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 tt12.pfb>
-Output written on main.pdf (12 pages, 369087 bytes).
+Output written on main.pdf (19 pages, 578902 bytes).
 PDF statistics:
- 260 PDF objects out of 1000 (max. 8388607)
- 228 compressed objects within 3 object streams
- 49 named destinations out of 1000 (max. 500000)
- 167 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 371 PDF objects out of 1000 (max. 8388607)
+ 328 compressed objects within 4 object streams
+ 79 named destinations out of 1000 (max. 500000)
+ 225 words of extra memory for PDF output out of 10000 (max. 10000000)
 

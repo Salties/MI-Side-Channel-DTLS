@@ -1954,6 +1954,12 @@
     <bcf:citekey order="6">rfc4944</bcf:citekey>
     <bcf:citekey order="7">ContikiMAC</bcf:citekey>
     <bcf:citekey order="8">rfc4944</bcf:citekey>
+    <bcf:citekey order="9">tinydtls</bcf:citekey>
+    <bcf:citekey order="10">CoDTLS</bcf:citekey>
+    <bcf:citekey order="11">rfc1122</bcf:citekey>
+    <bcf:citekey order="12">Peekaboo</bcf:citekey>
+    <bcf:citekey order="13">rsatiming</bcf:citekey>
+    <bcf:citekey order="14">rfc1122</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="none" type="entry" sortscheme="none">
   <bcf:sorting>
