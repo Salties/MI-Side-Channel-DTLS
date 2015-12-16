@@ -69,20 +69,129 @@ A phenomenon we realised is that when a ping packet arrived while the target nod
 \begin{figure}
 \centering
 {
-  \includegraphics[width=0.9\textwidth]{fig/pingri.png}
+  \includegraphics[width=1\textwidth]{fig/pingri.png}
 }
-\caption{An example of PING’s RIs with different payload}
+\caption{An example of PING RIs with different payload}
 \label{Fig: PINGLOAD RIs}
 \end{figure}
-\Cref{Fig: PINGLOAD RIs} shows RIs of PING collected in two experiments. The left half are collected with the target is constantly idle whilst the right half occasionally receives a request which triggers the target to call RNG. We can see that the PING RI varies alongside the target is given some payload.
+\Cref{Fig: PINGLOAD RIs} shows RIs of PING collected in two experiments. The upper half are collected with the target is constantly sleep whilst the lower half occasionally receives a request which triggers the target to call RNG. We can see that the PING RI varies alongside the target is given some payload from this figure.
 \end{example}
 
 The data shown in \Cref{Fig: PINGLOAD RIs} suggests that the “plain”, that is without any interference, PING RI is 12 to 13 ms. Further more, those variations of  PING RI is very likely caused by the payload of the target.
 
-This experiment inspirits that the distributions of PING RIs might vary according to the payload of target and could possibly considered as an fingerprint of the target’s application. In other word, an adversary could possibly tell whether the target is running a specific application by looking at its PING RIs distribution.
+This experiment inspired that the distributions of PING RIs might vary according to the payload of target and could possibly considered as an fingerprint of the target’s application. In other word, an adversary could possibly tell whether the target is running a specific application by looking at its PING RIs distribution.
 
-DESCRIBE HOW TO DO THE ATTACK HERE
+The attack is strait forward:
+\begin{description}
+\item[Profile sleep RIs]: \hfill\\
+The PING RIs for a sleeping node of the same platform can be profiled by pinging a sleeping node. We denote the sleeping profile as $RI_{sleep}$. 
+
+\item[Fingerprint application]: \hfill\\
+The adversary collects PING RIs on a profiling node with known application. The profiling node needs to be of the same platform and executing the same code of the target’s. The application fingerprint denotes as: $F_p=\{p_1, p_2, ... , p_n\}$. 
+
+\item[Collect fingerprint of target]: \hfill\\
+The adversary then collects the PING RI for the target node by pinging it. We denote the collected data as: $F_t=\{t_1, t_2, ..., t_m\}$.
+
+\item[Extract Featured RIs]: We can remove them from the data sets and keep the PING RIs those has been interfered by the application. We denote the extracted RIs as \textbf{Featured RIs}:
+\begin{eqnarray*}
+F’_p = \{x | x \in F_p,  x \notin RI_{sleep}\}\\
+F’_p = \{x | x \in F_t,  x \notin RI_{sleep}\}
+\end{eqnarray*}
+
+Practically speaking, the PING protocol are designed to be responded immediately for diagnosis purpose; hence $RI_{sleep}$ usually has an extremely low variance and its mean is also much less than $F_p$ and $F_t$.
+
+Using the Featured RIs not only provides a better vision of the fingerprint but also removes the error caused by different frequency of the target code being executed, as all the Featured RIs are actually collected when the node is at a non-sleeping state. 
+
+\item[Estimate Distribution (Optional)]: \hfill\\
+We then estimate the distributions of $F’_p$ and $F’_t$, denote as $D_p$ and $D_t$. A naive method is to simply use their histograms. An example of such histograms are shown as \Cref{Fig: featuredri_rng}.
+
+\begin{figure}
+\center
+{
+	\includegraphics[width=0.49 \textwidth]{fig/featuredri_rng1.png}
+	\includegraphics[width=0.49 \textwidth]{fig/featuredri_rng2.png}
+}
+\caption{Two examples of RNG’s Featured RIs histogram}
+\label{Fig: featuredri_rng}
+\end{figure}
+
+\item[Distinguish Distributions]: \hfill\\
+Finally we test whether $D_t$ and $D_p$ are the same distribution. An naive way is to compute the correlation of counts of the histograms. We conclude the target node is running the profiled application if $D_t$ and $D_p$ are the same distribution.
+\end{description}
+
+Practically speaking, the key point of Application Fingerprinting is to test whether the target’s Featured RIs, i.e. $F’_t$, is sampled from same distribution of the profiled one, i.e. $F’_p$; therefore estimating their distribution might not be necessary for some statistical methods such as t-tests. However as we can see in \Cref{Fig: featuredri_rng}, PING RIs’ distribution are very unlikely to be normalised. Therefore a future work is to find a better distinguishing method than the current naive one.
 
 \subsection{Experiment Result}
+We tried our Application Fingerprinting method above on a Cooja simulated Wismote platform with different code. \textbf{In conclusion, the fingerprint appears to be effective for certain circumstances but will tends to result into false positives as the profiled application and target application gets similar to each other.}
+
+To be more specifically, the target node execute some specific code upon receiving an application layer protocol request, similar to CoAP. Further more, all traffic are protected by DTLS with TLS\_PSK\_WITH\_AES\_128\_CCM\_8 ciphersuite. Both intervals of PINGs and the application request are set to some asynchronised value to avoid overflooding the target and to create a ‘more realistic’ simulation.
+
+Everything other than the examined code are the same for all experiments. Two samples are collected independently for each code to simulate a fingerprinting scenario. The histograms are clustered by 5ms.
+
+We examined two classes of codes:
+\begin{description}
+\item[RNG Calls]: \hfill\\
+The target node repeatedly calls RNG for $i$ times. We examined their Featured PING RI for different values of $i$. The reason for picking RNG is that on some platforms where a hardware RNG is provided, the call to it is expected to be similar to a call to a sensor reading which is actually an interrupt. Results are shown in \Cref{Tbl: pingload RNG}.
+
+\item[Arithmetic Operations]: \hfill\\
+The target node repeatedly does arithmetic operations, namely addition, multiplication and modular, on two random generated word size integers for 10000 times. This class is particularly interested from a cryptographic point of view as the number of arithmetic operations could potentially developed to key recovering attacks. Results are shown in \Cref{Tbl: pingload arth}.
+\end{description}
+
+
+
+\begin{table}
+\centering
+\begin{tabular}{|c|cccc}
+\hline
+\textit{\textbf{Correlations}} & \multicolumn{1}{c|}{i=50} & \multicolumn{1}{c|}{i=100} & \multicolumn{1}{c|}{i=2500} & \multicolumn{1}{c|}{i=5000} \\ \hline
+i=50                           & \textbf{0.988}            & 0.891                      & -0.014                      & -0.033                      \\ \cline{1-1}
+i=100                          & 0.891                     & \textbf{0.973}             & -0.025                      & -0.042                      \\ \cline{1-1}
+i=2500                         & -0.014                    & -0.025                     & \textbf{0.993}              & -0.035                      \\ \cline{1-1}
+i=5000                         & -0.033                    & -0.042                     & -0.035                      & \textbf{0.985}              \\ \cline{1-1}
+\end{tabular}
+\caption{Correlations for RNG}
+\label{Tbl: pingload RNG}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|c|ccc}
+\hline
+\textit{\textbf{Correlations}} & \multicolumn{1}{c|}{+} & \multicolumn{1}{c|}{*} & \multicolumn{1}{c|}{\%} \\ \hline
++                              & \textbf{0.990}         & \textbf{0.990}         & \textbf{0.988}          \\ \cline{1-1}
+*                              & \textbf{0.990}         & \textbf{0.989}         & \textbf{0.985}          \\ \cline{1-1}
+\%                             & \textbf{0.988}         & \textbf{0.985}         & \textbf{0.984}          \\ \cline{1-1}
+\end{tabular}
+\caption{Correlations for word arithmetic operations}
+\label{Tbl: pingload arth}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{\textit {Correlations}} & +     \\ \hline
+i=50         & 0.877 \\ \hline
+\end{tabular}
+\caption{Correlation for $i=50$ and addition}
+\label{Tbl: pingload rng arth}
+\end{table}
+
+We also computed the correlation for $i=50$ and addition, as shown in \Cref{Tbl: pingload rng arth}.
+
+The results suggests the following conjectures:
+\begin{enumerate}
+\item The results for RNG suggests that the fingerprinting is effective for this class of code, as the same code results into nearly perfect correlations ($\geq 0.95$).
+
+\item Even relatively slight changes can be detected, as we can see the correlation dropped to $0.891$ alongside 50 iterations of RNG calls (50 RNG calls take about 1.4ms).
+
+\item The results for arithmetic operations indicates that their  fingerprint are unlikely to be distinguishable. There are two potential causes we have considered:
+\begin{enumerate}
+\item The differences between these operations are too small to be detected.
+
+\item Experiment methodology error. Since the target node we used during the experiments call RNG twice upon each request to generate two operands whilst the word arithmetic operations have much lighter weigh comparing to RNG at magnitude level; thus the fingerprint is dominated by RNG rather than word arithmetic operations. As a result, we can see that a relatively high correlation can be observed between word addition and 50 RNG calls as shown in \Cref{Tbl: pingload rng arth}.
+\end{enumerate}
+\end{enumerate}
 
 \subsection{General Hypothetical Model}
+THE BLACK BOX MODEL
