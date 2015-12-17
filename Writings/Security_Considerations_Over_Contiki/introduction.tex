@@ -1,6 +1,12 @@
 \chapter{Introduction}
 This paper discusses two security measurements, namely Link Layer Security (LLSEC) and Datagram TLS (DTLS), within Contiki OS.
 
+In \Cref{Chp: LLSEC} we described a LLSEC implementation in Contiki OS \textit{noncoresec} and argues that its selection of IV is not secure enough and potentially has a reset problem.
+
+\Cref{Chp: DTLS} discusses some implementation issues of DTLS on Contiki OS.
+
+\Cref{Chp: Appdetect} first argues that under some natures of WSN, an adversary could possibly collect more accurate timing information than usual Internet Web-application attacker. Then we described a potential sensor node application fingerprinting attack using the interaction of PING protocol and the application running on the target node.
+
 \section{Related Work}
 \cite{802154Sec} discusses some security concerns in 802.15.4.  LLSEC\cite{LLSEC} is the implementation of 802.15.4 security in Contiki.
 

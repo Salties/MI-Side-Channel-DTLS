@@ -1,4 +1,4 @@
-\chapter{Application Detection}
+\chapter{Application Detection} \label{Chp: Appdetect}
 Similar to website fingerprinting, we try to identify the application running on target note by its traffic. This chapter discusses some general idea without a specific application.
 
 \section{Network Protocol Headers}
@@ -62,7 +62,7 @@ Support of ICMP ECHO is required by \cite{rfc1122} and is also enabled in Contik
 
 We call such technique {\bf  Application Fingerprinting}.
 
-\subsection{Hypothesis}
+\subsection{Hypothesis} \label{Sec: pingload hypothesis}
 A phenomenon we realised is that when a ping packet arrived while the target node is executing some payload, say reading a sensor or processing data, the PING RI begins to vary comparing to a stable value  when no there is no payload. 
 
 \begin{example}
