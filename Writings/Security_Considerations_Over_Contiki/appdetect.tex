@@ -193,5 +193,76 @@ The results suggests the following conjectures:
 \end{enumerate}
 \end{enumerate}
 
-\subsection{General Hypothetical Model}
-THE BLACK BOX MODEL
+\subsection{A General Hypothetical Model: Black Box Model}
+Although the experiments supports the hypothesis that the variation of PING RIs is relevant to the application, it is not yet clear which factor exactly caused the variations. 
+
+Therefore we suggest that this phenomenon is a result of multi factors instead, including:
+\begin{itemize} 
+\item Code being executed  and whether it is preemptive or non preemptive, 
+\item Memory usage, such as packet buffers, or 
+\item Any other hardware/software conditions.
+\end{itemize}
+It is difficult to verify these factors as many of them requires strict synchronisation between devices and the PING RIs are only showing statistical features.
+
+Therefore we propose the Black Box Model which we hope could support further research.
+
+\begin{definition}
+The \textbf{Black Box Model} models the target device as a stateful black box. A \textbf{state}, denotes as $\vec{S}=<\text{factor}_1, \text{factor}_2...>$, is an abstracted vector of multiple factors that could affect PING RIs, such as current code context or memory usage. $\mathbb{D}_\vec{S}$ is the distribution of PING RIs when the target node is at state $\vec{S}$.
+\end{definition}
+
+We can redefine a state by multiple mutually exclusive substates, $\vec{S}_1$, $\vec{S}_2$ etc. Each sub-state has its own PING RI distribution $\mathbb{D}_{\vec{S}_1}$, $\mathbb{D}_{\vec{S}_2}$ etc. The redefinition process can further more be done recursively.
+
+Notice that since each substate are mutually exclusive; therefore $\mathbb{D}_{\vec{S}}$ is a linear combination of all distributions associated with all the substates of $\vec{S}$, since:
+\begin{equation*}
+\forall x: Prob(RI = x | \vec{s}=\vec{S}) = \sum_{i=0}^{n}{\big( p_i*Prob(RI = x | \vec{s} = \vec{S}_i)\big)}
+\end{equation*}
+where $\vec{s}$ is the state at any moment, $p_i$ is $Prob(\vec{s} = \vec{S_i})$ and $n$ is the number of substates of $\vec{S}$.
+
+Hence we can write
+\begin{equation}
+\mathbb{D}_{\vec{S}} = \sum_{i}^{n}{\big(p_i * \mathbb{D}_{\vec{S}_i} \big)}
+\end{equation}
+
+Practically speaking, $Prob(\vec{s} = \vec{S})$ might be the most interesting thing to an malicious adversary as it may reveals the internal state of the target which could lead to many information breach.
+
+\begin{example}
+Take one of the RNG applications with $i = 5000$ in \Cref{Tbl: pingload RNG} for example. 
+
+We define:
+\begin{equation*}
+\vec{S}_{main} = <\text{App}=\text{RNG}, i=5000>
+\end{equation*}
+
+Its associated PING RI distribution $\mathbb{D}_{\vec{S}_{main}}$ is approximated from the histogram shown in \Cref{Fig: s_main}.
+
+\begin{figure}
+\center
+\includegraphics[width=0.5\textwidth]{fig/D_S.png}
+\caption{PING RIs of $\vec{S}_{main}$}
+\label{Fig: s_main}
+\end{figure}
+
+We then redefine $\vec{S}_{main}$ to two exclusive sub-states depends on whether the target is in a sleeping mode.
+\begin{eqnarray*}
+\vec{S}_{main} &&= \vec{S}_{sleep} + \vec{S}_{non-sleep} \\
+\vec{S}_{sleep} &&= <\text{App} = \text{RNG}, i = 5000, \text{Code} = \text{sleep}> \\
+\vec{S}_{non-sleep} &&= <\text{App} = \text{RNG}, i = 5000, \text{Code} \neq \text{sleep}>
+\end{eqnarray*}
+
+Since we know by experiment that the PING RIs are 12 to 13ms when the target is sleep; therefore we can actually approximate $\mathbb{D}_{\vec{S}_{sleep}}$ by filter out those RIs in $[12,13]$. Vice versa,  the distribution of Featured RIs can be viewed as $\mathbb{D}_{\vec{S}_{nonsleep}}$ since they are exactly the RIs filtered by the RIs of sleep. The histograms are shown in \Cref{Fig: s_sleep and s_nonsleep}.
+
+\begin{figure}
+\includegraphics[width=0.5\textwidth]{fig/d_sleep.png}
+\includegraphics[width=0.5\textwidth]{fig/d_nonsleep.png}
+\caption{PING RIs of $\vec{S}_{sleep}$ and $\vec{S}_{nonsleep}$}
+\label{Fig: s_sleep and s_nonsleep}
+\end{figure}
+
+So we have
+\begin{equation} \label{Eq: sleep}
+\mathbb{D}_{\vec{S}_{main}} = p_0 \mathbb{D}_{\vec{S}_{sleep}} + p_1 \mathbb{D}_{\vec{S}_{nonsleep}}
+\end{equation}
+where $p_0$ and $p_1$ corresponds to the probability of the target being sleep and nonsleep.
+
+Solving \Cref{Eq: sleep} gives us roughly $p_0 = 0.538$ and $p_1 = 0.462$. Assuming the PING packets are received by the target randomly, we can estimate that the target is in a sleep for $53.8\%$ of the time and awaken for $46.2\%$.
+\end{example}
