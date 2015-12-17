@@ -1,18 +1,18 @@
 [0] Config.pm:321> INFO - This is Biber 1.9
 [1] Config.pm:324> INFO - Logfile is 'main.blg'
-[56] biber:277> INFO - === äº 12æ 15, 2015, 12:36:44
-[56] Biber.pm:334> INFO - Reading 'main.bcf'
-[140] Biber.pm:636> INFO - Found 10 citekeys in bib section 0
-[159] Biber.pm:3052> INFO - Processing section 0
-[181] Biber.pm:3190> INFO - Looking for bibtex format file 'references.bib' for section 0
-[182] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
-[184] bibtex.pm:853> INFO - Found BibTeX data source 'references.bib'
-[199] Biber.pm:3190> INFO - Looking for bibtex format file 'rfc.bib' for section 0
-[586] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
-[978] bibtex.pm:853> INFO - Found BibTeX data source 'rfc.bib'
-[1489] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1490] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1490] Biber.pm:2929> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-US'
-[1490] Biber.pm:2933> INFO - No sort tailoring available for locale 'en-US'
-[1507] bbl.pm:517> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[1508] bbl.pm:606> INFO - Output to main.bbl
+[64] biber:277> INFO - === å 12æ 17, 2015, 18:27:14
+[65] Biber.pm:334> INFO - Reading 'main.bcf'
+[155] Biber.pm:636> INFO - Found 11 citekeys in bib section 0
+[317] Biber.pm:3052> INFO - Processing section 0
+[406] Biber.pm:3190> INFO - Looking for bibtex format file 'references.bib' for section 0
+[407] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
+[410] bibtex.pm:853> INFO - Found BibTeX data source 'references.bib'
+[494] Biber.pm:3190> INFO - Looking for bibtex format file 'rfc.bib' for section 0
+[1005] bibtex.pm:979> INFO - Decoding LaTeX character macros into UTF-8
+[1415] bibtex.pm:853> INFO - Found BibTeX data source 'rfc.bib'
+[1958] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1958] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1958] Biber.pm:2929> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-US'
+[1958] Biber.pm:2933> INFO - No sort tailoring available for locale 'en-US'
+[1978] bbl.pm:517> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[1980] bbl.pm:606> INFO - Output to main.bbl

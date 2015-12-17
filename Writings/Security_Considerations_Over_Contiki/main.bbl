@@ -244,6 +244,24 @@
       \verb http://dl.acm.org/citation.cfm?id=646761.706156
       \endverb
     \endentry
+    \entry{Zigbee}{report}{}
+      \name{labelname}{1}{}{%
+        {{hash=61d63a7523dcbfff7b11963bf209646c}{Alliance}{A\bibinitperiod}{ZigBee}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=61d63a7523dcbfff7b11963bf209646c}{Alliance}{A\bibinitperiod}{ZigBee}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{61d63a7523dcbfff7b11963bf209646c}
+      \strng{fullhash}{61d63a7523dcbfff7b11963bf209646c}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{ZigBee specification}}
+      \field{month}{06}
+      \field{title}{{ZigBee specification}}
+      \field{type}{techreport}
+      \field{year}{2005}
+      \keyw{mac}
+    \endentry
   \endsortlist
 \endrefsection
 \endinput

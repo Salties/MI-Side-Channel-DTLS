@@ -1,0 +1,24 @@
+\chapter{Conclusion}
+
+In \Cref{Chp: LLSEC} we described a LLSEC implementation in Contiki OS \textit{noncoresec} and argues that its selection of IV is not secure enough and potentially has a reset problem.
+
+\Cref{Chp: DTLS} discusses some implementation issues of DTLS on Contiki OS.
+
+\Cref{Chp: Appdetect} first argues that under some natures of WSN, an adversary could possibly collect more accurate timing information than usual Internet Web-application attacker. Then we described a potential sensor node application fingerprinting attack using the interaction of PING protocol and the application running on the target node.
+
+\chapter{Fulture Work}
+\begin{enumerate}
+\item All the results are based on Contiki OS with 6LowPAN. However, Zigbee\cite{Zigbee} protocol is not supported by Contiki OS. Considering the popularity and market share, other OSes and Zigbee should also be studied.
+
+\item DTLS using TLS\_ECHDE\_ECDSA\_WITH\_AES\_128\_CCM\_8 ciphersuite is ignored due to performance issue. However, it should be reconsidered in the future as it provides better security. Further more, implementation other than tinyDTLS, or protocols other than DTLS should also be examined.
+
+\item The security brought by \textit{noncoresec} is not satisfying. A solution is expected, such as better key exchange algorithms, ciphersuites, or choice of IV.
+
+\item Some RPL messages use specific MAC header flag which can be seen even with LLSEC enabled. These flags are yet to be studied in this paper.
+
+\item RNG is being used for convenience for simulating sensor readings in a simulator. It should be replaced by real sensor readings with real devices.
+
+\item Timing informations are all collected using Cooja simulator. The experiments should be re done with real devices.
+
+\item In \Cref{Sec: pingload hypothesis}, we used a naive correlation test to test the fingerprints. This method might be improved by using nonparametric tests such as Kolmogorov-Smirnov test.
+\end{enumerate}
