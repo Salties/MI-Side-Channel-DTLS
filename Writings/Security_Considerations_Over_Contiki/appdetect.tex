@@ -207,7 +207,7 @@ It is difficult to verify these factors as many of them requires strict synchron
 Therefore we propose the Black Box Model which we hope could support further research.
 
 \begin{definition}
-The \textbf{Black Box Model} models the target device as a stateful black box. A \textbf{state}, denotes as $\vec{S}=<\text{factor}_1, \text{factor}_2...>$, is an abstracted vector of multiple factors that could affect PING RIs, such as current code context or memory usage. $\mathbb{D}_\vec{S}$ is the distribution of PING RIs when the target node is at state $\vec{S}$.
+The \textbf{Black Box Model} models the target device as a stateful black box. A \textbf{state}, denotes as $\vec{S}=<\text{factor}_1, \text{factor}_2...>$, is an abstracted vector of multiple factors that could affect PING RIs, such as current code context or memory usage. $\mathbb{D}_{\vec{S}}$ is the distribution of PING RIs when the target node is at state $\vec{S}$.
 \end{definition}
 
 We can redefine a state by multiple mutually exclusive substates, $\vec{S}_1$, $\vec{S}_2$ etc. Each sub-state has its own PING RI distribution $\mathbb{D}_{\vec{S}_1}$, $\mathbb{D}_{\vec{S}_2}$ etc. The redefinition process can further more be done recursively.
@@ -219,11 +219,9 @@ Notice that since each substate are mutually exclusive; therefore $\mathbb{D}_{\
 where $\vec{s}$ is the state at any moment, $p_i$ is $Prob(\vec{s} = \vec{S_i})$ and $n$ is the number of substates of $\vec{S}$.
 
 Hence we can write
-\begin{equation}
+\begin{equation} \label{Eq: pD}
 \mathbb{D}_{\vec{S}} = \sum_{i}^{n}{\big(p_i * \mathbb{D}_{\vec{S}_i} \big)}
 \end{equation}
-
-Practically speaking, $Prob(\vec{s} = \vec{S})$ might be the most interesting thing to an malicious adversary as it may reveals the internal state of the target which could lead to many information breach.
 
 \begin{example}
 Take one of the RNG applications with $i = 5000$ in \Cref{Tbl: pingload RNG} for example. 
@@ -265,4 +263,17 @@ So we have
 where $p_0$ and $p_1$ corresponds to the probability of the target being sleep and nonsleep.
 
 Solving \Cref{Eq: sleep} gives us roughly $p_0 = 0.538$ and $p_1 = 0.462$. Assuming the PING packets are received by the target randomly, we can estimate that the target is in a sleep for $53.8\%$ of the time and awaken for $46.2\%$.
+
+Theoretically we can further redefine more sub-states, e.g.:
+\begin{eqnarray*}
+\vec{S}_{nonsleep} &&= \vec{S}_{RNG} + \vec{S}_{header} \\
+\vec{S}_{RNG} &&= <\text{App} = \text{RNG}, i = 5000, \text{Code} = \text{random\_rand()}> \\
+\vec{S}_{header} &&= <\text{App} = \text{RNG}, i = 5000, \text{Code} = \text{header processing}> 
+\end{eqnarray*}
+
+However, obtaining their corresponded distributions poses a problem to this method, we leave this topic to future research.
 \end{example}
+
+Practically speaking, $p_i$ might be an interesting information to an  adversary as it reveals the internal state of the target which could lead to many information breach.  In practice, we might only want to approximate the solutions of $p_i$, which effectively reduces the problem of approximating \Cref{Eq: pD} to a knapsack problem\cite{knapsack}.
+
+In most cases obtaining $\mathbb{D}_{\vec{S}_i}$ is difficult. We leave this problem to future research.
