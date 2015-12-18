@@ -244,6 +244,13 @@
       \verb http://dl.acm.org/citation.cfm?id=646761.706156
       \endverb
     \endentry
+    \entry{knapsack}{misc}{}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Knapsack_problem
+      \endverb
+    \endentry
     \entry{Zigbee}{report}{}
       \name{labelname}{1}{}{%
         {{hash=61d63a7523dcbfff7b11963bf209646c}{Alliance}{A\bibinitperiod}{ZigBee}{Z\bibinitperiod}{}{}{}{}}%
