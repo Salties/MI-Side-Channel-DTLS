@@ -19,54 +19,6 @@
 
 \refsection{0}
   \sortlist{none}{none}
-    \entry{802154Sec}{inproceedings}{}
-      \name{labelname}{2}{}{%
-        {{hash=4ff332487e5fb6b56094419828717c31}{Sastry}{S\bibinitperiod}{Naveen}{N\bibinitperiod}{}{}{}{}}%
-        {{hash=45a593fbd4e5b2f4d60199ccfdb4fe59}{Wagner}{W\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
-      }
-      \name{author}{2}{}{%
-        {{hash=4ff332487e5fb6b56094419828717c31}{Sastry}{S\bibinitperiod}{Naveen}{N\bibinitperiod}{}{}{}{}}%
-        {{hash=45a593fbd4e5b2f4d60199ccfdb4fe59}{Wagner}{W\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
-      }
-      \list{location}{1}{%
-        {Philadelphia, PA, USA}%
-      }
-      \list{publisher}{1}{%
-        {ACM}%
-      }
-      \strng{namehash}{51a5e20c47e58aea2b954d351d021a36}
-      \strng{fullhash}{51a5e20c47e58aea2b954d351d021a36}
-      \field{sortinit}{0}
-      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
-      \field{labeltitle}{Security Considerations for IEEE 802.15.4 Networks}
-      \field{booktitle}{Proceedings of the 3rd ACM Workshop on Wireless Security}
-      \field{isbn}{1-58113-925-X}
-      \field{series}{WiSe '04}
-      \field{title}{Security Considerations for IEEE 802.15.4 Networks}
-      \field{year}{2004}
-      \field{pages}{32\bibrangedash 42}
-      \verb{doi}
-      \verb 10.1145/1023646.1023654
-      \endverb
-      \verb{url}
-      \verb http://doi.acm.org/10.1145/1023646.1023654
-      \endverb
-      \keyw{IEEE 802.15.4,link layer security,sensor networks}
-    \endentry
-    \entry{LLSEC}{misc}{}
-      \field{sortinit}{0}
-      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
-      \verb{url}
-      \verb https://github.com/kkrentz/contiki/wiki
-      \endverb
-    \endentry
-    \entry{tinydtls}{misc}{}
-      \field{sortinit}{0}
-      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
-      \verb{url}
-      \verb http://sourceforge.net/projects/tinydtls/
-      \endverb
-    \endentry
     \entry{802154}{report}{}
       \list{publisher}{1}{%
         {IEEE}%
@@ -123,6 +75,54 @@
       \field{year}{2007}
       \verb{url}
       \verb http://www.ietf.org/rfc/rfc4944.txt
+      \endverb
+    \endentry
+    \entry{802154Sec}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=4ff332487e5fb6b56094419828717c31}{Sastry}{S\bibinitperiod}{Naveen}{N\bibinitperiod}{}{}{}{}}%
+        {{hash=45a593fbd4e5b2f4d60199ccfdb4fe59}{Wagner}{W\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=4ff332487e5fb6b56094419828717c31}{Sastry}{S\bibinitperiod}{Naveen}{N\bibinitperiod}{}{}{}{}}%
+        {{hash=45a593fbd4e5b2f4d60199ccfdb4fe59}{Wagner}{W\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \list{location}{1}{%
+        {Philadelphia, PA, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{51a5e20c47e58aea2b954d351d021a36}
+      \strng{fullhash}{51a5e20c47e58aea2b954d351d021a36}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{Security Considerations for IEEE 802.15.4 Networks}
+      \field{booktitle}{Proceedings of the 3rd ACM Workshop on Wireless Security}
+      \field{isbn}{1-58113-925-X}
+      \field{series}{WiSe '04}
+      \field{title}{Security Considerations for IEEE 802.15.4 Networks}
+      \field{year}{2004}
+      \field{pages}{32\bibrangedash 42}
+      \verb{doi}
+      \verb 10.1145/1023646.1023654
+      \endverb
+      \verb{url}
+      \verb http://doi.acm.org/10.1145/1023646.1023654
+      \endverb
+      \keyw{IEEE 802.15.4,link layer security,sensor networks}
+    \endentry
+    \entry{LLSEC}{misc}{}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \verb{url}
+      \verb https://github.com/kkrentz/contiki/wiki
+      \endverb
+    \endentry
+    \entry{tinydtls}{misc}{}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \verb{url}
+      \verb http://sourceforge.net/projects/tinydtls/
       \endverb
     \endentry
     \entry{ContikiMAC}{misc}{}
