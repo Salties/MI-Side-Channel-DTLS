@@ -21,7 +21,7 @@ VERSION:=0.8.2
 SHELL = /bin/sh
 MKDIR = mkdir
 
-abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2/examples/contiki
+abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls/examples/contiki
 top_builddir = ../..
 top_srcdir:= ../..
 DISTDIR=$(top_builddir)/tinydtls-0.8.2
