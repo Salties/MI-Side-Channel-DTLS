@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  28 JAN 2016 00:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  1 FEB 2016 14:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1130,91 +1130,35 @@ Package biblatex Info: ... file 'biblatex.cfg' found.
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
 File: biblatex.cfg 
 )))
-(/usr/share/texlive/texmf-dist/tex/latex/svg/svg.sty
-Package: svg 2012/09/05 v1.0 SVG inclusion and extraction
-
-(/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
-Package: subfig 2005/06/28 ver: 1.3 subfig package
-
-(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
-
-(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 57.
-\captionmargin=\dimen203
-\captionmargin@=\dimen204
-\captionwidth=\dimen205
-\caption@tempdima=\dimen206
-\caption@indent=\dimen207
-\caption@parindent=\dimen208
-\caption@hangindent=\dimen209
-)
-\c@ContinuedFloat=\count307
-Package caption Info: float package is loaded.
-Package caption Info: hyperref package is loaded.
-)
-\c@KVtest=\count308
-\sf@farskip=\skip80
-\sf@captopadj=\dimen210
-\sf@capskip=\skip81
-\sf@nearskip=\skip82
-\c@subfigure=\count309
-\c@subfigure@save=\count310
-\c@lofdepth=\count311
-\c@subtable=\count312
-\c@subtable@save=\count313
-\c@lotdepth=\count314
-\sf@top=\skip83
-\sf@bottom=\skip84
-)
-(/usr/share/texlive/texmf-dist/tex/latex/import/import.sty
-Package: import 2009/03/23  v 5.1
-)
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/transparent.sty
-Package: transparent 2007/01/08 v1.0 Transparency via pdfTeX's color stack (HO)
-
-)
-\SVG@out@width=\skip85
-\SVG@out@height=\skip86
-\c@svgfigure=\count315
-)
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
-Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
-)
-\c@theorem=\count316
-\c@definition=\count317
-\c@conjecture=\count318
-\c@example=\count319
+\c@theorem=\count307
+\c@definition=\count308
+\c@conjecture=\count309
+\c@example=\count310
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
 
 (/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2014/06/25 v2.9a biblatex localization (PK/JW/AB)
 )
-\@quotelevel=\count320
-\@quotereset=\count321
+\@quotelevel=\count311
+\@quotereset=\count312
  (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
-LaTeX Font Info:    ... okay on input line 51.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 51.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
-File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
-)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1250,18 +1194,18 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 \AtBeginShipoutBox=\box51
-Package hyperref Info: Link coloring OFF on input line 51.
+Package hyperref Info: Link coloring OFF on input line 47.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count322
+\c@section@level=\count313
 )
-LaTeX Info: Redefining \ref on input line 51.
-LaTeX Info: Redefining \pageref on input line 51.
-LaTeX Info: Redefining \nameref on input line 51.
+LaTeX Info: Redefining \ref on input line 47.
+LaTeX Info: Redefining \pageref on input line 47.
+LaTeX Info: Redefining \nameref on input line 47.
 
 (./main.out) (./main.out)
 \@outlinefile=\write5
@@ -1270,16 +1214,16 @@ LaTeX Info: Redefining \nameref on input line 51.
  ABD: EveryShipout initializing macros
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count323
-\scratchdimen=\dimen211
+\scratchcounter=\count314
+\scratchdimen=\dimen203
 \scratchbox=\box52
-\nofMPsegments=\count324
-\nofMParguments=\count325
+\nofMPsegments=\count315
+\nofMParguments=\count316
 \everyMPshowfont=\toks46
-\MPscratchCnt=\count326
-\MPscratchDim=\dimen212
-\MPnumerator=\count327
-\makeMPintoPDFobject=\count328
+\MPscratchCnt=\count317
+\MPscratchDim=\dimen204
+\MPnumerator=\count318
+\makeMPintoPDFobject=\count319
 \everyMPtoPDFconversion=\toks47
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -1302,238 +1246,53 @@ Package biblatex Info: Automatic encoding selection.
 \openout4 = `main.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'main.bbl' found.
+Package biblatex Info: ... file 'main.bbl' not found.
 
-(./main.bbl)
-Package biblatex Info: Reference section=0 on input line 51.
-Package biblatex Info: Reference segment=0 on input line 51.
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: subfig package v1.3 is loaded.
-Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 54.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 54.
+No file main.bbl.
+Package biblatex Info: Reference section=0 on input line 47.
+Package biblatex Info: Reference segment=0 on input line 47.
+Chapter 1.
+(./body.tex) [1
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
 
 {/home/yy12135/.texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24.88> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
- (./main.toc
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
-)
-\tf@toc=\write6
-\openout6 = `main.toc'.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 65.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 65.
 
- (./introduction.texpdfTeX warning (ext4): destination with the same identifier
- (name{page.1}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1 \chapter
-            {Introduction} [1
-
-]
-Chapter 1.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 10.
-<fig/setup.png, id=154, 845.40843pt x 597.73312pt>
-File: fig/setup.png Graphic file (type png)
- <use fig/setup.png>
-Package pdftex.def Info: fig/setup.png used on input line 23.
-(pdftex.def)             Requested size: 303.53267pt x 214.60004pt.
- [2
-
-]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 29.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 29.
- [3 <./fig/setup.png>]) (./llsec.tex [4]
-Chapter 2.
-
-Overfull \hbox (21.17471pt too wide) in paragraph at lines 12--13
-\OT1/ptm/m/it/12 noncoresec\OT1/ptm/m/n/12 [[]4[]] is the cur-rent im-ple-men-t
-a-tion of LLSEC in Con-tiki. It im-ple-ments AES[]CCM[]16
- []
-
-[5
-
-] [6]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
- <fig/resetproblem.png, id=211, 965.6075pt x 704.6325pt>
-File: fig/resetproblem.png Graphic file (type png)
-
-<use fig/resetproblem.png>
-Package pdftex.def Info: fig/resetproblem.png used on input line 63.
-(pdftex.def)             Requested size: 390.25534pt x 284.78325pt.
- [7 <./fig/resetproblem.png>]) (./dtls.tex [8]
-Chapter 3.
-
-Overfull \hbox (19.0972pt too wide) in paragraph at lines 7--8
-[]\OT1/ptm/m/n/12 tinydtls[[]5[]] cur-rently sup-ports two ci-pher-suites, name
-ly TLS[]PSK[]WITH[]AES[]128[]CCM[]8
- []
-
-[9
-
-]) (./appdetect.tex [10]
-Chapter 4.
-[11
-
-] <fig/responsetime.png, id=255, 965.6075pt x 712.6625pt>
-File: fig/responsetime.png Graphic file (type png)
-
-<use fig/responsetime.png>
-Package pdftex.def Info: fig/responsetime.png used on input line 23.
-(pdftex.def)             Requested size: 433.62pt x 320.03183pt.
+(./main.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 65.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 65.
 
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!tbp') on input line 29.
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
 
-[12 <./fig/responsetime.png>]
-<fig/pingri.png, id=275, 930.47626pt x 790.955pt>
-File: fig/pingri.png Graphic file (type png)
- <use fig/pingri.png>
-Package pdftex.def Info: fig/pingri.png used on input line 72.
-(pdftex.def)             Requested size: 433.62pt x 368.59889pt.
- [13]
-[14 <./fig/pingri.png>]
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 97.
-
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 98.
-
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 106.
-
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 106.
-
-<fig/featuredri_rng1.png, id=295, 830.10126pt x 657.45625pt>
-File: fig/featuredri_rng1.png Graphic file (type png)
-
-<use fig/featuredri_rng1.png>
-Package pdftex.def Info: fig/featuredri_rng1.png used on input line 111.
-(pdftex.def)             Requested size: 212.47617pt x 168.28615pt.
-
-<fig/featuredri_rng2.png, id=296, 830.10126pt x 657.45625pt>
-File: fig/featuredri_rng2.png Graphic file (type png)
-
-<use fig/featuredri_rng2.png>
-Package pdftex.def Info: fig/featuredri_rng2.png used on input line 112.
-(pdftex.def)             Requested size: 212.47617pt x 168.28615pt.
- [15]
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 122.
-
-
-LaTeX Warning: Command \textquoteright invalid in math mode on input line 122.
-
-[16 <./fig/featuredri_rng1.png> <./fig/featuredri_rng2.png>]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 146.
-
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 169.
-
-[17] [18] <fig/D_S.png, id=341, 993.7125pt x 800.9925pt>
-File: fig/D_S.png Graphic file (type png)
- <use fig/D_S.png>
-Package pdftex.def Info: fig/D_S.png used on input line 238.
-(pdftex.def)             Requested size: 216.81pt x 174.75223pt.
-
-[19 <./fig/D_S.png>] <fig/d_sleep.png, id=352, 562.1pt x 462.72874pt>
-File: fig/d_sleep.png Graphic file (type png)
-
-<use fig/d_sleep.png>
-Package pdftex.def Info: fig/d_sleep.png used on input line 253.
-(pdftex.def)             Requested size: 216.81pt x 178.47943pt.
- <fig/d_nonsleep.png, id=353, 562.1pt x 462.72874pt>
-File: fig/d_nonsleep.png Graphic file (type png)
-
-<use fig/d_nonsleep.png>
-Package pdftex.def Info: fig/d_nonsleep.png used on input line 254.
-(pdftex.def)             Requested size: 216.81pt x 178.47943pt.
-
-Overfull \hbox (2.28003pt too wide) in paragraph at lines 253--255
-[][] [] 
- []
-
-) (./conclusion.tex [20 <./fig/d_sleep.png> <./fig/d_nonsleep.png>]
-Chapter 5.
-[21
-
-]
-Chapter 6.
-) (./appendix.tex) [22
-
-]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 70.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Overfull \hbox (0.72238pt too wide) in paragraph at lines 71--71
-\OT1/ptm/m/it/12 (PHY) Spec-i-fi-ca-tions for Low-Rate Wire-less Per-sonal Area
- Net-works (WPANs)\OT1/ptm/m/n/12 . Tech.
- []
-
-[23
-
-] [24]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 72.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 72.
- (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 72.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 72.
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 10FFF574FFE2AB5CEE3A12ED48FE6152;1622.
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: 3318CEE17F5DD321E6F43684BD0EFCB0;49
+(rerunfilecheck)             After:  95CBB4DA648C5DBC9E933E3C7123285C;106.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 72.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 65.
  ) 
 Here is how much of TeX's memory you used:
- 27017 strings out of 493105
- 491425 string characters out of 6137072
- 916100 words of memory out of 5000000
- 29882 multiletter control sequences out of 15000+600000
- 36300 words of font info for 79 fonts, out of 8000000 for 9000
+ 25147 strings out of 493105
+ 458735 string characters out of 6137072
+ 881885 words of memory out of 5000000
+ 28224 multiletter control sequences out of 15000+600000
+ 5150 words of font info for 19 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,12n,98p,1053b,1069s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
-/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (25 pages, 648378 bytes).
+ 55i,5n,54p,910b,713s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{section.0.1} has been referenced but does not exi
+st, replaced by a fixed one
+
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+Output written on main.pdf (1 page, 20937 bytes).
 PDF statistics:
- 503 PDF objects out of 1000 (max. 8388607)
- 441 compressed objects within 5 object streams
- 115 named destinations out of 1000 (max. 500000)
- 258 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 PDF objects out of 1000 (max. 8388607)
+ 25 compressed objects within 1 object stream
+ 5 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
