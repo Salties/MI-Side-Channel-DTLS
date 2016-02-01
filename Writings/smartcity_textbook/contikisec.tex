@@ -1,0 +1,24 @@
+\chapter{Contiki OS}
+Assuming this is the structure...
+
+\section{Security in Contiki OS}
+
+%Though these paragraphs might not be necessary...
+The Contiki OS has some component implemented in the security aspect. Several factors need to be taken into account when selecting security components to be used in the application, including:
+
+\begin{itemize}
+\item The trade-off between security and performance, such as the overhead of bandwidth, energy consumption, etc. Usually a higher level of security comes with more reduction in performance.
+
+\item The capability of the potential adversary. For example, passive eavesdropping is a common type of attack in a Wireless Sensor Networks scenario. Further more, if the device is exposed in an open environment then side channel attacks\footnote{Attacks that exploit physical metadata, e.g. power consumption, timing information, etc.} need also be taken into consideration. In some cases legitimate users can also considered malicious,  say users who try to tamper with their smart meter readings.
+
+\item The hardware and software setup of the platform. For instance, the AES coprocessor provided in CC2538 platform provides a great performance in both computation time and energy consumption; the latency induced by ContikiMAC can make attacks exploit the packet timing information more difficult.
+\end{itemize}
+
+However, due to the constrained resources and variant applications, implementing security protocols poses great difficulties in Contiki OS as well as other embedded operating systems.
+
+\subsection{Link Layer Security}
+Link Layer Security, or LLSEC, is an 802.15.4 implementation in Contiki OS.
+%Continue from here. 2016/02/01.
+
+
+\subsection{DTLS}
