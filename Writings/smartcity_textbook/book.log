@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  1 FEB 2016 18:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  2 FEB 2016 17:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -556,10 +556,10 @@ No file book.ind.
 (./Contents/appendix.aux) (./Contents/glossary.aux) (./Contents/solutions.aux))
  ) 
 Here is how much of TeX's memory you used:
- 2772 strings out of 493105
- 39283 string characters out of 6137072
- 111873 words of memory out of 5000000
- 6083 multiletter control sequences out of 15000+600000
+ 2773 strings out of 493105
+ 39294 string characters out of 6137072
+ 111872 words of memory out of 5000000
+ 6084 multiletter control sequences out of 15000+600000
  60388 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,12n,24p,729b,290s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -571,7 +571,7 @@ type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/tim
 es/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on book.pdf (31 pages, 130198 bytes).
+Output written on book.pdf (31 pages, 132267 bytes).
 PDF statistics:
  140 PDF objects out of 1000 (max. 8388607)
  97 compressed objects within 1 object stream
