@@ -30,7 +30,7 @@ VERSION:=0.8.2
 SHELL = /bin/sh
 MKDIR = mkdir
 
-abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls/sha2
+abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2/sha2
 top_builddir = ..
 top_srcdir:= ..
 
@@ -38,7 +38,7 @@ SOURCES:= sha2.c
 HEADERS:=sha2.h
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES))
 CPPFLAGS= -DDTLSv12 -DWITH_SHA256 -I$(top_srcdir)
-CFLAGS=-Wall -std=c99 -pedantic 
+CFLAGS=-Wall -std=c99 -pedantic -g -O2
 LDLIBS=
 FILES:=Makefile.in $(SOURCES) $(HEADERS) README sha2prog.c sha2speed.c sha2test.pl 
 DISTDIR=$(top_builddir)/tinydtls-0.8.2

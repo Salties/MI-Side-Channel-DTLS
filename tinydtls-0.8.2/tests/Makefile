@@ -30,7 +30,7 @@ VERSION:=0.8.2
 SHELL = /bin/sh
 MKDIR = mkdir
 
-abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls/tests
+abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2/tests
 top_builddir = ..
 top_srcdir:= ..
 
@@ -41,7 +41,7 @@ SOURCES:= dtls-server.c ccm-test.c prf-test.c \
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES))
 PROGRAMS:= $(patsubst %.c, %, $(SOURCES))
 HEADERS:=
-CFLAGS:=-Wall  
+CFLAGS:=-Wall -g -O2 
 CPPFLAGS:=-I$(top_srcdir)  -DDTLSv12 -DWITH_SHA256
 LDFLAGS:=-L$(top_builddir) 
 LDLIBS:=-ltinydtls 

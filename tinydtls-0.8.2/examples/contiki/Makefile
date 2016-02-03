@@ -21,7 +21,7 @@ VERSION:=0.8.2
 SHELL = /bin/sh
 MKDIR = mkdir
 
-abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls/examples/contiki
+abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2/examples/contiki
 top_builddir = ../..
 top_srcdir:= ../..
 DISTDIR=$(top_builddir)/tinydtls-0.8.2
@@ -58,6 +58,6 @@ dist:	$(FILES)
 	test -d $(DISTDIR)/examples/contiki || $(MKDIR) -p $(DISTDIR)/examples/contiki
 	cp $(FILES) $(DISTDIR)/examples/contiki
 
-ifeq ("1", "1")
+ifeq ("", "1")
 include $(CONTIKI)/Makefile.include
 endif

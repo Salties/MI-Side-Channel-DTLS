@@ -31,7 +31,7 @@ VERSION:=0.8.2
 SHELL = /bin/sh
 MKDIR = mkdir
 
-abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls/ecc
+abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2/ecc
 top_builddir = ..
 top_srcdir:= ..
 
@@ -40,13 +40,13 @@ ECC_HEADERS:= ecc.h test_helper.h
 FILES:=Makefile.in Makefile.contiki $(ECC_SOURCES) $(ECC_HEADERS) 
 DISTDIR=$(top_builddir)/tinydtls-0.8.2
 
-ifeq ("1", "1")
+ifeq ("", "1")
 include Makefile.contiki
 else
 ECC_OBJECTS:= $(patsubst %.c, %.o, $(ECC_SOURCES)) ecc_test.o
 PROGRAMS:= testecc testfield
 CPPFLAGS= -DDTLSv12 -DWITH_SHA256
-CFLAGS=-Wall -std=c99 -pedantic  -DTEST_INCLUDE
+CFLAGS=-Wall -std=c99 -pedantic -g -O2 -DTEST_INCLUDE
 LDLIBS=
 
 .PHONY: all dirs clean install distclean .gitignore doc

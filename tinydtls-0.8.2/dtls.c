@@ -1583,7 +1583,7 @@ dtls_send_multi (dtls_context_t * ctx, dtls_peer_t * peer,
 	  dtls_ticks (&now);
 	  n->t = now + 2 * CLOCK_SECOND;
 	  n->retransmit_cnt = 0;
-	  n->timeout = 2 * CLOCK_SECOND;
+	  n->timeout = 60 * CLOCK_SECOND;
 	  n->peer = peer;
 	  n->epoch = (security) ? security->epoch : 0;
 	  n->type = type;
@@ -3474,7 +3474,7 @@ handle_handshake_msg (dtls_context_t * ctx, dtls_peer_t * peer,
 	{
 	  return dtls_alert_fatal_create (DTLS_ALERT_UNEXPECTED_MESSAGE);
 	}
-
+      printf("CLIENT KEY EXCHANGE DEBUG1\n");
       err =
 	check_client_keyexchange (ctx, peer->handshake_params, data,
 				  data_length);
@@ -3484,6 +3484,7 @@ handle_handshake_msg (dtls_context_t * ctx, dtls_peer_t * peer,
 	  return err;
 	}
       update_hs_hash (peer, data, data_length);
+      printf("CLIENT KEY EXCHANGE DEBUG2\n");
 
       if (is_tls_ecdhe_ecdsa_with_aes_128_ccm_8
 	  (peer->handshake_params->cipher)
@@ -4051,6 +4052,7 @@ dtls_handle_message (dtls_context_t * ctx,
 
 	      return err;
 	    }
+	  printf("DEBUG CCS1\n");
 	  break;
 
 	case DTLS_CT_ALERT:

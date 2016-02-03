@@ -30,7 +30,7 @@ VERSION:=0.8.2
 SHELL = /bin/sh
 MKDIR = mkdir
 
-abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls/aes
+abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2/aes
 top_builddir = ..
 top_srcdir:= ..
 
@@ -38,7 +38,7 @@ SOURCES:= rijndael.c
 HEADERS:= rijndael.h
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES))
 CPPFLAGS= -DDTLSv12 -DWITH_SHA256
-CFLAGS=-Wall -std=c99 -pedantic 
+CFLAGS=-Wall -std=c99 -pedantic -g -O2
 LDLIBS=
 FILES:=Makefile.in $(SOURCES) $(HEADERS) 
 DISTDIR=$(top_builddir)/tinydtls-0.8.2
