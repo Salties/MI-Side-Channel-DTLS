@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  3 FEB 2016 11:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  3 FEB 2016 22:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -505,16 +505,28 @@ Chapter 2.
 
 
 
-]
-Overfull \hbox (9.92926pt too wide) in paragraph at lines 71--73
+] [12]
+Overfull \hbox (9.92926pt too wide) in paragraph at lines 79--80
 []\OT1/ptm/m/n/10 In Con-tiki OS, DTLS is pro-vided by a third party im-ple-men
 -ta-tion named tinydtls[[]].
  []
 
-[12]) [13]
+[13]
+Overfull \hbox (6.15977pt too wide) in paragraph at lines 100--101
+[]\OT1/ptm/b/n/10 Additional re-source re-quire-ment. \OT1/ptm/m/n/10 e.g. com-
+pil-ing with tiny-dtls li-brary on CC2538
+ []
+
+
+Overfull \hbox (7.47054pt too wide) in paragraph at lines 105--106
+\OT1/ptm/m/n/10 TLS[]ECDHE[]ECDSA[]WITH[]AES[]128[]CCM[]8 hand-shake takes min-
+utes to com-
+ []
+
+[14]) [15]
 \openout2 = `Contents/appendix.aux'.
 
- (./Contents/appendix.tex [14
+ (./Contents/appendix.tex [16
 
 
 
@@ -526,7 +538,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11.84009> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 11.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9.6001> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 11.
-[15]
+[17]
 File: Figures/figure.pdf Graphic file (type pdf)
  <use Figures/figure.pdf>
 Package pdftex.def Info: Figures/figure.pdf used on input line 58.
@@ -536,10 +548,10 @@ Overfull \hbox (0.61853pt too wide) in paragraph at lines 70--81
 [][]
  []
 
-) [16]
+) [18]
 \openout2 = `Contents/glossary.aux'.
 
- (./Contents/glossary.tex) [17
+ (./Contents/glossary.tex) [19
 
 
 
@@ -549,12 +561,12 @@ Overfull \hbox (0.61853pt too wide) in paragraph at lines 70--81
 ]
 \openout2 = `Contents/solutions.aux'.
 
- (./Contents/solutions.tex [18
+ (./Contents/solutions.tex [20
 
 
 
 
-]) [19]
+]) [21]
 No file book.ind.
 (./book.aux (./Contents/dedic.aux) (./Contents/foreword.aux)
 (./Contents/preface.aux) (./Contents/acknow.aux) (./Contents/acronym.aux)
@@ -562,13 +574,13 @@ No file book.ind.
 (./Contents/appendix.aux) (./Contents/glossary.aux) (./Contents/solutions.aux))
  ) 
 Here is how much of TeX's memory you used:
- 2775 strings out of 493105
- 39322 string characters out of 6137072
- 111875 words of memory out of 5000000
- 6086 multiletter control sequences out of 15000+600000
+ 2778 strings out of 493105
+ 39351 string characters out of 6137072
+ 111884 words of memory out of 5000000
+ 6089 multiletter control sequences out of 15000+600000
  60388 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,12n,24p,729b,290s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,12n,24p,826b,290s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
@@ -577,10 +589,10 @@ type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/tim
 es/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on book.pdf (33 pages, 134687 bytes).
+Output written on book.pdf (35 pages, 141566 bytes).
 PDF statistics:
- 147 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 153 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
