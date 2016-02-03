@@ -33,7 +33,7 @@ ETAGS = /usr/bin/etags
 
 prefix = /usr/local
 exec_prefix = ${prefix}
-abs_builddir = /home/yy12135/MyRepository/contiki/apps/tinydtls
+abs_builddir = /home/yy12135/MyRepository/tinydtls-0.8.2
 top_builddir = .
 libdir = ${exec_prefix}/lib
 includedir = ${prefix}/include/tinydtls
@@ -42,16 +42,16 @@ package = tinydtls-0.8.2
 install := cp
 
 # files and flags
-SOURCES:= dtls.c crypto.c ccm.c hmac.c netq.c peer.c dtls_time.c session.c
+SOURCES:= dtls.c tinycrypto.c tinyccm.c hmac.c netq.c peer.c dtls_time.c session.c
 ifneq ("", "1")
 SOURCES += debug.c
 endif
-SUB_OBJECTS:=aes/rijndael.o  sha2/sha2.o
+SUB_OBJECTS:=aes/rijndael.o  ecc/ecc.o sha2/sha2.o
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES)) $(SUB_OBJECTS)
-HEADERS:=dtls.h hmac.h debug.h dtls_config.h uthash.h numeric.h crypto.h global.h ccm.h \
+HEADERS:=dtls.h hmac.h debug.h dtls_config.h uthash.h numeric.h tinycrypto.h global.h tinyccm.h \
  netq.h t_list.h alert.h utlist.h prng.h peer.h state.h dtls_time.h session.h \
  tinydtls.h
-CFLAGS:=-Wall -pedantic -std=c99 
+CFLAGS:=-Wall -pedantic -std=c99 -g -O2
 CPPFLAGS:= -DDTLSv12 -DWITH_SHA256 -DDTLS_CHECK_CONTENTTYPE
 SUBDIRS:=tests doc platform-specific sha2 aes ecc
 DISTSUBDIRS:=$(SUBDIRS) examples/contiki
@@ -65,7 +65,7 @@ doc:=doc
 
 .PHONY: all dirs clean install dist distclean .gitignore doc TAGS
 
-ifneq ("1", "1")
+ifneq ("", "1")
 .SUFFIXES:
 .SUFFIXES:      .c .o
 

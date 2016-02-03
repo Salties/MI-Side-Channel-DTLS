@@ -32,7 +32,9 @@
 #define _DTLS_DTLS_TIME_H_
 
 #include <stdint.h>
+#ifndef __WISMOTE__
 #include <sys/time.h>
+#endif
 
 #include "tinydtls.h"
 
