@@ -21,7 +21,7 @@ Assuming this is the structure...
 Implementing security protocols poses great difficulty in IoT devises due to the constrained resources and variant applications. In this section, we will cover two security components that has so far been implemented in Contiki OS, namely LLSEC and DTLS respectively.
 
 \subsection{LLSEC: noncoresec}
-Link Layer Security, or LLSEC, is to provide security mechanism at Link Layer level. In Contiki OS, noncoresec is the 802.15.4 security instantiation that has been implemented. Its design goal is to provide:
+Link Layer Security, or LLSEC, is a security mechanism at Link Layer level. In Contiki OS, noncoresec is the 802.15.4 security instantiation that has been implemented. Its design goal is to provide:
 \begin{itemize}
 \item Data confidentiality over MAC layer payload.
 \item Authenticity and integrity over MAC header and MAC payload.
@@ -50,23 +50,43 @@ Therefore in general, noncoresec has the following benefits:
 \item It prevents an eavesdropper from seeing the plaintext of MAC Layer payload.
 \item It prevents illegal nodes from joining the network, as nodes without knowledge of the network shared key cannot forge a message.
 \item It can be implemented efficiently on most platforms, especially with hardware support.
+\item Multicast and broadcast is supported by the nature of 802.15.4.
 \end{itemize}
 
 However, the following factors should also be taken into concern when adopting noncoresec as the security measures:
 \begin{itemize}
 \item Lack of flexibility. This is mostly due to the fact that the key is hard coded.
-\item Fixed key. As there is yet no key updating scheme implemented.
+\item Fixed key. As there is yet no key updating scheme implemented. 
 \item Reused nonce. Since in CCM mode, the difference of two ciphertext is exactly the same of their according plaintext and knowing that can lead to breach of data confidentiality in many cases. The reuse may occur when the 4 bytes frame counter rounds up, or when the devices reboots which resets the frame counter back to $0$.
-\item 
+\item The 802.15.4 frame header is not encrypted.
 \end{itemize}
 
 More discussion of 802.15.4 security can be found in \cite{802154sec}.
 
 \subsection{DTLS}
+DTLS is derived from the widely used TLS protocol on Internet. As of TLS, DTLS also provides encryption and authentication between two nodes. 
 
+The main difference is that TLS is based on TCP whilst DTLS is based on UDP protocol, where the later one is more adapted to IoT applications. In addition, DTLS also provides a simple reliable transmission mechanism as a result for providing data integrity.
+
+In Contiki OS, DTLS is provided by a third party implementation named tinydtls\cite{tinydtls}. The current version of tinydtls supports two cipher suites:
+\begin{description}
+\item[\textbf{TLS\_PSK\_WITH\_AES\_128\_CCM\_8}] \hfill \\
+The DTLS server and client uses a preshared master secret value. 
+\item[\textbf{TLS\_ECHDE\_ECHSA\_WITH\_AES\_128\_CCM\_8}] \hfill \\
+bbb
+\end{description}
+
+Comparing to noncoresec which uses a hard coded network shared key, DTLS is a stateful session based protocol. This implies that:
+\begin{itemize}
+\item A handshake must be performed between two nodes before any data can be transmitted.
+\item Different session keys are derived for each session during the handshake.
+\end{itemize}
 
 
 
 \begin{thebibliography}{99.}
 \bibitem{802154sec} Sastry N, Wagner D (2004) Security Considerations for IEEE 802.15.4 Networks. Proceedings of the 3rd ACM Workshop on Wireless Security 32--42
+
+\bibitem{tinydtls} tinydtls. \\ 
+\url{http://tinydtls.sourceforge.net/}
 \end{thebibliography}

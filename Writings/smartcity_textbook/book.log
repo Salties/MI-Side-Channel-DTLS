@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  2 FEB 2016 17:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.5.14)  3 FEB 2016 11:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -505,22 +505,28 @@ Chapter 2.
 
 
 
-]) [12]
+]
+Overfull \hbox (9.92926pt too wide) in paragraph at lines 71--73
+[]\OT1/ptm/m/n/10 In Con-tiki OS, DTLS is pro-vided by a third party im-ple-men
+-ta-tion named tinydtls[[]].
+ []
+
+[12]) [13]
 \openout2 = `Contents/appendix.aux'.
 
- (./Contents/appendix.tex
+ (./Contents/appendix.tex [14
+
+
+
+
+]
 Appendix A.
 LaTeX Font Info:    Calculating math sizes for size <16> on input line 11.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11.84009> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 11.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9.6001> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 11.
-[13
-
-
-
-
-]
+[15]
 File: Figures/figure.pdf Graphic file (type pdf)
  <use Figures/figure.pdf>
 Package pdftex.def Info: Figures/figure.pdf used on input line 58.
@@ -530,10 +536,10 @@ Overfull \hbox (0.61853pt too wide) in paragraph at lines 70--81
 [][]
  []
 
-) [14]
+) [16]
 \openout2 = `Contents/glossary.aux'.
 
- (./Contents/glossary.tex) [15
+ (./Contents/glossary.tex) [17
 
 
 
@@ -543,12 +549,12 @@ Overfull \hbox (0.61853pt too wide) in paragraph at lines 70--81
 ]
 \openout2 = `Contents/solutions.aux'.
 
- (./Contents/solutions.tex [16
+ (./Contents/solutions.tex [18
 
 
 
 
-]) [17]
+]) [19]
 No file book.ind.
 (./book.aux (./Contents/dedic.aux) (./Contents/foreword.aux)
 (./Contents/preface.aux) (./Contents/acknow.aux) (./Contents/acronym.aux)
@@ -556,10 +562,10 @@ No file book.ind.
 (./Contents/appendix.aux) (./Contents/glossary.aux) (./Contents/solutions.aux))
  ) 
 Here is how much of TeX's memory you used:
- 2773 strings out of 493105
- 39294 string characters out of 6137072
- 111872 words of memory out of 5000000
- 6084 multiletter control sequences out of 15000+600000
+ 2775 strings out of 493105
+ 39322 string characters out of 6137072
+ 111875 words of memory out of 5000000
+ 6086 multiletter control sequences out of 15000+600000
  60388 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,12n,24p,729b,290s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -571,10 +577,10 @@ type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/tim
 es/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/tex
 live/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on book.pdf (31 pages, 132267 bytes).
+Output written on book.pdf (33 pages, 134687 bytes).
 PDF statistics:
- 140 PDF objects out of 1000 (max. 8388607)
- 97 compressed objects within 1 object stream
+ 147 PDF objects out of 1000 (max. 8388607)
+ 101 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
