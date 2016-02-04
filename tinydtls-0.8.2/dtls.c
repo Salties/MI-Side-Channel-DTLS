@@ -1583,7 +1583,7 @@ dtls_send_multi (dtls_context_t * ctx, dtls_peer_t * peer,
 	  dtls_ticks (&now);
 	  n->t = now + 2 * CLOCK_SECOND;
 	  n->retransmit_cnt = 0;
-	  n->timeout = 60 * CLOCK_SECOND;
+	  n->timeout = 120 * CLOCK_SECOND;
 	  n->peer = peer;
 	  n->epoch = (security) ? security->epoch : 0;
 	  n->type = type;
@@ -1617,6 +1617,10 @@ dtls_send_multi (dtls_context_t * ctx, dtls_peer_t * peer,
 
   /* FIXME: copy to peer's sendqueue (after fragmentation if
    * necessary) and initialize retransmit timer */
+#ifndef WITH_CONTIKI
+  printf("Press enter to send.");
+  getchar();
+#endif
   res = CALL (ctx, write, session, sendbuf, len);
 
   /* Guess number of bytes application data actually sent:

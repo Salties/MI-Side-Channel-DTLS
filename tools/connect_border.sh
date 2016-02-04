@@ -6,9 +6,9 @@ if [[ $1 = "stop" ]]; then
 	exit;
 fi
 
-TUNSLIP=./contiki/tools/tunslip6
+TUNSLIP=${CONTIKI_ROOT}/tools/tunslip6
 
-sudo $TUNSLIP -s /dev/ttyUSB1 aaaa::1/64
+sudo $TUNSLIP -s /dev/ttyUSB0 aaaa::1/64
 
 if [[ $? = "0" ]];
 then
