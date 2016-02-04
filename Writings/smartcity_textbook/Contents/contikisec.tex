@@ -18,55 +18,57 @@ Assuming this is the structure...
 %
 %In this section, we will cover two major security component that has been implemented on Contiki OS, Link Layer Security and DTLS.
 
-Implementing security protocols poses great difficulty in IoT devises due to the constrained resources and variant applications. In this section, we will cover two security components that has so far been implemented on Contiki OS, namely LLSEC and DTLS respectively.
+Implementing security protocols poses great difficulties in IoT devises due to the constrained resources and variant applications. In this section, we will cover two security components that has so far been implemented on Contiki OS, namely LLSEC and DTLS, respectively.
 
 \subsection{LLSEC: noncoresec}
 Link Layer Security, or LLSEC, is a security mechanism at Link Layer level. In Contiki OS, noncoresec is the 802.15.4 security instantiation that has been implemented. Its design goal is to provide:
 \begin{itemize}
-\item Data confidentiality over MAC layer payload.
+\item Data confidentiality over MAC payload.
 \item Authenticity and integrity over MAC header and MAC payload.
 \end{itemize}
 
-noncoresec is disabled by default. When enabled, different security level can be configured from no security, to encryption / authentication only, then to full encryption and authentication.
+noncoresec is disabled by default. When enabled, different security levels can be configured from no security, to encryption / authentication only, then to full encryption and authentication. The length of authentication tag is also configurable.
 
-To be more specifically, noncoresec has the following implemented:
+Briefly speaking, noncoresec is implemented by the following components:
 
 \begin{description}
 \item[\textbf{Block Cipher}] \hfill \\
-As specified by 802.15.4 specification, AES\footnote{Advanced Encryption Standard\cite{AES}}-128 is chosen as the underlying block cipher. Contiki OS implements a software AES-128, but on those platforms with an AES coprocessor, such as CC2538, it can be switched to use the hardware implementation instead. The benefit for doing so is to have a better time and energy efficiency as well as to gain potential protections against side channel analysis attacks.
+As specified by 802.15.4 specification, AES\footnote{Advanced Encryption Standard\cite{AES}}-128 is chosen as the underlying block cipher\footnote{A block cipher takes a block of data of fixed length and a key and outputs a block of ciphertext.}. Contiki OS includes a software AES-128 implementation in its library. On those platforms with an AES coprocessor, such as CC2538, it can be switched to use the hardware implementation instead. The benefit for using hardware implementation is to have a better time and energy efficiency as well as to gain potential protections against some side channel analysis attacks\cite{DPA1}\cite{DPA2}, which will be discussed later.
 
 \item[\textbf{Mode of Operation}] \hfill \\
-Also specified by 802.15.4 specification, the AES block cipher is used in CCM* mode, i.e. CTR mode with CBC-MAC. The asterisk symbol implies the additional support of security levels and additional requirement to encode the security level into the nonce.
+Also specified by 802.15.4 specification, the AES block cipher is used in CCM* mode, i.e. CTR mode with CBC-MAC. The asterisk symbol implies the additional support for security levels and additional requirements to encode the security level into the nonce, which allows the recipient to uniquely deduce the format of an encrypted packet. The length of authentication tag is also specified by the security level, which is then imposed to the whole network.
 
 \item[\textbf{Key Management}] \hfill \\
- A hard coded AES-128 key is shared among the whole network in LLSEC. This effectively means that the same key will be used for all incoming and outgoing data frames on every node.
+ A hard coded AES-128 key is shared among the whole network. This key will be used for both encryption and authentication under CCM* mode, for all incoming and outgoing data frames of every node.
+ 
+ \item[\textbf{Nonce Management}] \hfill \\
+ The 16 byte nonce is uniquely derived from the 802.15.4 header, including a flags field (1 byte), a source address field (8 byte), a frame counter field (4 byte), a security level filed (1 byte) and a 2 byte block counter which increases by 1 for each block of data.
  
 \item[\textbf{Replay Protection}] \hfill \\
 noncoresec has implemented the replay protection by comparing the received frame counter with the last frame counter from the same source.
 \end{description}
 
-Therefore in general, noncoresec has the following benefits:
-\begin{itemize}
-\item It prevents an eavesdropper from seeing the plaintext of MAC Layer payload.
-\item It prevents illegal nodes from joining the network, as nodes without knowledge of the network shared key cannot forge a message.
-\item It can be implemented efficiently on most platforms, especially with hardware support.
-\item Multicast and broadcast is supported by the nature of 802.15.4.
-\end{itemize}
+The implementation is straight forward and relatively simple. In general, noncoresec has the following benefits:
+\begin{enumerate}
+\item \textbf{An eavesdropper cannot observe the plaintext of Link Layer payload.}
+\item \textbf{Illegal nodes cannot joining the network,} as nodes without the knowledge of the network shared key cannot send or receive any RPL message.
+\item \textbf{It can be implemented efficiently} on most platforms, especially with hardware support.
+\item \textbf{Multicast and broadcast is supported.} This is a result by the nature of 802.15.4.
+\end{enumerate}
 
-However, the following factors should also be taken into concern when adopting noncoresec into the security measures:
-\begin{itemize}
-\item Lack of flexibility. This is mostly due to the fact that the key is hard coded.
-\item Fixed key. There is yet no key updating scheme implemented. 
-\item Reused nonce. Since in CCM mode, the difference of two ciphertext is exactly the same of their according plaintext and knowing that can lead to breach of data confidentiality in many cases. The reuse may occur when the 4 bytes frame counter rounds up, or when the devices reboots which resets the frame counter back to $0$.
-\item Authentication only 802.15.4 frame header. The 802.15.4 frame header is not encrypted and thus can be seen by an eavesdropper.
-\end{itemize}
+However, the following factors should also be taken into account  when adopting noncoresec as the security measure:
+\begin{enumerate}
+\item \textbf{Lack of flexibility.} The access to the network is either no access or full access. There is no key pair or group key supported.
+\item \textbf{Fixed key.} There is yet no key updating scheme implemented. 
+\item \textbf{Reused nonce.} Since in CCM mode, the difference of two ciphertext is exactly the same of their according plaintext and knowing that can lead to breach of data confidentiality in many cases. The reuse may occur under many circumstances, such as when the 4 bytes frame counter rounds up, or when the device reboots and resets the frame counter back to $0$.
+\end{enumerate}
 
-More discussion of 802.15.4 security can be found in \cite{802154sec}, with respect to more key and nonce management schemes and integrity protection schemes.
+\cite{802154sec} gives a thorough security analysis of 802.15.4 security.
 
 \subsection{DTLS: tinydtls}
 DTLS is derived from the widely used TLS protocol on Internet. As of TLS, DTLS also provides encryption and authentication between two nodes. It is currently adopted as the security measure of CoAP.
 
-The main difference between TLS and DTLS is that TLS is based on TCP whilst DTLS is based on UDP, where the later one is more adapted to IoT applications. In addition, DTLS also provides a simple reliable transmission mechanism as a result for providing data integrity.
+The main difference between TLS and DTLS is that TLS is based on TCP whilst DTLS is based on UDP. In IoT applications, UDP is generally preferable than TCP due to its lightweight design and thereby is DTLS  than TLS. In addition, DTLS also provides a simple reliable retransmission mechanism as a result for providing data integrity.
 
 DTLS is a stateful session based protocol. This implies that:
 \begin{itemize}
@@ -74,42 +76,50 @@ DTLS is a stateful session based protocol. This implies that:
 \item Different session keys are derived for each session during the handshake.
 \end{itemize}
 
-The nodes actively initiates and passively accepts a session are referred as client and server respectively.
-
 In Contiki OS, DTLS is provided by a third party implementation named tinydtls\cite{tinydtls}. The current version of tinydtls supports two cipher suites:
 
 \begin{description}
 \item[\textbf{TLS\_PSK\_WITH\_AES\_128\_CCM\_8}] \hfill \\
-The DTLS server and client uses a pre-shared master secret value. The session key, an AES-128 key, is then derived from alongside with two random values exchanged during the handshake. The application data is then encrypted with AES-128 block cipher in CCM mode with 8 byte authentication tag. No certificate verification is performed when using this cipher suite.
+The DTLS server and client uses a pre-shared master secret value. The session key, an AES-128 key, is then derived from the master secret alongside with two random values exchanged during the handshake. The application data is then encrypted with AES-128 block cipher in CCM mode with 8 byte authentication tag. No certificate verification is performed when using this cipher suite.
 \item[\textbf{TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8}] \hfill \\
-When this cipher suite is used, the DTLS server and client performs an ECDHE key agreement using public keys and parameters signed by ECDSA. The session key, an AES-128 key, is an output of ECDHE key agreement. The data is then encrypted with AES-128 in CCM mode with 8 byte authentication tag thereafter.
+When this cipher suite is used, the DTLS server and client performs an ECDHE\footnote{Elliptic Curve Diffle Hellman key Exchange} key agreement using public keys and parameters signed by ECDSA\footnote{Elliptic Curve Digital Signature Algorithm}. The session key, an AES-128 key, is an output of ECDHE key agreement. The application data is then encrypted with AES-128 in CCM mode with 8 byte authentication tag thereafter.
 \end{description}
 
 Comparing to LLSEC, DTLS has several advantages:
-\begin{itemize}
-\item \textbf{Flexibility and scalability}. DTLS is built upon UDP, an application can therefore choose whether do or not do use encryption to avoid overhead. It also allows multiple connections being established between two nodes, or different parameters being used between different nodes. Further more, a DTLS connection can be established dynamically between two nodes that are not linked locally, in contrast to LLSEC that only works between nodes that are directly connected.
-\item \textbf{Dynamic key management}. DTLS connections are established during running time, it is possible for the applications to dynamically update the keys on desire by utilising the key updating mechanisms of DTLS.
-\item \textbf{Interoperability}. DTLS is implemented above Transportation Layer (TCP/UDP) and therefore Physic Layer and Link Layer details eventually becomes transparent to the application. This feature is significantly important when the two ends of DTLS connection are located in different types networks, such as accessing a wireless sensor node in 6LowPAN network from a desktop connected to Internet. 
-\item \textbf{End to end security}. Since session keys are generated independently for each DTLS session, the corruption of one node in the network does note breach the data confidentiality of other nodes. In comparison, the breach of the network shared key of noncoresec will directly result into revelation of all plaintext among the whole network.
-\item \textbf{Additional reliability}. Even though UDP is unreliable, DTLS implements a simple retransmission and windows mechanism in order to provide data integrity.
-\end{itemize}
+\begin{enumerate}
+\item \textbf{Flexibility and scalability}. DTLS is built upon UDP, an application can therefore choose whether tp or not to use encryption thus avoids overhead. It also allows multiple connections being established between two nodes for different purposes, or different parameters being used for different nodes. Further more, a DTLS connection can be established dynamically between two nodes that are not linked locally, in contrast to LLSEC that only works between nodes that are directly connected.
+\item \textbf{Dynamic key management}. DTLS connections are established during running time. The applications can dynamically update the keys and ciphers on desire.
+\item \textbf{Interoperability}. DTLS is implemented above Transportation Layer (TCP/UDP) and therefore Physic Layer and Link Layer details are eventually transparent to the applications. This feature is significantly important when two nodes are sited in different types of networks, such as accessing a wireless sensor node in a 6LowPAN network from a client running on a desktop. 
+\item \textbf{End to end security}. Since session keys are generated independently for each DTLS session, the corruption of one node in the network does not affect other nodes. In comparison, the breach of the network shared key of noncoresec will directly result into revelation of all plaintext among the whole network.
+\item \textbf{Additional reliability}. Even though UDP is unreliable, DTLS implements a simple retransmission and window mechanism in order to provide data integrity.
+\end{enumerate}
 
-Several drawbacks of using DTLS need also be noticed:
+Unfortunately, these advantages do not come free. Several drawbacks of using DTLS need also be noticed:
 
-\begin{itemize}
+\begin{enumerate}
 \item \textbf{Additional resource requirement.} e.g. compiling with tinydtls library on CC2538 platform costs about 80KB additional code size. It also requires more memory during running time as DTLS is a stateful protocol and thus the state of each session needs to be preserved in memory.
-\item \textbf{Bandwidth overhead.} The DTLS header consumes about 30 bytes of bandwidth for each packet. Considering the fact that the the minimum MTU\footnote{Maximum Transmission Unit} required by 6LowPAN is only 127 byte; the 30 byte overhead can be very impactful to some applications. 
-\item \textbf{Exceeding length of handshake packets.} DTLS handshake message are usually longer than usual data packets. In the specific cases of tinydtls, that is\\ TLS\_PSK\_WITH\_AES\_128\_CCM\_8 \\
+\item \textbf{Bandwidth overhead.} The DTLS header consumes about 30 bytes of bandwidth for each packet. Considering the fact that the the minimum MTU\footnote{Maximum Transmission Unit} required by 6LowPAN is only 127 byte; the 30 byte overhead can be very impactful to some bandwidth intense applications. 
+\item \textbf{Exceeding length of handshake packets.} DTLS handshake messages are usually longer than normal data packets. Specifically in tinydtls, the length of the longest handshake packets of 
+TLS\_PSK\_WITH\_AES\_128\_CCM\_8 \\
 and \\
-TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8, the longest handshake packets are about 150 and 200 bytes respectively. This becomes problematic with low bandwidth platforms, such as Telos B.
-\item\textbf{Low performance.} Some cryptographic operations, such as curve computations, takes extraordinary long time to perform. Take  CC2538 for instance, a \\ TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 handshake takes minutes (about 80s for one side) to complete. This issue can aggravate to dis-functioning in some cases combined with other factors. For example, when a user tries to access a sensor node through CoAPS\footnote{CoAP with DTLS}, the handshake will likely fail with a high probability. The reason is that the desktop side completes its computation immediately and thus will rapidly send out multiple exceedingly long handshake packets. Whereas the sensor side cannot handle the packets accordingly and some packets will eventually be dropped due to the constrained buffer of sensor node.
-\item \textbf{No multicast support (yet).} As of TLS, DTLS is designed to protect one-to-one communication and not being able to cooperate with IPv6 multicast will result into great reduction of functionality, e.g. the multicast feature of CoAP. Some attempts\cite{multicast1}\cite{multicast2} has been made, but there is yet a concrete solution to this problem.
-\end{itemize}
+TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 are about 150 and 200 byte respectively. These packets can easily exceed the PMTU\footnote{Path Maxmimum Transmission Unit} in constrained environments and hence being dropped, resulting into failed handshake and waste of energy as well as bandwidth.
+\item\textbf{Low performance.} Some cryptographic operations, such as curve computations, takes extraordinary long time to perform. For instance, a \\ TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 handshake requires about 80s to complete on a CC2538 platform. The problem can aggravate to disfunctioning in some cases combined with other factors. For example, when an user tries to access a sensor node from his desktop through CoAPS\footnote{CoAP with DTLS}, the handshake can hardly be completed. The reason is that the desktop completes its computation immediately and thus will rapidly send out multiple exceedingly length handshake packets. Whereas the sensor cannot respond to the packets accordingly due to its constrained computational power.  Eventually some packets will be dropped due to the limited buffer size of sensor node.
+\item \textbf{No multicast support (yet).} Multicast poses a great challenge to key management and cryptographic protocol design, especially in the constrained devices. Not being able to cooperate with IPv6 multicast will result into severe reduction of functionality, e.g. the multicast feature of CoAP. Some attempts\cite{multicast1}\cite{multicast2} has been made, but there is yet a concrete solution to this problem.
+\end{enumerate}
+
+In conclusion, an application designer needs to carefully balance the trade off between security and its cost before adopting DTLS as the security measure.
 
 \subsection{Other security concerns}
-The security components we described above in Contiki OS mainly focus on encryption and authentication of data. However, they do not provide any countermeasure against side channel attacks. For example, neither LLSEC nor DTLS provides any mechanism to hide the meta data of packets, such as packet length, packet headers and timing information, which can be potentially exploited by traffic analysis attacks\cite{ta1} \cite{ta2} \cite{ta3}. 
+The security components we described above in Contiki OS do not provide any countermeasure against side channel attacks. For example, neither LLSEC nor DTLS provides any mechanism to hide  metadata of packets, such as length, headers or timing information. These features can potentially be exploited by a traffic analysis attacker\cite{ta1} \cite{ta2} \cite{ta3} to obtain knowledge of the application data.  Also the built in naive AES-128 software implementation of Contiki OS does not apply any power analysis\cite{DPA1} \cite{DPA2} countermeasures; thus devices with a general processor could be vulnerable targets to these types of attacks when deployed in an exposed environment.
 
 \subsection{Conclusion}
+In this section, we reviewed two major security components that has been implemented for Contiki OS by briefly discussing their features alongside pros and cons. 
+
+noncoresec is a LLSEC method and it implements 802.15.4 security with a network shared key on Contiki OS. It is efficient and protects application data from a low level but also lacks flexibility. Besides, its key and nonce managements are potentially risky.
+
+DTLS is another method to implement security on Contiki OS. Comparing to LLSEC, DTLS provides end to end security and is more flexible and scalable. It also can better interoperate between different networks. The disadvantages of DTLS are mostly due to intensive resource requirements and lack of support of multicast.
+
+Finally, we discussed some potential side channel attacks that cannot be simply prevented by these components and hence requires additional care during deployment.
 
 \begin{thebibliography}{99.}
 \bibitem{AES} NIST (2001) Announcing the ADVANCED ENCRYPTION STANDARD (AES). Available via\\
@@ -131,4 +141,9 @@ The security components we described above in Contiki OS mainly focus on encrypt
 \bibitem{ta2} Luke Mather and Elisabeth Oswald (2012) Pinpointing side-channel information leaks in web applications. J. Cryptographic Engineering 2:3 161--177
 
 \bibitem{ta3} Dyer, Kevin P. and Coull, Scott E. and Ristenpart, Thomas and Shrimpton, Thomas (2012) Peek-a-Boo, I Still See You: Why Efficient Traffic Analysis Countermeasures Fail. Proceedings of the 2012 IEEE Symposium on Security and Privacy 332--346
+
+\bibitem{DPA1} Stefan Mangard and Elisabeth Oswald and Thomas Popp (2007) Power analysis attacks - revealing the secrets of smart cards
+
+\bibitem{DPA2} Colin O'Flynn and Zhizhang Chen (2015) Power Analysis Attacks against IEEE 802.15.4 Nodes. IACR Cryptology ePrint Archive 529\\
+\url{http://eprint.iacr.org/2015/529.pdf}
 \end{thebibliography}
