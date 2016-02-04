@@ -43,7 +43,7 @@
 
 #include "debug.h"
 #include "dtls.h"
-#include "servreg-hack.h"
+//#include "servreg-hack.h"
 
 #ifdef DTLS_PSK
 /* The PSK information for DTLS */
@@ -232,7 +232,6 @@ print_local_addresses (void)
       }
 }
 
-
 static void
 set_connection_address (uip_ipaddr_t * ipaddr)
 {
@@ -257,8 +256,6 @@ set_connection_address (uip_ipaddr_t * ipaddr)
 #endif
 	return;
 }
-
-
 
 void
 Init (session_t * dst)

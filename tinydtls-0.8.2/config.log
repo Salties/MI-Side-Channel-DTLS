@@ -652,7 +652,7 @@ configure:4183: $? = 0
 configure:4183: result: yes
 configure:4183: checking for fls
 configure:4183: gcc -o conftest -g -O2  -DDTLSv12 -DWITH_SHA256  conftest.c  >&5
-/tmp/ccrnP1xs.o: In function `main':
+/tmp/cclTHhhv.o: In function `main':
 /home/yy12135/MyRepository/tinydtls-0.8.2/conftest.c:81: undefined reference to `fls'
 collect2: error: ld returned 1 exit status
 configure:4183: $? = 1
