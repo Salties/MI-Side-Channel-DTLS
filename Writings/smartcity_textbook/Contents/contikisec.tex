@@ -94,7 +94,7 @@ Comparing to LLSEC, DTLS has several advantages:
 \item \textbf{Additional reliability}. Even though UDP is unreliable, DTLS implements a simple retransmission and windows mechanism in order to provide data integrity.
 \end{itemize}
 
-However, the drawbacks of using DTLS need also be noticed:
+Several drawbacks of using DTLS need also be noticed:
 
 \begin{itemize}
 \item \textbf{Additional resource requirement.} e.g. compiling with tinydtls library on CC2538 platform costs about 80KB additional code size. It also requires more memory during running time as DTLS is a stateful protocol and thus the state of each session needs to be preserved in memory.
@@ -102,11 +102,12 @@ However, the drawbacks of using DTLS need also be noticed:
 \item \textbf{Exceeding length of handshake packets.} DTLS handshake message are usually longer than usual data packets. In the specific cases of tinydtls, that is\\ TLS\_PSK\_WITH\_AES\_128\_CCM\_8 \\
 and \\
 TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8, the longest handshake packets are about 150 and 200 bytes respectively. This becomes problematic with low bandwidth platforms, such as Telos B.
-\item\textbf{Low performance.} Some cryptographic operations, such as curve computations, takes extraordinary long time to perform. Take  CC2538 for instance, a \\ TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 handshake takes minutes to complete. Combined with other factors, this can aggravate to disfunctioning. For example, when a user tries to access a sensor node through CoAPS\footnote{CoAP with DTLS}, the handshake will likely fail with a high probability. The reason is that the desktop side completes its computation immediately and thus will rapidly send out multiple exceedingly long handshake packets. Whereas the sensor side cannot handle the packets accordingly and some packets will eventually be dropped due to the constrained buffer of sensor node.
+\item\textbf{Low performance.} Some cryptographic operations, such as curve computations, takes extraordinary long time to perform. Take  CC2538 for instance, a \\ TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 handshake takes minutes (about 80s for one side) to complete. This issue can aggravate to dis-functioning in some cases combined with other factors. For example, when a user tries to access a sensor node through CoAPS\footnote{CoAP with DTLS}, the handshake will likely fail with a high probability. The reason is that the desktop side completes its computation immediately and thus will rapidly send out multiple exceedingly long handshake packets. Whereas the sensor side cannot handle the packets accordingly and some packets will eventually be dropped due to the constrained buffer of sensor node.
 \item \textbf{No multicast support (yet).} As of TLS, DTLS is designed to protect one-to-one communication and not being able to cooperate with IPv6 multicast will result into great reduction of functionality, e.g. the multicast feature of CoAP. Some attempts\cite{multicast1}\cite{multicast2} has been made, but there is yet a concrete solution to this problem.
 \end{itemize}
 
 \subsection{Other security concerns}
+The security components we described above in Contiki OS mainly focus on encryption and authentication of data. However, they do not provide any countermeasure against side channel attacks. For example, neither LLSEC nor DTLS provides any mechanism to hide the meta data of packets, such as packet length, packet headers and timing information, which can be potentially exploited by traffic analysis attacks\cite{ta1} \cite{ta2} \cite{ta3}. 
 
 \subsection{Conclusion}
 
@@ -124,4 +125,10 @@ TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8, the longest handshake packets are abo
 \url{https://tools.ietf.org/pdf/draft-keoh-dice-multicast-security-08.pdf}
 
 \bibitem{multicast2} Marco Tiloca (2014) Efficient Protection of Response Messages in DTLS-Based Secure Multicast Communication. Proceedings of the 7th International Conference on Security of Information and Networks, Glasgow, Scotland, UK, September 9-11, 2014 Page 466
+
+\bibitem{ta1} Shuo Chen, Rui Wang, XiaoFeng Wang and Kehuan Zhang (2010) Side-Channel Leaks in Web Applications: {A} Reality Today, a Challenge Tomorrow. 31st {IEEE} Symposium on Security and Privacy, S{\&}P 2010, 16-19 May 2010, Berleley/Oakland, California, {USA} Page 191--206
+
+\bibitem{ta2} Luke Mather and Elisabeth Oswald (2012) Pinpointing side-channel information leaks in web applications. J. Cryptographic Engineering 2:3 161--177
+
+\bibitem{ta3} Dyer, Kevin P. and Coull, Scott E. and Ristenpart, Thomas and Shrimpton, Thomas (2012) Peek-a-Boo, I Still See You: Why Efficient Traffic Analysis Countermeasures Fail. Proceedings of the 2012 IEEE Symposium on Security and Privacy 332--346
 \end{thebibliography}
