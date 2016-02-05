@@ -11,7 +11,7 @@ fi
 {
 sleep $1
 if [[ $2 == "" ]]; then
-	notify-send "部落的战士在呼唤你！" -t $NotifyTime
+	notify-send "$(date):部落的战士在呼唤着提督！" -t $NotifyTime
 else
 	notify-send "$2" -t $NotifyTime
 fi
