@@ -3,7 +3,7 @@
 	url = https://github.com/contiki-os/contiki.git
 [submodule "californium"]
 	path = californium
-	url = https://github.com/eclipse/californium
+	url = ./californium/
 [submodule "sensniff"]
 	path = sensniff
-	url = https://github.com/g-oikonomou/sensniff
+	url = ./sensniff/
