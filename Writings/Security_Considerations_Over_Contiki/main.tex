@@ -1,4 +1,4 @@
-\documentclass[12pt]{extreport}
+\documentclass[two column]{report}
 
 \usepackage[a4paper, total={6in, 8in}]{geometry}
 \usepackage{amsfonts}
@@ -15,14 +15,13 @@
 \usepackage{multirow}
 \usepackage{adjustbox}
 \usepackage{cleveref}
-\usepackage[sorting=none, backend=biber]{biblatex}
+%\usepackage[sorting=none, backend=biber]{biblatex}
 \usepackage{svg}
 
 %For fun only...
 \usepackage{times}
 
-%Bibliographies
-\bibliography{references,rfc}
+
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -66,9 +65,9 @@
 \appendix
 \input{appendix.tex}
 
-
+%Bibliographies
 %\bibliographystyle{ieeetran}
-%\bibliography{references,rfc}
-\printbibliography
+\bibliography{references,rfc}
+%\printbibliography
 
 \end{document}

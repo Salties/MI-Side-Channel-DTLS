@@ -57,13 +57,13 @@ The idea is that rebooting the device resets the \textbf{Frame Counter} to 0x0; 
 where $\Delta p$ is the difference of plaintexts. $c_1$ and $c_2$ are their ciphertext respectively.
 
 \begin{example}
-\begin{figure}
+\begin{figure*}
 \centering
 {
 	\includegraphics[width=0.9\textwidth,]{fig/resetproblem.png} 
 }
 \caption{Captured packets with {\it noncoresec} enabled} \label{Fig: reset problem}
-\end{figure}
+\end{figure*}
 
 \Cref{Fig: reset problem} demonstrates some packet captured\footnote{The duplicated packets are caused by the retransmission of ContikiMAC\cite{ContikiMAC}.} with {\it noncoresec} enabled. These packets are captured with a sensor broadcasting a 4 byte integer with left side of \Cref{Fig: reset problem} being $[00000000]_{16}$ and right $[12345678]_{16}$. Marked are the corresponding ciphertexts which are $[00127401]_{16}$ and $[12262279]_{16}$ respectively.
 
