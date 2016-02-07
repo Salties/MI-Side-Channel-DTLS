@@ -30,11 +30,45 @@ In many cases the boundaries between top three layers are ambiguous; thus they a
 \end{figure*}
 
 \subsection{Physical Layer}
-Physical Layer specification defines the hardware requirements for the devices. 
+Physical Layer specifies the hardware requirements for devices. It defines data transmission at bit level.
 
-802.15.4\cite{802154} standard is supported in many recent WSN devices. Its physical layer specification is intended for embedded devices emphasising low energy, low cost and low speed. Bluetooth Low Energy, BLE, is another candidate for WSN with similar features. \cite{802154BLE} provides a performance comparison of 802.15.4 and BLE.
+WSN features, as explained by its name, wireless connectivity. 802.15.4\cite{802154} standard is supported in many recent WSN devices. Its Physical Layer specification is intended to be for embedded devices emphasising low energy, low cost and low speed. Bluetooth Low Energy, BLE, is another candidate for WSN with similar features. \cite{802154BLE} provides a performance analysis of 802.15.4 and BLE.
 
 \subsection{Data Link Layer}
+Data Link Layer solves the problem of how the media is controlled. It also defines the atomic data chunk, called frames, being transmitted over the physical channel. Data Link protocols are strongly related to physical features of underlining devices. This layer is sometimes referred as MAC layer and the frame is called MAC frame in many context.
+
+With respect to Media Access Control, MAC, technologies such as CSMA/CA \cite{802154} standard and TSCH\cite{TSCH} provides solutions to at which timing and channel should the radio transceiver send and receive data. ContikiMAC\cite{ContikiMAC} proposes a Radio Duty Cycle, RDC, protocol that aims to be energy efficient and has been implemented on Contiki OS.
+
+Another major component in Data Link Layer protocols is the format of different types of frames. In this research, We are particularly interested in its data frame. \Cref{Tbl: 802154 frame} describes the format of a 802.15.4 data frame.
+
+\begin{table}[]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\multicolumn{3}{|c|}{MAC Header}                           & MAC Payload & MAC Footer     \\ \hline
+2 (bytes)     & 1                    & 4 to 20              & *           & 2              \\ \hline
+Frame Control & Data Sequence Number & Address Information & Data        & Frame Checksum \\ \hline
+\end{tabular}
+\caption{802.15.4 Data Frame}
+\label{Tbl: 802154 frame}
+\end{table}
+
+\begin{description}[style=nextline]
+\item[\textbf{Frame Control}]
+This 2 bytes field contains the bit flags of additional information that instructs how the receiver should interpret this frame, including the type of this frame, whether the security option is enabled and how the source and destination addresses are represented. When the security option is enabled, additional field will be added to the frame. We will explain the security enabled frame format later this section.
+
+\item[\textbf{Data Sequence Number}]
+Each packet is assigned a sequence number. The main purpose of this field is that it enables a simple acknowledgement mechanism, ACK, at MAC layer. Since MAC layer provides only unreliable transmission, i.e. MAC frames are allowed to be dropped or arrive disordered; hence the ACK is optional. However, some other protocol can utilise this ACK, e.g. ContikiMAC uses an ACK MAC frame to inform the sender that the frame is received and hence terminates the resending process of sender.
+
+\item[\textbf{Address Information}]
+This field contains the source address and destination address of this frame. The length of address is variable. Simply speaking, a longer addresses is used for larger network. and shorter for smaller. Each device has a unique built in address as known as MAC address. The MAC address is configurable on some, in fact nearly all recently, devices. Broadcast is achieved by using a specific destination address but group multicast is not implemented on this layer. In fact, given the physical character of radio, both broadcast messages and unicast messages are technically broadcasted. It entirely depends on the receiver to dropping frames that specifies an unicast address of other nodes.
+
+\item[\textbf{Data}]
+
+\item[\textbf[Frame Checksum]
+This is 
+
+\end{description}
 
 \subsection{Network Layer}
 
