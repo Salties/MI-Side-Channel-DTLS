@@ -4,3 +4,7 @@
 [submodule "sensniff"]
 	path = sensniff
 	url = ./sensniff/
+[submodule "contiki"]
+	path = contiki
+	url = git://github.com/contiki-os/contiki.git
+	branch = release-3-0

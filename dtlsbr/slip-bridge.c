@@ -49,6 +49,8 @@
 #define DEBUG DEBUG_PRINT
 #include "net/ip/uip-debug.h"
 
+#define uip_clear_buf() ((uip_len = 0))
+
 void set_prefix_64(uip_ipaddr_t *);
 
 static uip_ipaddr_t last_sender;
