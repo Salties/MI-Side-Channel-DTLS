@@ -29,6 +29,10 @@ In many cases the boundaries between top three layers are ambiguous; thus they a
 	\caption{Data Transfer in OSI model} \label{fig: OSI channel}
 \end{figure*}
 
+The protocol stack until application layer are usually handled by the operating system. There are several systems specifically aimed to support WSN applications. Contiki\cite{Contiki} is a highly customisable system with 6LowPAN protocol stack with many hardware supported, OpenWSN\cite{OpenWSN} also has a well hardware support and is featuring full protocol support up to CoAP\cite{rfc7252}, FreeRTOS\cite{FreeRTOS} is optimised for real time tasks, etc.
+
+Due to popularity, we mainly focus on Contiki and the 6LowPAN protocol stack that it supports in this report.
+
 \subsection{Physical Layer}
 Physical Layer specifies the hardware requirements for devices. It defines data transmission at bit level.
 
@@ -39,7 +43,13 @@ Data Link Layer solves the problem of how the media is controlled. It also defin
 
 With respect to Media Access Control, MAC, technologies such as CSMA/CA \cite{802154} standard and TSCH\cite{TSCH} provides solutions to at which timing and channel should the radio transceiver send and receive data. ContikiMAC\cite{ContikiMAC} proposes a Radio Duty Cycle, RDC, protocol that aims to be energy efficient and has been implemented on Contiki OS.
 
-Another major component in Data Link Layer protocols is the format of different types of frames. In this research, We focus on 802.15.4 standard as its increasing attention in both industry and academy. There are four types of frames defined in this standard, which are:
+Another major component in Data Link Layer protocols is the format of different types of frames. In this research, we focus on 802.15.4 standard as its increasing attention in both industry and academy. 
+
+Implementing security measures at this layer is called Link Layer SECurity, LLSEC. 
+
+\subsubsection{802.15.4 MAC Layer}
+
+There are four types of frames defined in this standard, which are:
 \begin{description}
 	\item[\textbf{Beacon}] broadcastes to physically organise the network.
 	\item[\textbf{Command}] is used in network maintenance.
@@ -51,12 +61,12 @@ Among these types of frames, we are particularly interested in Data frames. We w
 
 \begin{table*}[h!]
 	\centering
-		\begin{tabular}{|c|c|c|c|c|}
+	\begin{tabular}{|c|c|c|c|c|}
 		\hline
 		\multicolumn{3}{|c|}{MAC Header}                           & MAC Payload & MAC Footer     \\ \hline
 		2 (bytes)     & 1                    & 4 to 20              & *           & 2              \\ \hline
 		Frame Control & Data Sequence Number & Address Information & Data        & Frame Checksum \\ \hline
-		\end{tabular}
+	\end{tabular}
 	\caption{802.15.4 Data Frame}
 	\label{Tbl: 802154 frame}
 \end{table*}
@@ -79,26 +89,92 @@ We briefly explain the format of 802.15.4 Data frame.
 	The checksum is used to check and correct the error induced by physical channel.
 \end{description}
 
-The Frame Control, Sequence Number and Address Information together are called MAC header. The Data field is called MAC payload accordingly. 802.15.4 standard specifies the Maximum Transmission Unit, MTU, to be 128 bytes.
+The Frame Control, Sequence Number and Address Information together are called MAC header. The Data field is called MAC payload accordingly. 
+
+802.15.4 standard specifies the Maximum Transmission Unit, MTU, to be 127 bytes including the MAC header and footer. That is to say any 802.15.4 compatible hardware must be able to send at least 127 bytes within one frame; any frame that is larger than this size is not guaranteed to be support by the device. Since the MAC header and footer consumes 25 bytes in a Data frame, there is actually 102 bytes left for MAC payload.
 
 Setting the security flag in Frame Control enables 802.15.4 security and adds additional information into the MAC header. We introduce the 802.15.4 security later in \Cref{Subsubsec: 802154 Sec}.
 
 \subsubsection{802.15.4 Security} \label{Subsubsec: 802154 Sec}
-802.15.4 security is an Authenticated Encryption with Associated Data, AEAD, scheme. To be more specifically, it provides encryption for MAC payload and authenticity for both MAC header and MAC payload. The cryptographic primitive adopts AES-128 as the block cipher.
+802.15.4 security is based on symmetric cryptography, namely Authenticated Encryption with Associated Data, AEAD, scheme. To be more specifically, it provides encryption for MAC payload and authenticity for both MAC header and payload. The cryptographic primitive adopts AES-128 as the block cipher.
 
 802.15.4 has a set of configurable security levels:
 \begin{itemize}
 \item Encryption only, i.e. only MAC payload is encrypted in CTR mode.
 \item Authentication only, i.e. a tag is attached at the end of Data field. The tag is computed on MAC header and MAC payload in CBC mode. The MAC payload is transmitted in plaintext.
-\item Encryption and authentication. The whole frame is processed in CCM*\cite{802154} mode, with MAC header being the associated data and MAC payload being the plaintext to be encrypted. The asterisk symbol represents a slight restriction which requires the nonce, or IV, must contain the encoded format specifier that can uniquely determine the format of output ciphertext. In other words, the receiver must can uniquely determine by the nonce whether authentication and encryption are enabled as well as the length of authentication tag.
-\item The authentication tag can be further configured to be 32 bit, 64 bit or 128 bit when it is enabled.
+\item Encryption and authentication. The whole frame is processed in CCM*\cite{802154} mode, with MAC header being the associated data and MAC payload being the plaintext to be encrypted. The asterisk symbol represents a slight restriction which requires the nonce, or IV, must contain the encoded format specifier that can uniquely determine the format of output ciphertext. In other words, the receiver must can uniquely determine solely by nonce whether authentication and encryption are enabled as well as the length of authentication tag.
+\item The tag can be further configured to be 32 bit, 64 bit or 128 bit when authentication is enabled.
 \end{itemize}
 
-Figure.
+The format of a 802.15.4 Data frame with security option set is described in \Cref{Tbl: 802154 sec frame}.
 
-CCM* for AEAD. AES-CBC MAC for auth. AES-CTR for enc.
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		\multicolumn{4}{|c|}{MAC Header}                                                             & \multicolumn{2}{c|}{MAC Payload} & MAC Footer     \\ \hline
+		\multicolumn{3}{|c|}{\multirow{2}{*}{As MAC header in \Cref{Tbl: 802154 frame}}} & 0 to 14                    & *             & 0/4/8/16         & 2              \\ \cline{4-7} 
+		\multicolumn{3}{|c|}{}                                           & Auxiliary Security Header & Data          & MIC              & Frame Checksum \\ \hline
+	\end{tabular}
+	\caption{802.15.4 Frame with security option enabled} \label{Tbl: 802154 sec frame}
+\end{table}
 
-ACL.
+The Auxiliary Security Header contains the additional information needed by 802.15.4 security.
+
+\begin{description}[style=nextline]
+	\item[\textbf{Security Level}]
+	Security Level is represented by the first 3 bits in Auxiliary Security Header. The highest bit controls whether encryption is enabled. The lower two bits controls the length of MIC with the value $0$ indicates no authentication.
+	\item[\textbf{Frame Counter}]
+	This 4 byte filed increases by one for each frame sent. It is also used for replay detection.
+	\item[\textbf{Key Strategy}]
+	The other parts instructs which key to be used for this frame. The keys are presumed to be pre-shared in PAN Information Base, PIB, which is a database containing information that is shared among the network. Keys are managed by groups and indexes within a group. The definition of groups depends on upper layer applications.
+\end{description}
+
+More details of Auxiliary Security Header is defined in the 802.15.4 standard.
+
+Message Integrity Code, MIC, is equivalent to the cryptography term Message Authenticate Code, MAC. Therefore the term MIC is used to avoid confusion with Media Access Control.
+
+Access Control List, ACL, is a list data structure defined in 802.15.4. It is used to maintain 802.15.4 security access during runtime.Each entry in ACL is paired with another node.  An ACL entry contains the following elements:
+\begin{description}
+	\item[\textbf{Address}] The address of remote node, used as an identifier.
+	\item[\textbf{Security Suite}] The security level to use associated to the address.
+	\item[\textbf{Key}] The paired cryptographic key associated to the address.
+	\item[\textbf{Last Initial Vector}] Nonce used for the last outgoing frame.
+	\item[\textbf{Replay Counter}] Nonce received for the last incoming frame.
+\end{description}
+On sending a frame with security option, the sender looks up destination address in ACL and determines the security level, key and frame counter which is encoded into the last initial vector. On receiving a frame, the receiver looks up source address in ACL and checks for match of the security suite and security level in the frame. Then it verifies the frame with the key. If replay protection is enabled, the replay counter is also compared. Failing any of the tests will result into rejecting of the frame.
+
+\subsubsection{Nonce of CCM* in 802.15.4 security}
+As stated earlier in \Cref{Subsubsec: 802154 Sec}, CCM* requires that the format of ciphertext can be uniquely deduced from the nonce. \Cref{Tbl: CCM nonce} describes the nonce used for encryption.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		1 (bytes) & 8              & 4             & 1              & 2             \\ \hline
+		Flag      & Source Address & Frame Counter & Security Level & Block Counter \\ \hline
+	\end{tabular}
+	\caption{CCM* nonce for encryption}
+	\label{Tbl: CCM nonce}
+\end{table}
+
+\begin{description}
+\item[\textbf{Flag}]
+This is a constant a value equals to 0x02.
+\item[\textbf{Source Address}]
+This field is the address of sender. If an address of length than 8 byte is used, it will be extended to 8 byte.
+\item[\textbf{Frame Counter}]
+The frame counter is directly mapped from the same filed in Auxiliary Security Header, as described earlier.
+\item[\textbf{Security Level}]
+As of frame counter, security level is also directly mapped from Auxiliary Security Header with the highest bit set to $0$. As described earlier, security level solely determines the format of ciphertext.
+\item[\textbf{Block Counter}]
+This is exactly the block index of MAC payload, increases by one for each block. Since AES-128 is the underlining block cipher; therefore the block size is 128 bit.
+\end{description}
+
+802.15.4 security could either be implemented by hardware and/or software. Some platform may not support the security option, or only supports a sub set of this measure. We briefly describe an implementation on Contiki platform later in \Cref{Subsubsec: noncoresec}.
+
+\subsubsection{Implementation on Contiki: noncoresec} \label{Subsubsec: noncoresec}
+noncoresec is the LLSEC implementation on Contiki. It basically implements 802.15.4 security except that it only supports a network shared key which is hard coded into the kernel code.
 
 \subsection{Network Layer}
 
