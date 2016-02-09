@@ -4,7 +4,7 @@ all: $(CONTIKI_PROJECT)
 CONTIKI=${CONTIKI_ROOT}
 
 APPS += tinydtls tinydtls/aes tinydtls/sha2 tinydtls/ecc
-CFLAGS += -DDTLS_PSK -DPLATFORM_$(TARGET) -g -Os
+CFLAGS += -DDTLS_PSK -g -Os
 
 #linker optimizations
 SMALL=1
