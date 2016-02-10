@@ -35,6 +35,20 @@ Physical Layer specifies the hardware requirements for devices. It defines data 
 
 WSN features, as explained by its name, wireless connectivity. 802.15.4\cite{802154} standard is supported in many recent WSN devices. Its Physical Layer specification is intended to be for embedded devices emphasising low energy, low cost and low speed. Bluetooth Low Energy, BLE, is another candidate for WSN with similar features. \cite{802154BLE} provides a performance analysis of 802.15.4 and BLE.
 
+Usually the length MAC frame, which we explain in \Cref{Sec: Data Link Layer}, is announced before it is being transmitted, e.g. shown in \Cref{Fig: 802.15.4 PHY Frame}.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		Preamble & SFD & MAC frame Length & Reserved \\ \hline
+	\end{tabular}
+	\caption{802.15.4 PHY Frame}
+	\label{Fig: 802.15.4 PHY Frame}
+\end{table}
+
+Preamble is used for hardware synchronisation. Start Frame Delimiter is a constantly 0xE5 for 802.15.4 frames. The length of a MAC frame is 0 to 127 bytes. More details can be found in \cite{802154}.
+
 \section{Data Link Layer} \label{Sec: Data Link Layer}
 Data Link Layer solves the problem of how the media is controlled. It also defines the atomic data chunk, called frames, being transmitted over the physical channel. Data Link protocols are strongly related to physical features of underlining devices. This layer is sometimes referred as MAC layer and the frame is called MAC frame in many context. MAC protocol only solves single hop communication. Packet forward is defined in upper layer protocols.
 
@@ -54,9 +68,9 @@ There are four types of frames defined in this standard, which are:
 	\item[\textbf{ACK}] only optionally sent in response when requested.
 \end{description}
 
-Among these types of frames, we are particularly interested in Data frames. We will explain our concern of this choice later in \Cref{Sec: Leakage Sources}. \Cref{Tbl: 802154 frame} describes the format of a 802.15.4 Data frame.
+Among these types of frames, we are particularly interested in Data frames. We will explain our concern of this choice later in \Cref{Sec: Leakage Sources}. \Cref{Fig: 802154 frame} describes the format of a 802.15.4 Data frame.
 
-\begin{table*}[h!]
+\begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
@@ -65,8 +79,8 @@ Among these types of frames, we are particularly interested in Data frames. We w
 		Frame Control & Data Sequence Number & Address Information & Data        & Frame Checksum \\ \hline
 	\end{tabular}
 	\caption{802.15.4 Data Frame}
-	\label{Tbl: 802154 frame}
-\end{table*}
+	\label{Fig: 802154 frame}
+\end{figure*}
 
 We briefly explain the format of 802.15.4 Data frame.
 \begin{description}[style=nextline]
@@ -103,18 +117,18 @@ Setting the security flag in Frame Control enables 802.15.4 security and adds ad
 \item The tag can be further configured to be 32 bit, 64 bit or 128 bit when authentication is enabled.
 \end{itemize}
 
-The format of a 802.15.4 Data frame with security option set is described in \Cref{Tbl: 802154 sec frame}.
+The format of a 802.15.4 Data frame with security option set is described in \Cref{Fig: 802154 sec frame}.
 
-\begin{table}[h!]
+\begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
 		\multicolumn{4}{|c|}{MAC Header}                                                             & \multicolumn{2}{c|}{MAC Payload} & MAC Footer     \\ \hline
-		\multicolumn{3}{|c|}{\multirow{2}{*}{As MAC header in \Cref{Tbl: 802154 frame}}} & 0 to 14                    & *             & 0/4/8/16         & 2              \\ \cline{4-7} 
+		\multicolumn{3}{|c|}{\multirow{2}{*}{As MAC header in \Cref{Fig: 802154 frame}}} & 0 to 14                    & *             & 0/4/8/16         & 2              \\ \cline{4-7} 
 		\multicolumn{3}{|c|}{}                                           & Auxiliary Security Header & Data          & MIC              & Frame Checksum \\ \hline
 	\end{tabular}
-	\caption{802.15.4 Frame with security option enabled} \label{Tbl: 802154 sec frame}
-\end{table}
+	\caption{802.15.4 Frame with security option enabled} \label{Fig: 802154 sec frame}
+\end{figure*}
 
 The Auxiliary Security Header contains the additional information needed by 802.15.4 security.
 
@@ -142,9 +156,9 @@ Access Control List, ACL, is a list data structure defined in 802.15.4. It is us
 On sending a frame with security option, the sender looks up destination address in ACL and determines the security level, key and frame counter which is encoded into the last initial vector. On receiving a frame, the receiver looks up source address in ACL and checks for match of the security suite and security level in the frame. Then it verifies the frame with the key. If replay protection is enabled, the replay counter is also compared. Failing any of the tests will result into rejecting of the frame.
 
 \subsection{Nonce of CCM* in 802.15.4 security}
-As stated earlier in \Cref{Subsec: 802154 Sec}, CCM* requires that the format of ciphertext can be uniquely deduced from the nonce. \Cref{Tbl: CCM nonce} describes the nonce used for encryption.
+As stated earlier in \Cref{Subsec: 802154 Sec}, CCM* requires that the format of ciphertext can be uniquely deduced from the nonce. \Cref{Fig: CCM nonce} describes the nonce used for encryption.
 
-\begin{table}[h!]
+\begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
@@ -152,8 +166,8 @@ As stated earlier in \Cref{Subsec: 802154 Sec}, CCM* requires that the format of
 		Flag      & Source Address & Frame Counter & Security Level & Block Counter \\ \hline
 	\end{tabular}
 	\caption{CCM* nonce for encryption}
-	\label{Tbl: CCM nonce}
-\end{table}
+	\label{Fig: CCM nonce}
+\end{figure*}
 
 \begin{description}
 \item[\textbf{Flag}]
@@ -203,7 +217,7 @@ A network is defined as a set of nodes logically connected to each other. There 
 
 Some network are built with a hybrid approach of star network and mesh network, e.g. the Cluster Tree Network of Zigbee\cite{zigbee} as showed in \Cref{fig: ZigBee Topologies}.
 
-\begin{figure*}
+\begin{figure*}[h!]
 	\centering
 	{
 		\includegraphics[width=0.7\textwidth,]{fig/ZigBeeTopologies.png}
@@ -218,27 +232,38 @@ In this report we are particularly interested into the emerging WSN standard 6Lo
 	\item It is standardised by IETF and well supported in industry.
 \end{itemize}
 
-As of this project, we are specifically interested into the packets generated in a 6LoWPAN network. There are generally two types of packet:
+As of this project, we are specifically interested into the packets generated in a 6LoWPAN network. A sub layer is defined in 6LoWPAN standard\cite{rfc4944} to compress a standard IPv6 header, in order to reduce the overhead induced by protocol stacks and provide more bandwidth to the applications. Additional headers are prepended before the IPv6 header as shown in \Cref{Fig: IPv6 Header Compression}. 
+
+\begin{figure*}[h!]
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		Header Compress Information & Compressed IPv6 Header & IPv6 Payload \\ \hline
+	\end{tabular}
+	\caption{IPv6 Header Compression}
+\label{Fig: IPv6 Header Compression}
+\end{figure*}
+
+Simply speaking, the compression is done by following methods:
 \begin{itemize}
-	\item \textbf{Header Compressed IPv6 Packet}
-	\item \textbf{ICMPv6 Packet}
+\item Optimised encoding. Take the Hop Limit, HLIM or TTL (Time To Live), field for example, the frequently used values, which are 1, 64 and 255, are represented in 2 bits as 01b, 10b and 11b respectively. 
+\item Use a reduced sub set of values of certain fields in a standard IPv6 header.
 \end{itemize}
 
-\subsection{Header Compressed IPv6 Packet} \label{IPv6}
+Generally speaking, packets in a 6LoWPAN can be categorised into two classes:
+\begin{enumerate}
+	\item \textbf{Header Compressed IPv6 Packet}
+	\item \textbf{ICMPv6 Packet}
+\end{enumerate}
+
+We give a brief explanation of their contents in \Cref{Compressed IPv6} and \Cref{ICMPv6} respectively.
+
+\subsection{Header Compressed IPv6 Packets} \label{Compressed IPv6}
+
+\subsection{ICMPv6 Packets} \label{ICMPv6}
 
 \section{Transport Layer}
 
 \section{Application Layer}
 
 \section{Other protocols and standards}
-
-%\cite{802154Sec} discusses some security concerns in 802.15.4.  LLSEC\cite{LLSEC} is the implementation of 802.15.4 security in Contiki.
-%
-%tinydtls\cite{tinydtls} is the implementation of DTLS we used in DTLS related experiments.
-%
-%To our knowledge, this is the first work of application fingerprinting through traffic analysis over wireless sensor network.
-
-\section{Security Related Work}
-
-\section{Potential Leakage Sources} \label{Sec: Leakage Sources}
-%Why only look at MAC Data Frames
