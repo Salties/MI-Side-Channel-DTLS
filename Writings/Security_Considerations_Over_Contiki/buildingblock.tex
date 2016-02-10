@@ -73,8 +73,7 @@ Among these types of frames, we are particularly interested in Data frames. We w
 \begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
-		\hline
-		\multicolumn{3}{|c|}{MAC Header}                           & MAC Payload & MAC Footer     \\ \hline
+		\multicolumn{3}{c}{\textit{MAC Header}}                           & \multicolumn{1}{c}{\textit{MAC Payload}} & \multicolumn{1}{c}{\textit{MAC Footer}}     \\ \hline
 		2 (bytes)     & 1                    & 4 to 20              & *           & 2              \\ \hline
 		Frame Control & Data Sequence Number & Address Information & Data        & Frame Checksum \\ \hline
 	\end{tabular}
@@ -122,8 +121,7 @@ The format of a 802.15.4 Data frame with security option set is described in \Cr
 \begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|}
-		\hline
-		\multicolumn{4}{|c|}{MAC Header}                                                             & \multicolumn{2}{c|}{MAC Payload} & MAC Footer     \\ \hline
+		\multicolumn{4}{c}{\textit{MAC Header}}                                                             & \multicolumn{2}{c}{\textit{MAC Payload}} & \multicolumn{1}{c}{\textit{MAC Footer}}     \\ \hline
 		\multicolumn{3}{|c|}{\multirow{2}{*}{As MAC header in \Cref{Fig: 802154 frame}}} & 0 to 14                    & *             & 0/4/8/16         & 2              \\ \cline{4-7} 
 		\multicolumn{3}{|c|}{}                                           & Auxiliary Security Header & Data          & MIC              & Frame Checksum \\ \hline
 	\end{tabular}
@@ -161,7 +159,7 @@ As stated earlier in \Cref{Subsec: 802154 Sec}, CCM* requires that the format of
 \begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
-		\hline
+		\hline 
 		1 (bytes) & 8              & 4             & 1              & 2             \\ \hline
 		Flag      & Source Address & Frame Counter & Security Level & Block Counter \\ \hline
 	\end{tabular}
@@ -225,44 +223,85 @@ Some network are built with a hybrid approach of star network and mesh network, 
 	\caption{Different ZigBee Network Topologies} \label{fig: ZigBee Topologies}
 \end{figure*}
 
-In this report we are particularly interested into the emerging WSN standard 6LoWPAN. 6LoWPAN is an IPv6 based mesh network that is specifically designed to fit into low power wireless devices. 6LoWPAN has the following features making it popular in IoT industry: 
+6LoWPAN is a currently well adopted network standard. It has the following features making it popular in IoT industry: 
 \begin{itemize}
 	\item Each device is assigned with an IPv6 address of compressed format. With a border router that translates the compressed IPv6 address into an IP address, a node inside 6LoWPAN  can directly communicate with a host over Internet.
 	\item Its mesh routing feature lead to a flexible, scalable and robust network, as the network can spontaneously reorganise itself at running time.
 	\item It is standardised by IETF and well supported in industry.
 \end{itemize}
 
-As of this project, we are specifically interested into the packets generated in a 6LoWPAN network. A sub layer is defined in 6LoWPAN standard\cite{rfc4944} to compress a standard IPv6 header, in order to reduce the overhead induced by protocol stacks and provide more bandwidth to the applications. Additional headers are prepended before the IPv6 header as shown in \Cref{Fig: IPv6 Header Compression}. 
+As of this project, we are particularly interested into 6LoWPAN due to the reasons above. Packets in a 6LoWPAN can be categorised into two classes:
+\begin{enumerate}
+	\item \textbf{IPv6 Data Packets}
+	\item \textbf{ICMPv6 Packets}
+\end{enumerate}
+We give a brief explanation of their contents in \Cref{Subsec: IPv6 Data Packets} and \Cref{Subsec: ICMPv6} respectively.
+
+\subsection{6LoWPAN Adaptation Sub Layer} \label{Subsec:6LoWPAN Adaptation Sub Layer}
+A sub layer is defined in 6LoWPAN standard\cite{rfc4944} to compress a standard IPv6 header, in order to reduce the overhead induced by protocol stacks and provide more bandwidth to the applications. Additional headers are prepended before the IPv6 header as shown in \Cref{Fig: 6LoWPAN Adaptation Header}. 
 
 \begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|l|l|l|}
 		\hline
-		Header Compress Information & Compressed IPv6 Header & IPv6 Payload \\ \hline
+		6LoWPAN Adaptation Header & Compressed IPv6 Header & IPv6 Payload \\ \hline
 	\end{tabular}
-	\caption{IPv6 Header Compression}
-\label{Fig: IPv6 Header Compression}
+	\caption{6LoWPAN Adaptation Header}
+\label{Fig: 6LoWPAN Adaptation Header}
 \end{figure*}
 
-Simply speaking, the compression is done by following methods:
+The header compression is generally done by:
 \begin{itemize}
-\item Optimised encoding. Take the Hop Limit, HLIM or TTL (Time To Live), field for example, the frequently used values, which are 1, 64 and 255, are represented in 2 bits as 01b, 10b and 11b respectively. 
-\item Use a reduced sub set of values of certain fields in a standard IPv6 header.
+	\item Optimised encoding. Take the Hop Limit, HLIM or TTL (Time To Live), field for example, the frequently used values, 1, 64 and 255, are represented in 2 bits as 01b, 10b and 11b respectively, saving 6 bits from its original 1 byte field.
+	\item Since 6LoWPAN has usually less devices than a normal IPv6 network. The unused higher bits are therefore re-encoded. Technically speaking this is also a kind of optimised encoding.
 \end{itemize}
+The header compression is a lossless; thus we can always reconstruct an equivalent IPv6 header from the compressed header and this header compression information. We omitted further complicated details due to its complexity but they are defined in \cite{rfc6282}.
 
-Generally speaking, packets in a 6LoWPAN can be categorised into two classes:
-\begin{enumerate}
-	\item \textbf{Header Compressed IPv6 Packet}
-	\item \textbf{ICMPv6 Packet}
-\end{enumerate}
+In addition to header compression, 6LoWPAN Adaptation Header also contains information for packet fragmentation as well as device address conflict avoiding. We omit the further details as it is beyond the scope of this report. Details of these mechanisms are defined in \cite{rfc4944}.
 
-We give a brief explanation of their contents in \Cref{Compressed IPv6} and \Cref{ICMPv6} respectively.
+\subsection{IPv6 Data Packets} \label{Subsec: IPv6 Data Packets}
+These packets contains the IPv6 payload. In 6LoWPAN, the IPv6 header is compressed as described in \Cref{Subsec:6LoWPAN Adaptation Sub Layer}. In this section we explain the contents of a standard IPv6 header instead of a compressed one for convenience but one can always uniquely transform a standard IPv6 header to a compressed one since they are indeed equivalent.
 
-\subsection{Header Compressed IPv6 Packets} \label{Compressed IPv6}
+IPv6 is defined in \cite{rfc2460}. Its basic format is as shown in \Cref{Fig: IPv6 Packet Format}. We removed the length information as they are inconsistent when the header is compressed.
 
-\subsection{ICMPv6 Packets} \label{ICMPv6}
+\begin{figure*}[h!]
+\center
+	\begin{tabular}{l|c|c|c|c|c|c|}
+	\cline{2-7}
+	\multirow{2}{*}{\textit{Network Header}} & Version & Traffic Class & Flow Label & Payload Length & Next Header & Hop Limit \\ \cline{2-7} 
+	                                & \multicolumn{3}{c|}{Source Address}  & \multicolumn{3}{c|}{Destination Address} \\ \cline{2-7} 
+	\textit{Network Payload}                 & \multicolumn{6}{c|}{Payload}                                                    \\ \cline{2-7} 
+	\end{tabular}
+	\caption{Basic IPv6 Packet Format} \label{Fig: IPv6 Packet Format}
+\end{figure*}
 
-\section{Transport Layer}
+\begin{description}[style=nextline]
+	\item[\textbf{Version}]
+	In 6LoWPAN this is constant 0x6.
+	\item[\textbf{Traffic Class}]
+	This field is default by 0 and may be set by an upper layer application as a hint of packet. A router can act accordingly to this field, such as adjusting the priority of packet, or even modify this value upon forward. The support for values other than $0$ is optional.
+	\item[\textbf{Flow Label}]
+	This field is intended to label a logical data path at Network Layer. The IPv6 standard\cite{rfc2460} states  it ``be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service or `real-time` service``. Support to this field is optional.
+	\item[\textbf{Payload Length}]
+	This field specifies the length of Network Layer payload.
+	\item[\textbf{Next Header}]
+	This field specifies the Transportation Layer protocol to be used. In WSN applications this is usually UDP. We will cover more of this in \Cref{Sec: Transportation Layer}.
+	\item[\textbf{Hop Limit}]
+	Hop Limit, HLIM, is also called Time To Live, TTL. It decreases by one whenever the packet is forwarded. The packet will be dropped when this value reaches $0$. This prevents a packet from being infinitely forwarded.
+	\item[\textbf{Source Address and Destination Address}]
+	These are the IPv6 addresses of sender and receiver. These are addresses are normally consistent during routing of a packet. In comparison,MAC source and destination varies on each hop, as an intermediate receiver becomes the sender of next hop.
+	\item[\textbf{Payload}]
+	This field contains the upper layer protocol headers and application data.
+\end{description}
+One thing to be noticed is that Traffic Class and Flow Label is not yet fully defined by IPv6 standard.
+
+%Extension fields...
+
+\subsection{ICMPv6 Packets} \label{Subsec: ICMPv6}
+
+\subsection{IPSec}
+
+\section{Transport Layer} \label{Sec: Transportation Layer}
 
 \section{Application Layer}
 
