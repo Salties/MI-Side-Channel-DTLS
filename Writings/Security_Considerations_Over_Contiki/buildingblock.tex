@@ -58,7 +58,7 @@ Another major component in Data Link Layer protocols is the format of different 
 
 Implementing security measures at this layer is called Link Layer SECurity, LLSEC. 
 
-\subsection{802.15.4 MAC Layer}
+\subsection{802.15.4 MAC Layer} \label{Subsec: 802.15.4 MAC Layer}
 
 There are four types of frames defined in this standard, which are:
 \begin{description}
@@ -268,9 +268,9 @@ IPv6 is defined in \cite{rfc2460}. Its basic format is as shown in \Cref{Fig: IP
 \center
 	\begin{tabular}{l|c|c|c|c|c|c|}
 	\cline{2-7}
-	\multirow{2}{*}{\textit{Network Header}} & Version & Traffic Class & Flow Label & Payload Length & Next Header & Hop Limit \\ \cline{2-7} 
+	\multirow{2}{*}{\textit{IP Header}} & Version & Traffic Class & Flow Label & Payload Length & Next Header & Hop Limit \\ \cline{2-7} 
 	                                & \multicolumn{3}{c|}{Source Address}  & \multicolumn{3}{c|}{Destination Address} \\ \cline{2-7} 
-	\textit{Network Payload}                 & \multicolumn{6}{c|}{Payload}                                                    \\ \cline{2-7} 
+	\textit{IP Payload}                 & \multicolumn{6}{c|}{Payload}                                                    \\ \cline{2-7} 
 	\end{tabular}
 	\caption{Basic IPv6 Packet Format} \label{Fig: IPv6 Packet Format}
 \end{figure*}
@@ -281,7 +281,7 @@ IPv6 is defined in \cite{rfc2460}. Its basic format is as shown in \Cref{Fig: IP
 	\item[\textbf{Traffic Class}]
 	This field is default by 0 and may be set by an upper layer application as a hint of packet. A router can act accordingly to this field, such as adjusting the priority of packet, or even modify this value upon forward. The support for values other than $0$ is optional.
 	\item[\textbf{Flow Label}]
-	This field is intended to label a logical data path at Network Layer. The IPv6 standard\cite{rfc2460} states  it ``be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service or `real-time` service``. Support to this field is optional.
+	This field is intended to label a logical data path at Network Layer. The IPv6 standard\cite{rfc2460} states  it should ``be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service or `real-time` service``. Support to this field is optional.
 	\item[\textbf{Payload Length}]
 	This field specifies the length of Network Layer payload.
 	\item[\textbf{Next Header}]
@@ -295,14 +295,17 @@ IPv6 is defined in \cite{rfc2460}. Its basic format is as shown in \Cref{Fig: IP
 \end{description}
 One thing to be noticed is that Traffic Class and Flow Label is not yet fully defined by IPv6 standard.
 
-%Extension fields...
+There are also extension headers defined in IPv6\cite{rfc2460}, including IPsec and fragmentation ,etc.
+
+IPsec is defined in \cite{rfc4301} with its Authentication Header, AH, defined by \cite{rfc4302} and Encapsulating Security Payload, ESP, defined by \cite{rfc4303}. AH authenticates all IP Headers (the basic IPv6 header and the extensions) except fields  those might be modified by a router such as TTL. ESP provides encryption over IP Payload. Enabling IPsec over IPv6 adds 40 bytes to the IP Header which is unacceptable in IoT environment. \cite{6LoWPANIPsec} and \cite{CompressIPsec} discusses compression of IPsec over 6LoWPAN. \cite{ContikiIPsec} describes an implementation of IPsec over Contiki but it is not yet adopted by the latest released Contiki 3.0.
+
+We omit further details of other extension headers as they are beyond the scope of this report.
 
 \subsection{ICMPv6 Packets} \label{Subsec: ICMPv6}
-
-\subsection{IPSec}
 
 \section{Transport Layer} \label{Sec: Transportation Layer}
 
 \section{Application Layer}
 
 \section{Other protocols and standards}
+%Zigbee 
