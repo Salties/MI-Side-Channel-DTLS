@@ -299,13 +299,23 @@ There are also extension headers defined in IPv6\cite{rfc2460}, including IPsec 
 
 IPsec is defined in \cite{rfc4301} with its Authentication Header, AH, defined by \cite{rfc4302} and Encapsulating Security Payload, ESP, defined by \cite{rfc4303}. AH authenticates all IP Headers (the basic IPv6 header and the extensions) except fields  those might be modified by a router such as TTL. ESP provides encryption over IP Payload. Enabling IPsec over IPv6 adds 40 bytes to the IP Header which is unacceptable in IoT environment. \cite{6LoWPANIPsec} and \cite{CompressIPsec} discusses compression of IPsec over 6LoWPAN. \cite{ContikiIPsec} describes an implementation of IPsec over Contiki but it is not yet adopted by the latest released Contiki 3.0.
 
-We omit further details of other extension headers as they are beyond the scope of this report.
+We omit further details of other extension headers as they are mostly used to handle routing and fragmentation and thus beyond the scope of this report.
 
 \subsection{ICMPv6 Packets} \label{Subsec: ICMPv6}
+Internet Control Message Protocol for IPv6, ICMPv6, is a set of messages that are used to maintain the network. \cite{rfc4443} defines the general format alongside with ICMPv6 Error Messages and Information Messages. A family of ICMPv6 messages, RPL messages, are defined by \cite{rfc6550}. RPL messages carry routing information and are fundamental in forming a 6LoWPAN network. In \Cref{Subsec: ICMPv6} we will explain a subset of ICMPv6 messages that we consider to be relevant to this research.
+
+%IPv6 General Format
+%Error messages, informative message
+%RPL messages
 
 \section{Transport Layer} \label{Sec: Transportation Layer}
+%TCP, SCTP
+%Mainly UDP
 
 \section{Application Layer}
+%DTLS
+%MQTT
+%CoAP
 
 \section{Other protocols and standards}
 %Zigbee 
