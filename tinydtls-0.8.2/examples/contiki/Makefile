@@ -58,6 +58,6 @@ dist:	$(FILES)
 	test -d $(DISTDIR)/examples/contiki || $(MKDIR) -p $(DISTDIR)/examples/contiki
 	cp $(FILES) $(DISTDIR)/examples/contiki
 
-ifeq ("", "1")
+ifeq ("1", "1")
 include $(CONTIKI)/Makefile.include
 endif
