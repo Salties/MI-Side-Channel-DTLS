@@ -1,0 +1,3 @@
+*.o
+./Writings/*.log
+./Writings/*.aux
