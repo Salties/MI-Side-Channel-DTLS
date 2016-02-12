@@ -1,3 +1,13 @@
+#Ignore LATEX output expect source files.
+/Writings/*
+!/Writings/*/*.tex
+!/Writings/*/*.bib
+!/Writings/*/fig/*
+!/Writings/*/figure/*
+
+#Ignore compiled files
 *.o
-./Writings/*.log
-./Writings/*.aux
+*.out
+*.elf
+*.bin
+*.rom
