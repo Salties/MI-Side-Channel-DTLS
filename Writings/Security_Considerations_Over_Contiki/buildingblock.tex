@@ -182,8 +182,17 @@ This is exactly the block index of MAC payload, increases by one for each block.
 
 802.15.4 security could either be implemented by hardware and/or software. Some platform may not support the security option, or only supports a sub set of this measure. We briefly describe an implementation on Contiki platform later in \Cref{Subsec: noncoresec}.
 
-\subsection{Implementation on Contiki: noncoresec} \label{Subsec: noncoresec}
+\subsubsection{Implementation on Contiki: noncoresec} \label{Subsec: noncoresec}
 noncoresec is the LLSEC implementation on Contiki. It is a reduced implementation of 802.15.4 security which supports only a network shared key hard coded into the kernel code.
+
+\subsection{Sub Layer: RDC Layer}
+In practical, the radio transceiver turned out to be the most energy consuming part in a sensor node. Further more, listening data consumes more energy than sending them. Thus an optimisation for energy preserving is to switch off the transceiver for most of the time and switch it on only when there is data on air. The Radio Duty Cycle, RDC, Sub Layer is therefore added to MAC Layer. RDC protocols control the behaviour of radio transceiver by synchronise their timing of sending and receiving data; hence the radio can be kept off for most of the time. In the case of Contiki, there are two RDC protocols implemented:
+\begin{itemize}
+\item \textbf{nullrdc}. There is no RDC protocol. The transceiver is kept on forever.
+\item \textbf{ContikiMAC\cite{ContikiMAC}}. The transceiver is kept off for most of the time and only wakes up for a short period. If data transmission is detected during the wake-up period, the receiver keeps the transceiver on until the frame is received and informs the sender with an ACK. On the other hand, the sender continuously retransmits the frame until an ACK is received or the time runs out.
+\end{itemize}
+
+Time-Slotted Channel Hopping\cite{TSCH}, TSCH, is another RDC protocol that is adopted by OpenWSN. Since it is not implemented yet in our platform, Contiki, we omit its further details in this report.
 
 \section{Network Layer}
 The Data Link Layer protocol has solved the problem of data transmission over directly linked nodes. However, real world WSN applications are sometimes deployed in a wider range that not all nodes can be directly connected, such as a smart city application. The solution to build a logic data path between the nodes where each intermediate node forwards the data to the next node until it reaches its destination. Such logical data path is called a multi hop connection and directly connected data path is called a single hop connection respectively. The transmission unit at the Network Layer is called a packet.
@@ -302,11 +311,54 @@ IPsec is defined in \cite{rfc4301} with its Authentication Header, AH, defined b
 We omit further details of other extension headers as they are mostly used to handle routing and fragmentation and thus beyond the scope of this report.
 
 \subsection{ICMPv6 Packets} \label{Subsec: ICMPv6}
-Internet Control Message Protocol for IPv6, ICMPv6, is a set of messages that are used to maintain the network. \cite{rfc4443} defines the general format alongside with ICMPv6 Error Messages and Information Messages. A family of ICMPv6 messages, RPL messages, are defined by \cite{rfc6550}. RPL messages carry routing information and are fundamental in forming a 6LoWPAN network. In \Cref{Subsec: ICMPv6} we will explain a subset of ICMPv6 messages that we consider to be relevant to this research.
+Internet Control Message Protocol for IPv6, ICMPv6, is a set of messages that are used to maintain the network. \cite{rfc4443} defines the general format alongside with ICMPv6 Error Messages and Information Messages. 
 
 %IPv6 General Format
+In IPv6, an ICMP messages is preceded by an IPv6 Basic Header and optional IPv6 extension headers with the last Next Header field set to ICMP as \Cref{Fig: ICMP with IPv6}. The IP Payload in \Cref{Fig: IPv6 Packet Format} is replaced by an ICMP message in this case.
+
+\begin{figure*}[h!]
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline
+		IPv6 Basic Header & Extension Headers (optional) & ICMP Message \\ \hline
+	\end{tabular}
+	\caption{ICMP Message with IPv6 Headers}
+	\label{Fig: ICMP with IPv6}
+\end{figure*}
+
+The general format of an IPv6 message is described in \cite{rfc4443} as \Cref{Fig: General Format of ICMPv6 Message}.
+\begin{figure*}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+	\hline
+	1 (byte) & 1    & 2        & *            \\ \hline
+	Type     & Code & Checksum & Message Body \\ \hline
+	\end{tabular}
+	\caption{General Format of ICMPv6 Message}
+	\label{Fig: General Format of ICMPv6 Message}
+\end{figure*}
+
+As stated in \cite{rfc4443},
+\begin{description}[style=nextline]
+\item[\textbf{Type}]
+There are two groups of types of messages defined in \cite{rfc4443}. Error messages have a Type value in $[0,127]$ which indicates an error of network. Information messages have a type value in $[128,255]$ which provide network information to nodes of the network.
+\item[\textbf{Code}]
+Each type of ICMP message defines its own code to indicate the exact functionality of an ICMP message.
+\item[\textbf{Checksum}]
+\end{description}
+
+We explain only a minor set of ICMP Messages that we considered might be relevant to this report.
 %Error messages, informative message
+\begin{description}[style=nextline]
+\item[\textbf{Echo Request and Reply Messages}]
+These are diagnostic ICMP Information messages. Upon receiving an ICMP Echo Request, the receiving node is required by \cite{rfc4443} to reply with an identical ICMP message except the source and destination addresses are inverted. The Echo Request is typically sent by a PING command for diagnostic reasons such as testing of connectivity or measuring the Round Trip Time, RTT, of a data path. The response of ICMP Echo is enabled in Contiki by default but it is disabled on many Internet server for security reasons.
+\end{description}
+
 %RPL messages
+A family of ICMPv6 messages, RPL messages, are defined by \cite{rfc6550}. RPL messages are fundamental in forming and self-organising a 6LoWPAN network. 
+%DODAG Information Solicitation
+%DODAG Information Object
+%Destination Advertisement Object
 
 \section{Transport Layer} \label{Sec: Transportation Layer}
 %TCP, SCTP
