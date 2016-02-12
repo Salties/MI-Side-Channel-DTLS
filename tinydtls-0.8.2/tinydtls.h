@@ -40,6 +40,6 @@
 #define DTLS_PSK 1
 
 /** Defined to 1 if tinydtls is built for Contiki OS */
-/* #undef WITH_CONTIKI */
+#define WITH_CONTIKI 1
 
 #endif /* _DTLS_TINYDTLS_H_ */
