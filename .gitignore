@@ -5,7 +5,9 @@
 !/Writings/*/fig/*
 !/Writings/*/figure/*
 
-#Ignore compiled files
+#Ignore submodules.
+
+#Ignore compiled files.
 *.o
 *.out
 *.elf
