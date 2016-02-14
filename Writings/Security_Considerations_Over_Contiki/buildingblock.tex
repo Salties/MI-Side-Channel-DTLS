@@ -389,27 +389,51 @@ UDP is defined in \cite{rfc768}. Its format is shown in \Cref{Fig: UDP Datagram 
 \begin{figure*}[h!]
 	\center
 	\begin{tabular}{|c|c|c|c|c|}
-	\hline
-	2 (bytes)   & 2                & 2              & 2        & *       \\ \hline
-	Source Port & Destination Port & Payload Length & Checksum & Payload \\ \hline
+		\hline
+		2 (bytes)   & 2                & 2              & 2        & *       \\ \hline
+		Source Port & Destination Port & Payload Length & Checksum & Payload \\ \hline
 	\end{tabular}
 	\caption{UDP Datagram Format}
-\label{Fig: UDP Datagram Format}
+	\label{Fig: UDP Datagram Format}
 \end{figure*}
 
 \begin{description}[style=nextline]
-\item[\textbf{Source and Destination Port}]
-Ports are the identifier of applications running on a host. The source port and destination port semantically represents 
-\item[\textbf{Payload Length}]
-\item[\textbf{Checksum}]
-\item[\textbf{Payload}]
-The application data.
+	\item[\textbf{Source and Destination Port}]
+	Ports are the identifier of applications running on a host. The source port and destination port semantically represent the applications that send and receive the data respectively.
+	\item[\textbf{Payload Length}]
+	The length of UDP payload.
+	\item[\textbf{Checksum}]
+	Checksum of the packet. The checksum is optional in \cite{rfc768} but is required in 6LoWPAN.
+	\item[\textbf{Payload}]
+	The application data.
 \end{description}
+
+The UDP header constitutes of 8 bytes and contains only the minimum information for the OS to identify the receiving process of a packet. Data transmission of UDP is unreliable, which means the data might be lost or arrive disordered.
+
+The combination of a network address and a port is called an entity in network term.
 
 \section{Application Layer}
 %DTLS
 %MQTT
 %CoAP
+This layer represents the various applications on the architecture. Some Application Layer protocols may beneath other applications, such as TLS and DTLS are sometimes viewed as a sub layer protocol of Transport Layer.
+
+In this section we describe two typical Application Layer protocols that has been implemented on our platform, namely DTLS\cite{rfc6347} and CoAP\cite{rfc7252}. A real application can be built on these protocols.
+
+\subsection{DTLS}
+DTLS\cite{rfc6347} stands for Datagram Transport Layer Security. As of TLS, it provides end-to-end data confidentiality and authenticity. The main difference between DTLS and TLS is that:
+\begin{itemize}
+	\item DTLS is built on datagrams instead of TCP like TLS. In a 6LoWPAN network, this is effectively UDP. As a result DTLS implemented a simple reliable transmission mechanism during handshake to synchronise the cryptographic parameters.
+	\item Explicit sequence number and epoch value on each DTLS record. We explain theses fields in following context.
+	\item Invalid records no longer terminate the connection. Instead, errors are suppressed to the upper layer application and an alert is sent.
+	\item Stateful ciphersuites are disabled\cite{DtlsCiphers} such as RC4, as maintaining states is difficult on UDP.
+\end{itemize}
+%We ignore handshake
+%DTLS record format
+
+\subsection{CoAP}
+
+%CoAP as TCP
 
 \section{Other protocols and standards}
 %Zigbee 
