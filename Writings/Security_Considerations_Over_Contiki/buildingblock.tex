@@ -345,6 +345,7 @@ There are two groups of types of messages defined in \cite{rfc4443}. Error messa
 \item[\textbf{Code}]
 Each type of ICMP message defines its own code to indicate the exact functionality of an ICMP message.
 \item[\textbf{Checksum}]
+Checksum for the packet.
 \end{description}
 
 We explain only a minor set of ICMP Messages that we have successfully observed in our experiment.
@@ -355,15 +356,55 @@ These are diagnostic ICMP Information messages. Upon receiving an ICMP Echo Requ
 \end{description}
 
 %RPL messages
-A family of ICMPv6 messages, RPL messages, are defined by \cite{rfc6550}. RPL messages are fundamental in forming and self-organising a 6LoWPAN network. 
+A family of ICMPv6 messages, RPL messages, are defined by \cite{rfc6550}. RPL messages are fundamental in forming and self-organising a 6LoWPAN network. A 6LoWPAN network instance is a Destination Oriented Directed Acyclic Graph, DODAG, shown in \Cref{Fig: DODAG}. 
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=0.6\textwidth]{fig/dodag.png}
+	\caption{A DODAG}
+	\label{Fig: DODAG}
+\end{figure*}
+We omit further details of the decision of a routing path as it is beyond the scope of this report but they are defined in \cite{rfc6550}. Instead, we explain the major related ICMP messages in a 6LoWPAN network.
 %DODAG Information Solicitation
 %DODAG Information Object
 %Destination Advertisement Object
+\begin{description}[style=nextline]
+\item[\textbf{DAG Information Object (DIO) Message}]
+The DIO message contains the global information of a 6LoWPAN network. It is broadcasted by a node to its neighbours periodically for maintenance, or as a reply on request of a new joining node to provide enough information for the new one to join the network.
 
+\item[\textbf{DAG Information Solicitation (DIS) Message}]
+When a new node is booted, it broadcasts DIS messages probing an existing 6LoWPAN network. If the DIS message is received by any neighbour node that belong to a network, then a DIO message is replied providing the information to join the network.
+
+\item[\textbf{Destination Advertisement Object (DAO) Message}]
+DAO Message is sent by a child node to its precedents to propagate its routing information. The routing information is later used when another node tries to send a packet to this child node. The receiving parent can either store the routing information or forward it to an upper level parent depending on its capability.
+\end{description}
+
+\cite{rfc6550} also defined secure variants to these RPL messages which provides authentication as well as confidentiality. However, they are not implemented on our platform and therefore we omit their details in this report.
 
 \section{Transport Layer} \label{Sec: Transportation Layer}
-%TCP, SCTP
-%Mainly UDP
+Transport Layer defines the interface to applications. To be more specifically, ports are defined at this layer in addition to network addresses allowing packets to be directed to different applications running on the same host. Transport Layer protocols also define more semantic details of the data channel, such as reliability and modes data operation.
+
+TCP and UDP are the most widely used Transport Layer protocols over Internet. TCP provides a reliable streamed data channel whilst UDP provides only unreliable datagrams. In the world of IoT, UDP is generally preferable due to its low overhead and support to multicast.
+
+UDP is defined in \cite{rfc768}. Its format is shown in \Cref{Fig: UDP Datagram Format}
+\begin{figure*}[h!]
+	\center
+	\begin{tabular}{|c|c|c|c|c|}
+	\hline
+	2 (bytes)   & 2                & 2              & 2        & *       \\ \hline
+	Source Port & Destination Port & Payload Length & Checksum & Payload \\ \hline
+	\end{tabular}
+	\caption{UDP Datagram Format}
+\label{Fig: UDP Datagram Format}
+\end{figure*}
+
+\begin{description}[style=nextline]
+\item[\textbf{Source and Destination Port}]
+Ports are the identifier of applications running on a host. The source port and destination port semantically represents 
+\item[\textbf{Payload Length}]
+\item[\textbf{Checksum}]
+\item[\textbf{Payload}]
+The application data.
+\end{description}
 
 \section{Application Layer}
 %DTLS
