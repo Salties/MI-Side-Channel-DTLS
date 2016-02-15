@@ -431,6 +431,7 @@ DTLS\cite{rfc6347} stands for Datagram Transport Layer Security. As of TLS, it p
 
 A packet containing Application Layer data is called a record. The format of a DTLS record is as depicted in \Cref{Fig: DTLS Record Format}.
 \begin{figure*}[h!]
+	\center
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
 		1 (byte)     & 2                & 2     & 6               & 2      & *        \\ \hline
@@ -449,7 +450,7 @@ A packet containing Application Layer data is called a record. The format of a D
 		\item HANDSHAKE($22$)
 		\item APPLICATION\_DATA($23$)
 	\end{enumerate}
-	In the case of CHANGE\_CIPHER\_SPEC and HANDSHAKE, the sub protocol are invoked accordingly. Otherwise the Fragment field is treated as an error code in case of ALERT or ciphertext of application data in case of APPLICATION\_DATA.
+	In the case of CHANGE\_CIPHER\_SPEC and HANDSHAKE, the sub protocols are invoked accordingly. Otherwise the Fragment field is treated as an error code in case of ALERT or ciphertext of application data in case of APPLICATION\_DATA.
 	\item[\textbf{Protocol Version}]
 	DTLS uses the complement of \{0xff, 0xff\} to indicate the version number. Since the implementation on our platform is for DTLS 1.2, this field is constantly \{0xfe, 0xfd\}.
 	\item[\textbf{Epoch}]
@@ -475,10 +476,31 @@ One thing to be noticed is that DTLS is not compatible with the multicast featur
 As of this project, we are mostly focused on the APPLICATION\_DATA records rather than the handshake process, as we consider the later to be performed independently from any upper layer application.
 
 \subsection{CoAP}
+Constrained Application Protocol, CoAP, is a general application data interface defined in \cite{rfc7252}. CoAP can be viewed as a variation of HTTP that is specifically designed to access resources on IoT devices. The high level concept of CoAP is to make accessing data on sensor nodes behaves as accessing resources of a web site on Internet. An example is shown in \Cref{Fig: An Example of CoAP}.
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=1\textwidth]{fig/CoapExample.png}
+	\caption{An Example of CoAP}
+	\label{Fig: An Example of CoAP}
+\end{figure*}
+
+\Cref{Fig: An Example of CoAP} is a screen shot of accessing a CoAP server running on a CC2538 node through the Copper plugin of Firefox. CoAP has the following features:
+\begin{itemize}
+	\item A node in the 6LoWPAN network is represented by an URL. In \Cref{Fig: An Example of CoAP}, we can see at the address bar the resources of node is represented in a form of URL:\\
+	\url{coap://[aaaa::212:4b00:41e:afc6]:5683/.well-known/core} \\
+	This is exactly as the same format of those URLs on Internet: \\
+	 \{PROTOCOL :// ADDRESS : PORT / LOCATION \}.
+	 \item Resources available on the node is organised in a tree structure, as shown in the tree view on the left in \Cref{Fig: An Example of CoAP}. These resources can be specified by the URL as shown in the address bar.
+	 \item Similar to HTTP, four methods, namely GET, POST, PUT and DELETE, are defined to access and manipulate the resources on sensor nodes. In addition, a new method OBSERVE is also defined for CoAP which allows a CoAP server to actively push data to the CoAP client. We explain more details of these methods later in the context.
+\end{itemize}
 %CoAP as TCP
+In addition to the definition of general application data interface, CoAP also provides a lightweight reliable transmission mechanism; therefore some context consider CoAP as a Transport Layer protocol that replaces TCP.
+
+%CoAP format
 
 %\section{Other protocols and standards}
 %Zigbee 
+%Future work
 
 \section{Summary}
 %Protocol suite
