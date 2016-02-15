@@ -222,7 +222,7 @@ A network is defined as a set of nodes logically connected to each other. There 
 	\caption{Network Topologies} \label{fig: Network topologies}
 \end{figure*}
 
-Some network are built with a hybrid approach of star network and mesh network, e.g. the Cluster Tree Network of Zigbee\cite{zigbee} as showed in \Cref{fig: ZigBee Topologies}.
+Some network are built with a hybrid approach of star network and mesh network, e.g. the Cluster Tree Network of Zigbee\cite{Zigbee} as showed in \Cref{fig: ZigBee Topologies}.
 
 \begin{figure*}[h!]
 	\centering
@@ -423,16 +423,56 @@ In this section we describe two typical Application Layer protocols that has bee
 \subsection{DTLS}
 DTLS\cite{rfc6347} stands for Datagram Transport Layer Security. As of TLS, it provides end-to-end data confidentiality and authenticity. The main difference between DTLS and TLS is that:
 \begin{itemize}
-	\item DTLS is built on datagrams instead of TCP like TLS. In a 6LoWPAN network, this is effectively UDP. As a result DTLS implemented a simple reliable transmission mechanism during handshake to synchronise the cryptographic parameters.
-	\item Explicit sequence number and epoch value on each DTLS record. We explain theses fields in following context.
+	\item DTLS is built on datagrams instead of TCP like TLS. In case of a 6LoWPAN network, this is effectively UDP. As a result DTLS implemented a simple reliable transmission mechanism during handshake to reliably exchange the cryptographic parameters.
+	\item Explicit sequence number and epoch values on each DTLS record. We explain theses values in following context.
 	\item Invalid records no longer terminate the connection. Instead, errors are suppressed to the upper layer application and an alert is sent.
-	\item Stateful ciphersuites are disabled\cite{DtlsCiphers} such as RC4, as maintaining states is difficult on UDP.
+	\item RC4 is disabled due to its stateful design\cite{DtlsCiphers}. It is hard to maintain synchronised stated with UDP.
 \end{itemize}
-%We ignore handshake
-%DTLS record format
+
+A packet containing Application Layer data is called a record. The format of a DTLS record is as depicted in \Cref{Fig: DTLS Record Format}.
+\begin{figure*}[h!]
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		1 (byte)     & 2                & 2     & 6               & 2      & *        \\ \hline
+		Content Type & Protocol Version & Epoch & Sequence Number & Length & Fragment \\ \hline
+	\end{tabular}
+	\caption{DTLS Record Format}
+	\label{Fig: DTLS Record Format}
+\end{figure*}
+
+\begin{description}[style=nextline]
+	\item[\textbf{Content Type}]
+	Content Type is inherited from TLS. It indicates the type of this record. The value can either be:
+	\begin{enumerate}
+		\item CHANGE\_CIPHER\_SPEC($20$)
+		\item ALERT($21$)
+		\item HANDSHAKE($22$)
+		\item APPLICATION\_DATA($23$)
+	\end{enumerate}
+	In the case of CHANGE\_CIPHER\_SPEC and HANDSHAKE, the sub protocol are invoked accordingly. Otherwise the Fragment field is treated as an error code in case of ALERT or ciphertext of application data in case of APPLICATION\_DATA.
+	\item[\textbf{Protocol Version}]
+	DTLS uses the complement of \{0xff, 0xff\} to indicate the version number. Since the implementation on our platform is for DTLS 1.2, this field is constantly \{0xfe, 0xfd\}.
+	\item[\textbf{Epoch}]
+	This field is incremented by one for each cipher state change, such as an invocation of \\
+	CHANGE\_CIPHER\_SPEC. This value is used as an index of which set of cryptographic parameters to be used, such as algorithms, keys or nonces.
+	\item[\textbf{Sequence Number}]
+	This field is the sequence number of this record. The sequence number is used by some cryptographic algorithms, such as to form a part of nonce.
+	\item[\textbf{Length}]
+	The length of Fragment field.
+	\item[\textbf{Fragment}]
+	The content of Fragment depends on Content Type. In the case of APPLICATION\_DATA, the Fragment contains the ciphertext.
+\end{description}
+
+The DTLS on Contiki is implemented by a third party code, tinydtls-0.8.2\cite{tinydtls}. Its current version supports two ciphersuites, namely:
+\begin{itemize}
+	\item TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}
+	\item TLS\_PSK\_WITH\_AES\_128\_CCM\_8\cite{rfc6655}
+\end{itemize}
+Both ciphersuites adopts the same AEAD scheme, AES\_128 with CCM mode, as their cryptographic primitives. Further details of the AEAD scheme is defined in \cite{rfc5116} and \cite{CCM}.
+
+As of this project, we are mostly focused on the APPLICATION\_DATA records rather than the handshake process, as we consider the later to be performed independently from any upper layer application.
 
 \subsection{CoAP}
-
 %CoAP as TCP
 
 \section{Other protocols and standards}
