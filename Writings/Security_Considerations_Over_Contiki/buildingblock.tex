@@ -423,7 +423,7 @@ In this section we describe two typical Application Layer protocols that has bee
 \subsection{DTLS}
 DTLS\cite{rfc6347} stands for Datagram Transport Layer Security. As of TLS, it provides end-to-end data confidentiality and authenticity. The main difference between DTLS and TLS is that:
 \begin{itemize}
-	\item DTLS is built on datagrams instead of TCP like TLS. In case of a 6LoWPAN network, this is effectively UDP. As a result DTLS implemented a simple reliable transmission mechanism during handshake to reliably exchange the cryptographic parameters.
+	\item DTLS is built on datagrams instead of TCP like TLS. In case of a 6LoWPAN network, this is effectively UDP. As a result DTLS implemented a simple reliable transmission mechanism during handshake to reliably exchange the cryptographic materials.
 	\item Explicit sequence number and epoch values on each DTLS record. We explain theses values in following context.
 	\item Invalid records no longer terminate the connection. Instead, errors are suppressed to the upper layer application and an alert is sent.
 	\item RC4 is disabled due to its stateful design\cite{DtlsCiphers}. It is hard to maintain synchronised stated with UDP.
@@ -454,7 +454,7 @@ A packet containing Application Layer data is called a record. The format of a D
 	DTLS uses the complement of \{0xff, 0xff\} to indicate the version number. Since the implementation on our platform is for DTLS 1.2, this field is constantly \{0xfe, 0xfd\}.
 	\item[\textbf{Epoch}]
 	This field is incremented by one for each cipher state change, such as an invocation of \\
-	CHANGE\_CIPHER\_SPEC. This value is used as an index of which set of cryptographic parameters to be used, such as algorithms, keys or nonces.
+	CHANGE\_CIPHER\_SPEC. This value is used as an index of which set of cryptographic materials to be used, such as algorithms, keys or nonces.
 	\item[\textbf{Sequence Number}]
 	This field is the sequence number of this record. The sequence number is used by some cryptographic algorithms, such as to form a part of nonce.
 	\item[\textbf{Length}]
@@ -470,10 +470,15 @@ The DTLS on Contiki is implemented by a third party code, tinydtls-0.8.2\cite{ti
 \end{itemize}
 Both ciphersuites adopts the same AEAD scheme, AES\_128 with CCM mode, as their cryptographic primitives. Further details of the AEAD scheme is defined in \cite{rfc5116} and \cite{CCM}.
 
+One thing to be noticed is that DTLS is not compatible with the multicast feature of IPv6 and UDP. The direct reason is the distribution of cryptographic materials poses a great difficulty in IoT applications. \cite{DtlsMulticast1} and \cite{DtlsMulticast2} discuss this topic in further details.
+
 As of this project, we are mostly focused on the APPLICATION\_DATA records rather than the handshake process, as we consider the later to be performed independently from any upper layer application.
 
 \subsection{CoAP}
 %CoAP as TCP
 
-\section{Other protocols and standards}
+%\section{Other protocols and standards}
 %Zigbee 
+
+\section{Summary}
+%Protocol suite

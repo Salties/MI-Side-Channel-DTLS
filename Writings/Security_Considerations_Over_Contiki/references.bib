@@ -161,6 +161,38 @@ note = {Availabe at \url{http://www.iana.org/assignments/tls-parameters/tls-para
  address = {Gaithersburg, MD, United States},
 } 
 
+@techreport{DtlsMulticast1,
+    number=        {draft-keoh-dice-multicast-security-08},
+    type =        {Internet-Draft},
+    institution =    {Internet Engineering Task Force},
+    publisher =    {Internet Engineering Task Force},
+    note =        {Work in Progress},
+    url =        {https://tools.ietf.org/html/draft-keoh-dice-multicast-security-08},
+    author=        {Sye Loong Keoh and Sandeep Kumar and Oscar Garcia-Morchon and Esko Dijk and Akbar Rahman},
+    title=        {{DTLS-based Multicast Security in Constrained Environments}},
+    pagetotal =    22,
+    year =        2015,
+    month =        jan,
+    day =        4,
+    abstract =    {The CoAP standard is fast emerging as a key protocol in the area of resource-constrained devices. Such IP-based systems are foreseen to be used for building and lighting automation systems where devices interconnect with each other, forming, for example, low-power and lossy networks (LLNs). Both multicast and its security are key needs in these networks. This draft presents a method for securing IPv6 multicast communication based on the DTLS which is already supported for unicast communication for CoAP devices. This draft deals with the adaptation of the DTLS record layer to protect multicast group communication, assuming that all group members already have the group security association parameters in their possession. The adapted DTLS record layer provides message confidentiality, integrity and replay protection to group messages using the group keying material before sending the message via IPv6 multicast to the group.},
+} 
+
+@inproceedings{DtlsMulticast2,
+  author    = {Marco Tiloca},
+  title     = {Efficient Protection of Response Messages in DTLS-Based Secure Multicast
+               Communication},
+  booktitle = {Proceedings of the 7th International Conference on Security of Information
+               and Networks, Glasgow, Scotland, UK, September 9-11, 2014},
+  pages     = {466},
+  year      = {2014},
+  crossref  = {DBLP:conf/sin/2014},
+  url       = {http://doi.acm.org/10.1145/2659651.2659668},
+  doi       = {10.1145/2659651.2659668},
+  timestamp = {Fri, 12 Dec 2014 13:15:40 +0100},
+  biburl    = {http://dblp2.uni-trier.de/rec/bib/conf/sin/Tiloca14},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
 @MISC{CoDTLS,
     author = {Lars Schmertmann, Klaus Hartke, Carsten Bormann},
     title = {CoDTLS: DTLS handshakes over CoAP},
