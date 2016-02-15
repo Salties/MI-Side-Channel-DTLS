@@ -1,9 +1,11 @@
 #Ignore LATEX output expect source files.
-/Writings/*
-!/Writings/*/*.tex
-!/Writings/*/*.bib
-!/Writings/*/fig/*
-!/Writings/*/figure/*
+/Writings/*/*.aux
+/Writings/*/*.pdf
+/Writings/*/*.bbl
+/Writings/*/*.log
+/Writings/*/*.toc
+/Writings/*/*.synctex.gz
+/Writings/*/*.blg
 
 #Ignore submodules.
 
