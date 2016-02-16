@@ -559,6 +559,8 @@ In addition to the definition of general application data interface, CoAP also p
 	This is the application data contained in this message. The content of this field varies according to Code and higher level application.
 \end{description}
 
+Based on the similarity between CoAP and HTTP, a CoAP message can be easily translated between its HTTP counterpart by a Cross-Protocol Proxy, as depicted in \cite{rfc7252}.
+
 Erbium\cite{Erbium} project is the CoAP implementation on Contiki, described in \cite{ContikiCoap}. It implements the CoAP engine and defined an interface for developers to implement their own application over the framework. Simply speaking, what developers need to do to integrate their own code into the CoAP framework is simply register their own callback function to the CoAP engine to handle the Requests to different resources.
 
 \subsection{CoAPs}
@@ -576,7 +578,39 @@ CoAPs is the security version of CoAP which is the counterpart of HTTPS to HTTP.
 
 The current version of DTLS does not support the multicast feature of CoAP. The multicast alternation of DTLS proposed by \cite{DtlsMulticast1} and \cite{DtlsMulticast2} could be used to adapt CoAPs to multicast messages.
 
-\cite{Lithe} proposes an integration of CoAP and DTLS with compressed headers. Unfortunately we have failed to adapt its source code to our platform. We have yet found any valid CoAPs implementation on our platform as well.
+\cite{Lithe} proposes an integration of CoAP and DTLS with compressed headers. Unfortunately we have failed to adapt its source code to our platform as it is implemented on an earlier Contiki version that does not support our device. We have yet found any valid CoAPs implementation on our platform as well.
+
+\section{RIME Stack}
+RIME Stack\cite{RIME} is a non-layered WSN communication framework proposed alongside with earlier version of Contiki. Instead of dividing communication between nodes in a layered structure as the OSI model does, RIME Stack organises the communications of WSN in a way such that:
+\begin{itemize}
+	\item Each node is identified by a RIME address. In practice, the RIME address is directly derived from the hardware address.
+	\item RIME Stack defines a set of abstracted communication primitives that can be directly invoked by the applications as well as a set of arguments that controls the connection.
+	\item The Chameleon architecture\cite{RIME} acts as an intermediate virtualisation layer that translates RIME Stack primitives and arguments into underneath MAC frames and vice versa.
+\end{itemize}
+Comparing to 6LoWPAN, RIME Stack is more flexible and efficient. However since routing is solely depends on application, RIME Stack is not adequate to fast application development and would be hard to scale when used in applications with complicated communication models.
 
 \section{Summary}
 %Protocol suite
+In \Cref{Chp: Building Blocks} we introduced a set of building blocks that could be use to build a secure WSN.  We introduced the protocol stack layer by layer within a simplified OSI model\cite{OSI}, as summarised in \Cref{Tbl: Summary of WSN Building Blocks}:
+
+\begin{table*}[h!]
+	\center
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textit{\textbf{Layer}}                                                                         & \textbf{Protocol}           & \textbf{Alternatives}  \\ \hline
+		\multirow{2}{*}{\textit{Application Layer}}                                                     & CoAP                        & \multirow{2}{*}{Lithe} \\ \cline{2-2}
+		                                                                                                & Optional: DTLS              &                        \\ \hline
+		\textit{Transport Layer}                                                                        & UDP                         & TCP                    \\ \hline
+		\multirow{2}{*}{\textit{Network Layer}}                                                         & Optional: IPSec             &                        \\ \cline{2-3} 
+		                                                                                                & 6LoWPAN                     & ZigBee, RIME Stack          \\ \hline
+		\multirow{2}{*}{\textit{\begin{tabular}[c]{@{}c@{}}Data Link Layer\\ (MAC Layer)\end{tabular}}} & Optional: LLSEC, ContikiMAC & TSCH                   \\ \cline{2-3} 
+		                                                                                                & \multirow{2}{*}{802.15.4}   & \multirow{2}{*}{BLE}   \\ \cline{1-1}
+		\textit{Physical Layer}                                                                         &                             &                        \\ \hline
+	\end{tabular}
+	\caption{Summary of WSN Building Blocks}
+	\label{Tbl: Summary of WSN Building Blocks}
+\end{table*}
+
+This protocol suite we adopted is expected to be general, as 802.15.4 standard is widely supported by recent IoT devices and 6LoWPAN network is adaptable to most applications while possessing a great interoperability with the current Internet by its nature. CoAP is also considered the application layer consideration for its generality and interoperability. The selected protocol suite is implemented on our platform, Contiki\cite{Contiki}.
+
+OpenWSN\cite{OpenWSN} can alternatively be used to build a WSN as it supports the same ‘’802.15.4 + 6LoWPAN + CoAP’’ protocol suite, except that it implements TSCH instead of ContikiMAC. In addition, WSN other protocols could possibly be adopted at different layers, such as BLE\cite{BLE} for Physical and MAC Layer, or ZigBee for Network Layer. We leave the research on other platforms as future work.
