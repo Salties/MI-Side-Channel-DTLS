@@ -494,9 +494,24 @@ Constrained Application Protocol, CoAP, is a general application data interface 
 	 \item Similar to HTTP, four methods, namely GET, POST, PUT and DELETE, are defined to access and manipulate the resources on sensor nodes. In addition, a new method OBSERVE is also defined for CoAP which allows a CoAP server to actively push data to the CoAP client. We explain more details of these methods later in the context.
 \end{itemize}
 %CoAP as TCP
-In addition to the definition of general application data interface, CoAP also provides a lightweight reliable transmission mechanism; therefore some context consider CoAP as a Transport Layer protocol that replaces TCP.
-
+In addition to the definition of general application data interface, CoAP also provides a lightweight reliable transmission mechanism as well as a fragmentation mechanism; therefore some context consider CoAP as a Transport Layer protocol that is an alternative of TCP. For example, \cite{CoDTLS} proposes to use CoAP to perform the DTLS handshake instead of using the built in retransmission mechanism of DTLS.
 %CoAP format
+\Cref{Fig: CoAP Message Format} describes the format of a CoAP message. The Token and Options adopt a length-value representation and thus their lengths are variable. The length of Payload is not explicitly stated but is calculated from the upper layer length.
+\begin{figure*}[h!]
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+	\hline
+	2 bits  & 2 bits & 4 bits       & 1 byte & 2 bytes   & * & *       & 1    & *       \\ \hline
+	Version & Type   & Token Length & Code   & Messge ID & Token                 & Options & 0xff & Payload \\ \hline
+	\end{tabular}
+	\caption{CoAP Message Format}
+	\label{Fig: CoAP Message Format}
+\end{figure*}
+
+\begin{description}[style=nextline]
+	\item[\textbf{Version}]
+	This is the version of CoAP. Currently this is constantly 0x01.
+	\item[\textbf{Type}]
+\end{description}
 
 %\section{Other protocols and standards}
 %Zigbee 
