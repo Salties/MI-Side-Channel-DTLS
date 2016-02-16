@@ -385,13 +385,14 @@ Transport Layer defines the interface to applications. To be more specifically, 
 
 TCP and UDP are the most widely used Transport Layer protocols over Internet. TCP provides a reliable streamed data channel whilst UDP provides only unreliable datagrams. In the world of IoT, UDP is generally preferable due to its low overhead and support to multicast.
 
-UDP is defined in \cite{rfc768}. Its format is shown in \Cref{Fig: UDP Datagram Format}
+\subsection{UDP}
+UDP is defined by \cite{rfc768}. Its format is shown in \Cref{Fig: UDP Datagram Format}
 \begin{figure*}[h!]
 	\center
-	\begin{tabular}{|c|c|c|c|c|}
-		\hline
-		2 (bytes)   & 2                & 2              & 2        & *       \\ \hline
-		Source Port & Destination Port & Payload Length & Checksum & Payload \\ \hline
+	\begin{tabular}{ccccc}
+		\multicolumn{4}{c}{\textit{UDP Header}}                                                                                                                & \textit{UDP Payload}         \\ \hline
+		\multicolumn{1}{|c|}{\textit{2 (bytes)}} & \multicolumn{1}{c|}{2}                & \multicolumn{1}{c|}{2}              & \multicolumn{1}{c|}{2}        & \multicolumn{1}{c|}{*}       \\ \hline
+		\multicolumn{1}{|c|}{Source Port}        & \multicolumn{1}{c|}{Destination Port} & \multicolumn{1}{c|}{Payload Length} & \multicolumn{1}{c|}{Checksum} & \multicolumn{1}{c|}{Payload} \\ \hline
 	\end{tabular}
 	\caption{UDP Datagram Format}
 	\label{Fig: UDP Datagram Format}
@@ -432,10 +433,10 @@ DTLS\cite{rfc6347} stands for Datagram Transport Layer Security. As of TLS, it p
 A packet containing Application Layer data is called a record. The format of a DTLS record is as depicted in \Cref{Fig: DTLS Record Format}.
 \begin{figure*}[h!]
 	\center
-	\begin{tabular}{|c|c|c|c|c|c|}
-		\hline
-		1 (byte)     & 2                & 2     & 6               & 2      & *        \\ \hline
-		Content Type & Protocol Version & Epoch & Sequence Number & Length & Fragment \\ \hline
+	\begin{tabular}{cccccc}
+		\multicolumn{5}{c}{\textit{DTLS Header}}                                                                                                                                     & \textit{DTLS Encrypted Payload} \\ \hline
+		\multicolumn{1}{|c|}{1 (byte)}     & \multicolumn{1}{c|}{2}                & \multicolumn{1}{c|}{2}     & \multicolumn{1}{c|}{6}               & \multicolumn{1}{c|}{2}      & \multicolumn{1}{c|}{*}          \\ \hline
+		\multicolumn{1}{|c|}{Content Type} & \multicolumn{1}{c|}{Protocol Version} & \multicolumn{1}{c|}{Epoch} & \multicolumn{1}{c|}{Sequence Number} & \multicolumn{1}{c|}{Length} & \multicolumn{1}{c|}{Fragment}   \\ \hline
 	\end{tabular}
 	\caption{DTLS Record Format}
 	\label{Fig: DTLS Record Format}
@@ -500,14 +501,15 @@ In the example of \Cref{Fig: An Example of CoAP}, the CoAP server is a CC2538 no
 	 \item Similar to HTTP, four methods, namely GET, POST, PUT and DELETE, are defined to access and manipulate the resources on sensor nodes. In addition, a new new option OBSERVE is also defined for GET method which allows a CoAP server to actively push data to the CoAP client. We explain more details of these methods later in the context.
 \end{itemize}
 %CoAP as TCP
-In addition to the definition of general application data interface, CoAP also provides a lightweight reliable transmission mechanism as well as a fragmentation mechanism; therefore some context consider CoAP as a Transport Layer protocol that is an alternative of TCP. For example, \cite{CoDTLS} proposes to use CoAP to perform the DTLS handshake instead of using the built in retransmission mechanism of DTLS.
+In addition to the definition of general application data interface, CoAP also provides a lightweight reliable transmission mechanism (described later in the context) as well as a fragmentation mechanism\cite{CoapBlock}; therefore some context consider CoAP as a Transport Layer protocol that is an alternative of TCP. For example, \cite{CoDTLS} proposes to use CoAP to perform the DTLS handshake instead of the built in retransmission mechanism of DTLS. CoAP also supports multicast messages as it is based on UDP, comparing to HTTP which is generally based on TCP and supports only one to one communication.
 %CoAP format
 \Cref{Fig: CoAP Message Format} describes the format of a CoAP message. The Token and Options adopt a length-value representation and thus their lengths are variable. The length of Payload is not explicitly stated but is calculated from the upper layer length.
 \begin{figure*}[h!]
+	\center
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 	\hline
-	2 bits  & 2 bits & 4 bits       & 1 byte & 2 bytes   & * & *       & 1    & *       \\ \hline
-	Version & Type   & Token Length & Code   & Message ID & Token                 & Options & 0xff & Payload \\ \hline
+	2 bits  & 2 bits & 4 bits       & 1 byte & 2 bytes   & * & *       & 1 byte    & *       \\ \hline
+	Version & Type   & Token Length & Code   & Message ID & Token                 & Options & Payload Marker & Payload \\ \hline
 	\end{tabular}
 	\caption{CoAP Message Format}
 	\label{Fig: CoAP Message Format}
@@ -535,21 +537,46 @@ In addition to the definition of general application data interface, CoAP also p
 		\item \textbf{Server Error Response(5)}: A Response by server indicates an error happened in the server. In this case, the Request is valid such but the server failed due to some internal error.
 	\end{itemize}
 	The lower 5 bits indicates further details of the code.
-	If the message is a Request, these bits indicates the method:
+	If the message is a Request, these bits indicates the method in the Request:
 	\begin{itemize}
-		\item \textbf{GET}: The client requests to read the specified resources. Specifically when the OBSERVE option is set for a GET request, the resources can be pushed to the client periodically without further Requests.
+		\item \textbf{GET}: The client requests to read the specified resources. Specifically when the OBSERVE option is set for a GET request, the resources can be pushed to the client  without further Requests\cite{rfc7641}.
 		\item \textbf{PUT}: The client requests to write the specified resources to a value provided by the client.
 		\item \textbf{POST}: The client requests to update the specified resources by a value provided by the client.
 		\item \textbf{DELETE}: The client requests to remove data of the specified resources.
 	\end{itemize}
 	By definition, GET, PUT and DELETE are idempotent, i.e. execution of the Request is stateless. However, the definitions above are only semantic and are not mandatory. Implementations of higher level application could still violate the definitions, such as modifying the data on GET Request.
 	
-	In case of a Response, the codes inherit the error codes as their counterpart in HTTP, as defined in \cite{rfc2616}.
+	In case of a Response, the lower bits inherited the error codes in HTTP, as defined in \cite{rfc2616}.
+	\item[\textbf{Message ID}]
+	Message ID is the index of a message. It is mostly used in reliable transmission to match an acknowledgement with its original message.
+	\item[\textbf{Token}]
+	Token is an index for a Request-Response session. A Response is matched to a Request with Token. Notice that Message ID and Token are different indexes, since same Token might be reused for multiple messages due to fragmentations, or OBSERVE option, etc.
+	\item[\textbf{Options}]
+	Options are the arguments for a message, such as URI, content format and size, etc. Different Options are defined for each Request and Response. The full list of Options is defined in \cite{rfc7252}.
+	\item[\textbf{Payload Mark}]
+	Payload Marker marks the end of Options and any data followed should be treated as Payload.
+	\item[\textbf{Payload}]
+	This is the application data contained in this message. The content of this field varies according to Code and higher level application.
 \end{description}
 
-%\section{Other protocols and standards}
-%Zigbee 
-%Future work
+Erbium\cite{Erbium} project is the CoAP implementation on Contiki, described in \cite{ContikiCoap}. It implements the CoAP engine and defined an interface for developers to implement their own application over the framework. Simply speaking, what developers need to do to integrate their own code into the CoAP framework is simply register their own callback function to the CoAP engine to handle the Requests to different resources.
+
+\subsection{CoAPs}
+CoAPs is the security version of CoAP which is the counterpart of HTTPS to HTTP. CoAPs adopts DTLS as the security measure and the any CoAP message should be encrypted as DTLS payload when using CoAPs. CoAPs is defined by \cite{rfc7252} as shown in \Cref{Fig: CoAPs Message}.
+
+\begin{figure*}[h!]
+	\center
+	\begin{tabular}{cc}
+		\textit{}                                  & \textit{DTLS Encrypted Payload}            \\ \hline
+		\multicolumn{1}{|c|}{\textit{DTLS Header}} & \multicolumn{1}{c|}{CoAP Message} \\ \hline
+	\end{tabular}
+	\caption{CoAPs Message}
+	\label{Fig: CoAPs Message}
+\end{figure*}
+
+The current version of DTLS does not support the multicast feature of CoAP. The multicast alternation of DTLS proposed by \cite{DtlsMulticast1} and \cite{DtlsMulticast2} could be used to adapt CoAPs to multicast messages.
+
+\cite{Lithe} proposes an integration of CoAP and DTLS with compressed headers. Unfortunately we have failed to adapt its source code to our platform. We have yet found any valid CoAPs implementation on our platform as well.
 
 \section{Summary}
 %Protocol suite
