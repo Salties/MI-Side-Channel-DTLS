@@ -1,10 +1,7 @@
-[submodule "californium"]
-	path = californium
-	url = ./californium/
-[submodule "sensniff"]
-	path = sensniff
-	url = ./sensniff/
 [submodule "contiki"]
 	path = contiki
 	url = git://github.com/contiki-os/contiki.git
 	branch = release-3-0
+[submodule "sensniff"]
+	path = sensniff
+	url = https://github.com/g-oikonomou/sensniff
