@@ -1,14 +1,10 @@
 \chapter{Building Blocks of WSN} \label{Chp: Building Blocks}
 
-%In this chapter, we will start by introducing the building components of WSN, mainly focuses on different protocol options at each layer. Then we move to security related work, in three aspects of traffic analysis attacks against different Internet applications, attacks against certain protocols and methods for detecting information leakage in different scenarios. Finally we conclude the chapter by cross referencing those  attacks on Internet to the observable metadata in WSN, proposing the potential traffic features that may lead to information leakage.
-In this chapter, we introduce the building blocks of a WSN by OSI model\cite{OSI}.
+In this chapter, we introduce the building blocks of a WSN using OSI model\cite{OSI}.
 
-In OSI model, the data channel is constructed layer by layer from the physical medium at the bottom to the abstracted application at the top (\Cref{fig: OSI model}). Each layer serves a specific purpose, from how to transmit a bit between two physically connected devices to how applications interprets the data. by introducing different protocol options at each layer.
+The data channel in OSI model is descried as a set of protocols stacked layer by layer from the Physical Layer at the bottom to the Application Layer at the top (\Cref{fig: OSI model}). Ideally, lower layer protocols provide an universal  interface to upper layer protocols; thus providing flexibility to protocol choice in different scenarios as well as interoperability between nodes with different lower level structures.
 
-Before the application data is being sent over the wire, two ends of the communication must agree on protocols being used at each layer. The data is then encapsulated from top layer down to the bottom, as depicted in \Cref{fig: OSI channel}. Each encapsulation adds additional metadata, namely protocol headers, to the data. The process is unwound at the receiving side. Normally lower layer protocols are transparent to upper layers.The outputted encapsulated data from upper layer is simply treated as the payload to a lower layer protocol.
-
-In many cases the boundaries between top three layers are ambiguous; thus they are all referred as Application Layer for convenience.
-\begin{figure*}
+\begin{figure*}[h!]
 	\centering
 	{
 		\includegraphics[width=0.4\textwidth,]{fig/Osi-model-jb.png}
@@ -16,7 +12,9 @@ In many cases the boundaries between top three layers are ambiguous; thus they a
 	\caption{OSI model} \label{fig: OSI model}
 \end{figure*}
 
-\begin{figure*}
+\Cref{fig: OSI channel} demonstrates a typical data transmission in OSI modelled network. The application data is encapsulated by the sender from top to the bottom, with each encapsulation adds additional metadata, namely protocol headers, to the data. The receiver unwinds the process and reads out the data.
+
+\begin{figure*}[h!]
 	\centering
 	{
 		\includegraphics[width=0.6\textwidth,]{fig/osi-model.png}
@@ -24,97 +22,95 @@ In many cases the boundaries between top three layers are ambiguous; thus they a
 	\caption{Data Transfer in OSI model} \label{fig: OSI channel}
 \end{figure*}
 
-In network terminology, 8 bits is called an OCTET. For the purpose of readability we use the general computer science term BYTE to represent the unit consists of 8 bits.
+However, in real world scenarios the boundaries between the top three layers are usually ambiguous; many context, including this report, simply refers them all together as Application Layer. In most scenarios the application only needs the Transport Layer interfaces and anything beneath is transparent.
 
-A combination of protocols at each layer is called a protocol stack, or a protocol suite. The protocol stack until application layer are usually handled by the operating systems. There are several systems specifically aimed to support WSN applications. Contiki\cite{Contiki} is a highly customisable system with 6LoWPAN protocol stack with many hardware supported, OpenWSN\cite{OpenWSN} also has a well hardware support and is featuring full protocol support up to CoAP\cite{rfc7252}, FreeRTOS\cite{FreeRTOS} is optimised for real time tasks, etc.
+A selection of protocols at each layer is called a protocol suite, or a protocol stack. 8 bits is called an OCTET in network terminology but for readability in general computer science we use BYTE to represent the unit of 8 bits.
 
-Due to popularity, in this report we mainly focus on Contiki and the 6LoWPAN protocol stack.
+Protocols from Physical Layer to Transport Layer are implemented by hardware or kernel. Since most IoT devices are extremely resource constrained; thus it is hard to directly transplant the widely used TCP/IP protocol suite to WSNs. Instead, different protocols and operating systems are specifically designed for WSN applications. Contiki\cite{Contiki} is a highly customisable IoT system with 6LoWPAN\cite{rfc4919} support and can run on many recent IoT hardware, OpenWSN\cite{OpenWSN} is also a popular IoT system that has well integrated 6LoWPAN with CoAP\cite{rfc7252} and FreeRTOS\cite{FreeRTOS} is optimised for real time applications, etc. There are many other IoT systems and protocols that we do not list here. In this research, we build our experimental WSN over Contiki with 6LoWPAN due to their popularity in academic and industry.
+
+Following in \Cref{Chp: Building Blocks} we introduce the building blocks of our experimental WSN from the bottom to the top in OSI model.
 
 \section{Physical Layer}
-Physical Layer specifies the hardware requirements for devices. It defines data transmission at bit level.
+Physical Layer protocols (or standards) specify the hardware requirements. They basically defines how a bit is transmitted over a physical medium.
 
-WSN features, as explained by its name, wireless connectivity. 802.15.4\cite{802154} standard is supported in many recent WSN devices. Its Physical Layer specification is intended to be for embedded devices emphasising low energy, low cost and low speed. Bluetooth Low Energy\cite{BLE}, BLE, is another candidate for WSN with similar features. \cite{802154BLE} provides a performance analysis of 802.15.4 and BLE.
+WSN features, as can be seen by its name, wireless connectivity. 802.15.4\cite{802154} standard is supported in many recent WSN devices. The  802.15.4 Physical Layer specification, 802.15.4 PHY, is crafted to be suitable for embedded wireless devices emphasising low energy, low cost and low speed. Bluetooth Low Energy\cite{BLE}, BLE, is another candidate for WSN with similar features. \cite{802154BLE} provides a performance analysis of 802.15.4 and BLE.
 
-Usually the length MAC frame, which we explain in \Cref{Sec: Data Link Layer}, is announced before it is being transmitted, e.g. shown in \Cref{Fig: 802.15.4 PHY Frame}.
+\Cref{Fig: 802.15.4 PHY Frame} shows the constitution of a Physical Layer frame. A frame is a bit string transmitted sequentially from the left in the figure to the right. We use the same representations for the rest in \Cref{Chp: Building Blocks}.
 
 \begin{table}[h!]
 	\centering
-	\begin{tabular}{|l|l|l|l|}
+	\begin{tabular}{|c|c|c|c|c|}
 		\hline
-		Preamble & SFD & MAC frame Length & Reserved \\ \hline
+		Preamble & SFD & MAC Frame Length & Reserved & MAC Frame\\ \hline
 	\end{tabular}
 	\caption{802.15.4 PHY Frame}
 	\label{Fig: 802.15.4 PHY Frame}
 \end{table}
 
-Preamble is used for hardware synchronisation. Start Frame Delimiter is a constantly 0xE5 for 802.15.4 frames. The length of a MAC frame is 0 to 127 bytes. More details can be found in \cite{802154}.
+We omit the further details of 802.15.4 PHY standard as they strongly relate to hardware details which is beyond the scope of this report. We give only a brief explanation of the contents in the frame.
+
+\textbf{Preamble} is a flag used for hardware synchronisation. \textbf{Start Frame Delimiter}, SFD, is a constantly 0xE5 for 802.15.4 frames which marks the begin of data in this frame. \textbf{MAC Frame Length} is a value of 0 to 127 indicating the number of bytes in the following \textbf{MAC Frame}, which we explain in \Cref{Sec: Data Link Layer}.
 
 \section{Data Link Layer} \label{Sec: Data Link Layer}
-Data Link Layer solves the problem of how the media is controlled. It also defines the atomic data chunk, called frames, being transmitted over the physical channel. Data Link protocols are strongly related to physical features of underlining devices. This layer is sometimes referred as MAC layer and the frame is called MAC frame in many context. MAC protocol only solves single hop communication. Packet forward is defined in upper layer protocols.
+Data Link Layer protocols manages the Physical Layer channel. In case of WSN, this is effectively Radio Frequency, RF. Data Link protocols are strongly related to physical features of underlining devices. 
 
-With respect to Media Access Control, MAC, technologies such as CSMA/CA \cite{802154} standard and TSCH\cite{TSCH} provides solutions to at which timing and channel should the radio transceiver send and receive data. ContikiMAC\cite{ContikiMAC} proposes a Radio Duty Cycle, RDC, protocol that aims to be energy efficient and has been implemented on Contiki OS.
+Data Link Layer is  also referred as Media Access Control, MAC, Layer for convenience. A MAC Frame is the atomic data transferring unit in this layer. MAC Layer protocols define data transmission between physically connected devices, i.e. single hop communication. Packet forward is defined in upper layer protocols.
 
-Another major component in Data Link Layer protocols is the format of different types of frames. In this research, we focus on 802.15.4 standard as its increasing attention in both industry and academy. 
+In case of WSN, a MAC Frame is always broadcasted to the sender’s neighbour due to the physical nature of RF. To avoid interference, MAC protocols adopts  techniques such as CSMA/CA \cite{802154} or TSCH\cite{TSCH} to solve the problem of how MAC Frames should be sent. Further more, other techniques like ContikiMAC\cite{ContikiMAC} proposes a sub Radio Duty Cycle, RDC, Layer protocol that aims to improve the energy efficiency of RF.
 
-Implementing security measures at this layer is called Link Layer SECurity, LLSEC. 
+As of this research, we are more focused on the contents in a MAC Frame defined by 802.15.4 MAC Layer specification\cite{802154}, 802.15.4 MAC.
 
-\subsection{802.15.4 MAC Layer} \label{Subsec: 802.15.4 MAC Layer}
-
-There are four types of frames defined in this standard, which are:
-\begin{description}
-	\item[\textbf{Beacon}] broadcastes to physically organise the network.
-	\item[\textbf{Command}] is used in network maintenance.
-	\item[\textbf{Data}] carries actual payload.
-	\item[\textbf{ACK}] only optionally sent in response when requested.
+\subsection{802.15.4 MAC} \label{Subsec: 802.15.4 MAC}
+802.15.4 MAC defined four types of MAC Frames.
+\begin{description}[style=nextline]
+	\item[\textbf{Beacon}] 
+	Beacon frame is broadcasted to physically organise the network.
+	\item[\textbf{Command}] 
+	Command frame is used for data channel maintenance.
+	\item[\textbf{Data}] 
+	Data frame carries data from upper layer protocols.
+	\item[\textbf{ACK}] 
+	ACK frame only optionally sent in response when requested by other frames to notify the sender that the frame is received. Some protocols use ACK frames, e.g. ContikiMAC uses it to inform the sender that the frame is received and hence terminates the resending process of sender.
 \end{description}
 
-Among these types of frames, we are particularly interested in Data frames. We will explain our concern of this choice later in \Cref{Sec: Leakage Sources}. \Cref{Fig: 802154 frame} describes the format of a 802.15.4 Data frame.
+We are particularly interested in Data frames as they are most relevant to application data. \Cref{Fig: 802154 Data Frame} describes its format.
 
 \begin{figure*}[h!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
 		\multicolumn{3}{c}{\textit{MAC Header}}                           & \multicolumn{1}{c}{\textit{MAC Payload}} & \multicolumn{1}{c}{\textit{MAC Footer}}     \\ \hline
 		2 (bytes)     & 1                    & 4 to 20              & *           & 2              \\ \hline
-		Frame Control & Data Sequence Number & Address Information & Data        & Frame Checksum \\ \hline
+		Frame Control & Sequence Number & Address Information & Data        & Frame Checksum \\ \hline
 	\end{tabular}
 	\caption{802.15.4 Data Frame}
-	\label{Fig: 802154 frame}
+	\label{Fig: 802154 Data Frame}
 \end{figure*}
 
-We briefly explain the format of 802.15.4 Data frame.
 \begin{description}[style=nextline]
 	\item[\textbf{Frame Control}]
-	This 2 bytes field contains the bit flags of additional information that instructs how the receiver should interpret this frame, including the type of this frame, whether the security option is enabled and how the source and destination addresses are represented. When the security option is enabled, additional field will be added to the frame. We will explain the security enabled frame format later in \Cref{Sec: Data Link Layer}. A full explanation of the flags can be found in \cite{802154}.
+	This field contains the bit flags instructing how the receiver should interpret this frame, such as the type of frame, with ACK and security options on or not, and format of addresses, etc. When the security option is enabled, additional field will be added to the frame. We explain the security enabled frame later in \Cref{Subsec: 802154 Sec}. The full details of flags is defined by \cite{802154}.
 	
 	\item[\textbf{Sequence Number}]
-	Each packet is assigned a sequence number. The main purpose of this field is that it enables a simple acknowledgement mechanism, ACK, at MAC layer. Since MAC layer provides only unreliable transmission, i.e. MAC frames are allowed to be dropped or arrive disordered; hence the ACK is optional. However, some other protocol can utilise this ACK, e.g. ContikiMAC uses the ACK MAC frame to inform the sender that the frame is received and hence terminates the resending process of sender.
+	The sequence number is increased by one for each MAC Frame sent and wraps to 0 when reached maximum. The sequence number is mostly used to match ACKs when requested.
 	
 	\item[\textbf{Address Information}]
-	This field contains the source address and destination address of this frame. The length of address is variable. Simply speaking, a longer addresses is used for larger network. and shorter for smaller. Each device has a unique built in address as known as MAC address. The MAC address is configurable on some, in fact nearly all recently, devices. Broadcast is achieved by using a specific destination address but group multicast is not implemented on this layer. In fact, given the physical character of radio, both broadcast messages and unicast messages are technically broadcasted. It entirely depends on the receiver to dropping frames that specifies an unicast address of other nodes.
+	This field contains source and destination MAC address of this frame. Their length are variable and is specified in Frame Control. Simply speaking, longer addresses are for larger networks and shorter for smaller ones. MAC address is derived from hardware and should be unique but configurable during runtime. As stated earlier, a MAC Frame is always received by all neighbours of the sender; therefore the receiver who does not match the destination will immediately drop the frame without processing it to upper layer.
 	
 	\item[\textbf{Data}]
-	This is the MAC layer data. This data is constituted of upper layer protocol headers and application data.
+	This is the MAC Layer data containing upper layer protocol headers and application data.
 	
 	\item[\textbf{Frame Checksum}]
 	The checksum is used to check and correct the error induced by physical channel.
 \end{description}
 
-The Frame Control, Sequence Number and Address Information together are called MAC header. The Data field is called MAC payload accordingly. 
+Frame Control, Sequence Number and Address Information together are called MAC Header. Data is therefore called MAC Payload respectively. 
 
-802.15.4 standard specifies the Maximum Transmission Unit, MTU, to be 127 bytes including the MAC header and footer. That is to say any 802.15.4 compatible hardware must be able to send at least 127 bytes within one frame; any frame that is larger than this size is not guaranteed to be support by the device. Since the MAC header and footer consumes 25 bytes in a Data frame, there is actually 102 bytes left for MAC payload.
+As specified in 802.15.4 PHY, Maximum Transmission Unit, MTU, required by 802.15.4 MAC Frame is 127 bytes including the MAC header and footer. In other words, 802.15.4 compatible hardware are guaranteed to send frames up to 127 bytes but frames exceeding this value might be silently discarded. Since MAC Header and Footer consumes 25 bytes in a Data frame, there is actually 102 bytes left for MAC Payload.
 
-Setting the security flag in Frame Control enables 802.15.4 security and adds additional information into the MAC header. We introduce the 802.15.4 security later in \Cref{Subsec: 802154 Sec}.
+Setting the security flag in Frame Control enables 802.15.4 Security and adds additional fields into the MAC header, which we describe in \Cref{Subsec: 802154 Sec}.
 
 \subsection{802.15.4 Security} \label{Subsec: 802154 Sec}
-802.15.4 security is based on symmetric cryptography, namely Authenticated Encryption with Associated Data, AEAD, scheme. To be more specifically, it provides encryption for MAC payload and authenticity for both MAC header and payload. The cryptographic primitive adopts AES-128 as the block cipher.
-
-802.15.4 has a set of configurable security levels:
-\begin{itemize}
-\item Encryption only, i.e. only MAC payload is encrypted in CTR mode.
-\item Authentication only, i.e. a tag is attached at the end of Data field. The tag is computed on MAC header and MAC payload in CBC mode. The MAC payload is transmitted in plaintext.
-\item Encryption and authentication. The whole frame is processed in CCM*\cite{802154} mode, with MAC header being the associated data and MAC payload being the plaintext to be encrypted. The asterisk symbol represents a slight restriction which requires the nonce, or IV, must contain the encoded format specifier that can uniquely determine the format of output ciphertext. In other words, the receiver must can uniquely determine solely by nonce whether authentication and encryption are enabled as well as the length of authentication tag.
-\item The tag can be further configured to be 32 bit, 64 bit or 128 bit when authentication is enabled.
-\end{itemize}
+802.15.4 Security is based on Authenticated Encryption with Associated Data, AEAD, with AES-128 being the underlining block cipher. Specifically, it provides encryption for MAC Payload and authenticity for the whole MAC Frame.
 
 The format of a 802.15.4 Data frame with security option set is described in \Cref{Fig: 802154 sec frame}.
 
@@ -122,38 +118,59 @@ The format of a 802.15.4 Data frame with security option set is described in \Cr
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\multicolumn{4}{c}{\textit{MAC Header}}                                                             & \multicolumn{2}{c}{\textit{MAC Payload}} & \multicolumn{1}{c}{\textit{MAC Footer}}     \\ \hline
-		\multicolumn{3}{|c|}{\multirow{2}{*}{As MAC header in \Cref{Fig: 802154 frame}}} & 0 to 14                    & *             & 0/4/8/16         & 2              \\ \cline{4-7} 
+		\multicolumn{3}{|c|}{\multirow{2}{*}{As MAC Header in \Cref{Fig: 802154 Data Frame}}} & 0 to 14 (bytes)                    & *             & 0/4/8/16         & 2              \\ \cline{4-7} 
 		\multicolumn{3}{|c|}{}                                           & Auxiliary Security Header & Data          & MIC              & Frame Checksum \\ \hline
 	\end{tabular}
 	\caption{802.15.4 Frame with security option enabled} \label{Fig: 802154 sec frame}
 \end{figure*}
 
-The Auxiliary Security Header contains the additional information needed by 802.15.4 security.
+The Auxiliary Security Header controls the security primitive and materials in 802.15.4 Security as shown in \Cref{Fig: Auxiliary Security Header of 802.15.4 Security}.
+
+\begin{figure*}[h!]
+	\center
+	\begin{tabular}{|c|c|c|}
+	\hline
+	\multicolumn{3}{|c|}{Auxililary Security Header} \\ \hline
+	3 bits          & 4 byte         & *             \\ \hline
+	Security Level  & Frame Counter  & Key Strategy  \\ \hline
+	\end{tabular}
+	\caption{Auxiliary Security Header of 802.15.4 Security}
+	\label{Fig: Auxiliary Security Header of 802.15.4 Security}
+\end{figure*}
 
 \begin{description}[style=nextline]
 	\item[\textbf{Security Level}]
-	Security Level is represented by the first 3 bits in Auxiliary Security Header. The highest bit controls whether encryption is enabled. The lower two bits controls the length of MIC with the value $0$ indicates no authentication.
+	Security Level is represented by the first 3 bits in Auxiliary Security Header. The highest bit enables encryption and lower two bits controls the length of Message Integrity Code, MIC, which is equivalent to Message Authenticate Code in cryptographic terms.  MIC of $0$ length indicates no authentication. Particularly, the security level can be configured to be:
+	\begin{itemize}
+		\item Encryption only. Only MAC Payload is encrypted in CTR mode.
+		\item Authentication only. A CBC-MIC\footnote{Equivalent to CBC-MAC in cryptographic term.} computed on the whole frame is attached to the end of Data. Data is transmitted in plaintext. Length of the MIC can be either 32, 64 or 128 bits based on the lower two bits of Security Level.
+		\item Encryption and authentication. The whole frame is processed in CCM*\cite{802154} mode. MAC Header is the associated data and MAC Payload the plaintext. The asterisk symbol requires that the nonce, or IV, must can be decoded to uniquely determine the exact format of output ciphertext. Length of the MIC can be either 32, 64 or 128 bits based on the lower two bits of Security Level.
+	\end{itemize}
 	\item[\textbf{Frame Counter}]
-	This 4 byte filed increases by one for each frame sent. It is also used for replay detection.
+	4 bytes of Auxiliary Security Header is occupied by Frame Counter which increases by one for each frame sent. It constitutes part of the nonce in CCM* mode and is also used for replay detection.
 	\item[\textbf{Key Strategy}]
-	The other parts instructs which key to be used for this frame. The keys are presumed to be pre-shared in PAN Information Base, PIB, which is a database containing information that is shared among the network. Keys are managed by groups and indexes within a group. The definition of groups depends on upper layer applications.
+	Key Strategy instructs which key to be used for this frame. The keys are presumed to be pre-shared in PAN\footnote{Personal Area Network} Information Base, PIB, which is a database containing information that is shared among the network. Keys are managed by groups and indexes within a group. The definition of groups depends on upper layer applications. The length of Key Strategy is variable.
 \end{description}
 
-More details of Auxiliary Security Header is defined in the 802.15.4 standard.
+More details of Auxiliary Security Header is defined by \cite{802154}.
 
-Message Integrity Code, MIC, is equivalent to the cryptography term Message Authenticate Code, MAC. Therefore the term MIC is used to avoid confusion with Media Access Control.
-
-Access Control List, ACL, is a list data structure defined in 802.15.4. It is used to maintain 802.15.4 security access during runtime.Each entry in ACL is paired with another node.  An ACL entry contains the following elements:
-\begin{description}
-	\item[\textbf{Address}] The address of remote node, used as an identifier.
-	\item[\textbf{Security Suite}] The security level to use associated to the address.
-	\item[\textbf{Key}] The paired cryptographic key associated to the address.
-	\item[\textbf{Last Initial Vector}] Nonce used for the last outgoing frame.
-	\item[\textbf{Replay Counter}] Nonce received for the last incoming frame.
+Access Control List, ACL, is a data structure used to manage the keys during runtime. Each entry of ACL is paired with another node.  An ACL entry contains the following elements:
+\begin{description}[style=nextline]
+	\item[\textbf{Address}]
+	The remote address, used as an identifier of ACL entry.
+	\item[\textbf{Security Suite}]
+	Effectively the Security Level associated to the remote address.
+	\item[\textbf{Key}]
+	The paired cryptographic key associated to the remote address.
+	\item[\textbf{Last Initial Vector}]
+	Nonce used for the last outgoing frame. Used to deduce next nonce to use.
+	\item[\textbf{Replay Counter}]
+	Nonce received for the last incoming frame. Used when replay protection is on.
 \end{description}
-On sending a frame with security option, the sender looks up destination address in ACL and determines the security level, key and frame counter which is encoded into the last initial vector. On receiving a frame, the receiver looks up source address in ACL and checks for match of the security suite and security level in the frame. Then it verifies the frame with the key. If replay protection is enabled, the replay counter is also compared. Failing any of the tests will result into rejecting of the frame.
 
-\subsection{Nonce of CCM* in 802.15.4 security}
+One thing to be noticed is that neither Key Strategy nor ACL is implemented on our platform. We give more details about key management of 802.15.4 Security in Contiki implementation in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}.
+
+\subsection{Nonce of CCM* in 802.15.4 Security}
 As stated earlier in \Cref{Subsec: 802154 Sec}, CCM* requires that the format of ciphertext can be uniquely deduced from the nonce. \Cref{Fig: CCM nonce} describes the nonce used for encryption.
 
 \begin{figure*}[h!]
@@ -167,42 +184,49 @@ As stated earlier in \Cref{Subsec: 802154 Sec}, CCM* requires that the format of
 	\label{Fig: CCM nonce}
 \end{figure*}
 
-\begin{description}
-\item[\textbf{Flag}]
-This is a constant a value equals to 0x02.
-\item[\textbf{Source Address}]
-This field is the address of sender. If an address of length than 8 byte is used, it will be extended to 8 byte.
-\item[\textbf{Frame Counter}]
-The frame counter is directly mapped from the same filed in Auxiliary Security Header, as described earlier.
-\item[\textbf{Security Level}]
-As of frame counter, security level is also directly mapped from Auxiliary Security Header with the highest bit set to $0$. As described earlier, security level solely determines the format of ciphertext.
-\item[\textbf{Block Counter}]
-This is exactly the block index of MAC payload, increases by one for each block. Since AES-128 is the underlining block cipher; therefore the block size is 128 bit.
+\begin{description}[style=nextline]
+	\item[\textbf{Flag}]
+	 Deduced by MTU. In case of 802.15.4, it is constantly 0x02.
+	\item[\textbf{Source Address}]
+	Address of sender. Addresses less than 8 bytes will be extended.
+	\item[\textbf{Frame Counter}]
+	Directly mapped from Frame Counter in Auxiliary Security Header.
+	\item[\textbf{Security Level}]
+	Directly mapped from Security Level in Auxiliary Security Header with the highest bit set to $0$. Security Level solely determines the format of ciphertext.
+	\item[\textbf{Block Counter}]
+	Index of data blocks in MAC payload, with the first block being 0 and increases by one for each block. The block length is 128 bits since AES-128 is the underlining block cipher.
 \end{description}
 
-802.15.4 security could either be implemented by hardware and/or software. Some platform may not support the security option, or only supports a sub set of this measure. We briefly describe an implementation on Contiki platform later in \Cref{Subsec: noncoresec}.
+802.15.4 Security could either be implemented by hardware and/or software. Some platform may not support the security option, or only a sub set. We describe the 802.15.4 Security implementation on Contiki in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}.
 
-\subsubsection{Implementation on Contiki: noncoresec} \label{Subsec: noncoresec}
-noncoresec is the LLSEC implementation on Contiki. It is a reduced implementation of 802.15.4 security which supports only a network shared key hard coded into the kernel code.
+\subsection{802.15.4 Security Implementation in Contiki} \label{Subsec: 802.15.4 Security Implementation in Contiki}
+noncoresec\cite{noncoresec} is the 802.15.4 Security implementation in Contiki. It is a reduced implementation of 802.15.4 Security which supports only a network shared key hard coded into the kernel code.
 
 \subsection{Sub Layer: RDC Layer}
-In practical, the radio transceiver turned out to be the most energy consuming part in a sensor node. Further more, listening data consumes more energy than sending them. Thus an optimisation for energy preserving is to switch off the transceiver for most of the time and switch it on only when there is data on air. The Radio Duty Cycle, RDC, Sub Layer is therefore added to MAC Layer. RDC protocols control the behaviour of radio transceiver by synchronise their timing of sending and receiving data; hence the radio can be kept off for most of the time. In the case of Contiki, there are two RDC protocols implemented:
+
+In practical, the radio transceiver turned out to be the most energy consuming part in a sensor node. Further more, listening to data consumes more energy than sending. Therefore an improvement of energy efficiency is to switch off the transceiver for most of the time and only turn it on when there is data on air. The Radio Duty Cycle, RDC, Sub Layer is therefore defined as part of MAC Layer which controls the behaviour of radio transceiver.
+
+There are two RDC protocols implemented in our platform.
+
 \begin{itemize}
-\item \textbf{nullrdc}. There is no RDC protocol. The transceiver is kept on forever.
-\item \textbf{ContikiMAC\cite{ContikiMAC}}. The transceiver is kept off for most of the time and only wakes up for a short period. If data transmission is detected during the wake-up period, the receiver keeps the transceiver on until the frame is received and informs the sender with an ACK. On the other hand, the sender continuously retransmits the frame until an ACK is received or the time runs out.
+\item \textbf{nullrdc}. There is no RDC protocol. The transceiver is always kept on.
+\item \textbf{ContikiMAC\cite{ContikiMAC}}. The transceiver is kept off for most of the time and only wakes up for a short period. If data transmission is detected during the wake-up period, the receiver keeps the transceiver on until the frame is received and informs the sender with an ACK. On the other hand, the sender continuously retransmits the frame until an ACK is received or timeout.
 \end{itemize}
 
-Time-Slotted Channel Hopping\cite{TSCH}, TSCH, is another RDC protocol that is adopted by OpenWSN. Since it is not implemented yet in our platform, Contiki, we omit its further details in this report.
+Time-Slotted Channel Hopping\cite{TSCH}, TSCH, is another RDC protocol that is adopted by OpenWSN. We omit its further detail as it is not yet implemented on our platform.
 
 \section{Network Layer}
-The Data Link Layer protocol has solved the problem of data transmission over directly linked nodes. However, real world WSN applications are sometimes deployed in a wider range that not all nodes can be directly connected, such as a smart city application. The solution to build a logic data path between the nodes where each intermediate node forwards the data to the next node until it reaches its destination. Such logical data path is called a multi hop connection and directly connected data path is called a single hop connection respectively. The transmission unit at the Network Layer is called a packet.
+The MAC Layer protocols defined the data transmission over directly linked nodes. However, real world applications are usually deployed in a wider range that physically cannot be covered by only direct connections, such as smart city applications. The solution is to build a logical connection that allows the data to be forwarded by intermediate nodes until it reaches the destination. Such logical connection is called a multi hop connection with respect to directly connected single hop connection. As a result, arbitrary nodes can connect to each others and hence forms a network.
 
-A network is defined as a set of nodes logically connected to each other. There are two common types of network considered in WSN applications:
+Network Layer protocols aim at the routing and addressing problems. The transmission unit in Network Layer is called a packet.
+
+There are two typical types of network in WSN applications:
 \begin{description}[style=nextline]
 	\item[\textbf{Star Network}]
-	Star network is a centralised network, as in \Cref{fig: Star Network}. Each node is directly linked to the centre. Star networks can be easily implemented and thus requires less resources.
+	Star network is a centralised network as in \Cref{fig: Star Network}. Each node is directly linked to the centre. Star networks are easier to implement and require less resources thus adequate to smaller applications. The drawback is that it is not flexible and scalable, and it is inefficient on communications between leafs.
+	%CONTINUE FROM HERE 20160217
 	\item[\textbf{Mesh Network}]
-	Mesh network has a decentralised structure as shown in \Cref{fig: Mesh Network}. Every node is capable to forward packets. Comparing to star network, mesh network is more flexible and scalable but also more complicate and harder to implement. Mesh network is more practical than star network in large scale applications, such as smart cities.
+	Mesh network has a decentralised structure as in \Cref{fig: Mesh Network}. Every node is capable to forward packets. Comparing to star network, mesh network is more flexible and scalable but also more complicate and harder to implement. Mesh network is more practical than star network in large scale applications, such as smart cities.
 \end{description}
 
 \begin{figure*}
@@ -603,7 +627,7 @@ In \Cref{Chp: Building Blocks} we introduced a set of building blocks that could
 		\textit{Transport Layer}                                                                        & UDP                         & TCP                    \\ \hline
 		\multirow{2}{*}{\textit{Network Layer}}                                                         & Optional: IPSec             &                        \\ \cline{2-3} 
 		                                                                                                & 6LoWPAN                     & ZigBee, RIME Stack          \\ \hline
-		\multirow{2}{*}{\textit{\begin{tabular}[c]{@{}c@{}}Data Link Layer\\ (MAC Layer)\end{tabular}}} & Optional: LLSEC, ContikiMAC & TSCH                   \\ \cline{2-3} 
+		\multirow{2}{*}{\textit{\begin{tabular}[c]{@{}c@{}}Data Link Layer\\ (MAC Layer)\end{tabular}}} & Optional: 802.15.4 Security, ContikiMAC & TSCH                   \\ \cline{2-3} 
 		                                                                                                & \multirow{2}{*}{802.15.4}   & \multirow{2}{*}{BLE}   \\ \cline{1-1}
 		\textit{Physical Layer}                                                                         &                             &                        \\ \hline
 	\end{tabular}
