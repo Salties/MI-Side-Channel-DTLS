@@ -223,12 +223,11 @@ Network Layer protocols aim at the routing and addressing problems. The transmis
 There are two typical types of network in WSN applications:
 \begin{description}[style=nextline]
 	\item[\textbf{Star Network}]
-	Star network is a centralised network as in \Cref{fig: Star Network}. Each node is directly linked to the centre. Star networks are easier to implement and require less resources thus adequate to smaller applications. The drawback is that it is not flexible and scalable, and it is inefficient on communications between leafs.
-	%CONTINUE FROM HERE 20160217
+	Star network is a type of centralised network as depicted in \Cref{fig: Star Network}. Each node is directly linked to the centre one. 
 	\item[\textbf{Mesh Network}]
-	Mesh network has a decentralised structure as in \Cref{fig: Mesh Network}. Every node is capable to forward packets. Comparing to star network, mesh network is more flexible and scalable but also more complicate and harder to implement. Mesh network is more practical than star network in large scale applications, such as smart cities.
+	Mesh network has a decentralised structure as depicted in \Cref{fig: Mesh Network}. Comparing to star network, packets are routed in a mesh network.
 \end{description}
-
+%CONTINUE FROM HERE 20160218
 \begin{figure*}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
@@ -256,20 +255,20 @@ Some network are built with a hybrid approach of star network and mesh network, 
 	\caption{Different ZigBee Network Topologies} \label{fig: ZigBee Topologies}
 \end{figure*}
 
-6LoWPAN is a currently well adopted network standard. It has the following features making it popular in IoT industry: 
+6LoWPAN is an emerging standard in WSN applications. Comparing to other protocols, 6LoWPAN has the following advantages: 
 \begin{itemize}
-	\item Each device is assigned with an IPv6 address of compressed format. With a border router that translates the compressed IPv6 address into an IP address, a node inside 6LoWPAN  can directly communicate with a host over Internet.
-	\item Its mesh routing feature lead to a flexible, scalable and robust network, as the network can spontaneously reorganise itself at running time.
-	\item It is standardised by IETF and well supported in industry.
+	\item Each device is assigned an IPv6 address. This feature provides a great interoperability with other devices, such as a desktop or a smart phone.
+	\item As a mesh network, it is flexible, scalable and robust. The network can dynamically reorganise itself during runtime.
+	\item It is standardised by IETF and is well supported in industry.
 \end{itemize}
 
-As of this project, we are particularly interested into 6LoWPAN due to the reasons above. Packets in a 6LoWPAN can be categorised into two classes:
-\begin{enumerate}
+Simply speaking , 6LoWPAN packets can be categorised into two classes:
+\begin{itemize}
 	\item \textbf{IPv6 Data Packets}
 	\item \textbf{ICMPv6 Packets}
-\end{enumerate}
+\end{itemize}
 We give a brief explanation of their contents in \Cref{Subsec: IPv6 Data Packets} and \Cref{Subsec: ICMPv6} respectively.
-
+%20160218
 \subsection{6LoWPAN Adaptation Sub Layer} \label{Subsec:6LoWPAN Adaptation Sub Layer}
 A sub layer is defined in 6LoWPAN standard\cite{rfc4944} to compress a standard IPv6 header, in order to reduce the overhead induced by protocol stacks and provide more bandwidth to the applications. Additional headers are prepended before the IPv6 header as shown in \Cref{Fig: 6LoWPAN Adaptation Header}. 
 
