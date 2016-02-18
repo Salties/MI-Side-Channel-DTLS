@@ -51,6 +51,8 @@ We omit the further details of 802.15.4 PHY standard as they strongly relate to 
 
 \textbf{Preamble} is a flag used for hardware synchronisation. \textbf{Start Frame Delimiter}, SFD, is a constantly 0xE5 for 802.15.4 frames which marks the begin of data in this frame. \textbf{MAC Frame Length} is a value of 0 to 127 indicating the number of bytes in the following \textbf{MAC Frame}, which we explain in \Cref{Sec: Data Link Layer}.
 
+Our experimental WSN is built on TelosB\cite{TelosB} and CC2538\cite{CC2538}. Wismote\cite{Wismote} is also used in Cooja simulations.
+
 \section{Data Link Layer} \label{Sec: Data Link Layer}
 Data Link Layer protocols manages the Physical Layer channel. In case of WSN, this is effectively Radio Frequency, RF. Data Link protocols are strongly related to physical features of underlining devices. 
 
@@ -218,7 +220,7 @@ Time-Slotted Channel Hopping\cite{TSCH}, TSCH, is another RDC protocol that is a
 \section{Network Layer}
 The MAC Layer protocols defined the data transmission over directly linked nodes. However, real world applications are usually deployed in a wider range that physically cannot be covered by only direct connections, such as smart city applications. The solution is to build a logical connection that allows the data to be forwarded by intermediate nodes until it reaches the destination. Such logical connection is called a multi hop connection with respect to directly connected single hop connection. As a result, arbitrary nodes can connect to each others and hence forms a network.
 
-Network Layer protocols aim at the routing and addressing problems. The transmission unit in Network Layer is called a packet.
+Network Layer protocols aim at the routing and addressing problems. The transmission unit in Network Layer is called a packet. The headers and payload constitutes the MAC Payload as in \Cref{Fig: 802154 Data Frame}.
 
 There are two typical types of network in WSN applications:
 \begin{description}[style=nextline]
@@ -245,21 +247,28 @@ There are two typical types of network in WSN applications:
 	\caption{Network Topologies} \label{fig: Network topologies}
 \end{figure*}
 
-Some network are built with a hybrid approach of star network and mesh network, e.g. the Cluster Tree Network of Zigbee\cite{Zigbee} as showed in \Cref{fig: ZigBee Topologies}.
+%Some network are built with a hybrid approach of star network and mesh network, e.g. the Cluster Tree Network of Zigbee\cite{Zigbee} as showed in \Cref{fig: ZigBee Topologies}.
+%
+%\begin{figure*}[h!]
+%	\centering
+%	{
+%		\includegraphics[width=0.7\textwidth,]{fig/ZigBeeTopologies.png}
+%	}
+%	\caption{Different ZigBee Network Topologies} \label{fig: ZigBee Topologies}
+%\end{figure*}
 
-\begin{figure*}[h!]
-	\centering
-	{
-		\includegraphics[width=0.7\textwidth,]{fig/ZigBeeTopologies.png}
-	}
-	\caption{Different ZigBee Network Topologies} \label{fig: ZigBee Topologies}
-\end{figure*}
+Star network is easier to implement and therefore requires less resources. Mesh network is more complicated but it is more flexible, scalable and robust.
 
-6LoWPAN is an emerging standard in WSN applications. Comparing to other protocols, 6LoWPAN has the following advantages: 
+In this research, we build our experimental WSN using 6LoWPAN without loss of generality, as it is supported by most recent WSN systems.
+
+
+
+\subsection{6LoWPAN}
+6LoWPAN is an emerging standard in WSN applications. 6LoWPAN has the following features: 
 \begin{itemize}
-	\item Each device is assigned an IPv6 address. This feature provides a great interoperability with other devices, such as a desktop or a smart phone.
-	\item As a mesh network, it is flexible, scalable and robust. The network can dynamically reorganise itself during runtime.
 	\item It is standardised by IETF and is well supported in industry.
+	\item Each device is assigned an IPv6 address. This feature provides a great potential of interoperability with other Internet devices, such as a desktop or a smart phone.
+	\item As a mesh network, it is flexible, scalable and robust, since the network can dynamically reorganise itself during runtime.
 \end{itemize}
 
 Simply speaking , 6LoWPAN packets can be categorised into two classes:
@@ -268,9 +277,9 @@ Simply speaking , 6LoWPAN packets can be categorised into two classes:
 	\item \textbf{ICMPv6 Packets}
 \end{itemize}
 We give a brief explanation of their contents in \Cref{Subsec: IPv6 Data Packets} and \Cref{Subsec: ICMPv6} respectively.
-%20160218
+
 \subsection{6LoWPAN Adaptation Sub Layer} \label{Subsec:6LoWPAN Adaptation Sub Layer}
-A sub layer is defined in 6LoWPAN standard\cite{rfc4944} to compress a standard IPv6 header, in order to reduce the overhead induced by protocol stacks and provide more bandwidth to the applications. Additional headers are prepended before the IPv6 header as shown in \Cref{Fig: 6LoWPAN Adaptation Header}. 
+A sub layer is defined in 6LoWPAN standard\cite{rfc4944} which adapts IPv6\cite{rfc2460} to constrained environment by header compression. An adaption headers is prepended before the IPv6 header as shown in \Cref{Fig: 6LoWPAN Adaptation Header}. 
 
 \begin{figure*}[h!]
 	\centering
@@ -282,19 +291,21 @@ A sub layer is defined in 6LoWPAN standard\cite{rfc4944} to compress a standard 
 \label{Fig: 6LoWPAN Adaptation Header}
 \end{figure*}
 
-The header compression is generally done by:
+The compression is basically done by:
 \begin{itemize}
 	\item Optimised encoding. Take the Hop Limit, HLIM or TTL (Time To Live), field for example, the frequently used values, 1, 64 and 255, are represented in 2 bits as 01b, 10b and 11b respectively, saving 6 bits from its original 1 byte field.
-	\item Since 6LoWPAN has usually less devices than a normal IPv6 network. The unused higher bits are therefore re-encoded. Technically speaking this is also a kind of optimised encoding.
+	\item Shortened addresses. Since 6LoWPAN has usually less devices than a normal IPv6 network, the unused higher bits can be omitted. The shortened addresses can be extended on need.
 \end{itemize}
-The header compression is a lossless; thus we can always reconstruct an equivalent IPv6 header from the compressed header and this header compression information. We omitted further complicated details due to its complexity but they are defined in \cite{rfc6282}.
 
-In addition to header compression, 6LoWPAN Adaptation Header also contains information for packet fragmentation as well as device address conflict avoiding. We omit the further details as it is beyond the scope of this report. Details of these mechanisms are defined in \cite{rfc4944}.
+The header compression is lossless; thus an equivalent IPv6 header can always be reconstructed. We omit further details of compression as it is beyond the scope of this research but the scheme is defined in \cite{rfc6282}.
+
+In addition to header compression information, 6LoWPAN Adaptation sub layer may optionally contains packet fragmentation information and routing information. We omit further details of them as they are beyond the scope of this research. Details are defined in \cite{rfc4944}.
 
 \subsection{IPv6 Data Packets} \label{Subsec: IPv6 Data Packets}
-These packets contains the IPv6 payload. In 6LoWPAN, the IPv6 header is compressed as described in \Cref{Subsec:6LoWPAN Adaptation Sub Layer}. In this section we explain the contents of a standard IPv6 header instead of a compressed one for convenience but one can always uniquely transform a standard IPv6 header to a compressed one since they are indeed equivalent.
 
-IPv6 is defined in \cite{rfc2460}. Its basic format is as shown in \Cref{Fig: IPv6 Packet Format}. We removed the length information as they are inconsistent when the header is compressed.
+IPv6 Data Packets carry the IPv6 Payload. In 6LoWPAN, the IPv6 header is compressed as described in \Cref{Subsec:6LoWPAN Adaptation Sub Layer}. In this section, we use a standard IPv6 header in description instead for convenience, as it is bijective to its compressed format.
+
+IPv6 packet is defined in \cite{rfc2460}. We show its basic format in \Cref{Fig: Basic IPv6 Packet Format}. Length information are omitted in the figure as they are inconsistent when compressed.
 
 \begin{figure*}[h!]
 \center
@@ -304,7 +315,7 @@ IPv6 is defined in \cite{rfc2460}. Its basic format is as shown in \Cref{Fig: IP
 	                                & \multicolumn{3}{c|}{Source Address}  & \multicolumn{3}{c|}{Destination Address} \\ \cline{2-7} 
 	\textit{IP Payload}                 & \multicolumn{6}{c|}{Payload}                                                    \\ \cline{2-7} 
 	\end{tabular}
-	\caption{Basic IPv6 Packet Format} \label{Fig: IPv6 Packet Format}
+	\caption{Basic IPv6 Packet Format} \label{Fig: Basic IPv6 Packet Format}
 \end{figure*}
 
 \begin{description}[style=nextline]
@@ -315,29 +326,33 @@ IPv6 is defined in \cite{rfc2460}. Its basic format is as shown in \Cref{Fig: IP
 	\item[\textbf{Flow Label}]
 	This field is intended to label a logical data path at Network Layer. The IPv6 standard\cite{rfc2460} states  it should ``be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service or `real-time` service``. Support to this field is optional.
 	\item[\textbf{Payload Length}]
-	This field specifies the length of Network Layer payload.
+	This field specifies the length of Payload.
 	\item[\textbf{Next Header}]
-	This field specifies the Transportation Layer protocol to be used. In WSN applications this is usually UDP. We will cover more of this in \Cref{Sec: Transportation Layer}.
+	This field specifies the Transportation Layer protocol to be used. In WSN applications this is usually UDP. We introduce more details in \Cref{Sec: Transport Layer}.
 	\item[\textbf{Hop Limit}]
-	Hop Limit, HLIM, is also called Time To Live, TTL. It decreases by one whenever the packet is forwarded. The packet will be dropped when this value reaches $0$. This prevents a packet from being infinitely forwarded.
+	Hop Limit, HLIM, also known as Time To Live, TTL. It decreases by one whenever the packet is forwarded. The packet will be dropped when this value reaches $0$. This prevents a packet from being infinitely forwarded.
 	\item[\textbf{Source Address and Destination Address}]
-	These are the IPv6 addresses of sender and receiver. These are addresses are normally consistent during routing of a packet. In comparison,MAC source and destination varies on each hop, as an intermediate receiver becomes the sender of next hop.
+	These are the IPv6 addresses of sender and receiver. These fields are normally consistent during routing of a packet. In comparison, source and destination in MAC Frame varies on each hop, as an intermediate receiver becomes the sender of next hop.
 	\item[\textbf{Payload}]
 	This field contains the upper layer protocol headers and application data.
 \end{description}
-One thing to be noticed is that Traffic Class and Flow Label is not yet fully defined by IPv6 standard.
 
-There are also extension headers defined in IPv6\cite{rfc2460}, including IPsec and fragmentation ,etc.
+One thing to be noticed is that Traffic Class and Flow Label is not yet fully defined by IPv6 standard\cite{rfc2460}. 
 
-IPsec is defined in \cite{rfc4301} with its Authentication Header, AH, defined by \cite{rfc4302} and Encapsulating Security Payload, ESP, defined by \cite{rfc4303}. AH authenticates all IP Headers (the basic IPv6 header and the extensions) except fields  those might be modified by a router such as TTL. ESP provides encryption over IP Payload. Enabling IPsec over IPv6 adds 40 bytes to the IP Header which is unacceptable in IoT environment. \cite{6LoWPANIPsec} and \cite{CompressIPsec} discusses compression of IPsec over 6LoWPAN. \cite{ContikiIPsec} describes an implementation of IPsec over Contiki but it is not yet adopted by the latest released Contiki 3.0.
+Extension headers are also defined in IPv6\cite{rfc2460}, including IPsec and fragmentation ,etc. These headers are optional and are chained by Next Header.
+
+\begin{description}[style=nextline]
+\item[\textbf{IPsec}]
+Overview of IPsec is defined in \cite{rfc4301}. The Authentication Header, AH, is defined by \cite{rfc4302} and Encapsulating Security Payload, ESP, defined by \cite{rfc4303}. AH authenticates all IP Headers (basic IPv6 header in \Cref{Fig: Basic IPv6 Packet Format} plus the extensions), except fields those might be modified by a router such as HLIM. ESP provides encryption over IP Payload. Enabling IPsec over IPv6 adds 40 bytes to the IP Header which is unacceptable in constrained environment. \cite{6LoWPANIPsec} and \cite{CompressIPsec} discusses compression of IPsec over 6LoWPAN. \cite{ContikiIPsec} describes an implementation of IPsec over Contiki but it is not yet adopted by the latest released Contiki 3.0.
+\end{description}
 
 We omit further details of other extension headers as they are mostly used to handle routing and fragmentation and thus beyond the scope of this report.
 
 \subsection{ICMPv6 Packets} \label{Subsec: ICMPv6}
-Internet Control Message Protocol for IPv6, ICMPv6, is a set of messages that are used to maintain the network. \cite{rfc4443} defines the general format alongside with ICMPv6 Error Messages and Information Messages. 
+Internet Control Message Protocol for IPv6, ICMPv6, is a set of messages that are used to maintain the network. \cite{rfc4443} defines the general format. 
 
 %IPv6 General Format
-In IPv6, an ICMP messages is preceded by an IPv6 Basic Header and optional IPv6 extension headers with the last Next Header field set to ICMP as \Cref{Fig: ICMP with IPv6}. The IP Payload in \Cref{Fig: IPv6 Packet Format} is replaced by an ICMP message in this case.
+In IPv6, an ICMP messages is preceded by an IPv6 Basic Header and optional IPv6 extension headers with the last Next Header field set to ICMP as in \Cref{Fig: ICMP with IPv6}. The IP Payload in \Cref{Fig: Basic IPv6 Packet Format} is replaced by an ICMP message in this case.
 
 \begin{figure*}[h!]
 	\centering
@@ -361,60 +376,62 @@ The general format of an IPv6 message is described in \cite{rfc4443} as \Cref{Fi
 	\label{Fig: General Format of ICMPv6 Message}
 \end{figure*}
 
-As stated in \cite{rfc4443},
 \begin{description}[style=nextline]
 \item[\textbf{Type}]
-There are two groups of types of messages defined in \cite{rfc4443}. Error messages have a Type value in $[0,127]$ which indicates an error of network. Information messages have a type value in $[128,255]$ which provide network information to nodes of the network.
+There are two groups of types of messages defined in \cite{rfc4443}. Error message has a Type value in $[0,127]$ which indicates an error in the network. Information messages has a type value in $[128,255]$ which provide management information to nodes in the network.
 \item[\textbf{Code}]
-Each type of ICMP message defines its own code to indicate the exact functionality of an ICMP message.
+Each type of ICMP message defines its own code to indicate the further details.
 \item[\textbf{Checksum}]
 Checksum for the packet.
+\item[\textbf{Message Body}]
+Message Body varies according to Type and Code.
 \end{description}
+Full details are defined by \cite{rfc4443},
 
-We explain only a minor set of ICMP Messages that we have successfully observed in our experiment.
+We explain only a minor set of ICMP Messages that we have successfully observed in our experimental WSN.
 %Error messages, informative message
 \begin{description}[style=nextline]
-\item[\textbf{Echo Request and Reply Messages}]
-These are diagnostic ICMP Information messages. Upon receiving an ICMP Echo Request, the receiving node is required by \cite{rfc4443} to reply with an identical ICMP message except the source and destination addresses are inverted. The Echo Request is typically sent by a PING command for diagnostic reasons such as testing of connectivity or measuring the Round Trip Time, RTT, of a data path. The response of ICMP Echo is enabled in Contiki by default but it is disabled on many Internet server for security reasons.
+	\item[\textbf{Echo Request and Reply Messages}]
+	These are diagnostic ICMP Information messages. Upon receiving an ICMP Echo Request, the receiving node is required by \cite{rfc4443} to reply with an identical ICMP message except the source and destination addresses are inverted. The Echo Request is typically sent by a PING command for diagnostic reasons such as testing of connectivity or measuring the Round Trip Time, RTT, of a data path. The response of ICMP Echo is enabled in Contiki by default but it is disabled on many Internet server for security reasons.
+	
+	\item[\textbf{RPL Messages}]
+	A family of ICMPv6 messages, RPL Messages, are defined by \cite{rfc6550}. RPL Messages are fundamental in foundation and self-organisation a 6LoWPAN network. A 6LoWPAN network instance is a Destination Oriented Directed Acyclic Graph, DODAG, shown in \Cref{Fig: DODAG}. 
+
+	\begin{figure*}[h!]
+		\center
+		\includegraphics[width=0.6\textwidth]{fig/dodag.png}
+		\caption{A DODAG}
+		\label{Fig: DODAG}
+	\end{figure*}
+	
+	We omit further details of the decision of a routing path as it is beyond the scope of this report but they are defined in \cite{rfc6550}. We explain the major RPL Messages in a 6LoWPAN network.
+	
+	\begin{description}[style=nextline]
+		\item[\textbf{DAG Information Object (DIO) Message}]
+		The DIO message contains the global information of a 6LoWPAN network. It is broadcasted by a node to its neighbours periodically for maintenance, or as a reply on request of a new joining node to provide enough information for the new one to join the network.
+		\item[\textbf{DAG Information Solicitation (DIS) Message}]
+		When a new node is booted, it broadcasts DIS messages probing an existing 6LoWPAN network. If the DIS message is received by any neighbour node that belong to a network, then a DIO message is replied providing the information to join the network.
+		\item[\textbf{Destination Advertisement Object (DAO) Message}]
+		DAO Message is sent by a child node to its precedents to propagate its routing information. The routing information is later used when another node tries to send a packet to this child node. The receiving parent can either store the routing information or forward it to an upper level parent depending on its capability.
+	\end{description}
+	
+	\cite{rfc6550} also defined secure variants to these RPL Messages which provides authentication as well as confidentiality. However, they are not implemented on our platform and therefore we omit their details in this report.
 \end{description}
 
-%RPL messages
-A family of ICMPv6 messages, RPL messages, are defined by \cite{rfc6550}. RPL messages are fundamental in forming and self-organising a 6LoWPAN network. A 6LoWPAN network instance is a Destination Oriented Directed Acyclic Graph, DODAG, shown in \Cref{Fig: DODAG}. 
-\begin{figure*}[h!]
-	\center
-	\includegraphics[width=0.6\textwidth]{fig/dodag.png}
-	\caption{A DODAG}
-	\label{Fig: DODAG}
-\end{figure*}
-We omit further details of the decision of a routing path as it is beyond the scope of this report but they are defined in \cite{rfc6550}. Instead, we explain the major related ICMP messages in a 6LoWPAN network.
-%DODAG Information Solicitation
-%DODAG Information Object
-%Destination Advertisement Object
-\begin{description}[style=nextline]
-\item[\textbf{DAG Information Object (DIO) Message}]
-The DIO message contains the global information of a 6LoWPAN network. It is broadcasted by a node to its neighbours periodically for maintenance, or as a reply on request of a new joining node to provide enough information for the new one to join the network.
+\section{Transport Layer} \label{Sec: Transport Layer}
+Transport Layer defines the interfaces that can be directly used by applications. To be more specifically, ports are defined to complement network addresses, allowing the kernel to direct application data to the correct procedure running on the host. Transport Layer protocols define also communication primitives to applications, such as reliability and stream/block wise data.
 
-\item[\textbf{DAG Information Solicitation (DIS) Message}]
-When a new node is booted, it broadcasts DIS messages probing an existing 6LoWPAN network. If the DIS message is received by any neighbour node that belong to a network, then a DIO message is replied providing the information to join the network.
-
-\item[\textbf{Destination Advertisement Object (DAO) Message}]
-DAO Message is sent by a child node to its precedents to propagate its routing information. The routing information is later used when another node tries to send a packet to this child node. The receiving parent can either store the routing information or forward it to an upper level parent depending on its capability.
-\end{description}
-
-\cite{rfc6550} also defined secure variants to these RPL messages which provides authentication as well as confidentiality. However, they are not implemented on our platform and therefore we omit their details in this report.
-
-\section{Transport Layer} \label{Sec: Transportation Layer}
-Transport Layer defines the interface to applications. To be more specifically, ports are defined at this layer in addition to network addresses allowing packets to be directed to different applications running on the same host. Transport Layer protocols also define more semantic details of the data channel, such as reliability and modes data operation.
-
-TCP and UDP are the most widely used Transport Layer protocols over Internet. TCP provides a reliable streamed data channel whilst UDP provides only unreliable datagrams. In the world of IoT, UDP is generally preferable due to its low overhead and support to multicast.
+TCP and UDP are the most widely used Transport Layer protocols over Internet. TCP provides a reliable stream connection whilst UDP provides only unreliable datagram transmission. In case of WSN, UDP is generally preferable than TCP due to its low overhead and multicast support.
 
 \subsection{UDP}
-UDP is defined by \cite{rfc768}. Its format is shown in \Cref{Fig: UDP Datagram Format}
+
+UDP is defined by \cite{rfc768}. The format of an UDP datagram is shown in \Cref{Fig: UDP Datagram Format}.
+
 \begin{figure*}[h!]
 	\center
 	\begin{tabular}{ccccc}
 		\multicolumn{4}{c}{\textit{UDP Header}}                                                                                                                & \textit{UDP Payload}         \\ \hline
-		\multicolumn{1}{|c|}{\textit{2 (bytes)}} & \multicolumn{1}{c|}{2}                & \multicolumn{1}{c|}{2}              & \multicolumn{1}{c|}{2}        & \multicolumn{1}{c|}{*}       \\ \hline
+		\multicolumn{1}{|c|}{2 (bytes)} & \multicolumn{1}{c|}{2}                & \multicolumn{1}{c|}{2}              & \multicolumn{1}{c|}{2}        & \multicolumn{1}{c|}{*}       \\ \hline
 		\multicolumn{1}{|c|}{Source Port}        & \multicolumn{1}{c|}{Destination Port} & \multicolumn{1}{c|}{Payload Length} & \multicolumn{1}{c|}{Checksum} & \multicolumn{1}{c|}{Payload} \\ \hline
 	\end{tabular}
 	\caption{UDP Datagram Format}
@@ -423,37 +440,34 @@ UDP is defined by \cite{rfc768}. Its format is shown in \Cref{Fig: UDP Datagram 
 
 \begin{description}[style=nextline]
 	\item[\textbf{Source and Destination Port}]
-	Ports are the identifier of applications running on a host. The source port and destination port semantically represent the applications that send and receive the data respectively.
+	Ports are the identifier of applications running on a host. Source and Destination Port semantically represent the sending and receiving procedure of application data respectively.
 	\item[\textbf{Payload Length}]
-	The length of UDP payload.
+	The length of Payload.
 	\item[\textbf{Checksum}]
-	Checksum of the packet. The checksum is optional in \cite{rfc768} but is required in 6LoWPAN.
+	Checksum of the datagram. The checksum is optional in \cite{rfc768} but is mandatory in 6LoWPAN.
 	\item[\textbf{Payload}]
-	The application data.
+	This is the actual application data.
 \end{description}
 
-The UDP header constitutes of 8 bytes and contains only the minimum information for the OS to identify the receiving process of a packet. Data transmission of UDP is unreliable, which means the data might be lost or arrive disordered.
-
-The combination of a network address and a port is called an entity in network term.
+The UDP header consumes only 8 bytes. Data transmission using UDP is unreliable, i.e. the data might be lost, modified or arrived disordered. 
 
 \section{Application Layer}
-%DTLS
-%MQTT
-%CoAP
-This layer represents the various applications on the architecture. Some Application Layer protocols may beneath other applications, such as TLS and DTLS are sometimes viewed as a sub layer protocol of Transport Layer.
+Application Layer represents the various applications. Other contexts may categorise some of the protocols differently, e.g. DTLS in \Cref{Subsec: DTLS} may be viewed as a security sub layer protocol in Transport Layer and CoAP in \Cref{Subsec: CoAP} can also be viewed as a Transport  Layer protocol since it defines reliable transmission primitives, etc.
 
-In this section we describe two typical Application Layer protocols that has been implemented on our platform, namely DTLS\cite{rfc6347} and CoAP\cite{rfc7252}. A real application can be built on these protocols.
+For generality we describe two typical Application Layer protocols in this section that has been implemented on our platform, namely DTLS\cite{rfc6347} and CoAP\cite{rfc7252}. Applications can be built above these protocols.
 
-\subsection{DTLS}
-DTLS\cite{rfc6347} stands for Datagram Transport Layer Security. As of TLS, it provides end-to-end data confidentiality and authenticity. The main difference between DTLS and TLS is that:
+\subsection{DTLS} \label{Subsec: DTLS}
+DTLS\cite{rfc6347} stands for Datagram Transport Layer Security, the datagram variant of TLS. As of TLS, it provides end-to-end data confidentiality and authenticity. The main differences between DTLS and TLS are that:
+
 \begin{itemize}
-	\item DTLS is built on datagrams instead of TCP like TLS. In case of a 6LoWPAN network, this is effectively UDP. As a result DTLS implemented a simple reliable transmission mechanism during handshake to reliably exchange the cryptographic materials.
-	\item Explicit sequence number and epoch values on each DTLS record. We explain theses values in following context.
-	\item Invalid records no longer terminate the connection. Instead, errors are suppressed to the upper layer application and an alert is sent.
-	\item RC4 is disabled due to its stateful design\cite{DtlsCiphers}. It is hard to maintain synchronised stated with UDP.
+	\item DTLS builds on unreliable datagram communication, comparing to TLS which builds on reliable stream connection like TCP. In case of 6LoWPAN, DTLS is effectively built on UDP. DTLS implements a simple reliable transmission mechanism to exchange critical cryptographic materials during the handshake phase.
+	\item Explicit sequence number and epoch values on each DTLS record. We explain more details in the following context.
+	\item Invalid records no longer terminate the connection. Instead, in most of the cases errors are suppressed to the upper layer application.
+	\item RC4 is disabled due to its stateful design,  as it is hard to synchronise two ends of the DTLS connection with UDP. \cite{DtlsCiphers} defines the available cipher suites in DTLS.
 \end{itemize}
 
-A packet containing Application Layer data is called a record. The format of a DTLS record is as depicted in \Cref{Fig: DTLS Record Format}.
+A DTLS packet is called a record. Its format is as depicted in \Cref{Fig: DTLS Record Format}.
+
 \begin{figure*}[h!]
 	\center
 	\begin{tabular}{cccccc}
@@ -474,36 +488,37 @@ A packet containing Application Layer data is called a record. The format of a D
 		\item HANDSHAKE($22$)
 		\item APPLICATION\_DATA($23$)
 	\end{enumerate}
-	In the case of CHANGE\_CIPHER\_SPEC and HANDSHAKE, the sub protocols are invoked accordingly. Otherwise the Fragment field is treated as an error code in case of ALERT or ciphertext of application data in case of APPLICATION\_DATA.
+	In cases of CHANGE\_CIPHER\_SPEC and HANDSHAKE, the relative sub protocols are invoked accordingly. In other cases the Fragment field is treated as an error code for ALERT record or ciphertext of application data for APPLICATION\_DATA.
 	\item[\textbf{Protocol Version}]
 	DTLS uses the complement of \{0xff, 0xff\} to indicate the version number. Since the implementation on our platform is for DTLS 1.2, this field is constantly \{0xfe, 0xfd\}.
 	\item[\textbf{Epoch}]
-	This field is incremented by one for each cipher state change, such as an invocation of \\
-	CHANGE\_CIPHER\_SPEC. This value is used as an index of which set of cryptographic materials to be used, such as algorithms, keys or nonces.
+	This field is increased by one for each cipher state change, such as an invocation of \\
+	CHANGE\_CIPHER\_SPEC. This value is used as an index of cryptographic materials to be used, including algorithms, keys nonces nonces.
 	\item[\textbf{Sequence Number}]
-	This field is the sequence number of this record. The sequence number is used by some cryptographic algorithms, such as to form a part of nonce.
+	This field is the sequence number of records, increased by one for each record.
 	\item[\textbf{Length}]
-	The length of Fragment field.
+	The length of Fragment.
 	\item[\textbf{Fragment}]
-	The content of Fragment depends on Content Type. In the case of APPLICATION\_DATA, the Fragment contains the ciphertext.
+	The content of Fragment depends on Content Type as explained above.
 \end{description}
 
 The DTLS on Contiki is implemented by a third party code, tinydtls-0.8.2\cite{tinydtls}. Its current version supports two ciphersuites, namely:
 \begin{itemize}
-	\item TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}
-	\item TLS\_PSK\_WITH\_AES\_128\_CCM\_8\cite{rfc6655}
+	\item TLS\_ECDHE\footnote{Elliptic Curve Diffle-Hellman key Exchange}\_ECDSA\footnote{Elliptic Curve Digital Signature Algorithm}\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}
+	\item TLS\_PSK\footnote{Pre Shared Key}\_WITH\_AES\_128\_CCM\_8\cite{rfc6655}
 \end{itemize}
-Both ciphersuites adopts the same AEAD scheme, AES\_128 with CCM mode, as their cryptographic primitives. Further details of the AEAD scheme is defined in \cite{rfc5116} and \cite{CCM}.
+Both cipher suites adopt the same AEAD scheme, AES\_128 with 8 bytes CBC-MAC in CCM mode, as their cryptographic primitives. Further details of the AEAD schemes are defined in \cite{rfc5116} and \cite{CCM}.
 
 One thing to be noticed is that DTLS is not compatible with the multicast feature of IPv6 and UDP. The direct reason is the distribution of cryptographic materials poses a great difficulty in IoT applications. \cite{DtlsMulticast1} and \cite{DtlsMulticast2} discuss this topic in further details.
 
 As of this project, we are mostly focused on the APPLICATION\_DATA records rather than the handshake process, as we consider the later to be performed independently from any upper layer application.
 
-\subsection{CoAP}
-Constrained Application Protocol, CoAP, is a general application data interface defined in \cite{rfc7252}. CoAP can be viewed as a variation of HTTP that is specifically designed to access resources on IoT devices. The high level concept of CoAP is to make accessing data on sensor nodes behaves as accessing resources of a web site on Internet. Generally speaking,
+\subsection{CoAP} \label{Subsec: CoAP}
+Constrained Application Protocol, CoAP, is a general application framework defined by \cite{rfc7252}. CoAP can be viewed as a variation of HTTP that is specifically designed to access or manipulate resources on IoT devices. The high level concept of CoAP is to make communication to sensor nodes behaves in a similar manner of accessing a web site. Generally speaking,
 \begin{itemize}
-	\item Typically the sensor node runs a CoAP server application and registers its resources (sensors, actuators) to CoAP server. The management node, operated by an user or higher level application, access the resources as a CoAP client. In some cases the sensor node can also be a CoAP client and requests operational information from the management node which in this case runs as a CoAP server.
-	\item Similar to HTTP, CoAP uses a Request-Response application model. That is, the CoAP client actively sends Requests to CoAP server, the CoAP server passively replies to each Request with a Response.
+	\item Typically the sensor node runs a CoAP server application registering its resources (sensors, actuators). The management node, operated by an user or higher level application, access the sensor node as a CoAP client. 
+	%In cases where the sensor node can also be a CoAP client and requests operational information from the management node which in this case runs as a CoAP server.
+	\item Similar to HTTP, CoAP uses a Request-Response application model. That is, the CoAP client actively sends a Request to CoAP server and the CoAP server passively replies with a Response.
 \end{itemize}
 
 We show an example of the execution of CoAP protocol in \Cref{Fig: An Example of CoAP}.
@@ -514,19 +529,19 @@ We show an example of the execution of CoAP protocol in \Cref{Fig: An Example of
 	\label{Fig: An Example of CoAP}
 \end{figure*}
 
-In the example of \Cref{Fig: An Example of CoAP}, the CoAP server is a CC2538 node registered with several resources, ‘’actuators’’, ‘’hello’’ and ‘’leds’’, etc. The CoAP client is a desktop accessing the data on the sensor node through the Copper plugin\cite{Copper} of Firefox. As shown in \Cref{Fig: An Example of CoAP}, CoAP has the following features:
+In the example of \Cref{Fig: An Example of CoAP}, the CoAP server is a CC2538 node registered with several resources listed in the tree view on the left, such as ‘’actuators’’, ‘’hello’’ and ‘’leds’’, etc. The CoAP client runs on a desktop through the Copper plugin\cite{Copper} of Firefox. As shown in \Cref{Fig: An Example of CoAP}, the CoAP framework has the following features:
 \begin{itemize}
-	\item A node in the 6LoWPAN network is represented by an URL. In \Cref{Fig: An Example of CoAP}, we can see at the address bar the resources of node is represented in a form of URL:\\
+	\item A node in a 6LoWPAN network is represented by an URL. In \Cref{Fig: An Example of CoAP}, we can see at the address bar the resources of node is represented in a form of URL:\\
 	\url{coap://[aaaa::212:4b00:41e:afc6]:5683/.well-known/core} \\
-	This is exactly as the same format of those URLs on Internet: \\
-	 \{PROTOCOL :// ADDRESS : PORT / LOCATION \}.
+	This is exactly the same format of those URLs on Internet\cite{rfc3986}: \\
+	 \{PROTOCOL :// ADDRESS : PORT / PATH \}.
 	 \item Resources available on the node is organised in a tree structure, as shown in the tree view on the left in \Cref{Fig: An Example of CoAP}. These resources can be specified by the URL as shown in the address bar.
-	 \item Similar to HTTP, four methods, namely GET, POST, PUT and DELETE, are defined to access and manipulate the resources on sensor nodes. In addition, a new new option OBSERVE is also defined for GET method which allows a CoAP server to actively push data to the CoAP client. We explain more details of these methods later in the context.
+	 \item Similar to HTTP, four methods, namely GET, POST, PUT and DELETE, are defined to access and manipulate the resources on sensor nodes. In addition, the new option OBSERVE is defined for GET method to allows a CoAP server to actively push data to the CoAP client. We explain more details of these methods later in the context.
 \end{itemize}
-%CoAP as TCP
-In addition to the definition of general application data interface, CoAP also provides a lightweight reliable transmission mechanism (described later in the context) as well as a fragmentation mechanism\cite{CoapBlock}; therefore some context consider CoAP as a Transport Layer protocol that is an alternative of TCP. For example, \cite{CoDTLS} proposes to use CoAP to perform the DTLS handshake instead of the built in retransmission mechanism of DTLS. CoAP also supports multicast messages as it is based on UDP, comparing to HTTP which is generally based on TCP and supports only one to one communication.
-%CoAP format
-\Cref{Fig: CoAP Message Format} describes the format of a CoAP message. The Token and Options adopt a length-value representation and thus their lengths are variable. The length of Payload is not explicitly stated but is calculated from the upper layer length.
+
+In addition, CoAP also provides a lightweight reliable transmission mechanism including fragmentation\cite{CoapBlock}; therefore some context uses CoAP as a reliable transmission protocol that is an alternative of TCP. For example, \cite{CoDTLS} proposes to use CoAP to perform the DTLS handshake instead of the built in retransmission mechanism of DTLS. CoAP also supports multicast messages as it is based on UDP, comparing to HTTP which is generally based on TCP and  hence supports only one to one communication.
+
+\Cref{Fig: CoAP Message Format} describes the format of a CoAP message. The Token and Options uses a length-value representation. The length of Payload is not explicitly stated but is calculated by the payload length of upper layer protocol.
 \begin{figure*}[h!]
 	\center
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -546,48 +561,53 @@ In addition to the definition of general application data interface, CoAP also p
 	\begin{itemize}
 		\item \textbf{Confirmable(0)}: The message must be confirmed by an acknowledgement, otherwise the sender will attempt to retransmit the message.
 		\item \textbf{Non confirmable(1)}: The message does not need to be confirmed and thus the transmission is unreliable.
-		\item \textbf{Acknowledgement(2)}: This value is set to confirm the reception of a Confirmable(0) message. Piggyback, i.e. application data sent together within same message, is allowed in CoAP acknowledgement.
-		\item \textbf{Reset(3)}: This value is similar to the RST flag in TCP which usually indicates a fatal error in connection and no further message should be sent on the same connection.
+		\item \textbf{Acknowledgement(2)}: This value is set to inform the reception of a Confirmable(0) message. Piggyback, i.e. application data sent together within the same message, is allowed in CoAP acknowledgement.
+		\item \textbf{Reset(3)}: This value is similar to the RST flag in TCP which usually indicates a fatal error in connection and no further messages should be sent.
 	\end{itemize}
 	\item[\textbf{Token Length}]
-	This field indicates the length of Token field. We explain Token field in the following context.
+	This field indicates the length of Token.
 	\item[\textbf{Code}]
-	Code indicates the class of content. The higher 3 bits indicates the class of this message:
+	Code indicates the class of content in this message. The higher 3 bits represents:
 	\begin{itemize}
-		\item \textbf{Request(0)}: Sent by client requesting access of data of server.
+		\item \textbf{Request(0)}: Sent by client requesting operation on resources.
 		\item \textbf{Success Response(2)}: A Response by server indicates a successful Request.
 		\item \textbf{Client Error Response(4)}: A Response by server indicates an error in the Request. This can be resulted from syntax error in Request or the serve is not capable to process the Request.
-		\item \textbf{Server Error Response(5)}: A Response by server indicates an error happened in the server. In this case, the Request is valid such but the server failed due to some internal error.
+		\item \textbf{Server Error Response(5)}: A Response by server indicates an error happened in the server. In this case, the Request is valid but the server failed due to some internal error.
 	\end{itemize}
 	The lower 5 bits indicates further details of the code.
-	If the message is a Request, these bits indicates the method in the Request:
-	\begin{itemize}
-		\item \textbf{GET}: The client requests to read the specified resources. Specifically when the OBSERVE option is set for a GET request, the resources can be pushed to the client  without further Requests\cite{rfc7641}.
-		\item \textbf{PUT}: The client requests to write the specified resources to a value provided by the client.
-		\item \textbf{POST}: The client requests to update the specified resources by a value provided by the client.
-		\item \textbf{DELETE}: The client requests to remove data of the specified resources.
-	\end{itemize}
-	By definition, GET, PUT and DELETE are idempotent, i.e. execution of the Request is stateless. However, the definitions above are only semantic and are not mandatory. Implementations of higher level application could still violate the definitions, such as modifying the data on GET Request.
+	If the message is a Request, these bits indicates the method of this Request:
+	\begin{description}[style=nextline]
+		\item[\textbf{GET}] 
+		The client requests to read a resource. Specifically when the OBSERVE option is set for a GET request, the resources can be pushed to the client  without further Requests\cite{rfc7641}.
+		\item[\textbf{PUT}] 
+		The client requests to write a resource to a value it provides.
+		\item[\textbf{POST}] 
+		The client requests to update a resource by a value it provides.
+		\item[\textbf{DELETE}]
+		 The client requests to remove a resource.
+	\end{description}
+	By definition, GET, PUT and DELETE are idempotent, i.e. execution of Request is stateless. However, the definitions above are only semantic and are not mandatory. Implementation could still violate the definitions, such as modifying the data on a GET Request.
 	
 	In case of a Response, the lower bits inherited the error codes in HTTP, as defined in \cite{rfc2616}.
 	\item[\textbf{Message ID}]
 	Message ID is the index of a message. It is mostly used in reliable transmission to match an acknowledgement with its original message.
 	\item[\textbf{Token}]
-	Token is an index for a Request-Response session. A Response is matched to a Request with Token. Notice that Message ID and Token are different indexes, since same Token might be reused for multiple messages due to fragmentations, or OBSERVE option, etc.
+	Token is an index for a Request-Response session. A Response is matched to a Request by Token. Notice that Message ID and Token are different indexes, since same Token might be reused for multiple messages due to fragmentations, or OBSERVE option, etc.
 	\item[\textbf{Options}]
-	Options are the arguments for a message, such as URI, content format and size, etc. Different Options are defined for each Request and Response. The full list of Options is defined in \cite{rfc7252}.
-	\item[\textbf{Payload Mark}]
-	Payload Marker marks the end of Options and any data followed should be treated as Payload.
+	Options are the arguments for a message similar to their counterpart in HTTP, such as URI, content format and size, etc. Different Options are based on Code. The detailed data structure and full list of Options is defined by \cite{rfc7252}.
+	\item[\textbf{Payload Marker}]
+	Payload Marker marks the end of Options. Any data followed should be treated as Payload.
 	\item[\textbf{Payload}]
-	This is the application data contained in this message. The content of this field varies according to Code and higher level application.
+	Application data contained in this message. 
 \end{description}
 
-Based on the similarity between CoAP and HTTP, a CoAP message can be easily translated between its HTTP counterpart by a Cross-Protocol Proxy, as depicted in \cite{rfc7252}.
+Based on the similarity between CoAP and HTTP, a CoAP message can be easily translated to a HTTP message and vice versa through a Cross-Protocol Proxy, as depicted in \cite{rfc7252}.
 
-Erbium\cite{Erbium} project is the CoAP implementation on Contiki, described in \cite{ContikiCoap}. It implements the CoAP engine and defined an interface for developers to implement their own application over the framework. Simply speaking, what developers need to do to integrate their own code into the CoAP framework is simply register their own callback function to the CoAP engine to handle the Requests to different resources.
+Erbium\cite{Erbium} project is the CoAP implementation on Contiki, described in \cite{ContikiCoap}. It implements the CoAP engine and defines an interface for developers to implement their own application over CoAP framework. 
+%Simply speaking, what developers need to do to integrate their own code into the CoAP framework is simply register their own callback function to the CoAP server to handle the Requests to different resources.
 
 \subsection{CoAPs}
-CoAPs is the security version of CoAP which is the counterpart of HTTPS to HTTP. CoAPs adopts DTLS as the security measure and the any CoAP message should be encrypted as DTLS payload when using CoAPs. CoAPs is defined by \cite{rfc7252} as shown in \Cref{Fig: CoAPs Message}.
+CoAPs is the security version of CoAP which is a counterpart of HTTPS to HTTP. CoAPs adopts DTLS as the security measure. Any CoAP message should be encrypted as DTLS payload when using CoAPs. CoAPs is defined by \cite{rfc7252}. An overview of CoAPs meesage is shown in \Cref{Fig: CoAPs Message}.
 
 \begin{figure*}[h!]
 	\center
@@ -601,20 +621,21 @@ CoAPs is the security version of CoAP which is the counterpart of HTTPS to HTTP.
 
 The current version of DTLS does not support the multicast feature of CoAP. The multicast alternation of DTLS proposed by \cite{DtlsMulticast1} and \cite{DtlsMulticast2} could be used to adapt CoAPs to multicast messages.
 
-\cite{Lithe} proposes an integration of CoAP and DTLS with compressed headers. Unfortunately we have failed to adapt its source code to our platform as it is implemented on an earlier Contiki version that does not support our device. We have yet found any valid CoAPs implementation on our platform as well.
+\cite{Lithe} proposes an integration of CoAP and DTLS with compressed headers. Unfortunately we have failed to adapt its source code to our platform. We have yet found any concrete CoAPs implementation on our platform.
 
 \section{RIME Stack}
-RIME Stack\cite{RIME} is a non-layered WSN communication framework proposed alongside with earlier version of Contiki. Instead of dividing communication between nodes in a layered structure as the OSI model does, RIME Stack organises the communications of WSN in a way such that:
+RIME Stack\cite{RIME} is a non-layered WSN communication framework proposed implemented in earlier version of Contiki. Instead using the layered structure as OSI model does, RIME Stack organises the communications of WSN in a way such that:
 \begin{itemize}
 	\item Each node is identified by a RIME address. In practice, the RIME address is directly derived from the hardware address.
-	\item RIME Stack defines a set of abstracted communication primitives that can be directly invoked by the applications as well as a set of arguments that controls the connection.
-	\item The Chameleon architecture\cite{RIME} acts as an intermediate virtualisation layer that translates RIME Stack primitives and arguments into underneath MAC frames and vice versa.
+	\item RIME Stack defines a set of abstracted communication primitives and arguments that can be directly invoked by the applications.
+	\item The Chameleon architecture\cite{RIME} acts as a virtualisation layer that translates RIME Stack calls into MAC frames and vice versa.
 \end{itemize}
-Comparing to 6LoWPAN, RIME Stack is more flexible and efficient. However since routing is solely depends on application, RIME Stack is not adequate to fast application development and would be hard to scale when used in applications with complicated communication models.
+
+Comparing to 6LoWPAN, RIME Stack is more flexible and efficient. However, since routing is solely implemented by upper layer application, RIME Stack is not adequate to fast application development in scaled applications with complicated communication models.
 
 \section{Summary}
 %Protocol suite
-In \Cref{Chp: Building Blocks} we introduced a set of building blocks that could be use to build a secure WSN.  We introduced the protocol stack layer by layer within a simplified OSI model\cite{OSI}, as summarised in \Cref{Tbl: Summary of WSN Building Blocks}:
+In \Cref{Chp: Building Blocks} we introduced a set of building blocks that could be use to build a secure WSN.  We introduced the protocol stack layer by layer within a simplified OSI model, as summarised in \Cref{Tbl: Summary of WSN Building Blocks}:
 
 \begin{table*}[h!]
 	\center
@@ -624,7 +645,7 @@ In \Cref{Chp: Building Blocks} we introduced a set of building blocks that could
 		\multirow{2}{*}{\textit{Application Layer}}                                                     & CoAP                        & \multirow{2}{*}{Lithe} \\ \cline{2-2}
 		                                                                                                & Optional: DTLS              &                        \\ \hline
 		\textit{Transport Layer}                                                                        & UDP                         & TCP                    \\ \hline
-		\multirow{2}{*}{\textit{Network Layer}}                                                         & Optional: IPSec             &                        \\ \cline{2-3} 
+		\multirow{2}{*}{\textit{Network Layer}}                                                         & Optional: IPSec (not yet supported)             &                        \\ \cline{2-3} 
 		                                                                                                & 6LoWPAN                     & ZigBee, RIME Stack          \\ \hline
 		\multirow{2}{*}{\textit{\begin{tabular}[c]{@{}c@{}}Data Link Layer\\ (MAC Layer)\end{tabular}}} & Optional: 802.15.4 Security, ContikiMAC & TSCH                   \\ \cline{2-3} 
 		                                                                                                & \multirow{2}{*}{802.15.4}   & \multirow{2}{*}{BLE}   \\ \cline{1-1}
@@ -634,6 +655,6 @@ In \Cref{Chp: Building Blocks} we introduced a set of building blocks that could
 	\label{Tbl: Summary of WSN Building Blocks}
 \end{table*}
 
-This protocol suite we adopted is expected to be general, as 802.15.4 standard is widely supported by recent IoT devices and 6LoWPAN network is adaptable to most applications while possessing a great interoperability with the current Internet by its nature. CoAP is also considered the application layer consideration for its generality and interoperability. The selected protocol suite is implemented on our platform, Contiki\cite{Contiki}.
+This protocol suite we adopted is expected to be general, as both 802.15.4 standard and 6LoWPAN are widely supported by recent IoT devices and are suitable to general WSN applications. CoAP is used in Application Layer for its generality and interoperability. We built our experimental WSN using this protocol suite with Contiki\cite{Contiki}.
 
-OpenWSN\cite{OpenWSN} can alternatively be used to build a WSN as it supports the same ‘’802.15.4 + 6LoWPAN + CoAP’’ protocol suite, except that it implements TSCH instead of ContikiMAC. In addition, WSN other protocols could possibly be adopted at different layers, such as BLE\cite{BLE} for Physical and MAC Layer, or ZigBee for Network Layer. We leave the research on other platforms as future work.
+OpenWSN\cite{OpenWSN} can alternatively be used to build a WSN as it supports the same ‘’802.15.4 + 6LoWPAN + CoAP’’ protocol suite, except that it implements TSCH instead of ContikiMAC. In addition, other systems and protocols could also be used, such as BLE\cite{BLE} in Physical and MAC Layer and ZigBee for Network Layer, etc. We leave the research on other platforms as future work.
