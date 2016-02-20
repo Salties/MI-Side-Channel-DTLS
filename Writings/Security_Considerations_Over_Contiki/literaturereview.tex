@@ -1,12 +1,32 @@
 \chapter{Literature Review} \label{Chp: LiteratureReview}
 
-%\cite{802154Sec} discusses some security concerns in 802.15.4.  LLSEC\cite{LLSEC} is the implementation of 802.15.4 security in Contiki.
-%
-%tinydtls\cite{tinydtls} is the implementation of DTLS we used in DTLS related experiments.
-%
-%To our knowledge, this is the first work of application fingerprinting through traffic analysis over wireless sensor network.
+In this chapter we review the literatures with respect to security in WSN. We roughly categorise the literatures into three aspects we consider to be mostly relevant to this project:
 
-\section{Security Related Work}
+\begin{enumerate}
+	\item Protocol and implementation flaws
+	\item Traffic analysis techniques
+	\item Information leakage detection
+\end{enumerate}
 
-\section{Potential Leakage Sources} \label{Sec: Leakage Sources}
-%Why only look at MAC Data Frames
+As introduced in \Cref{Chp: Building Blocks}, many 6LoWPAN protocols are derived from Internet. Therefore in this report we also refer to existing attacks on Internet that could potentially be applied in WSN.
+
+\section{Protocol and Implementation Flaws}
+
+In this section we focus on protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}, namely `'802.15.4 + 6LoWPAN + CoAP''.
+
+6LoWPAN fragmentation attack\cite[6lpFragAtk] exploits the unauthenticated packet fragments in 6LoWPAN. An adversary within the network can spoof a fragment of IPv6 packet causing the receiver to drop the corrupted  packet, or she can send a forged initial fragment requesting the victim node to allocate unnecessary memory which eventually results into legal packets being dropped. They propose two countermeasures to prevent these fragmentation attacks. The first countermeasure is to add chained integrity tag into each fragment to prevent the spoofed fragments. The second countermeasure is to use a more sophisticated memory management scheme that does not allocate memory until an actual fragment is received.
+
+\cite{6lowpanSec} provides a security review for the same protocol suite.
+\begin{description}
+	\item[Physical Attacks]
+	Jamming attack can interrupt the radio communication. Tampering attacks can reveal key materials in a node.
+	\item[MAC Layer Attacks]
+	CSMA/CA can be exploited to conduct DoS attacks by injecting spoofing frames to create collisions. Spoofed unauthenticated frames can trigger the responses of a victim and therefore deplete the battery.
+	\item[Network Layer Attacks]
+	%
+\end{description} 
+
+\section{Traffic Analysis Techniques}
+
+\section{Information Leakage Detection}
+
