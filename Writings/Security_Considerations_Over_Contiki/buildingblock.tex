@@ -561,7 +561,7 @@ In addition, CoAP also provides a lightweight reliable transmission mechanism in
 	\begin{itemize}
 		\item \textbf{Confirmable(0)}: The message must be confirmed by an acknowledgement, otherwise the sender will attempt to retransmit the message.
 		\item \textbf{Non confirmable(1)}: The message does not need to be confirmed and thus the transmission is unreliable.
-		\item \textbf{Acknowledgement(2)}: This value is set to inform the reception of a Confirmable(0) message. Piggyback, i.e. application data sent together within the same message, is allowed in CoAP acknowledgement.
+		\item \textbf{Acknowledgement(2)}: This value is set to inform the reception of a Confirmable(0) message. Piggyback, i.e. application data sent together within the same message, is allowed in CoAP acknowledgement. In some context this is abbreviated as ACK.
 		\item \textbf{Reset(3)}: This value is similar to the RST flag in TCP which usually indicates a fatal error in connection and no further messages should be sent.
 	\end{itemize}
 	\item[\textbf{Token Length}]

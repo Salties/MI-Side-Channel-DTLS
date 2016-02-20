@@ -14,19 +14,31 @@ As introduced in \Cref{Chp: Building Blocks}, many 6LoWPAN protocols are derived
 
 In this section we focus on protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}, namely `'802.15.4 + 6LoWPAN + CoAP''.
 
+%Security consideration of 802.15.4
+\cite{802154sec} reviews the design flaw in 802.15.4 Security. First of all, the nonce reuse may happen due to the same key used in different entry, or power failure on device. Secondly, the key management also needs to be improved. The ACL does not support group key, using a default ACL entry for network shared key is incompatible with replay protection. Finally, the Security Levels without authentication should not be used. Allowing an adversary to forge messages potentially breaches the data confidentiality in many applications. It also allows the adversary to launch a Denial of Service, DoS, attack by spoofing a frame with the maximum Frame Counter which eventually triggers the replay protection on later legitimate frames. In addition, the lack of security in ACK frames can also be exploited in a jamming DoS attack to forge false ACKs to prevent retransmission.
+
 %6LoWPAN Fragmentation Attack
 6LoWPAN fragmentation attack\cite{6lpFragAtk} exploits the unauthenticated packet fragments in 6LoWPAN. An adversary within the network can spoof a fragment of IPv6 packet causing the receiver to drop the corrupted  packet, or she can send a forged initial fragment requesting the victim node to allocate unnecessary memory which eventually results into legal packets being dropped. They propose two countermeasures to prevent these fragmentation attacks. The first countermeasure is to add chained integrity tag into each fragment to prevent the spoofed fragments. The second countermeasure is to use a more sophisticated memory management scheme that does not allocate memory until an actual fragment is received.
 
-%6LoWPAN Security Overview
-\cite{6lowpanSec} provides a security review for the same protocol suite.
-\begin{description}
-	\item[Physical Attacks]
-	Jamming attack can interrupt the radio communication. Tampering attacks can reveal key materials in a node.
-	\item[MAC Layer Attacks]
-	CSMA/CA can be exploited to conduct DoS attacks by injecting spoofing frames to create collisions. Spoofed unauthenticated frames can trigger the responses of a victim and therefore deplete the battery.
-	\item[Network Layer Attacks]
-	%
-\end{description} 
+%Network Layer: 
+%Sinkhole attack, 
+%Hello flood attack, 
+%Blackhole, sybil, 
+%wormhole, 
+%spoofing attack, 
+%Internet Smurf attack
+%RPL attacks: RFC3971
+
+%%6LoWPAN Security Overview
+%\cite{6lowpanSec} provides a security review for the same protocol suite.
+%\begin{description}
+%	\item[Physical Attacks]
+%	Jamming attack can interrupt the radio communication. Tampering attacks can reveal key materials in a node.
+%	\item[MAC Layer Attacks]
+%	CSMA/CA can be exploited to conduct DoS attacks by injecting spoofing frames to create collisions. Spoofed unauthenticated frames can trigger the responses of a victim and therefore deplete the battery.
+%	\item[Network Layer Attacks]
+%	%
+%\end{description} 
 
 \section{Traffic Analysis Techniques}
 
