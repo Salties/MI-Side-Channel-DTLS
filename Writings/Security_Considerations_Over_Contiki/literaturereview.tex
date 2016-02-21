@@ -20,25 +20,26 @@ In this section we focus on protocol suite described in \Cref{Tbl: Summary of WS
 %6LoWPAN Fragmentation Attack
 6LoWPAN fragmentation attack\cite{6lpFragAtk} exploits the unauthenticated packet fragments in 6LoWPAN. An adversary within the network can spoof a fragment of IPv6 packet causing the receiver to drop the corrupted  packet, or she can send a forged initial fragment requesting the victim node to allocate unnecessary memory which eventually results into legal packets being dropped. They propose two countermeasures to prevent these fragmentation attacks. The first countermeasure is to add chained integrity tag into each fragment to prevent the spoofed fragments. The second countermeasure is to use a more sophisticated memory management scheme that does not allocate memory until an actual fragment is received.
 
-%Network Layer: 
+\cite{6lpRplAtk} gives an overview of attacks that targets 6LoWPAN and RPL. In general, lack of authentication in ICMP messages poses a great vulnerability in WSN. A malicious 
+
+%%6LoWPAN Security Overview
+%\cite{6lowpanSec} provides a security review for the same protocol suite. Specifically, it concludes several attacks at different layers:
+%\begin{itemize}
+%	\item At Physical Layer, jamming attacks can interrupt the radio communication can tampering attacks can compromise the cryptographic materials of a node.
+%	\item At MAC Layer, CSMA/CA can be exploited to conduct DoS attacks by injecting spoofing frames to create collisions. Spoofed unauthenticated frames can trigger the responses of a victim and therefore deplete the battery.
+%	\item Packets without authentication poses a great vulnerability in Network Layer. Sinkhole\cite{Sinkhole} attack disables the network by sending for false routing message. Hello flood\cite{HelloFlood} disables the network by flooding Hello message, causing battery depletion.
+%\end{itemize} 
+
 %Sinkhole attack, 
 %Hello flood attack, 
-%Blackhole, sybil, 
+%Blackhole, 
+%sybil, 
 %wormhole, 
 %spoofing attack, 
 %Internet Smurf attack
 %RPL attacks: RFC3971
 
-%%6LoWPAN Security Overview
-%\cite{6lowpanSec} provides a security review for the same protocol suite.
-%\begin{description}
-%	\item[Physical Attacks]
-%	Jamming attack can interrupt the radio communication. Tampering attacks can reveal key materials in a node.
-%	\item[MAC Layer Attacks]
-%	CSMA/CA can be exploited to conduct DoS attacks by injecting spoofing frames to create collisions. Spoofed unauthenticated frames can trigger the responses of a victim and therefore deplete the battery.
-%	\item[Network Layer Attacks]
-%	%
-%\end{description} 
+
 
 \section{Traffic Analysis Techniques}
 
