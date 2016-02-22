@@ -20,26 +20,15 @@ In this section we focus on protocol suite described in \Cref{Tbl: Summary of WS
 %6LoWPAN Fragmentation Attack
 6LoWPAN fragmentation attack\cite{6lpFragAtk} exploits the unauthenticated packet fragments in 6LoWPAN. An adversary within the network can spoof a fragment of IPv6 packet causing the receiver to drop the corrupted  packet, or she can send a forged initial fragment requesting the victim node to allocate unnecessary memory which eventually results into legal packets being dropped. They propose two countermeasures to prevent these fragmentation attacks. The first countermeasure is to add chained integrity tag into each fragment to prevent the spoofed fragments. The second countermeasure is to use a more sophisticated memory management scheme that does not allocate memory until an actual fragment is received.
 
-\cite{6lpRplAtk} gives an overview of attacks that targets 6LoWPAN and RPL. In general, lack of authentication in ICMP messages poses a great vulnerability in WSN. A malicious 
+%6LoWPAN DoS
+\cite{6lpRplAtk} gives an overview of attacks that targets 6LoWPAN and RPL. These attacks mainly results into malfunctioning of the WSN. In Sinkhole Attack\cite{Sinkhole}, the malicious node sends false RPL message to direct all messages to itself. Sinkhole Attack can further extend to Blockhole Attack\cite{Blackhole} by dropping all packets silently, eventually disables the communication of network. Wormhole Attack\cite{Wormhole} works by replaying legitimate RPL messages at an illegal location, causing confusion in the DODAG structure and therefore disrupts the communication. A malicious node launching Hello Flood Attack repeatedly broadcasts a Hello, refers to DIS, message, triggers its neighbour to respond with DIO messages and eventually depletes the battery of victims.
 
-%%6LoWPAN Security Overview
-%\cite{6lowpanSec} provides a security review for the same protocol suite. Specifically, it concludes several attacks at different layers:
-%\begin{itemize}
-%	\item At Physical Layer, jamming attacks can interrupt the radio communication can tampering attacks can compromise the cryptographic materials of a node.
-%	\item At MAC Layer, CSMA/CA can be exploited to conduct DoS attacks by injecting spoofing frames to create collisions. Spoofed unauthenticated frames can trigger the responses of a victim and therefore deplete the battery.
-%	\item Packets without authentication poses a great vulnerability in Network Layer. Sinkhole\cite{Sinkhole} attack disables the network by sending for false routing message. Hello flood\cite{HelloFlood} disables the network by flooding Hello message, causing battery depletion.
-%\end{itemize} 
+%Compression Ratio Attack
+\cite{CompressionRationAttack} describes a plaintext recovery attack that exploits the length of compressed ciphertext. This type of attack has been realised by the CRIME\cite{CRIME} attack and BREACH\cite{BREACH} attack that is against TLS compression and HTTP compression respectively. In this type of attacks, the plaintext constitutes of two parts. The first part is the explicit part which is known or even controlled by adversary. The second part is the implicit part which is unknown secret to the adversary . The first observation is that the plaintext is compressed before encrypted, since the encrypted ciphertext should appears random and can be hardly compressed. The second observation is that the more repetitive patterns in the plaintext the more bytes it will be compressed and hence results into more shrink in the length of ciphertext. The two factors combined together gives the adversary an oracle to guess the implicit part of plaintext through the explicit part, as a correct guess in the explicit part corresponds to a higher compression ratio in ciphertext.\cite{CompressionCountermeasure} proposed two countermeasures to this types of attacks. The first one is to compress the explicit part and implicit part separately. This approach completely disables the compression oracle but is not generally applicable as the explicit part and implicit part are application dependent. The second countermeasure is to use a fixed dictionary in compression. This countermeasure also prevent such attacks but suffers in performance.
 
-%Sinkhole attack, 
-%Hello flood attack, 
-%Blackhole, 
-%sybil, 
-%wormhole, 
-%spoofing attack, 
-%Internet Smurf attack
-%RPL attacks: RFC3971
+%Lucky 13
 
-
+%Smartgrid Dump Crypto
 
 \section{Traffic Analysis Techniques}
 
