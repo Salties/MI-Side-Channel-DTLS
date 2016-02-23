@@ -12,21 +12,28 @@ As introduced in \Cref{Chp: Building Blocks}, many 6LoWPAN protocols are derived
 
 \section{Protocol and Implementation Flaws}
 
-In this section we focus on protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}, namely `'802.15.4 + 6LoWPAN + CoAP''.
+%In this section we focus on protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}, namely `'802.15.4 + 6LoWPAN + CoAP''.
 
 %Security consideration of 802.15.4
+\subsection{802.15.4 PHY and MAC}
 \cite{802154sec} reviews the design flaw in 802.15.4 Security. First of all, the nonce reuse may happen due to the same key used in different entry, or power failure on device. Secondly, the key management also needs to be improved. The ACL does not support group key, using a default ACL entry for network shared key is incompatible with replay protection. Finally, the Security Levels without authentication should not be used. Allowing an adversary to forge messages potentially breaches the data confidentiality in many applications. It also allows the adversary to launch a Denial of Service, DoS, attack by spoofing a frame with the maximum Frame Counter which eventually triggers the replay protection on later legitimate frames. In addition, the lack of security in ACK frames can also be exploited in a jamming DoS attack to forge false ACKs to prevent retransmission.
 
+\subsection{6LoWPAN}
 %6LoWPAN Fragmentation Attack
 6LoWPAN fragmentation attack\cite{6lpFragAtk} exploits the unauthenticated packet fragments in 6LoWPAN. An adversary within the network can spoof a fragment of IPv6 packet causing the receiver to drop the corrupted  packet, or she can send a forged initial fragment requesting the victim node to allocate unnecessary memory which eventually results into legal packets being dropped. They propose two countermeasures to prevent these fragmentation attacks. The first countermeasure is to add chained integrity tag into each fragment to prevent the spoofed fragments. The second countermeasure is to use a more sophisticated memory management scheme that does not allocate memory until an actual fragment is received.
 
 %6LoWPAN DoS
 \cite{6lpRplAtk} gives an overview of attacks that targets 6LoWPAN and RPL. These attacks mainly results into malfunctioning of the WSN. In Sinkhole Attack\cite{Sinkhole}, the malicious node sends false RPL message to direct all messages to itself. Sinkhole Attack can further extend to Blockhole Attack\cite{Blackhole} by dropping all packets silently, eventually disables the communication of network. Wormhole Attack\cite{Wormhole} works by replaying legitimate RPL messages at an illegal location, causing confusion in the DODAG structure and therefore disrupts the communication. A malicious node launching Hello Flood Attack repeatedly broadcasts a Hello, refers to DIS, message, triggers its neighbour to respond with DIO messages and eventually depletes the battery of victims.
 
+\subsection{TLS and DTLS}
 \cite{rfc7457} summarises known attacks  against TLS and DTLS. Due to the constrained resources in WSN devices, implementations tend to support only  minimum protocols and cipher suites. We omit some of these attacks as they do not seem to be feasible in WSN environments.
+
+\subsubsection{Compression Ration Attacks}
 
 %Compression Ratio Attack
 Compression Ratio Attack is proposed in \cite{CompressionRationAttack} which is a type of plaintext recovery attack that exploits the length difference of compressed ciphertext. This type of attack has been realised by the CRIME\cite{CRIME} Attack against TLS compression, and TIME\cite{TIME} Attack and BREACH\cite{BREACH} Attack against HTTP compression respectively. In this type of attacks, the plaintext constitutes of two parts. The first part is the explicit part which is known or even controlled by adversary. The second part is the implicit part which is unknown secret to the adversary . The first observation is that the plaintext is compressed before encrypted, since the encrypted ciphertext should appears random and can be hardly compressed. The second observation is that the more repetitive patterns in the plaintext the more bytes it will be compressed and hence results into more shrink in the length of ciphertext. The two factors combined together gives the adversary an oracle to guess the implicit part of plaintext through the explicit part, as a correct guess in the explicit part corresponds to a higher compression ratio in ciphertext.\cite{CompressionCountermeasure} proposed two countermeasures to this types of attacks. The first one is to compress the explicit part and implicit part separately. This approach completely disables the compression oracle but is not generally applicable as the explicit part and implicit part are application dependent. The second countermeasure is to use a fixed dictionary in compression. This countermeasure prevents such attacks since the explicit part no longer affects the compression ratio of the secret, but this method drastically degrades the performance of compression. Even though the protocol suite we introduced in \Cref{Chp: Building Blocks} does not include any of such compression\footnote{The IPv6 header compression can be considered to be using a fixed common dictionary.} methods, this attack should still be taken into account, as compressions are very likely to be used in WSN applications due to their low bandwidth nature. 
+
+\subsubsection{Padding Oracle Attacks}
 
 %Lucky 13
 Lucky Thirteen Attack\cite{Lucky13} is a Padding Oracle Attack\cite{PaddingOracle} on DTLS. The Padding Oracle Attack targets cipher suites with padding and MAC-then-Encrypt in CBC mode of operation. Denote $C_n$ to be the last block of the $n$-blocks ciphertext. During a CBC decryption, $C_n$ is decrypted by the block cipher first and then XORed with $C_{n-1}$ resulting into the plaintext $P_n$. $P_n$ is then first checked with correct scheme padding, and then the MAC. In older version of SSL/TLS, failure at different steps returns different error messages. The padding oracle refers to such a source that distinguishes the difference between these errors. Such difference in error messages can therefore exploited by an adversary who is capable of asking the decryption of chosen ciphertexts. To be more specifically, for a target ciphertext, the adversary first modifies the second-last block of ciphertext from the first byte forward. These modifications will be directly XORed to the plaintext, triggering a MAC error until the padding is affected which triggers a padding error instead. This exposes the position of the last byte of plaintext in $C_n$. Since the padding values are predictable, the adversary then modify the byte in $C_{n-1}$ which corresponds to the last byte of plaintext in $C_n$ alongside with the bytes corresponds to the padding. The aim of this modification it to trick the decryption process to treat the modified last byte of plaintext as part of the padding. Once a MAC error is returned, which indicates the ciphertext has passed the padding check, the adversary can soon learn the last byte of plaintext by XORing the modified difference with the predicted padding value. The process can be carried on backward byte by byte to recover the full plaintext.  Later versions of SSL/TLS patched this vulnerability by using an unified error message on both check failures, but further study\cite{Lucky13} shows that such padding oracle can still be constructed by observing the slight timing difference of both errors. Specifically in the case of DTLS, although the protocol by nature does not provide the error messages, the timed padding oracle can still be constructed through observing the response time for a DTLS Heartbeat message. However, such attack is not yet feasible in our platform as the protocol suite / implementation in our platform does not employ any cipher suite with CBC mode.
@@ -48,7 +55,12 @@ Comparing cryptographic attacks, Traffic Analysis are commonly different in a wa
 	\item Traffic Analysis are hard to prevent, as shown in \cite{Peekaboo} that many countermeasures proposed end up failed to prevent the attacks.
 \end{itemize}
 
-
+We consider Traffic Analysis to be one of the most critical security and privacy threat in WSN applications for three reasons:
+\begin{enumerate}
+	\item Wireless communication.
+	\item Geographically less distant.
+	\item Difficult to implement countermeasures.
+\end{enumerate} 
 
 \section{Methodologies in Information Leakage }
 
