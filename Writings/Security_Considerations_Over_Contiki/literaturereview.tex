@@ -57,13 +57,13 @@ Comparing cryptographic attacks, Traffic Analysis are commonly different in a wa
 
 We consider Traffic Analysis to be one of the most critical security and privacy threat in WSN applications for three reasons:
 \begin{enumerate}
-	\item Nodes communicates to each others through RF in open environments, makes it easier for adversaries to monitor the traffic.
+	\item Nodes communicates to each others through RF in open environments. It is easier than Internet for adversaries to monitor the traffic.
 	\item Nodes are geographically less distant. This provides the opportunity for the adversary to conduct mass surveillance like attacks.
-	\item Countermeasures are difficult to implement in constrained devices due to overhead.
+	\item Countermeasures are difficult to implement in constrained devices due to overhead. Many countermeasures are application specific.
 \end{enumerate} 
 
 \subsection{Traffic Analysis Attacks}
-\cite{WebSideChannel} provides the general idea of Traffic Analysis. In this paper, a web application is modelled as a stateful system and the packet features being the input and output of the system. The paper introduced how these side channel information can be exploited through examples of encrypted real world websites.
+\cite{WebSideChannel} describes the general idea of Traffic Analysis against web web applications. In this paper, a web application is modelled as a stateful system and the packet features being the input and output of the system. The paper introduced how these side channel information can be exploited through examples of encrypted real world websites.
 \begin{example}
 	The first example is a health record system as shown in \Cref{Fig: HealthRecordSystem}.
 	
@@ -81,9 +81,48 @@ We consider Traffic Analysis to be one of the most critical security and privacy
 	The second vulnerable website is an online taxing service. In this system, the tax application form varies due to the payee's family status. The vulnerability of this website is that users are directed to different pages according to the form they are going to fill, while different pages results into packets of different lengths and directions, allowing an eavesdropper to reveal the family status of the user. The packet features of encrypted traffic again breached the data confidentiality.
 \end{example}
 
-%Financial Graph Example
+%Financial charts Example
+\begin{example}
+	The third example is an online investment system where financial charts are provided to the users. The vulnerability is that an eavesdropper can distinguish which chart is presented to an user by the size of the chart which is a gif file. 
+\end{example}
 
 %Search Keyword Example (briefly, refers to the other one)
+\begin{example}
+	The last example shows how Traffic Analysis can be applied to attack the key word user provided to a search engine. \cite{SearchAttack} gives a more thorough description of this attack.
+\end{example}
+
+\cite{PinpointWeb} extends the work from a leakage detection perspective. Similar to \cite{WebSideChannel}, a web application is modelled as state machine with the user input and packet traces being the input and output respectively. The packet traces are aligned by sequence of packets. A hypothetical DETECT function is then iterated over the positions of packets. For each position, DETECT function computes an information leakage metric by the aligned packets from different traces and returns it as an indicator of potential information leakage at that position. They further instantiated the DETECT function by using Mutual Information of user input and packet features. Finally, they showed that in the experiment done on an example web application, the ACK flag could also be a potential leakage source in addition to packet sizes, where the latter is a widely exploited packet feature in many Traffic Analysis Attacks.
+
+\cite{SearchAttack} implements the Traffic Analysis Attack on search engines described by \cite{WebSideChannel} in more details. It exploits the fact that Google by default enables auto suggestion which responds to each key stroke of user input with the suggest options and preloaded pages. This attack assumes the user input is within a finite dictionary. The attack is done in two steps:
+
+\begin{enumerate}
+	\item The first step is the profiling step. The attacker first builds a prefix tree\cite{PrefixTree} for the whole dictionary. For each edge of the prefix tree, which corresponds to a key stroke from parent to child, the attacker associates it with the distribution of server responded packet sizes that is gathered through multiple trials. 
+	\item When an user's traffic is captured, the attacker compares the server responses for each user key stroke to the edges in the prefix tree from the root to the leafs. For each comparison, the attacker computes a likelihood and accumulates it through stochastic algorithms. 
+\end{enumerate}
+
+Finally, the algorithms outputs a set of keyword guesses of the highest likelihoods. The attack is considered successful if the keyword user typed appears in the guesses. At the end of the paper they showed that their method proofed to be effective in their settings.
+
+%Web site fingerprinting
+Another well studied topic in Traffic Analysis Attack is Website Fingerprint. \cite{WebsiteFingerprint} demonstrates the application scenario as in \Cref{Fig: Application Scenario of Website Fingerprint}. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{fig/WebsiteFingerprint.png}
+	\caption{Application Scenario of Website Fingerprint by \cite{WebsiteFingerprint}}
+	\label{Fig: Application Scenario of Website Fingerprint}
+\end{figure}
+
+The goal of Website Fingerprint is to identify the website an user is visiting through a secured channel by looking at the traffic features. Its motivation has received a growth in awareness in the cyber security community due to the recent years disputable governmental mass surveillance.
+
+\cite{WebsiteFingerprint} demonstrates the use of machine learning techniques on packet sizes. To be more specifically, the authors conducted a series of experiment in a ``closed world'' setup of 2000 websites, i.e. assuming the user visits only one of 2000 known websites. To fingerprint a website, the attacker first visits the websites gathering the packet traces. These traces are then used as the training set and fed to the classifier. When a user's traffic is captured, the trace is then treated as the test set to predict which website the user has visited. Two classifier are tested in the experiments, namely Jaccard's coefficient and naive Bayes classifier. The results show that Jaccard's coefficient outperformed naive Bayes classifier in most cases. In addition, the authors also measure the affection of time elapsed and argued that these attacks still hold after 4 weeks of profiling. However, considering the fact that the nature of Internet has changed dramatically in the past decade, the last argument might need to be reconsidered.
+
+%Peekaboo
+
+%Others
+%Apple iMessage
+%SSH attack
+%VoIP attack
+%Skype Video
 
 \subsection{Traffic Analysis Countermeasures}
 
