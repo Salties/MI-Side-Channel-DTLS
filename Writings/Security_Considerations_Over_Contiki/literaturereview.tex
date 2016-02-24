@@ -57,10 +57,38 @@ Comparing cryptographic attacks, Traffic Analysis are commonly different in a wa
 
 We consider Traffic Analysis to be one of the most critical security and privacy threat in WSN applications for three reasons:
 \begin{enumerate}
-	\item Wireless communication.
-	\item Geographically less distant.
-	\item Difficult to implement countermeasures.
+	\item Nodes communicates to each others through RF in open environments, makes it easier for adversaries to monitor the traffic.
+	\item Nodes are geographically less distant. This provides the opportunity for the adversary to conduct mass surveillance like attacks.
+	\item Countermeasures are difficult to implement in constrained devices due to overhead.
 \end{enumerate} 
+
+\subsection{Traffic Analysis Attacks}
+\cite{WebSideChannel} provides the general idea of Traffic Analysis. In this paper, a web application is modelled as a stateful system and the packet features being the input and output of the system. The paper introduced how these side channel information can be exploited through examples of encrypted real world websites.
+\begin{example}
+	The first example is a health record system as shown in \Cref{Fig: HealthRecordSystem}.
+	
+	\begin{figure}[h!]
+		\center
+		\includegraphics[width=0.7\textwidth]{fig/WebSideChannelExample1.png}
+		\caption{Example Health Record System from \cite{WebSideChannel}}
+		\label{Fig: HealthRecordSystem}
+	\end{figure}
+	
+	In this example, the authors demonstrated that according to which tab or alphabet the user has clicked, the server returns a series of  packets with distinguishable lengths and directions. Further more, distinguishable packet traces can also be observed when user types in the input box triggering auto suggestion. As a result, an eavesdropper can deduce the user input simply by looking at the packet features of encrypted traffic.
+\end{example}
+
+\begin{example}
+	The second vulnerable website is an online taxing service. In this system, the tax application form varies due to the payee's family status. The vulnerability of this website is that users are directed to different pages according to the form they are going to fill, while different pages results into packets of different lengths and directions, allowing an eavesdropper to reveal the family status of the user. The packet features of encrypted traffic again breached the data confidentiality.
+\end{example}
+
+%Financial Graph Example
+
+%Search Keyword Example (briefly, refers to the other one)
+
+\subsection{Traffic Analysis Countermeasures}
+
+
+
 
 \section{Methodologies in Information Leakage }
 
