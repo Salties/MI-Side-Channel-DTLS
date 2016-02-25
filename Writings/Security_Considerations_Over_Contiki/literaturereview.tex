@@ -50,7 +50,7 @@ Studies, \cite{WebSideChannel}\cite{PinpointWeb}\cite{Peekaboo} among the others
 Comparing cryptographic attacks, Traffic Analysis are commonly different in a way such that:
 \begin{itemize}
 	\item Traffic Analysis does not try to break the cryptographic primitives, as we can see later in this section. 
-	\item Traffic Analysis Attacks are highly application dependent. As we can see later in this section, most Traffic Analysis Attacks are targeted at a specific application, either a website, a search engine or a text message service, etc.
+	\item Traffic Analysis Attacks are usually application specific. As we can see later in this section, most Traffic Analysis Attacks are targeted at a specific application, either a website, a search engine or a text message service, etc.
 	\item The target usually assumes a publicly known smaller plaintext space, instead of the arbitary message in many cryptographic context. For example, one attack in \cite{WebSideChannel} targets a selection list in a website with only tens of options,  \cite{Peekaboo} discusses attacks in a closesd world, i.e. an idea world with only hundreds or thousands websites.
 	\item Traffic Analysis are hard to prevent, as shown in \cite{Peekaboo} that many countermeasures proposed end up failed to prevent the attacks.
 \end{itemize}
@@ -117,12 +117,14 @@ The goal of Website Fingerprint is to identify the website an user is visiting t
 \cite{WebsiteFingerprint} demonstrates the use of machine learning techniques on packet sizes. To be more specifically, the authors conducted a series of experiment in a ``closed world'' setup of 2000 websites, i.e. assuming the user visits only one of 2000 known websites. To fingerprint a website, the attacker first visits the websites gathering the packet traces. These traces are then used as the training set and fed to the classifier. When a user's traffic is captured, the trace is then treated as the test set to predict which website the user has visited. Two classifier are tested in the experiments, namely Jaccard's coefficient and naive Bayes classifier. The results show that Jaccard's coefficient outperformed naive Bayes classifier in most cases. In addition, the authors also measure the affection of time elapsed and argued that these attacks still hold after 4 weeks of profiling. However, considering the fact that the nature of Internet has changed dramatically in the past decade, the last argument might need to be reconsidered.
 
 %Peekaboo
+A series of similar Website Fingerprint experiments has been studied by \cite{Peekaboo}, with aspect to the effectiveness of different countermeasures. Comparing to \cite{WebsiteFingerprint}, \cite{Peekaboo} analysed more packet features other than direction and length, including timing information, total bytes, total bytes on each direction, traffic bursts\footnote{A huge amount of traffic that has been transmitted continuously on the same direction.} and bandwidth. Classifiers from previous works are studied in this paper, namely LL classifier from \cite{WebsiteFingerprint}, H classifier from \cite{HClassifier} and P classifier from \cite{PClassifier}, alongside with some other classifiers designated to specific packet features. With respect to the countermeasures, different padding schemes are compared in this paper, including per packet padding, session wide padding and Traffic Morphing which is a sophisticated padding scheme we describe later in the context. In addition to padding schemes which mostly aimed to mitigate the packet length side channel, BuFLO\cite{Peekaboo} is also introduced to mitigate the timing and bandwidth side channels. For the result, the authors reported that all the padding scheme does not provide enough protection against the best classifier which is the P classier. BuFLO does not bring much security either unless used with a drastic overhead to the performance.
 
 %Others
 %Apple iMessage
 %SSH attack
 %VoIP attack
 %Skype Video
+In spite of the attacks we mentioned above, there also exists many other Traffic Analysis attacks against different application. \cite{VoIPLanguage} and \cite{VoIPPhrases} demonstrated that the encrypted Voice over IP, VoIP, traffic could leak the language spoken and certain phrases can be detected. \cite{SSHKey} showed that user key stroke could be revealed by packet timing information. \cite{AppleMessage} shows that user's OS, message length, language and several behaviour can be identified through the size of encrypted packets. \cite{Video} showed that ambient change or object movement in a Skype video chat can be observed through the changes in packet features.
 
 \subsection{Traffic Analysis Countermeasures}
 
