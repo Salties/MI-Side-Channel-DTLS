@@ -131,7 +131,11 @@ In spite of the attacks we mentioned above, there also exists many other Traffic
 
 \subsection{Traffic Analysis Countermeasures}
 
-Several countermeasure are proposed to counter Traffic Analysis Attacks. Padding is the most common countermeasure that intends to mitigate the packet size side channel. \cite{Peekaboo} summarised the most common padding schemes that aims to prevent Traffic Analysis Attacks. Notice that when a padding scheme would pad a packet longer than MTU, it is truncated to MTU instead.
+Several countermeasure are proposed to counter Traffic Analysis Attacks. 
+
+\subsubsection{Padding}
+
+Padding is the most common countermeasure that intends to mitigate the packet size side channel. \cite{Peekaboo} summarised the most common padding schemes that aims to prevent Traffic Analysis Attacks. Notice that when a padding scheme would pad a packet longer than MTU, it is truncated to MTU instead.
 
 \begin{description}[style=nextline]
 	\item[Session Random Padding] 
@@ -150,8 +154,28 @@ Several countermeasure are proposed to counter Traffic Analysis Attacks. Padding
 	Each packet is padded to a random number select uniformly between the data length and MTU.
 \end{description}
 
-In addition, Traffic Morphing\cite{TrafficMorphing} 
+Paddings are relatively easier to implement but the constrained nature of WSN implies that padding might not be appropriate in as it consumes more bandwidth and therefore more energy consumption.
 
+\subsubsection{Traffic Morphing}
+
+Traffic Morphing\cite{TrafficMorphing} is another countermeasure against Traffic Analysis. The idea is to mimic the distribution of packet features of one website to another. This is done through truncating or buffering packets and sending dummy packets by sampling from another website. \cite{Peekaboo} reported this countermeasure outperformed the other padding schemes, although neither of them provides a satisfiable protection. This countermeasure is relatively easier to implement on TCP since TCP provides a reliable stream connection. When implementing Traffic Morphing on UDP, the upper layer application must handle the packet reordering problem as well as segmenting the data. Although Traffic Morphing costs less overhead in bandwidth comparing to paddings; nevertheless, it is unlikely to be adopted by WSNs as the constrained devices does not seem to be capable to afford the sampling procedure in this countermeasure.
+
+%HTTPOS
+HTTPOS\cite{HTTPOS} is a Traffic Analysis countermeasure implemented on browser that manipulates the underneath TCP connection to control packet size, timing information, web object size and bandwidth. There are two strategies adopted by HTTPOS:
+\begin{description}[style=nextline]
+	\item[The Diffusion Strategy]
+	 Assuming the adversary uses a known training set, HTTPOS modifies the packet features to some value that has not appeared in the training set.
+	\item[The Confusion Strategy]
+	As of Traffic Morphing, HTTPOS modifies packet features sampling from another website.
+\end{description}
+
+For the result, \cite{HTTPOS} reported that their approach achieved nearly perfect protection, i.e. the adversary's accuracy of correctly guessing a website has  dropped to 0 in their test set. This is somehow contradictory to the results in \cite{Peekaboo}, even though the classifier are not exactly identical.
+
+\subsubsection{Format Transforming Encryption}
+
+To an extend, \cite{FTE} proposed a different approach that uses Format-Transforming Encryption, FTE, to circumvent Deep Packet Inspection,DPI, which is strongly related to other Traffic Analysis attacks. The general idea is to morph one type of traffic to another type of traffic, e.g. to morph encrypt SSH data to an ordinary HTTP request. Comparing to standard encryption and decryption, FTE additionally defines an Unrank function which encodes the ciphertext to the target format and a Rank function that decodes the ciphertext. FTE is interested in the Traffic Analysis aspect as it could potentially eliminate some packet features by transforming them.
 
 \section{Methodologies in Information Leakage }
+
+
 
