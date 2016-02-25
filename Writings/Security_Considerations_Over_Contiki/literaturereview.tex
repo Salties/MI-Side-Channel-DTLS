@@ -63,7 +63,9 @@ We consider Traffic Analysis to be one of the most critical security and privacy
 \end{enumerate} 
 
 \subsection{Traffic Analysis Attacks}
-\cite{WebSideChannel} describes the general idea of Traffic Analysis against web web applications. In this paper, a web application is modelled as a stateful system and the packet features being the input and output of the system. The paper introduced how these side channel information can be exploited through examples of encrypted real world websites.
+
+\subsubsection{Side Channel Attacks against Web Applications}
+\cite{WebSideChannel} describes the general idea of Traffic Analysis against web applications. In this paper, a web application is modelled as a stateful system and the packet features being the input and output of the system. The paper introduced how these side channel information can be exploited through examples of encrypted real world websites.
 \begin{example}
 	The first example is a health record system as shown in \Cref{Fig: HealthRecordSystem}.
 	
@@ -102,8 +104,9 @@ We consider Traffic Analysis to be one of the most critical security and privacy
 
 Finally, the algorithms outputs a set of keyword guesses of the highest likelihoods. The attack is considered successful if the keyword user typed appears in the guesses. At the end of the paper they showed that their method proofed to be effective in their settings.
 
+\subsubsection{Website Fingerprinting}
 %Web site fingerprinting
-Another well studied topic in Traffic Analysis Attack is Website Fingerprint. \cite{WebsiteFingerprint} demonstrates the application scenario as in \Cref{Fig: Application Scenario of Website Fingerprint}. 
+Website Fingerprinting is a well studied topic in Traffic Analysis Attacks. \cite{WebsiteFingerprint} demonstrates the application scenario as in \Cref{Fig: Application Scenario of Website Fingerprint}. 
 
 \begin{figure}[h!]
 	\centering
@@ -112,23 +115,42 @@ Another well studied topic in Traffic Analysis Attack is Website Fingerprint. \c
 	\label{Fig: Application Scenario of Website Fingerprint}
 \end{figure}
 
-The goal of Website Fingerprint is to identify the website an user is visiting through a secured channel by looking at the traffic features. Its motivation has received a growth in awareness in the cyber security community due to the recent years disputable governmental mass surveillance.
+Tor\cite{Tor} can be considered as an instance of such network. The goal of Website Fingerprint is to identify the website an user is visiting through a secured channel by looking at the traffic features. Its motivation has received a growth in awareness in the cyber security community due to the recent years disputable governmental mass surveillance.
 
 \cite{WebsiteFingerprint} demonstrates the use of machine learning techniques on packet sizes. To be more specifically, the authors conducted a series of experiment in a ``closed world'' setup of 2000 websites, i.e. assuming the user visits only one of 2000 known websites. To fingerprint a website, the attacker first visits the websites gathering the packet traces. These traces are then used as the training set and fed to the classifier. When a user's traffic is captured, the trace is then treated as the test set to predict which website the user has visited. Two classifier are tested in the experiments, namely Jaccard's coefficient and naive Bayes classifier. The results show that Jaccard's coefficient outperformed naive Bayes classifier in most cases. In addition, the authors also measure the affection of time elapsed and argued that these attacks still hold after 4 weeks of profiling. However, considering the fact that the nature of Internet has changed dramatically in the past decade, the last argument might need to be reconsidered.
 
 %Peekaboo
 A series of similar Website Fingerprint experiments has been studied by \cite{Peekaboo}, with aspect to the effectiveness of different countermeasures. Comparing to \cite{WebsiteFingerprint}, \cite{Peekaboo} analysed more packet features other than direction and length, including timing information, total bytes, total bytes on each direction, traffic bursts\footnote{A huge amount of traffic that has been transmitted continuously on the same direction.} and bandwidth. Classifiers from previous works are studied in this paper, namely LL classifier from \cite{WebsiteFingerprint}, H classifier from \cite{HClassifier} and P classifier from \cite{PClassifier}, alongside with some other classifiers designated to specific packet features. With respect to the countermeasures, different padding schemes are compared in this paper, including per packet padding, session wide padding and Traffic Morphing which is a sophisticated padding scheme we describe later in the context. In addition to padding schemes which mostly aimed to mitigate the packet length side channel, BuFLO\cite{Peekaboo} is also introduced to mitigate the timing and bandwidth side channels. For the result, the authors reported that all the padding scheme does not provide enough protection against the best classifier which is the P classier. BuFLO does not bring much security either unless used with a drastic overhead to the performance.
 
-%Others
+\subsubsection{Other Traffic Analysis Attacks}
 %Apple iMessage
 %SSH attack
 %VoIP attack
 %Skype Video
-In spite of the attacks we mentioned above, there also exists many other Traffic Analysis attacks against different application. \cite{VoIPLanguage} and \cite{VoIPPhrases} demonstrated that the encrypted Voice over IP, VoIP, traffic could leak the language spoken and certain phrases can be detected. \cite{SSHKey} showed that user key stroke could be revealed by packet timing information. \cite{AppleMessage} shows that user's OS, message length, language and several behaviour can be identified through the size of encrypted packets. \cite{Video} showed that ambient change or object movement in a Skype video chat can be observed through the changes in packet features.
+In spite of the attacks we mentioned above, there also exists many other Traffic Analysis attacks against different application. \cite{VoIPLanguage} and \cite{VoIPPhrases} demonstrated that the encrypted Voice over IP, VoIP, traffic could leak the language spoken and certain phrases can be detected. \cite{SSHKey} showed that user key stroke could be revealed by packet timing information. \cite{AppleMessage} shows that user's OS, message length, language and several behaviour can be identified through the size of encrypted packets. \cite{Video} showed that certain video event such as ambient change or object movement in a Skype video chat can be observed through the changes in packet features.
 
 \subsection{Traffic Analysis Countermeasures}
 
+Several countermeasure are proposed to counter Traffic Analysis Attacks. Padding is the most common countermeasure that intends to mitigate the packet size side channel. \cite{Peekaboo} summarised the most common padding schemes that aims to prevent Traffic Analysis Attacks. Notice that when a padding scheme would pad a packet longer than MTU, it is truncated to MTU instead.
 
+\begin{description}[style=nextline]
+	\item[Session Random Padding] 
+	All packets in a session padded with the same random value of bytes.
+	\item[Packet Random Padding]
+	Each packet is padded with a random value of bytes.
+	\item[Linear Padding]
+	Each packet is padded to a multiple of 128.
+	\item[Exponential Padding]
+	Each packet is padded to the nearest power of 2.
+	\item[Mice-Elephants Padding]
+	Each packet is padded to either 128 or MTU.
+	\item[Pad to MTU]
+	Each packet is padded to MTU.
+	\item[Packet Random MTU Padding]
+	Each packet is padded to a random number select uniformly between the data length and MTU.
+\end{description}
+
+In addition, Traffic Morphing\cite{TrafficMorphing} 
 
 
 \section{Methodologies in Information Leakage }
