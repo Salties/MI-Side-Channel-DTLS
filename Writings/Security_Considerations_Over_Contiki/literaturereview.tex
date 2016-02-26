@@ -156,6 +156,10 @@ Padding is the most common countermeasure that intends to mitigate the packet si
 
 Paddings are relatively easier to implement but the constrained nature of WSN implies that padding might not be appropriate in as it consumes more bandwidth and therefore more energy consumption.
 
+\subsubsection{BuFLO}
+
+Buffered Fixed Length Oubfuscator, BuFLO, is a countermeasure proposed in \cite{Peekaboo}. BuFLO is a ``fool-proof''\cite{Peekaboo} countermeasure that totally ignores the performance issues in practice and designed only to study at what level the Traffic Analysis attacks can be mitigated in setup of experiments in \cite{Peekaboo}. In general, BuFLO only sends identical length packets on a fixed frequency. Application data are queued in a buffer until either at least a packet is filled, or a timeout is reached and the data is sent along with padding. When no data is buffer, BuFLO sends dummy packets contains no application data. This countermeasure intuitively eliminates most of the packet features that could be exploited, but \cite{Peekaboo} reports that it does not achieve a satisfiable protection unless used with impractically huge performance  overhead (nearly 400\% in bandwidth).
+
 \subsubsection{Traffic Morphing}
 
 Traffic Morphing\cite{TrafficMorphing} is another countermeasure against Traffic Analysis. The idea is to mimic the distribution of packet features of one website to another. This is done through truncating or buffering packets and sending dummy packets by sampling from another website. \cite{Peekaboo} reported this countermeasure outperformed the other padding schemes, although neither of them provides a satisfiable protection. This countermeasure is relatively easier to implement on TCP since TCP provides a reliable stream connection. When implementing Traffic Morphing on UDP, the upper layer application must handle the packet reordering problem as well as segmenting the data. Although Traffic Morphing costs less overhead in bandwidth comparing to paddings; nevertheless, it is unlikely to be adopted by WSNs as the constrained devices does not seem to be capable to afford the sampling procedure in this countermeasure.
@@ -164,18 +168,69 @@ Traffic Morphing\cite{TrafficMorphing} is another countermeasure against Traffic
 HTTPOS\cite{HTTPOS} is a Traffic Analysis countermeasure implemented on browser that manipulates the underneath TCP connection to control packet size, timing information, web object size and bandwidth. There are two strategies adopted by HTTPOS:
 \begin{description}[style=nextline]
 	\item[The Diffusion Strategy]
-	 Assuming the adversary uses a known training set, HTTPOS modifies the packet features to some value that has not appeared in the training set.
+	 Assuming the adversary uses a known training set, HTTPOS modifies the packet features to some value that has not appeared in the training set. \cite{HTTPOS} claims this strategy will force the adversary to random guess the website but this claim is some how contradictory to the concept of Machine Learning.
 	\item[The Confusion Strategy]
-	As of Traffic Morphing, HTTPOS modifies packet features sampling from another website.
+	As of Traffic Morphing, HTTPOS modifies packet features by sampling from another website.
 \end{description}
 
 For the result, \cite{HTTPOS} reported that their approach achieved nearly perfect protection, i.e. the adversary's accuracy of correctly guessing a website has  dropped to 0 in their test set. This is somehow contradictory to the results in \cite{Peekaboo}, even though the classifier are not exactly identical.
 
 \subsubsection{Format Transforming Encryption}
 
-To an extend, \cite{FTE} proposed a different approach that uses Format-Transforming Encryption, FTE, to circumvent Deep Packet Inspection,DPI, which is strongly related to other Traffic Analysis attacks. The general idea is to morph one type of traffic to another type of traffic, e.g. to morph encrypt SSH data to an ordinary HTTP request. Comparing to standard encryption and decryption, FTE additionally defines an Unrank function which encodes the ciphertext to the target format and a Rank function that decodes the ciphertext. FTE is interested in the Traffic Analysis aspect as it could potentially eliminate some packet features by transforming them.
+To an extend, \cite{FTE} proposed a different approach that uses Format-Transforming Encryption, FTE, to circumvent Deep Packet Inspection,DPI, which is strongly related to other Traffic Analysis attacks. The general idea is to morph one type of traffic to another type of traffic, e.g. to morph encrypt SSH data to an ordinary HTTP request. Comparing to standard encryption and decryption, FTE additionally defines an Unrank function which encodes the ciphertext to the target format and a Rank function that decodes the ciphertext. FTE is interested in the Traffic Analysis aspect as it could potentially eliminate some packet features by transforming the original packets into a totally different type of packets.
 
 \section{Methodologies in Information Leakage }
 
+%There are many literatures discuss how to detect , quantify or exploit different types of side channel information leakage. 
+In this section, we review a few of the methodologies that is developed to detect, exploit or quantify information leakage in different types of side channels. 
 
+\subsection{Machine Learning}
+%Different Classifiers
+Machine Learning is a widely used technique in analysing information leakage in packet features, especially in Traffic Analysis literatures such as \cite{Peekaboo} \cite{TrafficMorphing} \cite{WebsiteFingerprint} \cite{HClassifier} \cite{PClassifier} and \cite{HTTPOS} we have mentioned above. 
+
+Typically, there are three steps to launch a Machine Learning based Traffic Analysis Attack:
+
+\begin{enumerate}
+	%Training set
+	\item The adversary collects a set of traces containing the packet features with known secrets. The secret here means the type of information that the adversary attempts to attack, e.g. which website a trace corresponds to. This data set is the training set.
+	%Classifier
+	\item The training set is then given as the input to an algorithm called classifier. The classifier reads the training set and eventually generates some rules that map the packet features to the secret. 
+	%Test set
+	\item The test set is the traces captured for an user visiting a website that the adversary attempts to attack. The secrets in the test set is unknown to the adversary. The test set is then analysed by the classifier which in turn returns guesses of the secrets.
+\end{enumerate}
+
+This application is a Supervised Learning in Machine Learning terminology.
+
+%Configurable Parameters
+Although most Machine Learning based Traffic Analysis Attacks adopts the similar strategy, there are certain configurable parameters that could greatly affect the outcome.
+
+The first configurable is the packet features. Different classifier make use of different packet features, including headers, size and time of each packet and any connection level statistical features that can be computed through them. The adversary may select any subset of the packet features into the training set.
+
+%Classifiers
+The second configurable is the classifier. Classifiers are the core to the prediction. They vary in construction,  accuracy, performance and even inputs. We do not give the detailed explanation about the classifiers as it is beyond the scope of this report. Instead, we briefly summarise the classifiers and input data in the related literatures in \Cref{Tbl: Classifiers in Traffic Analysis Literatures}.
+
+\begin{table*}[h!]
+	\center
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Literature}                        & \textbf{Classifier}                                                        & \textbf{Input Packet Features}                                                                                                                                                                                                      & \textbf{Output Guess}                                             \\ \hline
+		\cite{WebsiteFingerprint}, \cite{Peekaboo} & Naive Bayes                                                                & (Direction, Length)                                                                                                                                                                                                                 & Website                                                           \\ \hline
+		\cite{WebsiteFingerprint}                  & Jaccard's                                                                  & (Direction, Length)                                                                                                                                                                                                                 & Website                                                           \\ \hline
+		\cite{HClassifier}, \cite{Peekaboo}        & \begin{tabular}[c]{@{}c@{}}Multnominal Naive Bayes\\ (MNB)\end{tabular}    & (Direction,  Frequency Distribution of Length)                                                                                                                                                                                      & Website                                                           \\ \hline
+		\cite{PClassifier}, \cite{Peekaboo}        & \begin{tabular}[c]{@{}c@{}}Support \\ Vector \\ Machine (SVM)\end{tabular} & \begin{tabular}[c]{@{}c@{}}(Direction, Length, Size Marker\cite{PClassifier}, \\ HTML Markers\cite{PClassifier}, Total Bytes, \\ Number Marker\cite{PClassifier}, \\ Percentage Incoming Packet, \\ Number of Packets)\end{tabular} & Website                                                           \\ \hline
+		\cite{AppleMessage}                        & Naive Bayes                                                                & Length                                                                                                                                                                                                                              & \begin{tabular}[c]{@{}c@{}}User OS,\\  User Language\end{tabular} \\ \hline
+		\cite{Peekaboo}                            & Naive Bayes                                                                & Total Time                                                                                                                                                                                                                          & Website                                                           \\ \hline
+		\cite{Peekaboo}                            & VNG++                                                                      & \begin{tabular}[c]{@{}c@{}}Total Time, Total Per-Direction Bandwidth,\\ Traffic Burst\cite{Peekaboo}\end{tabular}                                                                                                                   & Website                                                           \\ \hline
+	\end{tabular}
+	}
+	\caption{Classifiers in Traffic Analysis Literatures}
+	\label{Tbl: Classifiers in Traffic Analysis Literatures}
+\end{table*}
+
+%Pros & Cons
+
+%Information Theoretic
+
+%Methods from other SCA
 
