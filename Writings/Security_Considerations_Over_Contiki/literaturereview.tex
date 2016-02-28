@@ -266,7 +266,7 @@ where $\sup$ represents suprema and $\forall P(X)$ represents all possible distr
 
 \cite{PinpointWeb} applies this strategy on each packet feature at each position of aligned packet traces. As stated in the original paper, this method only detects potential leakage points\footnote{A packet feature at a specific position that leaks information.} but does not directly implies an attack. As a matter of fact, \cite{PinpointWeb} reports that TCP ACK packets is a potential leakage source but there is no known attacks that exploits this feature to our knowledge; instead, \cite{PClassifier} even excluded them from the traces considering them as a purely side effect of the protocol and thus irrelevant to the application data.
 
-Following the same concepts, \cite{OneTryGuess} quantifies the information leakage in a one trial guess scenario, following the work done by \cite{OneTryGuessOrigin}. For consistency, we use the notations revised in \cite{GLeakage}. 
+As stated by \cite{OneTryGuess}, it is showed by \cite{OneTryGuessOrigin} that mutual information does not cover a scenario that the adversary attempts to guess the secret in one try. Following this concept, \cite{OneTryGuess} quantifies the information leakage in a one trial guess scenario. For consistency, we use the notations revised in \cite{GLeakage}. 
 
 \begin{definition}
 	Suppose a secret value $x \in X$. Suppose $\pi$ the prior distribution of $X$ which is known by the adversary $\mathcal{A}$. The Prior Vulnerability $V(\pi)$ is defined as:
@@ -275,7 +275,7 @@ Following the same concepts, \cite{OneTryGuess} quantifies the information leaka
 		V(\pi) = \max_{x \in X}{\pi[x]}
 	\end{equation}
 	
-	Suppose a channel $C$ which encodes $x \in X$ to an observable values $y \in Y$, that is
+	Suppose a channel $C$ which encodes $x \in X$ to an observable value $y \in Y$, that is
 	
 	\begin{equation}
 		C[x,y] = P(y | x)
@@ -289,7 +289,61 @@ Following the same concepts, \cite{OneTryGuess} quantifies the information leaka
 	
 \end{definition}
 
-Comprehensively, Prior Vulnerability is the best chance  $\mathcal{A}$ correctly guesses $x$ in one try, and Posterior Vulnerability is the same probability but given the knowledge of $y$.
+Comprehensively, Prior Vulnerability is the best chance  $\mathcal{A}$ correctly guesses $x$ in one try. Posterior Vulnerability is the same probability but given the knowledge of $y$. Since the best strategy for $\mathcal{A}$
 
-%Methods from other SCA
+\begin{definition}
+	The vulnerabilities are converted to min-entropy by taking negative logarithm:
+	
+	\begin{eqnarray}
+		\begin{aligned}
+			H_{\infty}(\pi) &= -\log{V(\pi)} \\
+			H_{\infty}(\pi) &= -\log{V(\pi,C)}
+		\end{aligned}
+	\end{eqnarray}
+	
+	Similar to Mutual Information, the min-leakage entropy leakage $L(\pi,C)$ is defined as the difference of vulnerabilities induced by $C$:
+	
+	\begin{equation}
+		L(\pi, C) = H_{\infty}(\pi) - H_{\infty}(\pi, C)
+	\end{equation}
+	
+	And corresponding min-capacity which is the worst case of leakage over all $\pi$:
+	
+	\begin{equation}
+		ML(C) = \sup_{\pi}{L(\pi,C)}
+	\end{equation}
+\end{definition}
 
+Remind that these definitions are defined to model the information leakage where the adversary attempts to guess the secret correctly in one try and hence model a binary scenario, i.e. the adversary either correctly guesses the secret or not. \cite{GLeakage} extends the model by introducing a hypothetical gain function $g$:
+
+\begin{definition}
+	The gain function $g(w,x)$ is defined as the advantage the adversary gains on a guess $w$ when the secret is $x$. $g(w,x)$ is constrained by $g(w,x) \in [0,1]$.
+\end{definition}
+
+An example of real world implication of gain function could be a Template Attack\cite{TemplateAttack} \cite{PracticalTemplate} where an incorrect but ``relevant'' guess can help the adversary to narrow down the key space.
+
+Following the gain function, \cite{GLeakage} adapts the vulnerabilities to g-vulnerabilities $V_g$ by the advantage can gained by an adversary among all possible guesses $W$:
+
+\begin{eqnarray}
+	\begin{aligned}
+		V_{g}(\pi, C) &= \max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)} \\
+		V_{g}(\pi, C) &= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)}}
+	\end{aligned}
+\end{eqnarray}
+
+And thereafter the g-entropy, g-leakage and g-capacity:
+
+\begin{eqnarray}
+	\begin{aligned}
+		H_{g}(\pi) &= -\log{V_g(\pi)} \\
+		H_{g}(\pi) &= -\log{V_g(\pi,C)}\\
+		L_g(\pi, C) &= H_{g}(\pi) - H_{g}(\pi, C)\\
+		ML_g(C) &= \sup_{\pi}{L_g(\pi,C)}
+	\end{aligned}
+\end{eqnarray}
+
+Different types of leakage can be modelled by substituting different gain functions. \cite{AddMulGLeakage} studies more algebraic properties of this model.
+
+Above the models, other literatures studies improvements of these models. \cite{EstimateLeakage} proposed a method to estimate the information leakage with Mutual Information utilising Blahut-Arimoto algorithm\cite{Blahut}\cite{Arimoto}. \cite{Continuous} proposes the use of continuous instead of discrete variable to  better model some side channel information.
+
+\subsec{Methods from other Side Channel Attacks}
