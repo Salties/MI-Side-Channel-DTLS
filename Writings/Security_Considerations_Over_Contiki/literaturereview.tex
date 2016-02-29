@@ -1,71 +1,98 @@
 \chapter{Preliminaries:\\ Literature Review} \label{Chp: LiteratureReview}
 
-In this chapter we review some literatures related to security of WSNs. in
-
+In this chapter we review some literatures related to the security of WSNs in three aspects:
 \begin{enumerate}
 	\item Protocol and implementation flaws
 	\item Traffic analysis techniques
 	\item Information leakage detection
 \end{enumerate}
 
-As introduced in \Cref{Chp: Building Blocks}, many 6LoWPAN protocols are derived from Internet. Therefore in this report we also refer to existing attacks on Internet that could potentially be applied in WSN.
+Many 6LoWPAN protocols are derived from Internet; therefore we also cross-reference some attacks on Internet that could  possibly applied on WSN in this section.
 
 \section{Protocol and Implementation Flaws}
 
-%In this section we focus on protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}, namely `'802.15.4 + 6LoWPAN + CoAP''.
-
-%Security consideration of 802.15.4
 \subsection{802.15.4 PHY and MAC}
-\cite{802154sec} reviews the design flaw in 802.15.4 Security. First of all, the nonce reuse may happen due to the same key used in different entry, or power failure on device. Secondly, the key management also needs to be improved. The ACL does not support group key, using a default ACL entry for network shared key is incompatible with replay protection. Finally, the Security Levels without authentication should not be used. Allowing an adversary to forge messages potentially breaches the data confidentiality in many applications. It also allows the adversary to launch a Denial of Service, DoS, attack by spoofing a frame with the maximum Frame Counter which eventually triggers the replay protection on later legitimate frames. In addition, the lack of security in ACK frames can also be exploited in a jamming DoS attack to forge false ACKs to prevent retransmission.
+
+\cite{802154sec} reviews the design flaws in 802.15.4 Security. 
+
+First of all, the nonce reuse may happen due to the same key used in different entry, or power failure on device. We have verified that power failure does cause nonce reuse on our platform.
+
+Secondly, the key management needs to be improved. The ACL does not support group key, using a default ACL entry for network shared key is incompatible with replay protection. 
+
+Finally, the Security Levels without authentication should not be used. The authors claimed that allowing an adversary to forge messages potentially breaches the data confidentiality in many applications. It also allows the adversary to launch a Denial of Service, DoS, attack by spoofing a frame with the maximum Frame Counter, as it triggers the replay protection to reject later legitimate frames. In addition, the lack of security in ACK frames can also be exploited in a jamming DoS attack to forge false ACKs to prevent retransmission.
+
+Some contents in \cite{802154sec} is out dated and has minor difference from the latest 802.15.4 specification.
 
 \subsection{6LoWPAN}
 %6LoWPAN Fragmentation Attack
-6LoWPAN fragmentation attack\cite{6lpFragAtk} exploits the unauthenticated packet fragments in 6LoWPAN. An adversary within the network can spoof a fragment of IPv6 packet causing the receiver to drop the corrupted  packet, or she can send a forged initial fragment requesting the victim node to allocate unnecessary memory which eventually results into legal packets being dropped. They propose two countermeasures to prevent these fragmentation attacks. The first countermeasure is to add chained integrity tag into each fragment to prevent the spoofed fragments. The second countermeasure is to use a more sophisticated memory management scheme that does not allocate memory until an actual fragment is received.
+6LoWPAN fragmentation attack\cite{6lpFragAtk} exploits the unauthenticated packet fragments in 6LoWPAN. An adversary within the network can spoof a fragment of IPv6 packet causing the receiver to drop the whole corrupted  packet; or he can send a forged initial fragment requesting the victim node to allocate unnecessary large memory resulting into a DoS attack. The authors proposed two countermeasures to prevent these  attacks. The first countermeasure is to add chained integrity tag into each fragment to prevent the spoofed fragments, and the second is to use a more sophisticated memory management scheme that does not allocate memory until an actual fragment is received. However, as of in Internet, IP level fragmentation should be avoided as much as possible by upper layer application designers.
 
 %6LoWPAN DoS
-\cite{6lpRplAtk} gives an overview of attacks that targets 6LoWPAN and RPL. These attacks mainly results into malfunctioning of the WSN. In Sinkhole Attack\cite{Sinkhole}, the malicious node sends false RPL message to direct all messages to itself. Sinkhole Attack can further extend to Blockhole Attack\cite{Blackhole} by dropping all packets silently, eventually disables the communication of network. Wormhole Attack\cite{Wormhole} works by replaying legitimate RPL messages at an illegal location, causing confusion in the DODAG structure and therefore disrupts the communication. A malicious node launching Hello Flood Attack repeatedly broadcasts a Hello, refers to DIS, message, triggers its neighbour to respond with DIO messages and eventually depletes the battery of victims.
+\cite{6lpRplAtk} gives an overview of attacks that targets 6LoWPAN and RPL. These attacks mainly aims to disable the WSN. 
+
+In Sinkhole Attack\cite{Sinkhole}, the malicious node sends false RPL message to direct all messages to the compromised node and hence gain control of the data flow in WSN. Sinkhole Attack can further extend to Blockhole Attack\cite{Blackhole} by dropping all packets silently and therefore cut off the network. Wormhole Attack\cite{Wormhole} works by replaying legitimate RPL messages at an illegal location through an outer connection, causing confusion in the DODAG topology and therefore disrupts the communication. In Hello Flood Attack\cite{HelloFlood}, the malicious node launching repeatedly broadcasts DIS messages triggering the responses of neighbours and eventually depletes their battery.
 
 \subsection{TLS and DTLS}
-\cite{rfc7457} summarises known attacks  against TLS and DTLS. Due to the constrained resources in WSN devices, implementations tend to support only  minimum protocols and cipher suites. We omit some of these attacks as they do not seem to be feasible in WSN environments.
+
+\cite{rfc7457} summarises known attacks  against TLS and DTLS on Internet. In case of WSN, implementations of TLS and DTLS tend to support only minimum features and cipher suites due to the limited resources; thus are immune to some of these attacks, such as most of the Degrade Attacks\cite{rfc7457} which attempt to force victims to use outdated version of protocols. In this section, we explain two attacks those we consider conceptionally most relevant in WSN scenarios.
 
 \subsubsection{Compression Ration Attacks}
 
 %Compression Ratio Attack
-Compression Ratio Attack is proposed in \cite{CompressionRationAttack} which is a type of plaintext recovery attack that exploits the length difference of compressed ciphertext. This type of attack has been realised by the CRIME\cite{CRIME} Attack against TLS compression, and TIME\cite{TIME} Attack and BREACH\cite{BREACH} Attack against HTTP compression respectively. In this type of attacks, the plaintext constitutes of two parts. The first part is the explicit part which is known or even controlled by adversary. The second part is the implicit part which is unknown secret to the adversary . The first observation is that the plaintext is compressed before encrypted, since the encrypted ciphertext should appears random and can be hardly compressed. The second observation is that the more repetitive patterns in the plaintext the more bytes it will be compressed and hence results into more shrink in the length of ciphertext. The two factors combined together gives the adversary an oracle to guess the implicit part of plaintext through the explicit part, as a correct guess in the explicit part corresponds to a higher compression ratio in ciphertext.\cite{CompressionCountermeasure} proposed two countermeasures to this types of attacks. The first one is to compress the explicit part and implicit part separately. This approach completely disables the compression oracle but is not generally applicable as the explicit part and implicit part are application dependent. The second countermeasure is to use a fixed dictionary in compression. This countermeasure prevents such attacks since the explicit part no longer affects the compression ratio of the secret, but this method drastically degrades the performance of compression. Even though the protocol suite we introduced in \Cref{Chp: Building Blocks} does not include any of such compression\footnote{The IPv6 header compression can be considered to be using a fixed common dictionary.} methods, this attack should still be taken into account, as compressions are very likely to be used in WSN applications due to their low bandwidth nature. 
+Compression Ratio Attack is proposed in \cite{CompressionRationAttack} which is a type of plaintext recovery attack that exploits the length difference of compressed ciphertext. This type of attack has been realised by the CRIME\cite{CRIME} Attack against TLS compression, and TIME\cite{TIME} Attack and BREACH\cite{BREACH} Attack against HTTP compression respectively. 
+
+In this type of attacks, a plaintext is divided into an explicit part and an implicit part. The explicit part is known or even controlled by adversary, usually refers to some predictable contents in the application data. The implicit part is unknown to the adversary and contains the secret the adversary targets, such as a secret tag controlled by the client during a website access. The adversary also has the knowledge of plaintext length before compression.
+
+The first observation is that more repetitive patterns in the plaintext results into better compression rate and hence more shrink in the length of ciphertext. The second observation is that the plaintext is compressed before encrypted since the encrypted ciphertext appears random and can be hardly compressed. The adversary then put his guesses into the explicit part and observes the compression rate since a higher compression rate indicates a match between the guess and the secret in the implicit part.
+
+\cite{CompressionCountermeasure} proposed two countermeasures to these attacks. The first countermeasure is to compress the explicit part and implicit part separately. This approach completely disables the compression oracle but is not generally applicable as the explicit part and implicit part are highly application dependent. The second countermeasure is to use a fixed dictionary in compression. This countermeasure prevents such attacks since the explicit part no longer affects the compression rate of the implicit part. However, this method drastically degrades the performance of compression. As a result, some protocols simply disables compression as the countermeasure to these attacks.
+
+Even though the protocol suite we introduced in \Cref{Chp: Building Blocks} does not induce any compression\footnote{The IPv6 header compression can be considered to be using a fixed common dictionary.} method, we take this attack into account as compressions are very likely to be used in WSN applications due to their low bandwidth nature. 
 
 \subsubsection{Padding Oracle Attacks}
 
+Padding Oracle Attack\cite{PaddingOracle} targets cipher suites with padding and MAC-then-Encrypt in CBC mode encryption.
+
+Denote $C_i$ to be the $i$-th block of a $n$-blocks ciphertext. During a CBC decryption, the plaintext computed by:
+\begin{equation}
+	P_i = Dec(C_i) \oplus C_{i-1}
+\end{equation}
+Where $P_i$ is the $i$-th block plaintext and $Dec$ is the block cipher decryption.
+
+For the last block $P_n$, the correct scheme padding firstly checked, and then the MAC. In older version of SSL/TLS, errors at different steps returns different error messages. Such difference in error messages can therefore exploited by an adversary who is capable of asking the decryption of chosen ciphertexts, such as a man in the middle. To be more specifically, the adversary modifies $C_{n-1}$ byte by byte forwardly. The modifications will be XORed to $P_{i-1}$, triggering a MAC error until at some point the padding is affected  triggering a padding error instead. This exposes the position of the last byte of plaintext in $P_n$. Since the padding values are predictable, the adversary then attempts to modify the byte in $C_{n-1}$ which corresponds to the last byte of plaintext in $C_n$ together with bytes in $C_{n-1}$ corresponds to the padding bytes, to create a padded block of $P_n$. Once a MAC error is returned which indicates the modified $P_n$ has passed the padding check, the adversary can soon learn the last byte of plaintext by XORing the modification with the predicted padding value. The same process is then carried on backward byte by byte to recover the full plaintext.
+
 %Lucky 13
-Lucky Thirteen Attack\cite{Lucky13} is a Padding Oracle Attack\cite{PaddingOracle} on DTLS. The Padding Oracle Attack targets cipher suites with padding and MAC-then-Encrypt in CBC mode of operation. Denote $C_n$ to be the last block of the $n$-blocks ciphertext. During a CBC decryption, $C_n$ is decrypted by the block cipher first and then XORed with $C_{n-1}$ resulting into the plaintext $P_n$. $P_n$ is then first checked with correct scheme padding, and then the MAC. In older version of SSL/TLS, failure at different steps returns different error messages. The padding oracle refers to such a source that distinguishes the difference between these errors. Such difference in error messages can therefore exploited by an adversary who is capable of asking the decryption of chosen ciphertexts. To be more specifically, for a target ciphertext, the adversary first modifies the second-last block of ciphertext from the first byte forward. These modifications will be directly XORed to the plaintext, triggering a MAC error until the padding is affected which triggers a padding error instead. This exposes the position of the last byte of plaintext in $C_n$. Since the padding values are predictable, the adversary then modify the byte in $C_{n-1}$ which corresponds to the last byte of plaintext in $C_n$ alongside with the bytes corresponds to the padding. The aim of this modification it to trick the decryption process to treat the modified last byte of plaintext as part of the padding. Once a MAC error is returned, which indicates the ciphertext has passed the padding check, the adversary can soon learn the last byte of plaintext by XORing the modified difference with the predicted padding value. The process can be carried on backward byte by byte to recover the full plaintext.  Later versions of SSL/TLS patched this vulnerability by using an unified error message on both check failures, but further study\cite{Lucky13} shows that such padding oracle can still be constructed by observing the slight timing difference of both errors. Specifically in the case of DTLS, although the protocol by nature does not provide the error messages, the timed padding oracle can still be constructed through observing the response time for a DTLS Heartbeat message. However, such attack is not yet feasible in our platform as the protocol suite / implementation in our platform does not employ any cipher suite with CBC mode.
+Later versions of SSL/TLS patched this vulnerability by using an unified error message on both check failures, but further study showed that such padding oracle can still be constructed by observing the slight timing differences on error messages induced by MAC computation. In case of DTLS, although the protocol by nature does not provide the error messages, the timed padding oracle can still be constructed through observing the response time for a DTLS Heartbeat message as shown in \cite{Lucky13}. However, such attack is not yet feasible in our platform as the supported cipher suite does not employ any CBC mode encryption.
 
 %Smartgrid Dump Crypto
 
+\section{Traffic Analysis Attacks}
 
-\section{Traffic Analysis}
+Traffic Analysis is a family of attacks widely studied for different applications on Internet. The motivation is that many security protocols, such as SSL/TLS, does not protect the side channel information such as headers, timing and length of packets. Studies\cite{WebSideChannel}\cite{PinpointWeb}\cite{Peekaboo} showed that these side channel information can indeed be exploited by an adversary to breach the data confidentiality that supposed to be hidden by the security protocols, such as contents in the encrypted packets or end identities of a communication. These side channel attacks using the observable features of traffic are generally called Traffic Analysis Attacks.
 
-Traffic Analysis is a family of attacks on Internet. Security protocols, such as SSL/TLS,  provide authenticity, integrity and confidentiality protection to the application data, but many side channel information are usually overlooked by the protocols, including headers of unencrypted protocols, timing information of packets and length of packets. 
-
-Studies, \cite{WebSideChannel}\cite{PinpointWeb}\cite{Peekaboo} among the others, showed that these side channel information can indeed be exploited by an adversary to reveal some information that are intended to be hidden by the security protocols, such as contents in the encrypted packets or end identities of a communication. These side channel attacks using the observable features of traffic are generally called Traffic Analysis Attacks.
-
-Comparing cryptographic attacks, Traffic Analysis are commonly different in a way such that:
+Comparing to cryptographic attacks, Traffic Analysis Attacks are commonly different in a way such that:
 \begin{itemize}
-	\item Traffic Analysis does not try to break the cryptographic primitives, as we can see later in this section. 
-	\item Traffic Analysis Attacks are usually application specific. As we can see later in this section, most Traffic Analysis Attacks are targeted at a specific application, either a website, a search engine or a text message service, etc.
-	\item The target usually assumes a publicly known smaller plaintext space, instead of the arbitary message in many cryptographic context. For example, one attack in \cite{WebSideChannel} targets a selection list in a website with only tens of options,  \cite{Peekaboo} discusses attacks in a closesd world, i.e. an idea world with only hundreds or thousands websites.
+	\item They are mostly irrelevant to the cryptographic primitives. 
+	\item They are usually application specific. As we can see later in this section, most Traffic Analysis Attacks are targets a specific application, either a website, a keyword of search engine or a text message service, etc.
+	\item The target usually assumes a publicly known smaller plaintext space, instead of arbitrary data in many cryptographic context. For example, one attack in \cite{WebSideChannel} targets page tabs in a website with only tens of options,  \cite{Peekaboo} discusses attacks in a closesd world, i.e. an ideal world with only hundreds or thousands websites.
 	\item Traffic Analysis are hard to prevent, as shown in \cite{Peekaboo} that many countermeasures proposed end up failed to prevent the attacks.
 \end{itemize}
 
-We consider Traffic Analysis to be one of the most critical security and privacy threat in WSN applications for three reasons:
+We consider Traffic Analysis Attacks to be one of the most critical security and privacy threat in WSN applications for these reasons:
 \begin{enumerate}
-	\item Nodes communicates to each others through RF in open environments. It is easier than Internet for adversaries to monitor the traffic.
-	\item Nodes are geographically less distant. This provides the opportunity for the adversary to conduct mass surveillance like attacks.
-	\item Countermeasures are difficult to implement in constrained devices due to overhead. Many countermeasures are application specific.
+	\item Nodes communicates to each others through RF in open environments. It is naturally easier than Internet for adversaries to monitor the traffic.
+	\item Nodes are geographically less distant. This provides the opportunity for organised, or even personal, adversaries to conduct governmental mass surveillance like attacks.
+	\item Countermeasures are difficult to implement in constrained devices due to overhead, most of them are application specific and not generally applicable.
 \end{enumerate} 
 
-\subsection{Traffic Analysis Attacks} \label{Subsec: Traffic Analysis Attacks}
+In this section, we introduce some classical Traffic Analysis Attacks and countermeasures on Internet. To our knowledge, there is yet any Traffic Analysis Attacks disclosed specifically over WSNs, although the same techniques should apply.
+
+\subsection{Classical Traffic Analysis Attacks} \label{Subsec: Traffic Analysis Attacks}
 
 \subsubsection{Side Channel Attacks against Web Applications}
-\cite{WebSideChannel} describes the general idea of Traffic Analysis against web applications. In this paper, a web application is modelled as a stateful system and the packet features being the input and output of the system. The paper introduced how these side channel information can be exploited through examples of encrypted real world websites.
+
+\cite{WebSideChannel} describes the general idea of Traffic Analysis Attacks against web applications. In this paper, a web application is modelled as a stateful system and the packet features being the input and output of the system. This paper introduced how these side channel information can be exploited through examples of encrypted real world websites.
+
 \begin{example}
 	The first example is a health record system as shown in \Cref{Fig: HealthRecordSystem}.
 	
@@ -93,16 +120,16 @@ We consider Traffic Analysis to be one of the most critical security and privacy
 	The last example shows how Traffic Analysis can be applied to attack the key word user provided to a search engine. \cite{SearchAttack} gives a more thorough description of this attack.
 \end{example}
 
-\cite{PinpointWeb} extends the work from a leakage detection perspective. Similar to \cite{WebSideChannel}, a web application is modelled as state machine with the user input and packet traces being the input and output respectively. The packet traces are aligned by sequence of packets. A hypothetical DETECT function is then iterated over the positions of packets. For each position, DETECT function computes an information leakage metric by the aligned packets from different traces and returns it as an indicator of potential information leakage at that position. They further instantiated the DETECT function by using Mutual Information of user input and packet features. Finally, they showed that in the experiment done on an example web application, the ACK flag could also be a potential leakage source in addition to packet sizes, where the latter is a widely exploited packet feature in many Traffic Analysis Attacks.
+\cite{PinpointWeb} extends the work from a leakage detection perspective. Similar to \cite{WebSideChannel}, a web application is formally modelled as a state machine with user input and packet traces being the input and output respectively. The packet traces are aligned by sequence of packets. A hypothetical DETECT function is then iterated over all positions of aligned traces. For each position, DETECT function computes an information leakage metric and returns it as an indicator of potential information leakage at each position. The authors further instantiated the DETECT function by using Mutual Information of user input and packet features. Finally, they showed that in the experiment done on an example web application, the ACK flag could also be a potential leakage source in addition to packet sizes, where the latter is a widely exploited packet feature in many Traffic Analysis Attacks.
 
 \cite{SearchAttack} implements the Traffic Analysis Attack on search engines described by \cite{WebSideChannel} in more details. It exploits the fact that Google by default enables auto suggestion which responds to each key stroke of user input with the suggest options and preloaded pages. This attack assumes the user input is within a finite dictionary. The attack is done in two steps:
 
 \begin{enumerate}
-	\item The first step is the profiling step. The attacker first builds a prefix tree\cite{PrefixTree} for the whole dictionary. For each edge of the prefix tree, which corresponds to a key stroke from parent to child, the attacker associates it with the distribution of server responded packet sizes that is gathered through multiple trials. 
-	\item When an user's traffic is captured, the attacker compares the server responses for each user key stroke to the edges in the prefix tree from the root to the leafs. For each comparison, the attacker computes a likelihood and accumulates it through stochastic algorithms. 
+	\item The first step is the profiling step. The attacker first builds a prefix tree\cite{PrefixTree} for the whole dictionary. Each edge of the prefix tree represents a key stroke from parent to child in the search box. The attacker associates each edges with the distribution of server responded packet sizes that is gathered through multiple trials. 
+	\item When an user's traffic is captured, the attacker compares the sizes of server response for each user key stroke to the edges in the prefix tree of the corresponding depth. For each comparison, the attacker computes a likelihood and accumulates it through stochastic algorithms. 
 \end{enumerate}
 
-Finally, the algorithms outputs a set of keyword guesses of the highest likelihoods. The attack is considered successful if the keyword user typed appears in the guesses. At the end of the paper they showed that their method proofed to be effective in their settings.
+Finally, the algorithms outputs a set of keyword predicts of the highest likelihoods. At the end of the paper the authors showed that their method proved to be effective in their settings.
 
 \subsubsection{Website Fingerprinting}
 %Web site fingerprinting
@@ -117,21 +144,21 @@ Website Fingerprinting is a well studied topic in Traffic Analysis Attacks. \cit
 
 Tor\cite{Tor} can be considered as an instance of such network. The goal of Website Fingerprint is to identify the website an user is visiting through a secured channel by looking at the traffic features. Its motivation has received a growth in awareness in the cyber security community due to the recent years disputable governmental mass surveillance.
 
-\cite{WebsiteFingerprint} demonstrates the use of machine learning techniques on packet sizes. To be more specifically, the authors conducted a series of experiment in a ``closed world'' setup of 2000 websites, i.e. assuming the user visits only one of 2000 known websites. To fingerprint a website, the attacker first visits the websites gathering the packet traces. These traces are then used as the training set and fed to the classifier. When a user's traffic is captured, the trace is then treated as the test set to predict which website the user has visited. Two classifier are tested in the experiments, namely Jaccard's coefficient and naive Bayes classifier. The results show that Jaccard's coefficient outperformed naive Bayes classifier in most cases. In addition, the authors also measure the affection of time elapsed and argued that these attacks still hold after 4 weeks of profiling. However, considering the fact that the nature of Internet has changed dramatically in the past decade, the last argument might need to be reconsidered.
+\cite{WebsiteFingerprint} demonstrates the use of machine learning techniques on packet sizes. To be more specifically, the authors conducted a series of experiment in a ``closed world'' setup of 2000 websites, i.e. assuming the user visits only one of 2000 known websites. To fingerprint a website, the attacker first visits the websites gathering the packet traces. These traces are then used as the training set and fed to the classifier. The captured user's traffic trace is then treated as the test set to predict which website the user has visited. Two classifier are tested in their experiments, namely Jaccard's coefficient and naive Bayes classifier. The results show that Jaccard's coefficient outperformed naive Bayes classifier in most cases. In addition, the authors also measure the affection of time elapsed and argued that these attacks still hold after 4 weeks of profiling. However, considering the fact that the nature of Internet has changed dramatically in the past decade, the last argument might need to be reconsidered.
 
 %Peekaboo
-A series of similar Website Fingerprint experiments has been studied by \cite{Peekaboo}, with aspect to the effectiveness of different countermeasures. Comparing to \cite{WebsiteFingerprint}, \cite{Peekaboo} analysed more packet features other than direction and length, including timing information, total bytes, total bytes on each direction, traffic bursts\footnote{A huge amount of traffic that has been transmitted continuously on the same direction.} and bandwidth. Classifiers from previous works are studied in this paper, namely LL classifier from \cite{WebsiteFingerprint}, H classifier from \cite{HClassifier} and P classifier from \cite{PClassifier}, alongside with some other classifiers designated to specific packet features. With respect to the countermeasures, different padding schemes are compared in this paper, including per packet padding, session wide padding and Traffic Morphing which is a sophisticated padding scheme we describe later in the context. In addition to padding schemes which mostly aimed to mitigate the packet length side channel, BuFLO\cite{Peekaboo} is also introduced to mitigate the timing and bandwidth side channels. For the result, the authors reported that all the padding scheme does not provide enough protection against the best classifier which is the P classier. BuFLO does not bring much security either unless used with a drastic overhead to the performance.
+A series of similar Website Fingerprint experiments has been studied by \cite{Peekaboo}, with aspect to the effectiveness of different countermeasures. Comparing to \cite{WebsiteFingerprint}, \cite{Peekaboo} analysed more packet features other than direction and length, including timing information, total bytes, total bytes on each direction, traffic bursts\footnote{A huge amount of traffic that has been transmitted continuously on the same direction.} and bandwidth. Classifiers from previous works are studied in this paper, namely LL classifier from \cite{WebsiteFingerprint}, H classifier from \cite{HClassifier} and P classifier from \cite{PClassifier}, alongside with some other classifiers designated to specific packet features. With respect to the countermeasures, different padding schemes are compared in this paper, including per packet padding, session wide padding and Traffic Morphing which is a sophisticated padding scheme we describe later in the context. In addition to padding schemes which mostly aimed to mitigate the packet length side channel, BuFLO\cite{Peekaboo} is also introduced to mitigate the timing and bandwidth side channels. For the result, the authors reported that all padding schemes above does not provide enough protection against the best classifier, i.e. the P classier. BuFLO does not bring much security neither unless used with a drastic overhead to the performance.
 
-\subsubsection{Other Traffic Analysis Attacks}
+\subsubsection{Other Attacks on Different Applications}
 %Apple iMessage
 %SSH attack
 %VoIP attack
 %Skype Video
-In spite of the attacks we mentioned above, there also exists many other Traffic Analysis attacks against different application. \cite{VoIPLanguage} and \cite{VoIPPhrases} demonstrated that the encrypted Voice over IP, VoIP, traffic could leak the language spoken and certain phrases can be detected. \cite{SSHKey} showed that user key stroke could be revealed by packet timing information. \cite{AppleMessage} shows that user's OS, message length, language and several behaviour can be identified through the size of encrypted packets. \cite{Video} showed that certain video event such as ambient change or object movement in a Skype video chat can be observed through the changes in packet features.
+In spite of the attacks we mentioned above, there also exists many other Traffic Analysis Attacks against different applications on Internet. \cite{VoIPLanguage} and \cite{VoIPPhrases} demonstrated that the encrypted Voice over IP, VoIP, traffic could leak the language spoken and certain phrases can be detected. \cite{SSHKey} showed that user key stroke could be revealed by packet timing information. \cite{AppleMessage} shows that user's OS, message length, language and several behaviour can be identified through the size of encrypted packets. \cite{Video} showed that certain video event such as ambient change or object movement in a Skype video chat can be observed through the changes in packet features.
 
 \subsection{Traffic Analysis Countermeasures}
 
-Several countermeasure are proposed to counter Traffic Analysis Attacks. 
+Several countermeasures are proposed to mitigate Traffic Analysis Attacks. 
 
 \subsubsection{Padding}
 
@@ -143,7 +170,7 @@ Padding is the most common countermeasure that intends to mitigate the packet si
 	\item[Packet Random Padding]
 	Each packet is padded with a random value of bytes.
 	\item[Linear Padding]
-	Each packet is padded to a multiple of 128.
+	Each packet is padded to a multiple of 128 bytes.
 	\item[Exponential Padding]
 	Each packet is padded to the nearest power of 2.
 	\item[Mice-Elephants Padding]
@@ -151,21 +178,22 @@ Padding is the most common countermeasure that intends to mitigate the packet si
 	\item[Pad to MTU]
 	Each packet is padded to MTU.
 	\item[Packet Random MTU Padding]
-	Each packet is padded to a random number select uniformly between the data length and MTU.
+	Each packet is padded to a random number selected uniformly between the data length and MTU.
 \end{description}
 
-Paddings are relatively easier to implement but the constrained nature of WSN implies that padding might not be appropriate in as it consumes more bandwidth and therefore more energy consumption.
+Paddings are relatively easier to implement. However, the nature of constrained resources of WSN implies that paddings might not be appropriate due to their bandwidth overhead and thereupon more energy consumption.
 
 \subsubsection{BuFLO}
 
-Buffered Fixed Length Oubfuscator, BuFLO, is a countermeasure proposed in \cite{Peekaboo}. BuFLO is a ``fool-proof''\cite{Peekaboo} countermeasure that totally ignores the performance issues in practice and designed only to study at what level the Traffic Analysis attacks can be mitigated in setup of experiments in \cite{Peekaboo}. In general, BuFLO only sends identical length packets on a fixed frequency. Application data are queued in a buffer until either at least a packet is filled, or a timeout is reached and the data is sent along with padding. When no data is buffer, BuFLO sends dummy packets contains no application data. This countermeasure intuitively eliminates most of the packet features that could be exploited, but \cite{Peekaboo} reports that it does not achieve a satisfiable protection unless used with impractically huge performance  overhead (nearly 400\% in bandwidth).
+Buffered Fixed Length Oubfuscator, BuFLO, is a countermeasure proposed in \cite{Peekaboo}. BuFLO is a ``fool-proof''\cite{Peekaboo} countermeasure that totally ignores the performance issues in practice and designed only to study at what level the Traffic Analysis Attacks can be mitigated in the setup of experiments in \cite{Peekaboo}. In general, BuFLO only sends identical length packets on a fixed frequency. Application data are queued in a buffer until either a packet is filled, or a timeout is reached and the data is sent along with padding. When no data is buffer, BuFLO sends dummy packets contains no application data. This countermeasure intuitively eliminates most of the packet features that could be exploited, but \cite{Peekaboo} reports that it does not achieve a satisfiable protection unless used with impractically huge performance  overhead (nearly 400\% in bandwidth).
 
 \subsubsection{Traffic Morphing}
 
-Traffic Morphing\cite{TrafficMorphing} is another countermeasure against Traffic Analysis. The idea is to mimic the distribution of packet features of one website to another. This is done through truncating or buffering packets and sending dummy packets by sampling from another website. \cite{Peekaboo} reported this countermeasure outperformed the other padding schemes, although neither of them provides a satisfiable protection. This countermeasure is relatively easier to implement on TCP since TCP provides a reliable stream connection. When implementing Traffic Morphing on UDP, the upper layer application must handle the packet reordering problem as well as segmenting the data. Although Traffic Morphing costs less overhead in bandwidth comparing to paddings; nevertheless, it is unlikely to be adopted by WSNs as the constrained devices does not seem to be capable to afford the sampling procedure in this countermeasure.
+Traffic Morphing\cite{TrafficMorphing} is another countermeasure to Traffic Analysis Attacks. The idea is to mimic the distribution of packet features of one website to another. This is done through truncating or buffering packets and sending dummy packets by sampling from the target website. \cite{Peekaboo} reported this countermeasure outperformed the other padding schemes, although neither of them provides a satisfiable protection. This countermeasure is relatively easier to implement on TCP since TCP provides a reliable stream connection. When implementing Traffic Morphing on applications based on UDP, like most of WSN applications, the upper layer must handle the subtle transportation problems such as packet reordering and data segmenting. Although Traffic Morphing costs less overhead in bandwidth comparing to paddings, it is nevertheless unlikely to be adopted by WSNs as the constrained devices does not seem to be capable to afford the computation overhead of this countermeasure.
 
 %HTTPOS
-HTTPOS\cite{HTTPOS} is a Traffic Analysis countermeasure implemented on browser that manipulates the underneath TCP connection to control packet size, timing information, web object size and bandwidth. There are two strategies adopted by HTTPOS:
+HTTPOS\cite{HTTPOS} is an implementation adopted this countermeasure. It is implemented on the client's  browser and manipulates the underneath TCP connection to control packet size, timing information, web object size and bandwidth. There are mainly two strategies adopted by HTTPOS:
+
 \begin{description}[style=nextline]
 	\item[The Diffusion Strategy]
 	 Assuming the adversary uses a known training set, HTTPOS modifies the packet features to some value that has not appeared in the training set. \cite{HTTPOS} claims this strategy will force the adversary to random guess the website but this claim is some how contradictory to the concept of Machine Learning.
@@ -173,11 +201,11 @@ HTTPOS\cite{HTTPOS} is a Traffic Analysis countermeasure implemented on browser 
 	As of Traffic Morphing, HTTPOS modifies packet features by sampling from another website.
 \end{description}
 
-For the result, \cite{HTTPOS} reported that their approach achieved nearly perfect protection, i.e. the adversary's accuracy of correctly guessing a website has  dropped to 0 in their test set. This is somehow contradictory to the results in \cite{Peekaboo}, even though the classifier are not exactly identical.
+For the result, \cite{HTTPOS} reported that their approach achieved nearly perfect protection, i.e. the adversary's accuracy of correctly guessing a website has  dropped to nearly 0 in their test set. This is somehow contradictory to the results in \cite{Peekaboo}, even though the classifier are not exactly identical.
 
 \subsubsection{Format Transforming Encryption}
 
-To an extend, \cite{FTE} proposed a different approach that uses Format-Transforming Encryption, FTE, to circumvent Deep Packet Inspection,DPI, which is strongly related to other Traffic Analysis attacks. The general idea is to morph one type of traffic to another type of traffic, e.g. to morph encrypt SSH data to an ordinary HTTP request. Comparing to standard encryption and decryption, FTE additionally defines an Unrank function which encodes the ciphertext to the target format and a Rank function that decodes the ciphertext. FTE is interested in the Traffic Analysis aspect as it could potentially eliminate some packet features by transforming the original packets into a totally different type of packets.
+To an extend, \cite{FTE} proposed a different approach that uses Format-Transforming Encryption, FTE, to circumvent Deep Packet Inspection,DPI, which is strongly related to Traffic Analysis Attacks. The general idea is to morph one type of traffic to another type of traffic, e.g. to morph encrypt SSH data to an ordinary HTTP request. Comparing to standard encryption and decryption, FTE additionally defines an Unrank function which encodes the ciphertext to the target format and a Rank function that decodes the ciphertext. FTE is interested in the Traffic Analysis aspect as it could potentially eliminate some packet features by transforming the original packet trace into a totally different packet trace.
 
 \section{Methodologies in Information Leakage }
 
@@ -186,23 +214,23 @@ In this section, we review a few of the methodologies that is developed to detec
 
 \subsection{Machine Learning}
 %Different Classifiers
-Machine Learning is a widely used technique in analysing information leakage in packet features, especially in Traffic Analysis literatures such as \cite{Peekaboo} \cite{TrafficMorphing} \cite{WebsiteFingerprint} \cite{HClassifier} \cite{PClassifier} and \cite{HTTPOS} we have mentioned above. 
+Machine Learning is a widely used technique in analysing information leakage in packet features such as \cite{Peekaboo} \cite{TrafficMorphing} \cite{WebsiteFingerprint} \cite{HClassifier} \cite{PClassifier} and \cite{HTTPOS} we have mentioned above. 
 
-Typically, there are three steps to launch a Machine Learning based Traffic Analysis Attack:
+Typically, there are three steps in launching a Machine Learning based Traffic Analysis Attack:
 
 \begin{enumerate}
 	%Training set
 	\item The adversary collects a set of traces containing the packet features with known secrets. The secret here means the type of information that the adversary attempts to attack, e.g. which website a trace corresponds to. This data set is the training set.
 	%Classifier
-	\item The training set is then given as the input to an algorithm called classifier. The classifier reads the training set and eventually generates some rules that map the packet features to the secret. 
+	\item The training set is given as the input to an algorithm called classifier. The classifier reads the training set and eventually generates some rules that map the packet features to the secret. 
 	%Test set
-	\item The test set is the traces captured for an user visiting a website that the adversary attempts to attack. The secrets in the test set is unknown to the adversary. The test set is then analysed by the classifier which in turn returns guesses of the secrets.
+	\item The test set is the traces captured for the victim. The test set is analysed by the classifier which to produce guesses of the secrets.
 \end{enumerate}
 
-This application is a Supervised Learning in Machine Learning terminology.
+This procedure is a Supervised Learning in Machine Learning terminology.
 
 %Configurable Parameters
-Although most Machine Learning based Traffic Analysis Attacks adopts the similar strategy, there are certain configurable parameters that could greatly affect the outcome.
+Although most Machine Learning based Traffic Analysis Attacks adopts this similar strategy, there are certain configurable parameters that could greatly affect the outcome.
 
 The first configurable is the packet features. Different classifier make use of different packet features, including headers, size and time of each packet and any connection level statistical features that can be computed through them. The adversary may select any subset of the packet features into the training set.
 
@@ -236,9 +264,9 @@ Machine Learning is a practical and powerful way to detect information leakage o
 %Information Theoretic Approaches
 \subsection{Information Theoretic Approaches}
 
-Some other literatures studies information leakage from an information theoretic perspective. As explained earlier in \Cref{Subsec: Traffic Analysis Attacks}, \cite{PinpointWeb} detects information leakage from an Information Theoretic approach.
+Some other literatures studies information leakage from an Information Theoretic perspective. As explained earlier in \Cref{Subsec: Traffic Analysis Attacks}, \cite{PinpointWeb} detects information leakage using an Information Theoretic approach.
 
-In Information Theory, entropy is the metric that evaluates the uncertainty of a random variable. The entropy\footnote{Specifically, Shannon Entropy.}  of a random variable $X$ is defined as $H(X)$:
+In Information Theory, Shannon entropy, abbreviate as entropy, is one of the most common metric that evaluates the uncertainty of a random variable. The entropy of a random variable $X$ is defined as $H(X)$:
 
 \begin{equation} \label{Eq: Entropy}
 	H(X) = - \sum_{x \in X}{P(x) \log{P(x)}}
@@ -246,17 +274,17 @@ In Information Theory, entropy is the metric that evaluates the uncertainty of a
 
 Higher $H(X)$ indicates higher uncertainty of $X$ and vice versa.
 
-Information is therefore defined as the reduction of entropy. Intuitively, the more information we have with regard to the variable $X$, the less uncertainty it has.
+Information is therefore defined as the reduction of entropy. Intuitively, the less information we have with regard to the variable $X$, the more uncertain it is.
 
-In case of side channel information leakage, we are mostly interested into the information of a secret variable $X$ that is contained in another observable variable $Y$. For example, information of cryptographic key contained in the power trace in Power Analysis attacks and information of website contents contained in packet features, etc. This concept is well captured by Mutual Information, defined as:
+In case of side channel information leakage, we are mostly interested into the information of a secret variable $X$ that is contained in another observable variable $Y$. For example, information of cryptographic key contained in the power traces in Power Analysis Attacks\cite{DPA}, and information of website contents contained in packet features, etc. This concept is well captured by Mutual Information, defined as:
 
 \begin{equation} \label{Eq: MI}
 	I(X;Y) = H(X) - H(X | Y)
 \end{equation}
 
-\Cref{Eq: MI} can be intuitively interpreted as the reduction of the uncertainty of $X$ when given $Y$. As of this project, we are presuming the observable $Y$ to be any traffic feature we can observe in WSNs and $X$ any information of the upper layer application.
+\Cref{Eq: MI} can be intuitively interpreted as the reduction of the uncertainty of $X$ when given $Y$. As of this project, we are generally presuming the observable $Y$ to be any traffic feature we can observe in WSNs and $X$ any information of the upper layer application.
 
-In practice, evaluating Mutual Information requires the prior distribution of $X$. This is requirement in some scenarios cannot be met. For example as stated in \cite{PinpointWeb} where $X$ is the user input, the prior distribution may vary due to many factors such as different groups of user. Therefore an alternative, which is Capacity, is used to evaluate the worst case of information leakage over all prior distributions of $X$, i.e. the maximum Mutual Information over all possible prior distribution of $X$. The Capacity $C$ is formally defined as:
+In practice, evaluating Mutual Information requires the prior distribution of $X$. This requirement in some scenarios cannot be met. For example as stated in \cite{PinpointWeb} where $X$ is the user input, the prior distribution may vary due to many factors such as different groups of user. Therefore as an alternative,  Capacity is used to evaluate the upper bound of information leakage over all prior distributions of $X$, i.e. the maximum Mutual Information over all possible prior distribution of $X$. The Capacity $C$ is formally defined as:
 
 \begin{equation} \label{Eq: Capacity}
 	C = \sup_{\forall P(X)}{I(X;Y)}
@@ -264,9 +292,9 @@ In practice, evaluating Mutual Information requires the prior distribution of $X
 
 where $\sup$ represents suprema and $\forall P(X)$ represents all possible distribution of $X$.
 
-\cite{PinpointWeb} applies this strategy on each packet feature at each position of aligned packet traces. As stated in the original paper, this method only detects potential leakage points\footnote{A packet feature at a specific position that leaks information.} but does not directly implies an attack. As a matter of fact, \cite{PinpointWeb} reports that TCP ACK packets is a potential leakage source but there is no known attacks that exploits this feature to our knowledge; instead, \cite{PClassifier} even excluded them from the traces considering them as a purely side effect of the protocol and thus irrelevant to the application data.
+\cite{PinpointWeb} applies this strategy on each packet feature at each position of aligned packet traces. As stated in the paper, this method only detects potential leakage points\footnote{A packet feature at a specific position that leaks information.} but does not directly implies an attack. As a matter of fact, \cite{PinpointWeb} reports that TCP ACK packets is a potential leakage source but there is no known attacks that exploits this feature to our knowledge; instead, \cite{PClassifier} even excluded them from the traces considering them as a purely side effect of the protocol and thus irrelevant to the application data.
 
-As stated by \cite{OneTryGuess}, it is showed by \cite{OneTryGuessOrigin} that mutual information does not cover a scenario that the adversary attempts to guess the secret in one try. Following this concept, \cite{OneTryGuess} quantifies the information leakage in a one trial guess scenario. For consistency, we use the notations revised in \cite{GLeakage}. 
+As stated by \cite{OneTryGuess}, it is showen by \cite{OneTryGuessOrigin} that mutual information does not cover the scenario which the adversary attempts to guess the secret in one try. Following this concept, \cite{OneTryGuess} quantifies the information leakage in a one trial guess scenario. For consistency, we use the notations revised in \cite{GLeakage}. 
 
 \begin{definition}
 	Suppose a secret value $x \in X$. Suppose $\pi$ the prior distribution of $X$ which is known by the adversary $\mathcal{A}$. The Prior Vulnerability $V(\pi)$ is defined as:
@@ -289,7 +317,7 @@ As stated by \cite{OneTryGuess}, it is showed by \cite{OneTryGuessOrigin} that m
 	
 \end{definition}
 
-Comprehensively, Prior Vulnerability is the best chance  $\mathcal{A}$ correctly guesses $x$ in one try. Posterior Vulnerability is the same probability but given the knowledge of $y$. Since the best strategy for $\mathcal{A}$
+Comprehensively, Prior Vulnerability is the best chance  $\mathcal{A}$ correctly guesses $x$ in one try. Posterior Vulnerability is the same probability but given the knowledge of $y$. 
 
 \begin{definition}
 	The vulnerabilities are converted to min-entropy by taking negative logarithm:
@@ -301,7 +329,7 @@ Comprehensively, Prior Vulnerability is the best chance  $\mathcal{A}$ correctly
 		\end{aligned}
 	\end{eqnarray}
 	
-	Similar to Mutual Information, the min-leakage entropy leakage $L(\pi,C)$ is defined as the difference of vulnerabilities induced by $C$:
+	Similar to Mutual Information, the min-leakage $L(\pi,C)$ is defined as the difference of vulnerabilities induced by $C$:
 	
 	\begin{equation}
 		L(\pi, C) = H_{\infty}(\pi) - H_{\infty}(\pi, C)
@@ -342,9 +370,11 @@ And thereafter the g-entropy, g-leakage and g-capacity:
 	\end{aligned}
 \end{eqnarray}
 
-Different types of leakage can be modelled by substituting different gain functions. \cite{AddMulGLeakage} studies more algebraic properties of this model.
+Different types of leakage can be modelled by substituting different gain functions as described by \cite{GLeakage}. \cite{AddMulGLeakage} studies more algebraic properties of this model.
 
 There are also other literatures study the improvements of these models. \cite{EstimateLeakage} proposed a method to estimate the information leakage with Mutual Information utilising Blahut-Arimoto algorithm\cite{Blahut}\cite{Arimoto}. \cite{Continuous} proposes the use of continuous instead of discrete variable to  better model some side channel information.
+
+Comparing to Machine Learning, Information Theoretic methods provides more quantified details of leakage in theory. However, they are sometimes hard to perform due to practical reasons, such as computational power requirements.
 
 %\subsection{Methods from other Side Channel Attacks}
 
