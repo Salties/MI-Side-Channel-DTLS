@@ -1,26 +1,40 @@
 \chapter{Experimental Setup} \label{Chp: Setup}
 %All experiments are done within the Cooja simulator. The environment we simulated is as described in \Cref{fig: Setup}.
 
-In this chapter we describe how we set up our experiments. The source code can be found at \url{https://github.com/Salties/MyRepository}. 
+\section{Overview}
+In this chapter we describe how we set up our experiments. The related source code can be downloaded from \url{https://github.com/Salties/MyRepository}. 
 
-
+\Cref{Fig: Setup} illustrates an overview of our experiment setup.
 
 \begin{figure*}[h!]
 	\center
 	\includegraphics[width=0.7\textwidth,]{fig/setup.png}
-	\caption{Experiment Setup} \label{fig: Setup}
+	\caption{Experiment Setup} \label{Fig: Setup}
 \end{figure*}
 
-%Objects
+%Components
+We explain the components in our experiment.
 
-%Source code
+\begin{description}[style=nextline]
+\item[Sensor Network]
+The greyed area on the right inside the rectangle represents a WSN application.  The topology is dynamic and can change due to the application.  We make no further assumptions about the exact application at this point for generality.
 
-%OS
+\item[Sensor Node]
+Each Sensor Node is a device with support of the protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}. All Sensor Nodes are connected to the same 6LoWPAN network. We do not impose the use of CoAP in our setup; instead, we assume applications may directly use the interface of UDP( or DTLS).
 
-%Device
+\item[Border Router]
 
+\item[Sniffer]
 
-%Security Protocols
+\item[Laptop]
+
+\end{description}
+
+\section{Operating System}
+
+\section{Devices}
+
+\section{Security Protocols}
 %LLSEC
 %DTLS
 
