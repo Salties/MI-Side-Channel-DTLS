@@ -1,44 +1,115 @@
 \chapter{Experimental Setup} \label{Chp: Setup}
 %All experiments are done within the Cooja simulator. The environment we simulated is as described in \Cref{fig: Setup}.
 
-\section{Overview}
-In this chapter we describe how we set up our experiments. The related source code can be downloaded from \url{https://github.com/Salties/MyRepository}. 
+In this chapter we describe how we set up our experiments. The related source code can be downloaded from:\\
+\begin{center}
+	\url{https://github.com/Salties/MyRepository}
+\end{center}
 
-\Cref{Fig: Setup} illustrates an overview of our experiment setup.
+\section{Overview}
+
+\Cref{Fig: Experiment Setup} illustrates an overview of our experiment setup. We explain the components of our experiments in \Cref{Fig: Experiment Setup}.
 
 \begin{figure*}[h!]
 	\center
-	\includegraphics[width=0.7\textwidth,]{fig/setup.png}
-	\caption{Experiment Setup} \label{Fig: Setup}
+	\includegraphics[width=0.9\textwidth,]{fig/setup.png}
+	\caption{Experiment Setup} \label{Fig: Experiment Setup}
 \end{figure*}
 
-%Components
-We explain the components in our experiment.
-
 \begin{description}[style=nextline]
-\item[Sensor Network]
-The greyed area on the right inside the rectangle represents a WSN application.  The topology is dynamic and can change due to the application.  We make no further assumptions about the exact application at this point for generality.
-
-\item[Sensor Node]
-Each Sensor Node is a device with support of the protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}. All Sensor Nodes are connected to the same 6LoWPAN network. We do not impose the use of CoAP in our setup; instead, we assume applications may directly use the interface of UDP( or DTLS).
-
-\item[Border Router]
-
-\item[Sniffer]
-
-\item[Laptop]
-
+	\item[Sensor Network]
+	The greyed area on the right inside the rectangle of \Cref{Fig: Experiment Setup} represents a WSN application.  The topology is dynamic and can change due to the application.  We make no further assumptions about the exact application at this point for generality.
+	
+	\item[Sensor Node]
+	Each Sensor Node is a device with support of the protocol suite described in \Cref{Tbl: Summary of WSN Building Blocks}. All Sensor Nodes are connected to the same 6LoWPAN network. We do not impose the use of CoAP in our setup; instead, we assume applications may directly use the interface of UDP( or DTLS). More details are  are given in the later sections.
+	
+	\item[Border Router]
+	Border Router is a special instance of Sensor Node. In addition to RF, Border Routers are additionally connected to other devices via different connections. In the experiments of this project, Border Routers are connected to a laptop through a USB connection. Border Router bridges two network. In the scenario of \Cref{Fig: Experiment Setup}, the Border Router is used to transmit IPv6 packets sent from the laptop. From a perspective of other Sensor Nodes in the WSN, a Border Router appears no different to the others. In many real world applications, the Border Router is connected to a management machine and serves as the DODAG root but this is not necessary in this experiment.
+	
+	\item[Sniffer]
+	Sniffer is another special instance of Sensor Node. The Sniffer passively captures all frames it receives and does not transmit anything at all; thus it is transparent to other Sensor Nodes in the network. In our setup as of \Cref{Fig: Experiment Setup}, the Sniffer pipes any frames it captured to the Laptop. From a practical perspective, the hardware device of a Sniffer has a limited effective radius and thus would not be able to capture all frames in WSNs of wide deployment; however this can be easily overcame by deploying multiple synchronised Sniffers to cover a wide area. In our experiments, we assume every frame in the network is captured by the Sniffer.
+	
+	\item[Laptop]
+	The Laptop in our experiment represents an adversary with unequally supreme resources comparing to the Sensor Nodes in terms of energy, memory and computational power. In our setup of \Cref{Fig: Experiment Setup}, the Laptop, which also represents the adversary, has access to all traffic captured by the Sniffer and is allowed to interact with other Sensor Nodes through the Border Router if authentication is not required to join the network.
 \end{description}
 
 \section{Operating System}
 
+We use Contiki\cite{Contiki} to build our experiments.  Our source code are tested  with the release version of Contiki 3.0 which is available at:
+
+\begin{center}
+	\url{https://github.com/contiki-os/contiki/releases/tag/3.0}.
+\end{center}
+
+\subsection{Brief Introduction to Contiki:}
+
+The official instruction for using Contiki is available at:
+\begin{center}
+	\url{http://www.contiki-os.org/start.html}
+\end{center}
+
+Contiki is an open source embedded system crafted for IoT devices. It has a good support on many recent hardware and it is optimised for code size. Comparing to Operating Systems for PCs, Contiki does not provide a User Interface, UI. Instead, the embedded system provides a framework for developers to use C language to write (mostly) hardware portable codes, as well as a set of APIs including clock library, simple process management and network interfaces,etc.
+
+To use Contiki, there are basically three steps:
+
+\begin{enumerate}
+	\item Write the application code in C. There are plenty of code in the Contiki example folder that can be used as frameworks.
+	\item Compile the source code according to the target device through \textit{make} command. Note that the root of Contiki source code must be correctly specified in the \textit{makefile}.
+	\item Upload (also called ``burn'') the binary code to your device. 
+\end{enumerate}
+
+The application code is automatically executed whenever the device is powered on.
+
 \section{Devices}
 
-\section{Security Protocols}
-%LLSEC
-%DTLS
+Three models of device are adopted in this project:
 
-%Applications
+\begin{itemize}
+	\item \textbf{TelosB}\cite{TelosB}, as known as Sky mote. This is a popular model for WSNs featuring low cost. As a trade off, TelosB has only very constrained performance in terms of bandwidth, available code size and processing power.
+	
+	\item \textbf{CC2538}\cite{CC2538}. This is a relatively powerful model with an ARM-Cortex M3 processor. To our knowledge, this is one of the becoming dominant device used in WSN applications.
+	
+	\item \textbf{Wismote}\cite{Wismote}. This model is used as a performance upgraded version of TelosB in this project. In this project, Wismote \textbf{IS ONLY USED IN SIMULATIONS}. 
+\end{itemize}
+
+All these nodes are 802.15.4\cite{802154} compatible and does not have any sensor attached by default. We omit further hardware details as it is beyond the scope of this project. 
+
+\subsection{Cooja Simulator}
+
+The Contiki source code includes the Cooja simulator under its tools folder. The official instruction of using the Cooja simulator is available at 
+
+\begin{center}
+	\url{http://www.contiki-os.org/start.html}
+\end{center}
+
+Cooja provides simulation for a whole WSN application. It generates simulation data for serial output, LED status and radio traffic. An example of Cooja execution is shown in \Cref{Fig: An Example of Cooja Execution}.
+
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=0.8\textwidth]{fig/cooja_example.png}
+	\caption{An Example of Cooja Execution}
+	\label{Fig: An Example of Cooja Execution}
+\end{figure*}
+
+\Cref{Fig: An Example of Cooja Execution} shows a simulation simulating the exact same WSN topology as described in \Cref{Fig: Experiment Setup}, with \textcircled{1} being the Border Router. 
+
+In this project, we are mostly interested into the radio traffic, captured by the ``Radio messages'' plug in which acts as the Sniffer in \Cref{Fig: Experiment Setup}. The corresponding pcap file is written by Cooja alongside the simulation under ``cooja/build/'' folder, which can later be opened by Wireshark\cite{Wireshark} for analysis, as shown in \Cref{Fig: A Wireshark Example}.
+
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=0.8\textwidth]{fig/wireshark_example.png}
+	\caption{A Wireshark Example}
+	\label{Fig: A Wireshark Example}
+\end{figure*}
+
+As of the time of writing this report, Cooja in Contiki release 3.0 supports simulation for TelosB and Wismote. CC2538 is not yet supported by the current version.
+
+\section{Security Protocols}
+\subsection{LLSEC}
+
+\subsection{DTLS}
+
+\section{Applications}
 
 
 %\begin{itemize}
