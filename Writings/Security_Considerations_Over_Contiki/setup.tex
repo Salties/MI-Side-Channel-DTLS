@@ -1,4 +1,4 @@
-\chapter{Experimental Setup} \label{Chp: Setup}
+\chapter{Experiment Setup} \label{Chp: Setup}
 %All experiments are done within the Cooja simulator. The environment we simulated is as described in \Cref{fig: Setup}.
 
 In this chapter we describe how we set up our experiments. The related source code can be downloaded from:\\
@@ -12,7 +12,7 @@ In this chapter we describe how we set up our experiments. The related source co
 
 \begin{figure*}[h!]
 	\center
-	\includegraphics[width=0.9\textwidth,]{fig/setup.png}
+	\includegraphics[width=0.75\textwidth,]{fig/setup.png}
 	\caption{Experiment Setup} \label{Fig: Experiment Setup}
 \end{figure*}
 
@@ -93,7 +93,7 @@ Cooja provides simulation for a whole WSN application. It generates simulation d
 
 \Cref{Fig: An Example of Cooja Execution} shows a simulation simulating the exact same WSN topology as described in \Cref{Fig: Experiment Setup}, with \textcircled{1} being the Border Router. 
 
-In this project, we are mostly interested into the radio traffic, captured by the ``Radio messages'' plug in which acts as the Sniffer in \Cref{Fig: Experiment Setup}. The corresponding pcap file is written by Cooja alongside the simulation under ``cooja/build/'' folder, which can later be opened by Wireshark\cite{Wireshark} for analysis, as shown in \Cref{Fig: A Wireshark Example}.
+In this project, we are mostly interested in the radio traffic. The traffic is captured by the ``Radio messages'' plugin which corresponds to the Sniffer in \Cref{Fig: Experiment Setup}. The corresponding pcap file is written by Cooja alongside the simulation under ``cooja/build/'' folder, which can later be opened by Wireshark\cite{Wireshark} for analysis, as shown in \Cref{Fig: A Wireshark Example}.
 
 \begin{figure*}[h!]
 	\center
@@ -102,15 +102,29 @@ In this project, we are mostly interested into the radio traffic, captured by th
 	\label{Fig: A Wireshark Example}
 \end{figure*}
 
-As of the time of writing this report, Cooja in Contiki release 3.0 supports simulation for TelosB and Wismote. CC2538 is not yet supported by the current version.
+As of the time of writing this report, Cooja in Contiki release 3.0 supports simulation for TelosB and Wismote. CC2538 is not yet supported in the current version.
 
-\section{Security Protocols}
-\subsection{LLSEC}
+\section{Security Measures}
+
+In this report we use two security measures those are implemented on Contiki, namely noncoresec and DTLS.
+
+\subsection{noncoresec}
+
+\textit{noncoresec}\cite{noncoresec}\cite{LLSEC} is a simplified 802.15.4 Security implementation on Contiki. \textit{noncoresec} uses a hard coded network shared key that is defined by the ``NONCORESEC\_CONF\_KEY'' macro in ``project-conf.h'' file; thus it cannot be updated during runtime. 
+
+When \textit{noncoresec} is enabled, we always assume it uses the highest Security Level (7), i.e. all frames are encrypted and authenticated in AES-128-CCM* mode with 16 bytes MAC, as described in \Cref{Subsec: 802154 Sec}. With this Security Level, all Sensor Nodes in the WSN must have the same key hard coded into the Contiki kernel. Sensor Nodes without the key cannot send or receive any frame.
+
+In scenarios where the WSN is protected by \textit{noncoresec}, we always assume the adversary has no knowledge of the key. This effectively indicates that the adversary is unable to join the network at all since he cannot receive or send any frames.
+
+Our code using \textit{noncoresec} are successfully tested on all our devices. However, even though CC2538 has an AES coprocessor built in, the current version of Contiki code does not utilise this feature at all; instead, it uses a textbook software AES implementation as on TelosB and Wismote. Also notice that the source code of \textit{noncoresec} is only included for TelosB platform by default. When using with other platforms, the developer needs to manually add its source code into the corresponding building system.
 
 \subsection{DTLS}
 
 \section{Applications}
 
+\section{Summary}
+
+%A table for available combinations
 
 %\begin{itemize}
 %\item{\bf Adversary} is a malicious party that tries to illegally reveal information from the encrypted traffic.
