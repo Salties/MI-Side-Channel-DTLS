@@ -144,19 +144,39 @@ The code from the tinydtls official website cannot be directly used on our platf
 	\item The handshake packets retransmission should be avoided at best effort. The restransmission implementation of tinydtls should not be relied on as sometimes it is not triggered by a packet lost, potentially due to a signal loss in the Contiki kernel. When a packet is lost during the handshake, the client and server will potentially freeze, resulting into a deadlock. Our current solution is to simply restart the procedure from the beginning, or simply reboot the device.
 	\item TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 has a performance issue. Even on CC2538, each curve computation costs roughly 80 seconds on each side. This performance issue somehow triggers other problems in a chain reaction resulting into malfunctioning of the application code. The first problem is that the computation time exceeds the DTLS timeout, which therefore triggers the retransmission problem we described above. We have solved this problem in our code by increasing the timeout. The second problem happens when using  unequal computational power on client and server side, e.g. trying to perform a DTLS handshake from the Laptop through Border Router as the client to a CC2538 Sensor Node in the network. The unequal computational power leads to the fact that the Laptop processes the handshake packets immediately and sends multiple handshake packets continuously, without waiting for the Sensor Node to complete its computation. Consequently, the buffer of Sensor Node is instantly over flooded by the handshake packets resulting into some of them being dropped, which, again, triggers the problems caused by retransmission we described above. 
 %	\item Multi sessions is not well supported in the current tinydtls implementation on Contiki due to some memory management problem. In another word, try not to establish multiple DTLS sessions with one DTLS server running on the same Sensor Node. Further more, there is a potential memory leakage in tinydtls on termination of a DTLS session, which therefore could potentially crash the application or simulation. 
+\item tinydtls is designed to use asynchronous I/O. One must carefully design the application when using it.
 \end{enumerate}
 
-In experiments with DTLS, we consider the adversary is group of compromised Sensor Nodes in the WSN. In other words, not only having all access to packet transmitted over the network, the adversary is capable to send any crafted packets to any Sensor Node in the network as well. With experiments with TLS\_PSK\_WITH\_AES\_128\_CCM\_8 being the cipher suite, we assume the adversary has no knowledge of the pre shared keys in any other paired Sensor Nodes; otherwise any ciphertext is immediately broken. Similarly, when TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 is used, we assume the adversary has no knowledge of the private keys in other Sensor Nodes. In reality, such compromised Sensor Nodes can be Border Routers connected to adversary controlled Laptops deployed among the WSN. Our solution to this problem is simply add a \textit{getchar()} in the Laptop side DTLS client which stops before sending each packet and manually control the flow.
+In experiments with DTLS, we consider the adversary is group of compromised Sensor Nodes in the WSN. In other words, not only having all access to packet transmitted over the network, the adversary is capable to send any crafted packets to any Sensor Node in the network as well. With experiments with TLS\_PSK\_WITH\_AES\_128\_CCM\_8 being the cipher suite, we assume the adversary has no knowledge of the pre shared keys in any other paired Sensor Nodes; otherwise any ciphertext is immediately broken. Similarly, when TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 is used, we assume the adversary has no knowledge of the private keys in other Sensor Nodes. In reality, such compromised Sensor Nodes can be Border Routers connected to adversary controlled Laptops deployed among the WSN. Our solution to this problem is simply add a \textit{getchar()} in the Laptop side DTLS client which stops before sending each packet and allowing us to manually control the flow.
 
 \section{Applications}
 
-In this section we explain some applications we have developed in our experiments.
+In this section we explain some applications we have developed in our experiments. Their locations are specified by the relative path in our source code.
 
-%dtls client for PC
+\begin{description}[style=nextline]
 
-%dtlsbr
+\item[dtls-telnet]
+This is a DTLS client Linux tool that establishes a DTLS session with a DTLS server and runs a telnet application that reads and writes the data in ASCII. 
 
-%boderest
+Location: /tools/dtls-telnet
+
+Available Platforms: Linux
+
+\item[dtlsbr]
+dtlsbr is a crafted DTLS echo server combined with a Border Router application running concurrently. An echo server responses everything received from  dtlsbr is used to generate DTLS traffic between a Linux system and a Sensor Node through USB connection.
+
+Localtion: /experiments/dtlsbr/
+
+Available Platform: CC2538, Wismote
+
+\item[borderest]
+boderest is a crafted CoAP server combined with a Border Router application running concurrently. This application is used to predict some traffic features with CoAP. Note that there is no security measure implemented within this application.
+
+Location: /experiments/borderest/
+
+Available Platform: CC2538, Wismote
+
+\item[keydtls]
 
 %key detection llsec
 
@@ -167,6 +187,7 @@ In this section we explain some applications we have developed in our experiment
 %application detection dtls PINGLOAD
 
 %application detection plain PINGLOAD
+\end{description}
 
 \section{Summary}
 
