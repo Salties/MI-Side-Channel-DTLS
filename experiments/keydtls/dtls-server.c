@@ -147,7 +147,7 @@ Init ()
   udp_socket_register (&server_conn, dtls_context, DtlsServerCb);
   udp_socket_bind (&server_conn, 20220);
 
-  dtls_set_log_level (DTLS_LOG_DEBUG);
+//  dtls_set_log_level (DTLS_LOG_DEBUG);
 
   if (dtls_context)
     dtls_set_handler(dtls_context, &cb);
@@ -190,7 +190,7 @@ PROCESS_THREAD (udp_server_process, ev, data)
 
   if (!dtls_context)
     {
-      dtls_emerg ("cannot create context\n");
+      //dtls_emerg ("cannot create context\n");
       PROCESS_EXIT ();
     }
 

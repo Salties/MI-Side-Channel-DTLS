@@ -11,6 +11,8 @@
 
 #Ignore compiled files.
 *.o
+*.d
+*.ld
 *.out
 *.elf
 *.bin
