@@ -104,11 +104,15 @@ In this project, we are mostly interested in the radio traffic. The traffic is c
 
 As of the time of writing this report, Cooja in Contiki release 3.0 supports simulation for TelosB and Wismote. CC2538 is not yet supported in the current version.
 
+Cooja is not designed for large scale experiments. There is a potential memory leakage problem in Cooja which drastically downgrades long time simulations or even crashes them. Also notice that the performance of the simulator is better on low performance devices, for example simulation with TelosB has nearly 8 times speed advantage comparing to the same simulation done with Wismote.
+
 \section{Security Measures}
 
 In this report we use two security measures those are implemented on Contiki, namely noncoresec and DTLS.
 
 \subsection{noncoresec}
+
+In Contiki source code, LLSEC is an alias for \textit{noncoresec}.
 
 \textit{noncoresec}\cite{noncoresec}\cite{LLSEC} is a simplified 802.15.4 Security implementation on Contiki. \textit{noncoresec} uses a hard coded network shared key that is defined by the ``NONCORESEC\_CONF\_KEY'' macro in ``project-conf.h'' file; thus it cannot be updated during runtime. 
 
@@ -120,7 +124,49 @@ Our code using \textit{noncoresec} are successfully tested on all our devices. H
 
 \subsection{DTLS}
 
+DTLS in Contiki is supported by a third party module \textit{tinydtls}\cite{tinydtls}. \textit{tinydtls} is originally developed for Linux system and later ported to Contiki. In its current version, which is tinydtls-0.8.2, there are two cipher suites supported:
+
+\begin{enumerate}
+	\item TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8\cite{rfc7251}
+	\item TLS\_PSK\_WITH\_AES\_128\_CCM\_8\cite{rfc6655}
+\end{enumerate}
+
+The use of cipher suite can be configured at compiling time by using the ``configure'' script under ``tinydtls-0.8.2'' folder. Also notice that when used with Contiki, ``--with-contiki'' argument is also required when running this script. By default, TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 is preferred by the tinydtls implementation.
+
+The keys (or master secrets) can be configured at runtime by using an interface provided by the tinydtls module. When using TLS\_PSK\_WITH\_AES\_128\_CCM\_8, where PSK stands for Pre Shared Key, the same master secrets must be coded into the client and server, or derived by external key management schemes.
+
+The code from the tinydtls official website cannot be directly used on our platforms. The ``tinydtls-0.8.2'' folder in our source code contains a version of code we have tuned for our platforms. When using our code, the following problems should be noticed:
+
+\begin{enumerate}
+	\item TelosB does not support tinydtls as the code is oversized and cannot fit into the ROM of the device.
+	\item Wismote with TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 causes a crash of simulator. We have not yet figure out the exact cause of this problem. A potential cause might be illegal memory access in arithmetic operations.
+	\item Since the MTU specified by 802.15.4 Standard is 127 bytes whilst several DTLS handshake messages exceed this limitation. This constriction can be loosen by specifying\\ UIP\_CONF\_BUFFER\_SIZE, QUEUEBUF\_CONF\_NUM and UIP\_CONF\_RECEIVE\_WINDOW macros in ``project-conf.h'' file to a larger value. Nevertheless, specifying larger MTU does not guarantee the success transmission of the packets. The handshake packets exceeding 127 bytes would still potentially be silently dropped during runtime.
+	\item The handshake packets retransmission should be avoided at best effort. The restransmission implementation of tinydtls should not be relied on as sometimes it is not triggered by a packet lost, potentially due to a signal loss in the Contiki kernel. When a packet is lost during the handshake, the client and server will potentially freeze, resulting into a deadlock. Our current solution is to simply restart the procedure from the beginning, or simply reboot the device.
+	\item TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 has a performance issue. Even on CC2538, each curve computation costs roughly 80 seconds on each side. This performance issue somehow triggers other problems in a chain reaction resulting into malfunctioning of the application code. The first problem is that the computation time exceeds the DTLS timeout, which therefore triggers the retransmission problem we described above. We have solved this problem in our code by increasing the timeout. The second problem happens when using  unequal computational power on client and server side, e.g. trying to perform a DTLS handshake from the Laptop through Border Router as the client to a CC2538 Sensor Node in the network. The unequal computational power leads to the fact that the Laptop processes the handshake packets immediately and sends multiple handshake packets continuously, without waiting for the Sensor Node to complete its computation. Consequently, the buffer of Sensor Node is instantly over flooded by the handshake packets resulting into some of them being dropped, which, again, triggers the problems caused by retransmission we described above. 
+%	\item Multi sessions is not well supported in the current tinydtls implementation on Contiki due to some memory management problem. In another word, try not to establish multiple DTLS sessions with one DTLS server running on the same Sensor Node. Further more, there is a potential memory leakage in tinydtls on termination of a DTLS session, which therefore could potentially crash the application or simulation. 
+\end{enumerate}
+
+In experiments with DTLS, we consider the adversary is group of compromised Sensor Nodes in the WSN. In other words, not only having all access to packet transmitted over the network, the adversary is capable to send any crafted packets to any Sensor Node in the network as well. With experiments with TLS\_PSK\_WITH\_AES\_128\_CCM\_8 being the cipher suite, we assume the adversary has no knowledge of the pre shared keys in any other paired Sensor Nodes; otherwise any ciphertext is immediately broken. Similarly, when TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 is used, we assume the adversary has no knowledge of the private keys in other Sensor Nodes. In reality, such compromised Sensor Nodes can be Border Routers connected to adversary controlled Laptops deployed among the WSN. Our solution to this problem is simply add a \textit{getchar()} in the Laptop side DTLS client which stops before sending each packet and manually control the flow.
+
 \section{Applications}
+
+In this section we explain some applications we have developed in our experiments.
+
+%dtls client for PC
+
+%dtlsbr
+
+%boderest
+
+%key detection llsec
+
+%key detection dtls
+
+%application detection dtls EI_RI
+
+%application detection dtls PINGLOAD
+
+%application detection plain PINGLOAD
 
 \section{Summary}
 
