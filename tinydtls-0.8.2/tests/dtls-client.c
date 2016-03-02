@@ -196,6 +196,8 @@ send_to_peer(struct dtls_context_t *ctx,
 	     session_t *session, uint8 *data, size_t len) {
 
   int fd = *(int *)dtls_get_app_data(ctx);
+  //Wait for a key stroke
+  getchar();
   return sendto(fd, data, len, MSG_DONTWAIT,
 		&session->addr.sa, session->size);
 }
