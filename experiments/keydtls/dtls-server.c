@@ -12,13 +12,12 @@
 #include "net/ip/uip-debug.h"
 #include "net/ip/udp-socket.h"
 
-#include "debug.h"
+//#include "debug.h"
 #include "dtls.h"
 
 #define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
 #define UIP_UDP_BUF  ((struct uip_udp_hdr *)&uip_buf[UIP_LLIPH_LEN])
 #define INVALID_COMMAND "INVALID COMMAND\r\n"
-#define MAX_PAYLOAD_LEN 120
 
 static struct udp_socket server_conn;
 static dtls_context_t *dtls_context = NULL;
@@ -59,7 +58,7 @@ get_psk_info(struct dtls_context_t *ctx, const session_t *session,
     for (i = 0; i < sizeof(psk)/sizeof(struct keymap_t); i++) {
       if (id_len == psk[i].id_length && memcmp(id, psk[i].id, id_len) == 0) {
 	if (result_length < psk[i].key_length) {
-	  dtls_warn("buffer too small for PSK");
+	  //dtls_warn("buffer too small for PSK");
 	  return dtls_alert_fatal_create(DTLS_ALERT_INTERNAL_ERROR);
 	}
 	memcpy(result, psk[i].key, psk[i].key_length);
