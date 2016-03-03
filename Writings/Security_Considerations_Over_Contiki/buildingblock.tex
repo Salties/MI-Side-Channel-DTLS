@@ -217,7 +217,7 @@ There are two RDC protocols implemented in our platform.
 
 Time-Slotted Channel Hopping\cite{TSCH}, TSCH, is another RDC protocol that is adopted by OpenWSN. We omit its further detail as it is not yet implemented on our platform.
 
-\section{Network Layer}
+\section{Network Layer} \label{Sec: Network Layer}
 The MAC Layer protocols defined the data transmission over directly linked nodes. However, real world applications are usually deployed in a wider range that physically cannot be covered by only direct connections, such as smart city applications. The solution is to build a logical connection that allows the data to be forwarded by intermediate nodes until it reaches the destination. Such logical connection is called a multi hop connection with respect to directly connected single hop connection. As a result, arbitrary nodes can connect to each others and hence forms a network.
 
 Network Layer protocols aim at the routing and addressing problems. The transmission unit in Network Layer is called a packet. The headers and payload constitutes the MAC Payload as in \Cref{Fig: 802154 Data Frame}.
@@ -263,7 +263,7 @@ In this research, we build our experimental WSN using 6LoWPAN without loss of ge
 
 
 
-\subsection{6LoWPAN}
+\subsection{6LoWPAN} \label{Subsec: 6LoWPAN}
 6LoWPAN is an emerging standard in WSN applications. 6LoWPAN has the following features: 
 \begin{itemize}
 	\item It is standardised by IETF and is well supported in industry.
@@ -392,7 +392,7 @@ We explain only a minor set of ICMP Messages that we have successfully observed 
 %Error messages, informative message
 \begin{description}[style=nextline]
 	\item[\textbf{Echo Request and Reply Messages}]
-	These are diagnostic ICMP Information messages. Upon receiving an ICMP Echo Request, the receiving node is required by \cite{rfc4443} to reply with an identical ICMP message except the source and destination addresses are inverted. The Echo Request is typically sent by a PING command for diagnostic reasons such as testing of connectivity or measuring the Round Trip Time, RTT, of a data path. The response of ICMP Echo is enabled in Contiki by default but it is disabled on many Internet server for security reasons.
+	These are diagnostic ICMP Information messages. Upon receiving an ICMP Echo Request, the receiving node is required by \cite{rfc4443} to reply with an identical ICMP message except the source and destination addresses are inverted. The Echo Request is typically sent by a PING command for diagnostic reasons such as testing of connectivity or measuring the Round Trip Time, RTT, of a data path. The response of ICMP Echo is enabled in Contiki by default but it is disabled on many Internet server for security reasons. These packets are also commonly known as PING packets.
 	
 	\item[\textbf{RPL Messages}]
 	A family of ICMPv6 messages, RPL Messages, are defined by \cite{rfc6550}. RPL Messages are fundamental in foundation and self-organisation a 6LoWPAN network. A 6LoWPAN network instance is a Destination Oriented Directed Acyclic Graph, DODAG, shown in \Cref{Fig: DODAG}. 
@@ -606,7 +606,7 @@ Based on the similarity between CoAP and HTTP, a CoAP message can be easily tran
 Erbium\cite{Erbium} project is the CoAP implementation on Contiki, described in \cite{ContikiCoap}. It implements the CoAP engine and defines an interface for developers to implement their own application over CoAP framework. 
 %Simply speaking, what developers need to do to integrate their own code into the CoAP framework is simply register their own callback function to the CoAP server to handle the Requests to different resources.
 
-\subsection{CoAPs}
+\subsection{CoAPs} \label{Subsec: CoAPs}
 CoAPs is the security version of CoAP which is a counterpart of HTTPS to HTTP. CoAPs adopts DTLS as the security measure. Any CoAP message should be encrypted as DTLS payload when using CoAPs. CoAPs is defined by \cite{rfc7252}. An overview of CoAPs meesage is shown in \Cref{Fig: CoAPs Message}.
 
 \begin{figure*}[h!]
