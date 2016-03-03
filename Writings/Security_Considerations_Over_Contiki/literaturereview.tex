@@ -1,4 +1,4 @@
-\chapter{Preliminaries:\\ Literature Review} \label{Chp: LiteratureReview}
+\chapter{Preliminaries:\\ Literature Review} \label{Chp: Literature Review}
 
 In this chapter we review some literatures related to the security of WSNs in three aspects:
 \begin{enumerate}
@@ -30,7 +30,7 @@ Some contents in \cite{802154sec} is out dated and has minor difference from the
 %6LoWPAN DoS
 \cite{6lpRplAtk} gives an overview of attacks that targets 6LoWPAN and RPL. These attacks mainly aims to disable the WSN. 
 
-In Sinkhole Attack\cite{Sinkhole}, the malicious node sends false RPL message to direct all messages to the compromised node and hence gain control of the data flow in WSN. Sinkhole Attack can further extend to Blockhole Attack\cite{Blackhole} by dropping all packets silently and therefore cut off the network. Wormhole Attack\cite{Wormhole} works by replaying legitimate RPL messages at an illegal location through an outer connection, causing confusion in the DODAG topology and therefore disrupts the communication. In Hello Flood Attack\cite{HelloFlood}, the malicious node launching repeatedly broadcasts DIS messages triggering the responses of neighbours and eventually depletes their battery.
+In Sinkhole Attack\cite{Sinkhole}, the malicious node sends false RPL message to direct all messages to the compromised node and hence gain control of the data flow in WSN. Sinkhole Attack can further extend to Blackhole Attack\cite{Blackhole} by dropping all packets silently and therefore cut off the network. Wormhole Attack\cite{Wormhole} works by replaying legitimate RPL messages at an illegal location through an outer connection, causing confusion in the DODAG topology and therefore disrupts the communication. In Hello Flood Attack\cite{HelloFlood}, the malicious node launching repeatedly broadcasts DIS messages triggering the responses of neighbours and eventually depletes their battery.
 
 \subsection{TLS and DTLS}
 
@@ -39,7 +39,7 @@ In Sinkhole Attack\cite{Sinkhole}, the malicious node sends false RPL message to
 \subsubsection{Compression Ration Attacks}
 
 %Compression Ratio Attack
-Compression Ratio Attack is proposed in \cite{CompressionRationAttack} which is a type of plaintext recovery attack that exploits the length difference of compressed ciphertext. This type of attack has been realised by the CRIME\cite{CRIME} Attack against TLS compression, and TIME\cite{TIME} Attack and BREACH\cite{BREACH} Attack against HTTP compression respectively. 
+Compression Ratio Attack is proposed in \cite{CompressionRatioAttack} which is a type of plaintext recovery attack that exploits the length difference of compressed ciphertext. This type of attack has been realised by the CRIME\cite{CRIME} Attack against TLS compression, and TIME\cite{TIME} Attack and BREACH\cite{BREACH} Attack against HTTP compression respectively. 
 
 In this type of attacks, a plaintext is divided into an explicit part and an implicit part. The explicit part is known or even controlled by adversary, usually refers to some predictable contents in the application data. The implicit part is unknown to the adversary and contains the secret the adversary targets, such as a secret tag controlled by the client during a website access. The adversary also has the knowledge of plaintext length before compression.
 
