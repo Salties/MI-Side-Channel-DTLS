@@ -1,78 +1,90 @@
 \chapter{Potential Leakage Sources}
 
-In this section, we discuss the potential leakage sources in the experimental environment we have set up in \Cref{Chp: Experiment Setup}. 
+In this chapter, we discuss the potential leakage sources in the experimental environment we have set up in \Cref{Chp: Experiment Setup}. 
 
-%\section{A Review of Review} \label{Sec: RoR}
+\section{A Review of Review}
+%What is ``Information''
+
+The first and fundamental question that must be clarified in this project is: what is ``information''?
+
+If we look at those attacks described in \Cref{Chp: Literature Review}:
+
+\begin{itemize}
+	\item In literatures about the flaws in implementations of algorithms and protocols, ``information'' is the plaintext, usually represented as a numerical value, such as \cite{802154sec} \cite{rfc7457} \cite{CompressionRatioAttack} \cite{PaddingOracle}. Or it could be the secret key materials in many cryptographic side channel attack literatures, such as \cite{DPA}.
+	\item In Traffic Analysis Attacks against web applications, ``informaiton'' is the user input, such as \cite{PinpointWeb} \cite{SearchAttack}, or the content of websites such as \cite{WebSideChannel}.
+	\item When we talk about website fingerprinting such as \cite{WebsiteFingerprint} \cite{Peekaboo} and \cite{PClassifier}, ``information'' is the identity of websites. 
+	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
+\end{itemize}
+
+``Information'' is always a relative concept to ``application'', and so is ``leakage''. 
+
+In this report, we experiment with the applications we described in \Cref{Sec: Applications}. Specifically we focus on information leakages through the packet features with regard to the following subjects:
+
+\begin{itemize}
+	%Value of Application Data
+	%Length of Application Data
+	%Application Secret
+	%Topology
+	\item Content of Application Data
+	\item Length of Application Data
+	\item Cryptographic Key
+	\item Application Code Routine
+	\item Topology
+\end{itemize}
+
+The Application Data refers to:
+\begin{itemize}
+	\item CoAP Payload as in \Cref{Subsec: CoAP} when CoAP is used.
+	\item DTLS Payload as in \Cref{Subsec: DTLS} when DTLS is used.
+	\item UDP Payload as in \Cref{Subsec: UDP} otherwise.
+\end{itemize}
+
+%\section{Definitions of ``Information''}
 %
-%Before discussing the leakage, a much more fundamental question to ask is: 
-%
-%\begin{center}
-%What does the term \textit{information} mean?\footnote{
-%I am making jokes of myself here...? Although I'd argue that the hardness of this problem can be reduced to ''What is Love?''... I am so going to remove this when I submit this report as a formal document.
-%}
-%\end{center}
-%
-%Aside of the obscure mathematical definitions given by Information Theoretic literatures, this turns out to be an ultimately tricky question that cannot be casually answered.  Apparently, the term ``information'' has a huge varieties in literatures we have reviewed in \Cref{Chp: Literature Review}:
-%
-%\begin{itemize}
-%	\item In literatures about the flaws in implementations of algorithms and protocols, ``information'' is the plaintext, usually represented as a numerical value, such as \cite{802154sec} \cite{rfc7457} \cite{CompressionRatioAttack} \cite{PaddingOracle}. Or it could be the secret key materials in many cryptographic side channel attack literatures, such as \cite{DPA}.
-%	\item In Traffic Analysis Attacks against web applications, ``informaiton'' is the user input, such as \cite{PinpointWeb} \cite{SearchAttack}, or the content of websites such as \cite{WebSideChannel}.
-%	\item When we talk about website fingerprinting such as \cite{WebsiteFingerprint} \cite{Peekaboo} and \cite{PClassifier}, ``information'' is the identity of websites. 
-%	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
-%\end{itemize}
-%
-%Even in the Information Theoretic way, some literatures, such as \cite{OneTryGuess} \cite{GLeakage} and \cite{AddMulGLeakage},  people define ``leakage'' based on implicit definitions of ``information''.
-%
-%Therefore, arguably, to the best of our intellectual\footnote{Sorry, I mean mine...}, the most ``formal'' and ``generalised'' definition we can provide in this project is:
-%
-%\begin{definition} \label{Def: Information}
-%``Information'' is any data that is unknown to the adversary.
-%\end{definition}
-%
-%Linguistically, ``secret'' would be a better word that suites the statement. However, we stick on this definition anyway in this chapter, in a casuistry way.
-%
-%\section{Definitions about Adversary and Leakage}
-%
-%Although \Cref{Def: Information} makes sense at its first glance, the logic suddenly becomes fuzzy when we try to introduce ``leakage'', as it immediately will be defined as:
+%Although ``informaion'' remains an ambiguous term in the context, in this section, we specify ``information'' as practical objects in this project.
 %
 %\begin{definition}
-%``Leakage'' is any information known to the adversary that the adversary does not know.\footnote{
-%I know I will have to rewrite this part anyway but I just don't have any idea how at the moment...
-%}
+%	An Application is the code running on a Sensor Node that is not part of Contiki source code.
 %\end{definition}
-%
-%To avoid suffocation in the swamp of philosophy, we propose an approach of defining terms in a  ``complementary'' way of \Cref{Def: Information}.
 %
 %\begin{definition}
-%Observable is a data set that is given to and / or generated by the adversary.
+%	Application Data refers to any data contained in a packet such that:
+%	\begin{itemize}
+%		\item If CoAP is used, it is CoAP Payload we explained in \Cref{Subsec: CoAP}.
+%		\item Or if DTLS is used, it is DTLS Payload we explained in \Cref{Subsec: DTLS}.
+%		\item Otherwise it is the UDP Payload we explained in \Cref{Subsec: UDP}.
+%	\end{itemize}
 %\end{definition}
 %
-%靠靠靠靠靠。。。我编不下去了
+%\begin{definition}
+%	Application Key is the key material stored in a Sensor Node. Specifically,
+%	\begin{itemize}
+%		\item If noncoresec is used, it is the network shared key.
+%		\item If DLTS is used, it is the key used by DTLS.
+%	\end{itemize}
+%\end{definition}
 
-\section{Observables}
+%Value of Application Data
+%Length of Application Data
+%Application Secret
+%Topology
 
-We start by defining the data that could potentially be exploited by the adversary based on our setup described in \Cref{Chp: Experiment Setup}.
+\section{Packet Features}
 
-As we have explained in \Cref{Chp: Experiment Setup}, there are two security measures we consider in this project, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different for noncoresec and DTLS. 
+%We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different with noncoresec and DTLS. 
+%
+%\begin{description}[style=nextline]
+%	\item[Observables with noncoresec]
+%	\item[Observables with DTLS] 
+%\end{description}
+%
+%
+%What is traces in WSN?
 
-\subsection{noncoresec}
+\section{What could leak?}
 
-\subsection{DTLS}
 
-\section{Leakages}
 
-%\begin{itemize}
-%	\item In literatures about the flaws in implementations of algorithms and protocols, ``information'' is the plaintext, usually represented as a numerical value, such as \cite{802154sec} \cite{rfc7457} \cite{CompressionRatioAttack} \cite{PaddingOracle}. Or it could be the secret key materials in many cryptographic side channel attack literatures, such as \cite{DPA}.
-%	\item In Traffic Analysis Attacks against web applications, ``informaiton'' is the user input, such as \cite{PinpointWeb} \cite{SearchAttack}, or the content of websites such as \cite{WebSideChannel}.
-%	\item When we talk about website fingerprinting such as \cite{WebsiteFingerprint} \cite{Peekaboo} and \cite{PClassifier}, ``information'' is the identity of websites. 
-%	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
-%\end{itemize}
-
-\subsection{``Traces'' in WSN}
-
-\subsection{RSSI}
-
-\section{A Study by Cross Referencing}
 
 
 
