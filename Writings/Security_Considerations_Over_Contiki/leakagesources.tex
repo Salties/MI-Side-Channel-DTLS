@@ -16,68 +16,84 @@ If we look at those attacks described in \Cref{Chp: Literature Review}:
 	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
 \end{itemize}
 
-``Information'' is always a relative concept to ``application'', and so is ``leakage''. 
+``Information'' is always a relative concept to ``application'', so is ``leakage''. 
 
-In this report, we experiment with the applications we described in \Cref{Sec: Applications}. For generality, we focus on information leakages with regard to the following subjects:
+In this report, we are interested on information leakages with regard to the following attributes:
 
+\begin{description}[style=nextline]
+	\item[Content and Size of Application Data]
+	The implication of Application Data varies on different applications.
+	
+	\item[Cryptographic Key]
+	This represents the corresponding key materials in the security measure.
+	
+	\item[Application Code Routine]
+	This implies the application specific feature.
+	
+	\item[Network Topology]
+	This implies how Sensor Nodes connect to each other.
+\end{description}
+
+Notice that the information leakage is highly application specific. In this report, we discuss only the applications described in \Cref{Sec: Applications}. 
+
+\section{Observables}
+
+Generally speaking, observables in captured traffic can be classified into two categories:
+\begin{enumerate}
+	\item Implicit observables. These imply the data an adversary can access without inspecting the content of packets.
+	\item Explicit observables. These imply the data given in the unencrypted part of packets.
+\end{enumerate}
+
+\subsection{Implicit Observables}
+
+There are mainly two observables we concern in this category:
+
+\begin{description}[style=nextline]
+	\item[Packet Size] 
+	This refers to the size (or length) of a packet. This value is also explicitly included in the packet headers.
+	
+	\item[Packet Timing]
+	This refers to the time being sent of a packet. 
+\end{description}
+
+In addition to Packet Size and Packet Timing, there are some other implicit observables we do not concern in this report:
+
+\begin{description}[style=nextline]
+	\item[Presence of Packets]
+	Apparently, the presence of a packet implies the existence of a Sensor Node device, which is kind of an information leakage. However, we do not take this into account. We assume the adversary has prior knowledge of the existence of WSN.
+	
+	\item[RSSI]
+	Receive Signal Strength Indicator, RSSI, indicates the RF signal strength from a Sensor Node. Practically speaking, by measuring the RSSI of frames sent from a specific source MAC address, the adversary is capable to reveal the physical location of Sensor Node. In this report we do not take RSSI into account as its physical character is beyond the scope of this project. We assume the adversary has prior knowledge of the geographic information of the Sensor Nodes.
+\end{description}
+
+\subsection{Explicit Observables}
+
+We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different for noncoresec and DTLS. 
+
+\subsubsection{noncoresec}
+
+As explained in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}, noncoresec is the 802.15.4 Security implementation on Contiki. When noncoresec is enabled, all captured frames is in the form we explained in \Cref{Subsec: 802.15.4 MAC} and \Cref{Subsec: 802154 Sec}. The MAC Layer Header is the only observable part of a packet.
+
+We stated in \Cref{Subsec: noncoresec in experiment} that we always use highest Security Level of 802.15.4 Security; therefore:
 \begin{itemize}
-	\item Content of Application Data
-	\item Size of Application Data
-	\item Cryptographic Key
-	\item Application Code Routine
-	\item Network Topology
+	\item MAC Payload is always authenticated and encrypted in AES-128 with CCM* mode.
+	\item Security Level is constantly 0x7.
+	\item Key Strategy is constantly 0x0 as noncoresec does not implement any key management.
 \end{itemize}
 
-The Application Data refers to:
+As a result of MAC Payload being authenticated and encrypted, 
 \begin{itemize}
-	\item CoAP Payload as in \Cref{Subsec: CoAP} when CoAP is used.
-	\item DTLS Payload as in \Cref{Subsec: DTLS} when DTLS is used.
-	\item UDP Payload as in \Cref{Subsec: UDP} otherwise.
+	\item The adversary cannot join the 6LoWPAN network as we have explained in \Cref{Subsec: noncoresec in experiment}.
+	\item The adversary cannot distinguish an IPv6 packet and an ICMPv6 packet by simply looking the contest as it is encrypted. The IPv6 packets effectively contained the Applicatoin Data. ICMPv6 packets in our set up is mainly RPL messages.
 \end{itemize}
 
-%\section{Definitions of ``Information''}
-%
-%Although ``informaion'' remains an ambiguous term in the context, in this section, we specify ``information'' as practical objects in this project.
-%
-%\begin{definition}
-%	An Application is the code running on a Sensor Node that is not part of Contiki source code.
-%\end{definition}
-%
-%\begin{definition}
-%	Application Data refers to any data contained in a packet such that:
-%	\begin{itemize}
-%		\item If CoAP is used, it is CoAP Payload we explained in \Cref{Subsec: CoAP}.
-%		\item Or if DTLS is used, it is DTLS Payload we explained in \Cref{Subsec: DTLS}.
-%		\item Otherwise it is the UDP Payload we explained in \Cref{Subsec: UDP}.
-%	\end{itemize}
-%\end{definition}
-%
-%\begin{definition}
-%	Application Key is the key material stored in a Sensor Node. Specifically,
-%	\begin{itemize}
-%		\item If noncoresec is used, it is the network shared key.
-%		\item If DLTS is used, it is the key used by DTLS.
-%	\end{itemize}
-%\end{definition}
+\subsubsection{DTLS}
 
-%Value of Application Data
-%Length of Application Data
-%Application Secret
-%Topology
+When DTLS is used, 
 
-\section{Packet Features}
+\subsection{Traces}
 
-%We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different with noncoresec and DTLS. 
-%
-%\begin{description}[style=nextline]
-%	\item[Observables with noncoresec]
-%	\item[Observables with DTLS] 
-%\end{description}
-%
-%
-%What is traces in WSN?
-
-\section{What could leak?}
+\section{Theoretical Analysis}
 
 
 
