@@ -36,7 +36,7 @@ In this report, we are interested on information leakages with regard to the fol
 
 Notice that the information leakage is highly application specific. In this report, we discuss only the applications described in \Cref{Sec: Applications}. 
 
-\section{Observables}
+\section{Observables} \label{Sec: Observables}
 
 Generally speaking, observables in captured traffic can be classified into two categories:
 \begin{enumerate}
@@ -121,11 +121,25 @@ Practically, the ``trace'' of an Internet application usually can be isolated by
 
 Another factor needs to be taken into concern is the different characteristics of WSN applications and Internet applications. As a result of resource constrained environment, that WSN application designs tend to be simple and stateless, that is to say the computation on the Sensor Node needs to be simple enough to be performed on such devices and data transmission is minimised. From this aspect, we argue that the simple applications we described in \Cref{Sec: Applications} captured these characteristics of WSN applications.  
 
-Therefore in our analysis we define a trace to be the packets in one data exchange routine. Indeed, there are typically only two packets in a trace. The first one requesting a sensor reading on a Sensor Node, and the second one is the response from the Sensor Node to the requester. However, in other applications the form of traces may vary. For example, in the broadcast keyllsec application in \Cref{application}, or an application using OBSERVE option as we explained in \Cref{Subsec: CoAP}, there can be responses without a request, which leaves only one packet in a trace.
+We explicitly define a model for our WSN applications.
+
+\begin{definition} \label{Def: Session}
+A Session is defined as a series of events where a Sensor Node reports Application Data to a Manager. A Session includes an optional Request sent from Manager to Sensor Node, and a Response containing the Application Data sent from Sensor Node to Manager.
+\end{definition}
+
+\begin{definition} \label{Def: Trace}
+A Trace is defined as all captured packets within one Session.
+\end{definition}
+
+Typically in our applications described in \Cref{Sec: Applications}, there are only two packets in a trace. The first one requesting a sensor reading on a Sensor Node, and the second one is the response from the Sensor Node to the requester. Sometimes a Session may only contain a Response, such as the broadcast keyllsec application in \Cref{Sec: Applications}, or a CoAP application using OBSERVE option as we explained in \Cref{Subsec: CoAP}.
+
+As of this project we consider only information leakage within a Session. One might argue that there is potential information leakage when jointly analyse traces from different sessions, such as the frequency of Requests which leaks on itself. We do not take these leakage into concern as such it does not make much sense without making more assumptions to an even higher layer application.
+
+In our experiments, we make a reasonable assumption based on our code that each Session is independent, as each execution of the code is independent to its last execution.
 
 \section{Theoretical Analysis}
 
-
+In this section we provide a theoretical analysis over all observables we explained in \Cref{Sec: Observables}.
 
 
 
