@@ -66,6 +66,8 @@ In addition to Packet Size and Packet Timing, there are some other implicit obse
 	Receive Signal Strength Indicator, RSSI, indicates the RF signal strength from a Sensor Node. Practically speaking, by measuring the RSSI of frames sent from a specific source MAC address, the adversary is capable to reveal the physical location of Sensor Node. In this report we do not take RSSI into account as its physical character is beyond the scope of this project. We assume the adversary has prior knowledge of the geographic information of the Sensor Nodes.
 \end{description}
 
+The implicit observables are commonly accessible in all scenarios in our experiments.
+
 \subsection{Explicit Observables}
 
 We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different for noncoresec and DTLS. 
@@ -84,17 +86,44 @@ We stated in \Cref{Subsec: noncoresec in experiment} that we always use highest 
 As a result of MAC Payload being authenticated and encrypted, 
 \begin{itemize}
 	\item The adversary cannot join the 6LoWPAN network as we have explained in \Cref{Subsec: noncoresec in experiment}.
-	\item The adversary cannot distinguish an IPv6 packet and an ICMPv6 packet by simply looking the contest as it is encrypted. The IPv6 packets effectively contained the Applicatoin Data. ICMPv6 packets in our set up is mainly RPL messages.
+	\item The adversary cannot distinguish an IPv6 packet and an ICMPv6 packet by simply looking the contest as it is encrypted. 
 \end{itemize}
+
+The IPv6 packets effectively are the packets with Application Data. ICMPv6 packets in our experiments are basically RPL messages.
 
 \subsubsection{DTLS}
 
-When DTLS is used, 
+As explained in \Cref{Chp: Building Blocks}, when DTLS is used, the explicit observables are: 
+
+\begin{itemize}
+	\item MAC Header as explained in \Cref{Subsec: 802.15.4 MAC}.
+	
+	\item Compressed IPv6 Header as explained in \Cref{Subsec: 6LoWPAN Adaptation Sub Layer}, \Cref{Subsec: IPv6 Data Packets} and \Cref{Subsec: ICMPv6}.
+	
+	\item UDP Header as explained in \Cref{Subsec: UDP}.
+	
+	\item DTLS Header as explained in \Cref{Subsec: DTLS}.
+\end{itemize}
+
+Since DTLS is built on Application Layer, therefore it does not impose any setting to the lower layer headers. The only exception is the Protocol Version of DTLS Header since tinydtls supports only DTLS version 1.2, therefore Protocol Version is constantly \{0xfe, 0xfd\}, i.e. \{0xff, 0xff\} - \{0x01, 0x02\}.
 
 \subsection{Traces}
 
-\section{Theoretical Analysis}
+Before discussing the ``traces'' in WSN applications, as a comparison, we review the different definition of ``traces'' in the literatures we reviewed in \Cref{Chp: Literature Review}:
 
+\begin{itemize}
+	\item In literatures about Traffic Analysis Attacks against web applications\cite{WebSideChannel}\cite{PinpointWeb}\cite{SearchAttack}, a ``trace'' refers to the continuous\footnote{We would argue that the term ``continuous'' is ambiguous; nevertheless it is the best definition we can thought of.} packets triggered by an user input.
+	\item In Website Fingerprinting literatures\cite{WebsiteFingerprint} \cite{HClassifier} \cite{PClassifier} \cite{Peekaboo}, a ``trace'' refers to the continuous packets that triggered by a browser requesting a website.
+	\item Other attacks use more specific application dependent definitions of a ``trace''. \cite{VoIPLanguage} and \cite{VoIPPhrases} defined a ``trace'' to be the continuous packets during a VoIP conversation. \cite{Video} defines it to be the continuous packets during a video conversation. \cite{AppleMessage} does not even use the term ``trace'' at all\footnote{Actually it did used once as a verb equivalent to ``track''.} as it only analyses a single packet.
+\end{itemize}
+
+Practically, the ``trace'' of an Internet application usually can be isolated by filtering packets belong to the same TCP connection, i.e. TCP packets with the same entities\footnote{An entity is the combination of an IP address and a port}. However, we cannot apply the same method on many WSN applications due to the change of protocol suite. Further more, the WSN applications perform Machine To Machine, M2M, communication which has much less external intervention, makes it harder to group packets into ``traces''.
+
+Another factor needs to be taken into concern is the different characteristics of WSN applications and Internet applications. As a result of resource constrained environment, that WSN application designs tend to be simple and stateless, that is to say the computation on the Sensor Node needs to be simple enough to be performed on such devices and data transmission is minimised. From this aspect, we argue that the simple applications we described in \Cref{Sec: Applications} captured these characteristics of WSN applications.  
+
+Therefore in our analysis we define a trace to be the packets in one data exchange routine. Indeed, there are typically only two packets in a trace. The first one requesting a sensor reading on a Sensor Node, and the second one is the response from the Sensor Node to the requester. However, in other applications the form of traces may vary. For example, in the broadcast keyllsec application in \Cref{application}, or an application using OBSERVE option as we explained in \Cref{Subsec: CoAP}, there can be responses without a request, which leaves only one packet in a trace.
+
+\section{Theoretical Analysis}
 
 
 
