@@ -66,7 +66,7 @@ Later versions of SSL/TLS patched this vulnerability by using an unified error m
 
 %Smartgrid Dump Crypto
 
-\section{Traffic Analysis Attacks}
+\section{Traffic Analysis Attacks} \label{Sec: Traffic Analysis Attacks}
 
 Traffic Analysis is a family of attacks widely studied for different applications on Internet. The motivation is that many security protocols, such as SSL/TLS, does not protect the side channel information such as headers, timing and length of packets. Studies\cite{WebSideChannel}\cite{PinpointWeb}\cite{Peekaboo} showed that these side channel information can indeed be exploited by an adversary to breach the data confidentiality that supposed to be hidden by the security protocols, such as contents in the encrypted packets or end identities of a communication. These side channel attacks using the observable features of traffic are generally called Traffic Analysis Attacks.
 
@@ -354,7 +354,7 @@ Following the gain function, \cite{GLeakage} adapts the vulnerabilities to g-vul
 
 \begin{eqnarray}
 	\begin{aligned}
-		V_{g}(\pi, C) &= \max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)} \\
+		V_{g}(\pi) &= \max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)} \\
 		V_{g}(\pi, C) &= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)}}
 	\end{aligned}
 \end{eqnarray}

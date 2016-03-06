@@ -2,7 +2,7 @@
 
 In this chapter, we discuss the potential leakage sources in the experimental environment we have set up in \Cref{Chp: Experiment Setup}. 
 
-\section{A Review of Review}
+\section{A Review of Review} \label{Sec: A Review of Review}
 %What is ``Information''
 
 The first and fundamental question that must be clarified in this project is: what is ``information''?
@@ -131,15 +131,54 @@ A Session is defined as a series of events where a Sensor Node reports Applicati
 A Trace is defined as all captured packets within one Session.
 \end{definition}
 
-Typically in our applications described in \Cref{Sec: Applications}, there are only two packets in a trace. The first one requesting a sensor reading on a Sensor Node, and the second one is the response from the Sensor Node to the requester. Sometimes a Session may only contain a Response, such as the broadcast keyllsec application in \Cref{Sec: Applications}, or a CoAP application using OBSERVE option as we explained in \Cref{Subsec: CoAP}.
+In our applications described in \Cref{Sec: Applications}, there are typically only two packets in a trace. The first one corresponds to the Request and the second corresponds to Response. In case of other applications, e.g. the broadcast keyllsec application in \Cref{Sec: Applications} or a CoAP application using OBSERVE option as we explained in \Cref{Subsec: CoAP}, there might be only one Response packet in a trace without a Request.
 
-As of this project we consider only information leakage within a Session. One might argue that there is potential information leakage when jointly analyse traces from different sessions, such as the frequency of Requests which leaks on itself. We do not take these leakage into concern as such it does not make much sense without making more assumptions to an even higher layer application.
+As of this project we consider only information leakage within one Session. One might argue that there is potential information leakage when jointly analyse traces from different Sessions, such as the frequency of Requests can ``leak'' itself. We do not take these leakage into concern as it does not make much sense without considering within a higher layer application.
 
-In our experiments, we make a reasonable assumption based on our code that each Session is independent, as each execution of the code is independent to its last execution.
+Further more, in our applications the content of Request is a constant 3 bytes ASCII string ``GET''. We assume this known by the adversary. We make this assumption to focus on the leakage of the Application Data in Responses.
+
+Also in our experiments, we make a reasonable assumption based on our code that each Session is independent, as each execution of the code is independent to its last execution.
 
 \section{Theoretical Analysis}
 
-In this section we provide a theoretical analysis over all observables we explained in \Cref{Sec: Observables}.
+In this section we provide a theoretical analysis over all observables we explained in \Cref{Sec: Observables}. It is done in two approaches:
 
+\begin{enumerate}
+	\item Cross reference the intersection of the observables we explained in \Cref{Sec: Observables} with the known exploitable side channel information we introduced in \Cref{Sec: Traffic Analysis Attacks}
+	\item Semantically analyse the relation between Application Data and observables. 
+\end{enumerate}
+
+We discuss only the leakage over the attributes we specified in \Cref{Sec: A Review of Review}.
+
+\subsection{Cross Reference of Observables with Known Attack}
+
+Despite the differences in the nature applications, we discuss the applicability of the packet features those have been exploited in Traffic Analysis Attacks, as we have summarised in \Cref{Tbl: Classifiers in Traffic Analysis Literatures}.
+
+\begin{description}[style=nextline]
+	\item[Direction]
+	The same feature can be observed in the observables by the source and destination address in IPv6 Headers.
+	
+	\item[Length]
+	The same feature can be observed as an implicit observable.
+	
+	\item[Frequency Distribution of Length]
+	The same feature can be computed by packet length. However, since there are typically only two packets in a trace, the result is likely to be $0.5$ for the length of Request packet and $0.5$ for the length of Response packet. In a one packet Session there is only one value in the distribution with probability of $1$.
+	
+	\item[Size, HTML and Number Markers]
+	In a two packet Session there is only one direction change in a trace; thus the marker are constant marks the second packet. In one packet Session this feature is simply not applicable.
+	
+	\item[Total Bytes]
+	
+	
+	\item[Percentage Incoming Packets]
+	\item[Number of Packets]
+	\item[Total Time]
+	\item[Total Per-direction Bandwidth]
+	\item[Traffic Burst]
+\end{description}
+
+%Additional Packet Intervals
+
+\subsection{Semantic Analysis}
 
 
