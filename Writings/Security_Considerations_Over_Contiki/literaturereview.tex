@@ -360,7 +360,8 @@ Following the gain function, \cite{GLeakage} adapts the vulnerabilities to g-vul
 \begin{eqnarray}
 	\begin{aligned}
 		V_{g}(\pi) &= \max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)} \\
-		V_{g}(\pi, C) &= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]C[x,y]g(w,x)}}
+		V_{g}(\pi, C) &= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]C[x,y]g(w,x)}} \\
+		&= \sum_{y \in Y}\max_{w \in W}\sum_{x \in X}P(x,y)g(w,x)
 	\end{aligned}
 \end{eqnarray}
 
