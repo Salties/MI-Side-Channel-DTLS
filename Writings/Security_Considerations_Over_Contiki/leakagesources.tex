@@ -107,7 +107,7 @@ As explained in \Cref{Chp: Building Blocks}, when DTLS is used, the explicit obs
 
 Since DTLS is built on Application Layer, therefore it does not impose any setting to the lower layer headers. The only exception is the Protocol Version of DTLS Header since tinydtls supports only DTLS version 1.2, therefore Protocol Version is constantly \{0xfe, 0xfd\}, i.e. \{0xff, 0xff\} - \{0x01, 0x02\}.
 
-\subsection{Traces}
+\subsection{Traces} \label{Subsec: Traces}
 
 Before discussing the ``traces'' in WSN applications, as a comparison, we review the different definition of ``traces'' in the literatures we reviewed in \Cref{Chp: Literature Review}:
 
@@ -133,11 +133,9 @@ A Trace is defined as all captured packets within one Session.
 
 In our applications described in \Cref{Sec: Applications}, there are typically only two packets in a trace. The first one corresponds to the Request and the second corresponds to Response. In case of other applications, e.g. the broadcast keyllsec application in \Cref{Sec: Applications} or a CoAP application using OBSERVE option as we explained in \Cref{Subsec: CoAP}, there might be only one Response packet in a trace without a Request.
 
-As of this project we consider only information leakage within one Session. One might argue that there is potential information leakage when jointly analyse traces from different Sessions, such as the frequency of Requests can ``leak'' itself. We do not take these leakage into concern as it does not make much sense without considering within a higher layer application.
+As of this project we consider only information leakage within single Session. One might argue that there is potential information leakage when jointly analyse traces from different Sessions, such as the frequency of Requests can ``leak'' itself. We do not take these leakage into concern as it does not make much sense without considering within a higher layer application. Also in our experiments, we make a reasonable assumption based on our code that each Session is independent, as each execution of the code is independent to its last execution.
 
-Further more, in our applications the content of Request is a constant 3 bytes ASCII string ``GET''. We assume this known by the adversary. We make this assumption to focus on the leakage of the Application Data in Responses.
-
-Also in our experiments, we make a reasonable assumption based on our code that each Session is independent, as each execution of the code is independent to its last execution.
+%Further more, in our applications the content of Request is a constant 3 bytes ASCII string ``GET''. We assume this known by the adversary. We make this assumption to focus on the leakage of the Application Data in Responses. 
 
 \section{Theoretical Analysis}
 
@@ -150,13 +148,83 @@ In this section we provide a theoretical analysis over all observables we explai
 
 We discuss only the leakage over the attributes we specified in \Cref{Sec: A Review of Review}.
 
-\subsection{Cross Reference of Observables with Known Attack}
+For some of the observables and attributes, we argue that:
+
+\begin{theorem} \label{Te: IR}
+For the definitions in \Cref{Subsec: Information Theory}, if the observable $Y$ is independent to the secret $X$, then there is no leakage of $X$ over $Y$.
+\end{theorem}
+
+\begin{proof}
+	%Independent random variables does not leak.
+	Since $X$ and $Y$ are independent, therefore
+	\begin{eqnarray*}
+		\begin{aligned}
+			P(x,y) &= P(x)P(y) \\
+			P(x|y) &= P(x)
+		\end{aligned}
+	\end{eqnarray*}
+
+	For Mutual Information and Capacity, we have:
+	\begin{eqnarray*}
+		\begin{aligned}
+			H(X|Y) 
+			&= - \sum_{x \in X} \sum_{y \in Y} P(x,y)\log{P(x|y)} \\
+			&= - \sum_{x \in X} \sum_{y \in Y} P(x)P(y)\log{P(x)} \\
+			&= \sum_{y \in Y} P(y) (- \sum_{x \in X}P(x)\log{P(x)}) \\
+			&= \sum_{y \in Y} P(y) H(X) = H(X) \sum{_y \in Y} P(y) \\
+			&= H(X)
+		\end{aligned}
+	\end{eqnarray*}
+	
+	Therefore
+	\begin{eqnarray*}
+		\begin{aligned}
+			I(X;Y) &= H(X) - H(X|Y) = H(X) - H(X) = 0 \\
+			C &= \sup_{\forall P(X)} I(X;Y) = \sup_{\forall P(X)} 0 = 0
+		\end{aligned}
+	\end{eqnarray*}
+	
+	Similarly for gain function based leakage\cite{GLeakage},
+	\begin{eqnarray*}
+		\begin{aligned}
+			V_{g}(\pi, C) 
+			&= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]C[x,y]g(w,x)}} \\
+			&= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]P(y|x)g(w,x)}} \\
+			&= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]P(y)g(w,x)}} \\
+			&= \sum_{y \in Y}p(y){\max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)}} \\
+			&= \max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)} = V_{g}(\pi)
+		\end{aligned}
+	\end{eqnarray*}
+	
+	Therefore
+	\begin{equation*}
+		H_g(\pi, C) = -\log{V_g(\pi, C)} = -\log{V_g(\pi)} = H_g(\pi)
+	\end{equation*}
+	
+	Hence 
+	\begin{eqnarray*}
+		\begin{aligned}
+			L_g(\pi, C) &= H_g(\pi) - H_g(\pi,C) = H_g(\pi) - H_g(\pi) = 0\\
+			ML_g(C) &= \sup_{\pi} L_g(\pi, C) = \sup_{\pi} 0 = 0
+		\end{aligned}
+	\end{eqnarray*}
+\end{proof}
+
+\begin{corollary} \label{Cor: Constant Leakage}
+	An observable with a constant value has no leakage under the definitions in \Cref{Subsec: Information Theory}.
+\end{corollary}
+
+\begin{proof}
+	This directly followed by the fact that a fixed observable $y$ with $P(y) = 1$ is independent to the secret $X$.
+\end{proof}
+
+\subsection{Cross Reference of Observables with Known Attack} \label{Subsec: Cross Reference}
 
 Despite the differences in the nature applications, we discuss the applicability of the packet features those have been exploited in Traffic Analysis Attacks, as we have summarised in \Cref{Tbl: Classifiers in Traffic Analysis Literatures}.
 
 \begin{description}[style=nextline]
 	\item[Direction]
-	The same feature can be observed in the observables by the source and destination address in IPv6 Headers.
+	For a two packets Session, it is predictable that the first Request packet is from Manager to Sensor Node and the second Response packet from Sensor Node to Manager. In a one packet Session there is only one packet from Sensor Node to Manager.
 	
 	\item[Length]
 	The same feature can be observed as an implicit observable.
@@ -168,17 +236,64 @@ Despite the differences in the nature applications, we discuss the applicability
 	In a two packet Session there is only one direction change in a trace; thus the marker are constant marks the second packet. In one packet Session this feature is simply not applicable.
 	
 	\item[Total Bytes]
-	
+	The same feature can be computed through packet lengths.
 	
 	\item[Percentage Incoming Packets]
+	The term ``incoming'' refers to the direction of web server to the browser in its original Web Fingerprint literature. In our experiments we assumed the adversary monitors all packets in the network; thus there is not an explicit definition of ``incoming'' and ``outgoing''. Further more, in our applications, there is only two packets in a Session for each direction, or only packet from Sensor Node to Manager.
+	
 	\item[Number of Packets]
+	As explained in \Cref{Subsec: Traces}, this value is either $1$ or $2$ in our experiments, depends on the application running. 
+	
 	\item[Total Time]
+	In a two packet Session this is exactly the interval between Request packet and Response packet. In a one packet session this is not applicable.
+	
 	\item[Total Per-direction Bandwidth]
+	Since there is at most only one packet at each direction, this feature is effectively a single packet size divided by total time for each direction.
+	
 	\item[Traffic Burst]
+	Traffic burst is reduced packet size in our applications as there is at most only one packet each direction.
 \end{description}
 
-%Additional Packet Intervals
+As we can see from the description above, several packet features are fixed or not applicable in our applications, including:
+
+\begin{itemize} 
+	\item Direction
+	\item Frequency Distribution of Length
+	\item Size, HTML and Number Markers
+	\item Percentage Incoming Packets,
+	\item Number of Packets
+\end{itemize}
+
+According to \Cref{Cor: Constant Leakage}, we consider these packet features as non leakage features. Although arguably these features may be exploited to leak information of which application is running over the Sensor Nodes, in this report, we assume the adversary has this prior knowledge and hence do not consider such as an information leakage.
+
+As a result, the potential leakage sources from the literatures are:
+\begin{itemize}
+	\item Length
+	\item Total Bytes
+	\item Total Time
+	\item Total Per-direction Bandwidth
+\end{itemize}
+
+Notice that we ignored Traffic Bursts since it is reduced to packet length in our applications as explained above.
 
 \subsection{Semantic Analysis}
 
+In this section, we provide a semantic analysis over the observables based on their semantics we explained in \Cref{Chp: Building Blocks}.
 
+As we have explained in \Cref{Chp: Building Blocks}, the 6LoWPAN protocol is defined layer by layer; therefore the processing of lower layer protocol is usually independent from the upper layer protocols. For example, the MAC Sequence Number is managed solely at MAC Layer and thus we consider it as an independent variable to any observables in upper layers as well as the Application Data. As a counter example, the Next Header field in IPv6 header may depend on the whether TCP or UDP is used at Transport Layer, or specifies an ICMPv6 header.
+
+As we have claimed in \Cref{Te: IR}, we argue that there is no leakage in observable lower layer headers those are independent to upper layer payload.
+
+\subsubsection{Implicit Observables}
+
+The implicit observables are effectively covered by the potential leakage sources we analysed in \Cref{Subsec: Cross Reference}. As a matter of fact, these observables turned out to be the most exploitable features in the literatures we have reviewed in \Cref{Sec: Traffic Analysis Attacks}.
+
+\subsubsection{Explicit Observables with noncoresec}
+
+As we have explained 
+
+\subsubsection{Explicit Observables with DTLS}
+
+\subsubsection{Leakage of Topology}
+
+\subsection{Conclusion}
