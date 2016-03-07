@@ -7,7 +7,7 @@ In this chapter, we discuss the potential leakage sources in the experimental en
 
 The first and fundamental question that must be clarified in this project is: what is ``information''?
 
-If we look at those attacks described in \Cref{Chp: Literature Review}:
+If we review those attacks described in \Cref{Chp: Literature Review}:
 
 \begin{itemize}
 	\item In literatures about the flaws in implementations of algorithms and protocols, ``information'' is the plaintext, usually represented as a numerical value, such as \cite{802154sec} \cite{rfc7457} \cite{CompressionRatioAttack} \cite{PaddingOracle}. Or it could be the secret key materials in many cryptographic side channel attack literatures, such as \cite{DPA}.
@@ -16,19 +16,19 @@ If we look at those attacks described in \Cref{Chp: Literature Review}:
 	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
 \end{itemize}
 
-``Information'' is always a relative concept to ``application'', so is ``leakage''. 
+``Information'' is always a relative concept to ``application'', and so is ``leakage''. 
 
-In this report, we are interested on information leakages with regard to the following attributes:
+In this report, we are interested on leakages with respect to the following ``information'':
 
 \begin{description}[style=nextline]
 	\item[Content and Size of Application Data]
-	The implication of Application Data varies on different applications.
+	The implication of Application Data varies on different applications. Notice that breaking the cryptographic primitive is not part of the goals in this project.
 	
 	\item[Cryptographic Key]
 	This represents the corresponding key materials in the security measure.
 	
 	\item[Application Code Routine]
-	This implies the application specific feature.
+	This indicates the application specific feature.
 	
 	\item[Network Topology]
 	This implies how Sensor Nodes connect to each other.
@@ -72,7 +72,9 @@ The implicit observables are commonly accessible in all scenarios in our experim
 
 We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different for noncoresec and DTLS. 
 
-\subsubsection{noncoresec}
+Notice that we do not attempt to break the cryptographic primitives in this research; therefore we assume the value of ciphertext to be a random number and contains no information of its plaintext, except potentially the length.
+
+\subsubsection{noncoresec} \label{Subsubsec: Explicit noncoresec}
 
 As explained in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}, noncoresec is the 802.15.4 Security implementation on Contiki. When noncoresec is enabled, all captured frames is in the form we explained in \Cref{Subsec: 802.15.4 MAC} and \Cref{Subsec: 802154 Sec}. The MAC Layer Header is the only observable part of a packet.
 
@@ -91,7 +93,7 @@ As a result of MAC Payload being authenticated and encrypted,
 
 The IPv6 packets effectively are the packets with Application Data. ICMPv6 packets in our experiments are basically RPL messages.
 
-\subsubsection{DTLS}
+\subsubsection{DTLS} \label{Subsubsec: Explicit DTLS}
 
 As explained in \Cref{Chp: Building Blocks}, when DTLS is used, the explicit observables are: 
 
@@ -151,7 +153,7 @@ We discuss only the leakage over the attributes we specified in \Cref{Sec: A Rev
 For some of the observables and attributes, we argue that:
 
 \begin{theorem} \label{Te: IR}
-For the definitions in \Cref{Subsec: Information Theory}, if the observable $Y$ is independent to the secret $X$, then there is no leakage of $X$ over $Y$.
+For the definitions in \Cref{Subsec: Information Theory}, if the observable $Y$ is independent to the secret $X$, then there is $0$ leakage of $X$ over $Y$.
 \end{theorem}
 
 \begin{proof}
@@ -171,7 +173,7 @@ For the definitions in \Cref{Subsec: Information Theory}, if the observable $Y$ 
 			&= - \sum_{x \in X} \sum_{y \in Y} P(x,y)\log{P(x|y)} \\
 			&= - \sum_{x \in X} \sum_{y \in Y} P(x)P(y)\log{P(x)} \\
 			&= \sum_{y \in Y} P(y) (- \sum_{x \in X}P(x)\log{P(x)}) \\
-			&= \sum_{y \in Y} P(y) H(X) = H(X) \sum{_y \in Y} P(y) \\
+			&= \sum_{y \in Y} P(y) H(X) = H(X) \sum_{y \in Y}{P(y)} \\
 			&= H(X)
 		\end{aligned}
 	\end{eqnarray*}
@@ -280,19 +282,33 @@ Notice that we ignored Traffic Bursts since it is reduced to packet length in ou
 
 In this section, we provide a semantic analysis over the observables based on their semantics we explained in \Cref{Chp: Building Blocks}.
 
-As we have explained in \Cref{Chp: Building Blocks}, the 6LoWPAN protocol is defined layer by layer; therefore the processing of lower layer protocol is usually independent from the upper layer protocols. For example, the MAC Sequence Number is managed solely at MAC Layer and thus we consider it as an independent variable to any observables in upper layers as well as the Application Data. As a counter example, the Next Header field in IPv6 header may depend on the whether TCP or UDP is used at Transport Layer, or specifies an ICMPv6 header.
+As we have explained in \Cref{Chp: Building Blocks}, the 6LoWPAN protocol is defined layer by layer; therefore the processing of lower layer protocol is usually independent from the upper layer protocols. For example, the MAC Sequence Number is managed solely at MAC Layer and thus we consider it as an independent variable to any upper layer observables as well as Application Data. As a counter example, the Next Header field in IPv6 Header may depend on whether TCP or UDP is used at Transport Layer, which potentially related to Application Data.
 
-As we have claimed in \Cref{Te: IR}, we argue that there is no leakage in observable lower layer headers those are independent to upper layer payload.
+Therefore for observables in lower layer headers those are independent to any upper layer attributes, we suspect there is no information leakage based on \Cref{Te: IR}.
+
+Among them the address information are considered as exceptions.Theoretically speaking, any valid address may be used in any packet and thus could be considered independent to upper layer attributes. However, in practice, addresses are associated to specific Sensor Nodes in a WSN; therefore is a potential leakage of the identities in Sessions. In this research, we assume the adversary has all identity information in the WSN and exclude the addresses information from potential leakage sources.
+
+In practice, we have observed packets in our environment even if no application running on any Sensro Node. These packets, or frames, are generated by the Contiki kernel to maintain the connectivity of the 6LoWPAN network. Since the existence of these packets is irrelevant to the application running over WSN, we consider them independent to Application Data and thus has no leakage to the Application Data according to \Cref{Te: IR}. Nevertheless, again in practice, 
 
 \subsubsection{Implicit Observables}
 
-The implicit observables are effectively covered by the potential leakage sources we analysed in \Cref{Subsec: Cross Reference}. As a matter of fact, these observables turned out to be the most exploitable features in the literatures we have reviewed in \Cref{Sec: Traffic Analysis Attacks}.
+The implicit observables are indeed covered by the potential leakage sources we analysed in \Cref{Subsec: Cross Reference}. As a matter of fact, these observables turned out to be the most exploitable features in the literatures we have reviewed in \Cref{Sec: Traffic Analysis Attacks}.
+
+%Linear relationship of length
+In our experiments, we noticed that in our security measures, namely noncoresec and DTLS, the underlining cryptographic primitives are both AES-128 with CCM mode. This effectively indicates that the length of plaintext and ciphertext are expected to have a linear relationship with slope $1$:
+\begin{equation}
+	l_{C} = l_{P} + b
+\end{equation}
+where $l_{C}$ and $l_{P}$ are the length in bytes for packets with and without encryption, and $b$ is the addition data induced by security measure such as MIC. 
+%Leakage with linear relationship
 
 \subsubsection{Explicit Observables with noncoresec}
 
-As we have explained 
+As explained in \Cref{Subsubsec: Explicit noncoresec}, the only explicit observables when using noncoresec is the MAC Header. 
 
 \subsubsection{Explicit Observables with DTLS}
+
+\Cref{Subsubsec: Explicit DTLS}
 
 \subsubsection{Leakage of Topology}
 
