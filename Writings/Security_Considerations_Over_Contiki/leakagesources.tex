@@ -44,7 +44,7 @@ Generally speaking, observables in captured traffic can be classified into two c
 	\item Explicit observables. These imply the data given in the unencrypted part of packets.
 \end{enumerate}
 
-\subsection{Implicit Observables}
+\subsection{Implicit Observables} \label{Subsec: Implicit Observables}
 
 There are mainly two observables we concern in this category:
 
@@ -421,7 +421,7 @@ For the Data frame we explained in \Cref{Subsec: 802.15.4 MAC},
 	Since Frame Checksum is computed from the frame itself and therefore contains only redundant information. We argue that Frame Checksum does not induce any additional information leakage to a packet.
 \end{description}
 
-For the Auxiliary Security header we explained in \Cref{Subsec: 802154 Sec},
+For the Auxiliary Security Header we explained in \Cref{Subsec: 802154 Sec},
 
 \begin{description}[style=nextline]
 	\item[Security Level]
@@ -435,14 +435,94 @@ For the Auxiliary Security header we explained in \Cref{Subsec: 802154 Sec},
 To summarise, among the explicit observables with noncoresec,
 
 \begin{itemize}
-	\item ACK Request flag in Frame Control is a sceptical leakage source.
-	\item Sequence Number and Frame Counter are likely to be independent to application.
+	\item ACK Request flag in Frame Control is a sceptical leakage source to contents in upper layer payload.
+	\item Sequence Number and Frame Counter are likely to be independent to upper layer applications.
 \end{itemize}
 
 \subsubsection{Explicit Observables with DTLS}
 
-\Cref{Subsubsec: Explicit DTLS}
+Comparing to noncoresec, when DTLS is used we have additional information in IPv6 Header and UDP Header as explained in \Cref{Subsubsec: Explicit DTLS}.
+
+The MAC Header with DTLS is mostly the same as with noncoresec, except that:
+
+\begin{itemize}
+	\item The Security Enabled in Frame Control is constantly $0$ as 802.15.4 Security is disabled. We conclude that it is not a potential leakage source due to \Cref{Cor: Constant Leakage}.
+	\item There is no Auxiliary Security Header; hence Frame Counter is excluded form potential leakage source within DTLS.
+\end{itemize}
+
+As we have explained in \Cref{Subsec: 6LoWPAN Adaptation Sub Layer}, the 6LoWPAN Header Compression is lossless; therefore it contains the identical information as of an uncompressed IPv6 Header. Referring to the IPv6 Header we explained in \Cref{Subsec: IPv6 Data Packets}:
+
+\begin{description}[style=nextline]
+	\item[Version]
+	This is constantly $0x6$.
+	\item[Traffic Class and Flow Label]
+	Theoretically speaking these values can be set by upper layer application and thus are potential leakage sources. However, in the current version of Contiki release-3.0, their use are not supported and the values are constantly $0$.
+	\item[Payload Length]
+	This value is redundant as it can be computed by the packet length in implicit observables.
+	\item[Next Header]
+	When DTLS is used, this field is constantly UDP(0x11).
+	\item[Hop Limit]
+	This field is solely processed at Network Layer and we suspect it is independent to the upper application. However, it is depended on the routing and network topology. We expect to see the identical values within the same topology setup of WSN among different applications.
+	\item[Source and Destination Address]
+	As explained above, the address information is excluded form the potential leakage sources.
+\end{description}
+
+%Length of Compressed and Uncompressed Header
+One thing to be noticed is that although the IPv6 Header Compression is lossless and thus does not affect the contents in IPv6 Header, there is still a potential side channel leakage that the difference in size may leak information about the content of IPv6 Header when it is not observable, such as when noncoresec is used. However, the analysis above showed that the only variable fields are the address information. Since we assumed the adversary has prior knowledge about the identity and address information of the WSN, we consider the size of compressed header is predictable to the adversary and thus does not consider this scenario as an information leakage. In practice, the same address family is used for all our experiments; thus all packets have used the same compression format, resulting into identical size of Compressed IPv6 Header.
+
+%UDP Header
+For UDP Header described in \Cref{Subsec: UDP},
+
+\begin{description}[style=nextline]
+	\item[Source and Destination Port]
+	The ports are identical for the same application in our experiments. Practically speaking, the port may leak which application a packet corresponds to; however, we do not consider this as a leakage as explained in \Cref{Subsec: Cross Reference}.
+	\item[Payload Length]
+	Similar to Payload Length in IPv6 Header, this value is redundant.
+	\item[Checksum]
+	Similar to the MAC Checksum, this value is redundant.
+\end{description}
+
+%DTLS Header
+The UDP Payload can be generally classified into two categories, name Handshake Messages and Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to any Application Data. However,  the Handshake Messages are potentially affected by Cryptographic Key Materials. We provide an analysis of this subject in later chapters.
+
+With respect to DTLS Data Records,
+
+\begin{description}[style=nextline]
+	\item[Content Type]
+	In Data Record this is constantly $0x17$.
+	\item[Protocol Version]
+	In the tinydtls implementation, this is constantly \{0xfe, 0xfd\}.
+	\item[Epoch]
+	Since no renegotiation took place in our applications, this value is constantly $1$ for all Data Records.
+	\item[Sequence Number]
+	Similar to MAC Sequence Number, we suspect this value to be independent  Application Data.
+	\item[Length]
+	Similar to the length field upper layer headers, this value is redundant as it can be reconstructed from the packet length.
+	\item[Fragment]
+	This field contains the ciphertext of Application Data. We assumed its value to be independent to the plaintext and cryptographic key.
+\end{description}
+
+Even though the handshake messages are generated solely by the DTLS module and thus are independent to the application,
+
+In conclusion, most of the explicit observables in DTLS does not seem to be a potential leakage source due to fixed value in our experiments, except:
+
+\begin{itemize}
+	\item ACK Request flag and Sequence Number in MAC Header.
+	\item Hop Limit is theoretically depended on routing and network topology and is likely to be independent to the application.
+	\item Similar to MAC Sequence Number, the DTLS Sequence Number is also likely to be independent to the upper layer application.
+\end{itemize}
 
 \subsubsection{Leakage of Topology}
+
+As explained in \Cref{Subsec: Implicit Observables}, the geographical location of Sensor Nodes in practice can be reveal by RSSI. Practically speaking, combing this information with the effective radius of RF, the adversary should already be able reconstruct the topology of the network.
+
+Even without the knowledge of the geographical information of Sensor Nodes, we consider the topology of the 6LoWPAN network can still be reconstructed by looking at the captured packets.
+
+\begin{description}[style=nextline]
+	%With DTLS
+	\item 
+	%With noncoresec
+	\item 
+\end{description}
 
 \subsection{Conclusion}
