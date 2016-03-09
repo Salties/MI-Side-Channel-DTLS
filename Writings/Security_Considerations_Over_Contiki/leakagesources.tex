@@ -1,85 +1,88 @@
 \chapter{Potential Leakage Sources}
 
-In this chapter, we discuss the potential leakage sources in the experimental environment we have set up in \Cref{Chp: Experiment Setup}. 
+In this chapter, we discuss the potential leakage sources in the environment we have set up in \Cref{Chp: Experiment Setup}. 
 
-\section{A review of review: what could be leaked?} \label{Sec: A Review of Review}
+%\section{A review of review: what could be leaked?} \label{Sec: A Review of Review}
 %What is ``Information''
 
-The first and fundamental question that must be clarified in this project is: what is ``information''?
+%The first and fundamental question that must be clarified in this project is: what is ``information''?
+%
+%If we review those attacks described in \Cref{Chp: Literature Review}:
+%
+%\begin{itemize}
+%	\item In literatures about the flaws in implementations of algorithms and protocols, ``information'' is the plaintext, usually represented as a numerical value, such as \cite{802154sec} \cite{rfc7457} \cite{CompressionRatioAttack} \cite{PaddingOracle}. Or it could be the secret key materials in many cryptographic side channel attack literatures, such as \cite{DPA}.
+%	\item In Traffic Analysis Attacks against web applications, ``informaiton'' is the user input, such as \cite{PinpointWeb} \cite{SearchAttack}, or the content of websites such as \cite{WebSideChannel}.
+%	\item When we talk about website fingerprinting such as \cite{WebsiteFingerprint} \cite{Peekaboo} and \cite{PClassifier}, ``information'' is the identity of websites. 
+%	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
+%\end{itemize}
+%
+%``Information'' is always a relative concept to ``application'', and so is ``leakage''. 
 
-If we review those attacks described in \Cref{Chp: Literature Review}:
+\section{Objects} \label{Sec: Objects}
 
-\begin{itemize}
-	\item In literatures about the flaws in implementations of algorithms and protocols, ``information'' is the plaintext, usually represented as a numerical value, such as \cite{802154sec} \cite{rfc7457} \cite{CompressionRatioAttack} \cite{PaddingOracle}. Or it could be the secret key materials in many cryptographic side channel attack literatures, such as \cite{DPA}.
-	\item In Traffic Analysis Attacks against web applications, ``informaiton'' is the user input, such as \cite{PinpointWeb} \cite{SearchAttack}, or the content of websites such as \cite{WebSideChannel}.
-	\item When we talk about website fingerprinting such as \cite{WebsiteFingerprint} \cite{Peekaboo} and \cite{PClassifier}, ``information'' is the identity of websites. 
-	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
-\end{itemize}
-
-``Information'' is always a relative concept to ``application'', and so is ``leakage''. 
-
-Without loss of generality, In this report, we are interested on leakages with respect to the following objects':
+Without loss of generality, In this report, we are interested on leakages with respect to the following objects:
 
 \begin{description}[style=nextline]
 	\item[Content and Size of Application Data]
-	The implication of Application Data varies on different applications. Notice that breaking the cryptographic primitive is not part of the goals in this project.
+	The implication of Application Data varies is specified in each application.
 	
 	\item[Cryptographic Key]
 	This represents the corresponding key materials in the security measure.
 	
 	\item[Network Topology]
-	This implies how Sensor Nodes connect to each other.
+	This implies how Sensor Nodes are connected to each other.
 	
-	\item[Application Specific Feature]
+	%\item[Application Specific Feature]
 \end{description}
 
-In this chapter we give a theoretical general analysis of the information leakage over these objects except application specific feature, which we describe in later chapters for each specific application.
+In this chapter we give a theoretical general analysis of the information leakage from the Traffic Analysis aspect. The inspection of protocol and implementation flaws are done in later chapters for each security measure.
 
-Notice that the information leakage is highly application specific. In this report, we discuss only the applications described in \Cref{Sec: Applications}. 
+Notice that Traffic Analysis is highly application specific. In this report, we discuss only the applications described in \Cref{Sec: Applications}. 
 
 \section{Observables} \label{Sec: Observables}
 
-Generally speaking, observables in captured traffic can be classified into two categories:
-\begin{enumerate}
-	\item Implicit observables. These imply the data an adversary can access without inspecting the content of packets.
-	\item Explicit observables. These imply the data given in the unencrypted part of packets.
-\end{enumerate}
+As we have explained in \Cref{Chp: Experiment Setup}, we assume the adversary has full access to all traffic being transmitted in the WSN. Generally speaking, observables in captured traffic can be classified into two categories:
+\begin{description}[style=nextline]
+	\item[Implicit observables]
+	 These imply the data an adversary can access without inspecting the content of packets.
+	\item[Explicit observables]
+	 These imply the data given in the unencrypted part of packets.
+\end{description}
+
+In this research, we do not attempt to break the cryptographic primitives in the security measures; therefore we assume the value of ciphertext is independent to the plaintext and key. As a result, we do not consider the encrypted data as observables in this report.
 
 \subsection{Implicit Observables} \label{Subsec: Implicit Observables}
 
-There are mainly two observables we concern in this category:
+In this report, we consider the following implicit observables in captured WSN packets:
 
-\begin{description}[style=nextline]
-	\item[Packet Size] 
-	This refers to the size (or length) of a packet. This value is also explicitly included in the packet headers.
-	
-	\item[Packet Timing]
-	This refers to the time being sent of a packet. 
-\end{description}
+\begin{itemize}
+	\item Packet Size
+	\item Packet Timing
+	\item Number of Packets
+\end{itemize}
 
-In addition to Packet Size and Packet Timing, there are some other implicit observables we do not concern in this report:
+These packet feature can be further used to compute other packet features, such as bandwidth. We define these computable features as part of implicit observables.
 
+Above them, there exist other implicit observables we do not concern in this report, including:
 \begin{description}[style=nextline]
 	\item[Presence of Packets]
-	Apparently, the presence of a packet implies the existence of a Sensor Node device, which is kind of an information leakage. However, we do not take this into account. We assume the adversary has prior knowledge of the existence of WSN.
+	Apparently, the presence of a packet implies the existence of a Sensor Node device, which is kind of an information leakage. However, we assume the adversary has prior knowledge of the existence of WSN and do not take this into account.
 	
 	\item[RSSI]
-	Receive Signal Strength Indicator, RSSI, indicates the RF signal strength from a Sensor Node. Practically speaking, by measuring the RSSI of frames sent from a specific source MAC address, the adversary is capable to reveal the physical location of Sensor Node. In this report we do not take RSSI into account as its physical character is beyond the scope of this project. We assume the adversary has prior knowledge of the geographic information of the Sensor Nodes.
+	Receive Signal Strength Indicator, RSSI, indicates the RF signal strength from a Sensor Node. Practically speaking, by measuring the RSSI of frames sent from a specific source MAC address, the adversary is capable to reveal the physical location of a Sensor Node. In this report we do not consider RSSI as its physical character is beyond the scope of this project. Instead, we assume the adversary has prior knowledge of the geographic information of the Sensor Nodes.
 \end{description}
 
-The implicit observables are commonly accessible in all scenarios in our experiments.
+The implicit observables are accessible in all scenarios in our experiments based on the assumption that the adversary has full access to all packets in the WSN.
 
 \subsection{Explicit Observables}
 
 We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different for noncoresec and DTLS. 
 
-Notice that we do not attempt to break the cryptographic primitives in this research; therefore we assume the value of ciphertext to be a random number and contains no information of its plaintext, except potentially the length.
-
 \subsubsection{noncoresec} \label{Subsubsec: Explicit noncoresec}
 
-As explained in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}, noncoresec is the 802.15.4 Security implementation on Contiki. When noncoresec is enabled, all captured frames is in the form we explained in \Cref{Subsec: 802.15.4 MAC} and \Cref{Subsec: 802154 Sec}. The MAC Layer Header is the only observable part of a packet.
+As explained in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}, noncoresec is the 802.15.4 Security implementation on Contiki. When noncoresec is enabled, all captured frames are in the form we explained in \Cref{Subsec: 802.15.4 MAC} and \Cref{Subsec: 802154 Sec}. The 802.15.4 MAC Header is the only observable part of a packet.
 
-We stated in \Cref{Subsec: noncoresec in experiment} that we always use highest Security Level of 802.15.4 Security; therefore:
+We stated in \Cref{Subsec: noncoresec in experiment} that we always use the highest Security Level of 802.15.4 Security; therefore:
 \begin{itemize}
 	\item MAC Payload is always authenticated and encrypted in AES-128 with CCM* mode.
 	\item Security Level is constantly 0x7.
@@ -89,17 +92,17 @@ We stated in \Cref{Subsec: noncoresec in experiment} that we always use highest 
 As a result of MAC Payload being authenticated and encrypted, 
 \begin{itemize}
 	\item The adversary cannot join the 6LoWPAN network as we have explained in \Cref{Subsec: noncoresec in experiment}.
-	\item The adversary cannot distinguish an IPv6 packet and an ICMPv6 packet by simply looking the contest as it is encrypted. 
+	\item The adversary cannot distinguish an IPv6 packet and an ICMPv6 packet by MAC Payload as it is encrypted. 
 \end{itemize}
 
-The IPv6 packets effectively are the packets with Application Data. ICMPv6 packets in our experiments are basically RPL messages.
+The IPv6 packets effectively are the packets with Application Data in our experiments. ICMPv6 packets on the other hand are mostly RPL messages.
 
 \subsubsection{DTLS} \label{Subsubsec: Explicit DTLS}
 
 As explained in \Cref{Chp: Building Blocks}, when DTLS is used, the explicit observables are: 
 
 \begin{itemize}
-	\item MAC Header as explained in \Cref{Subsec: 802.15.4 MAC}.
+	\item 802.15.4 MAC Header as explained in \Cref{Subsec: 802.15.4 MAC}.
 	
 	\item Compressed IPv6 Header as explained in \Cref{Subsec: 6LoWPAN Adaptation Sub Layer}, \Cref{Subsec: IPv6 Data Packets} and \Cref{Subsec: ICMPv6}.
 	
@@ -108,7 +111,7 @@ As explained in \Cref{Chp: Building Blocks}, when DTLS is used, the explicit obs
 	\item DTLS Header as explained in \Cref{Subsec: DTLS}.
 \end{itemize}
 
-Since DTLS is built on Application Layer, therefore it does not impose any setting to the lower layer headers. The only exception is the Protocol Version of DTLS Header since tinydtls supports only DTLS version 1.2, therefore Protocol Version is constantly \{0xfe, 0xfd\}, i.e. \{0xff, 0xff\} - \{0x01, 0x02\}.
+Since DTLS is built on Application Layer, therefore it does not impose any setting to the lower layer headers. 
 
 \subsection{Traces} \label{Subsec: Traces}
 
@@ -120,11 +123,11 @@ Before discussing the ``traces'' in WSN applications, as a comparison, we review
 	\item Other attacks use more specific application dependent definitions of a ``trace''. \cite{VoIPLanguage} and \cite{VoIPPhrases} defined a ``trace'' to be the continuous packets during a VoIP conversation. \cite{Video} defines it to be the continuous packets during a video conversation. \cite{AppleMessage} does not even use the term ``trace'' at all\footnote{Actually it did used once as a verb equivalent to ``track''.} as it only analyses a single packet.
 \end{itemize}
 
-Practically, the ``trace'' of an Internet application usually can be isolated by filtering packets belong to the same TCP connection, i.e. TCP packets with the same entities\footnote{An entity is the combination of an IP address and a port}. However, we cannot apply the same method on many WSN applications due to the change of protocol suite. Further more, the WSN applications perform Machine To Machine, M2M, communication which has much less external intervention, makes it harder to group packets into ``traces''.
+Practically, the ``trace'' of an Internet application can be defined by filtering packets belong to the same TCP connection,or UDP packets with the same entities\footnote{An entity is the combination of an IP address and a port}. However, we cannot apply the same method on many WSN applications due to the change of protocol suite and application nature. For example, TCP is not used as explained in \Cref{Chp: Building Blocks} and communication are mostly done with ephemeral ports. Further more, the WSN applications perform Machine To Machine, M2M, communication which has much less external intervention, makes it harder to group packets into ``traces''.
 
-Another factor needs to be taken into concern is the different characteristics of WSN applications and Internet applications. As a result of resource constrained environment, that WSN application designs tend to be simple and stateless, that is to say the computation on the Sensor Node needs to be simple enough to be performed on such devices and data transmission is minimised. From this aspect, we argue that the simple applications we described in \Cref{Sec: Applications} captured these characteristics of WSN applications.  
+Further more, due to constrained resources, WSN application designs tend to be simple and stateless. That is to say the computation between Sensor Nodes must be simple enough to be performed on such devices and data transmission is minimised. From this aspect, we argue that the simple applications we described in \Cref{Sec: Applications} have captured these most significant characteristics of WSN applications.
 
-We explicitly define a model for our WSN applications.
+In order to carry on the analysis, we explicitly define a model for the WSN applications.
 
 \begin{definition} \label{Def: Session}
 A Session is defined as a series of events where a Sensor Node reports Application Data to a Manager. A Session includes an optional Request sent from Manager to Sensor Node, and a Response containing the Application Data sent from Sensor Node to Manager.
@@ -134,9 +137,11 @@ A Session is defined as a series of events where a Sensor Node reports Applicati
 A Trace is defined as all captured packets within one Session.
 \end{definition}
 
-In our applications described in \Cref{Sec: Applications}, there are typically only two packets in a trace. The first one corresponds to the Request and the second corresponds to Response. In case of other applications, e.g. the broadcast keyllsec application in \Cref{Sec: Applications} or a CoAP application using OBSERVE option as we explained in \Cref{Subsec: CoAP}, there might be only one Response packet in a trace without a Request.
+We assume the adversary is capable to distinguish Sessions. Practically, the time interval of packets within the same Session are significantly less then the interval between Sessions; therefore the Sessions can be isolated by grouping packets by time.
 
-As of this project we consider only information leakage within single Session. One might argue that there is potential information leakage when jointly analyse traces from different Sessions, such as the frequency of Requests can ``leak'' itself. We do not take these leakage into concern as it does not make much sense without considering within a higher layer application. Also in our experiments, we make a reasonable assumption based on our code that each Session is independent, as each execution of the code is independent to its last execution.
+For most of our applications described in \Cref{Sec: Applications}, there are typically two packets in a trace. The first one corresponds to the Request and the second corresponds to Response. Other applications, e.g. the broadcast keyllsec application in \Cref{Sec: Applications} or a CoAP application using OBSERVE option as we explained in \Cref{Subsec: CoAP}, there might be only one Response packet in a trace without a Request.
+
+As of this project we consider only information leakage within one Session. One might argue that there is potential information leakage when jointly analyse traces from different Sessions, such as the frequency of Requests can ``leak'' itself. We do not take these leakage into concern as it does not make much sense without considering within a higher layer application structure.  Also in our experiments, we make a reasonable assumption based on our code that each Session is independent, as each execution of the code is independent to its last execution.
 
 %Further more, in our applications the content of Request is a constant 3 bytes ASCII string ``GET''. We assume this known by the adversary. We make this assumption to focus on the leakage of the Application Data in Responses. 
 
@@ -146,15 +151,15 @@ In this section we provide a theoretical analysis over all observables we explai
 
 \begin{enumerate}
 	\item Cross reference the intersection of the observables we explained in \Cref{Sec: Observables} with the known exploitable side channel information we introduced in \Cref{Sec: Traffic Analysis Attacks}
-	\item Semantically analyse the relation between Application Data and observables. 
+	\item Semantically analyse the observables. 
 \end{enumerate}
 
-We discuss only the leakage over the attributes we specified in \Cref{Sec: A Review of Review}.
+%We discuss only the leakage over the attributes we specified in \Cref{Sec: A Review of Review}.
 
-For some of the observables and attributes, we argue that:
+For some of the observables, we argue that:
 
 \begin{theorem} \label{Te: IR}
-For the definitions in \Cref{Subsec: Information Theory}, if the observable $Y$ is independent to the secret $X$, then there is $0$ leakage of $X$ over $Y$.
+Under the leakage definitions in \Cref{Subsec: Information Theory}, if an observable $Y$ is independent to a secret $X$, then there is $0$ leakage of $X$ over $Y$.
 \end{theorem}
 
 \begin{proof}
@@ -166,6 +171,7 @@ For the definitions in \Cref{Subsec: Information Theory}, if the observable $Y$ 
 			P(x|y) &= P(x)
 		\end{aligned}
 	\end{eqnarray*}
+	where $x \in X$ and $y \in Y$.
 
 	For Mutual Information and Capacity, we have:
 	\begin{eqnarray*}
@@ -214,12 +220,14 @@ For the definitions in \Cref{Subsec: Information Theory}, if the observable $Y$ 
 \end{proof}
 
 \begin{corollary} \label{Cor: Constant Leakage}
-	An observable with a constant value has no leakage under the definitions in \Cref{Subsec: Information Theory}.
+	An observable $Y$ with a constant value has no leakage under the definitions in \Cref{Subsec: Information Theory}.
 \end{corollary}
 
 \begin{proof}
-	This directly followed by the fact that a fixed observable $y$ with $P(y) = 1$ is independent to the secret $X$.
+	This directly followed by the fact that a constant $y \in Y$ with $P(y) = 1$ is independent to the secret $X$.
 \end{proof}
+
+In this report, we assume the adversary has full knowledge of which application the Sensor Nodes are running and is aware of all the identities of Sensor Nodes in the WSN, including the address information of the Manager. The only unknown secret to the adversary are those objects specified in \Cref{Sec: Objects}. 
 
 \subsection{Cross Reference of Observables with Known Attacks} \label{Subsec: Cross Reference}
 
@@ -227,67 +235,57 @@ Despite the differences in the nature applications, we discuss the applicability
 
 \begin{description}[style=nextline]
 	\item[Direction]
-	For a two packets Session, it is predictable that the first Request packet is from Manager to Sensor Node and the second Response packet from Sensor Node to Manager. In a one packet Session there is only one packet from Sensor Node to Manager.
+	In our applications, it is predictable that the first packet is a Request from Manager to Sensor Node and the second is Response from Sensor Node to Manager. In a one packet Session there is only one packet from Sensor Node to Manager, or a broadcast packet without direction. Therefore direction is either constant or not applicable in these scenarios.
 	
 	\item[Length]
-	The same feature can be observed as an implicit observable.
+	The is effectively the packet size in implicit observables.
 	
 	\item[Frequency Distribution of Length]
-	The same feature can be computed by packet length. However, since there are typically only two packets in a trace, the result is likely to be $0.5$ for the length of Request packet and $0.5$ for the length of Response packet. In a one packet Session there is only one value in the distribution with probability of $1$.
+	The same feature can be computed by packet sizes. However, since there are typically only two packets in a trace, the result is $0.5$ for the length of Request packet and $0.5$ for the length of Response packet. In a one packet Session there is only one value in the distribution with probability of $1$. This feature is applicable but with extremely low entropy of $1$ or $0$.
 	
 	\item[Size, HTML and Number Markers]
-	In a two packet Session there is only one direction change in a trace; thus the marker are constant marks the second packet. In one packet Session this feature is simply not applicable.
+	In a two packet Session there is only one direction change in a trace; thus the markers constantly mark the second packet. In an one packet Session this feature is not applicable.
 	
 	\item[Total Bytes]
-	The same feature can be computed through packet lengths.
+	The same feature can be computed through packet sizes.
 	
 	\item[Percentage Incoming Packets]
-	The term ``incoming'' refers to the direction of web server to the browser in its original Web Fingerprint literature. In our experiments we assumed the adversary monitors all packets in the network; thus there is not an explicit definition of ``incoming'' and ``outgoing''. Further more, in our applications, there is only two packets in a Session for each direction, or only packet from Sensor Node to Manager.
+	The term ``incoming'' refers to the direction of web server to the browser in its original Web Fingerprint literature. In our experiments we assumed the adversary monitors all packets in the network; thus there is not an explicit definition of ``incoming'' and ``outgoing''. Even though we can similarly define ``incoming'' as from Sensor Node to Manager, this is feature is fixed given an application. This value is constantly $50\%$ for a two packets Session and $100\%$ for a one packet Session.
 	
 	\item[Number of Packets]
-	As explained in \Cref{Subsec: Traces}, this value is either $1$ or $2$ in our experiments, depends on the application running. 
+	Since UDP does not segment any application data, the number of packets in a trace is a constant given an application. 
 	
 	\item[Total Time]
-	In a two packet Session this is exactly the interval between Request packet and Response packet. In a one packet session this is not applicable.
+	In a two packets Session this is exactly the interval between Request and Response. In an one packet session this is not applicable.
 	
 	\item[Total Per-direction Bandwidth]
 	Since there is at most only one packet at each direction, this feature is effectively a single packet size divided by total time for each direction.
 	
 	\item[Traffic Burst]
-	Traffic burst is reduced packet size in our applications as there is at most only one packet each direction.
+	Traffic burst is reduced to packet size in our applications as there is at most only one packet each direction.
 \end{description}
 
-As we can see from the description above, several packet features are fixed or not applicable in our applications, including:
+According to \Cref{Cor: Constant Leakage}, features with constant value are non leakable features. 
 
-\begin{itemize} 
-	\item Direction
-	\item Frequency Distribution of Length
-	\item Size, HTML and Number Markers
-	\item Percentage Incoming Packets,
-	\item Number of Packets
-\end{itemize}
-
-According to \Cref{Cor: Constant Leakage}, we consider these packet features as non leakage features. Although arguably these features may be exploited to leak information of which application is running over the Sensor Nodes, in this report, we assume the adversary has this prior knowledge and hence do not consider such as an information leakage.
-
-As a result, the potential leakage sources from the literatures are:
+Removing the features with constant value or not applicable, the potential leakage sources from the literatures are:
 \begin{itemize}
 	\item Length
 	\item Total Bytes
-	\item Total Time
+	\item Total Time (only for two packets Session)
 	\item Total Per-direction Bandwidth
 \end{itemize}
 
-Notice that we ignored Traffic Bursts since it is reduced to packet length in our applications as explained above.
+%Notice that we ignored Traffic Bursts since it is reduced to packet length in our applications as explained above.
 
 \subsection{Semantic Analysis}
 
-In this section, we provide a semantic analysis over the observables based on their semantics we explained in \Cref{Chp: Building Blocks}.
+In this section, we provide an analysis over the observables based on their semantics we explained in \Cref{Chp: Building Blocks}.
 
-In this report,  we assume the adversary has all identity information in the WSN and thus exclude the address information from potential leakage sources. Theoretically speaking, any valid address may be used in any packet and thus could be considered independent to the application but in practice, addresses are associated to specific Sensor Nodes in a WSN; therefore is a potential leakage source to the entity identities in a Session. 
+One exception is the address information. Theoretically speaking, any valid address may be used in any packet and thus could be considered independent to the application. However in practice, different data may use different type of transmission, i.e. unicast, multicast or broadcast; thus the family of address could be a potential leakage source to the Application Data. We provide the analysis within this aspect in later chapters.
 
-Also notice that packets can be observed even if no application is running. These packets  are generated by the Contiki kernel to maintain the connectivity of the 6LoWPAN network, such as RPL packets. Since the existence of these packets is independent to the application running over WSN, we consider them as no leakage due to \Cref{Te: IR}. One exception is the DAO message we explained in \Cref{Subsec: ICMPv6} which could be triggered by the first application packet if the routing is not queried before. In this report, we consider the DAO message independent to the application.
+Some packets can be observed even if no application is running. These packets, mainly RPL messages, are generated by Contiki kernel to maintain the connectivity of the 6LoWPAN network. Since the existence of these packets is independent to the application running over WSN, we consider them as non leakable due to \Cref{Te: IR}. One exception is the DAO message we explained in \Cref{Subsec: ICMPv6} which could be triggered by the first application packet if the routing is not queried before. In this report, we consider the DAO message independent to the application.
 
-As we have explained in \Cref{Chp: Building Blocks}, the 6LoWPAN protocol suite is constructed layer by layer and each layer is conceptionally transparent to each other. As a result, most of the headers are in theory independent to the application and thus are non leakable due to \Cref{Te: IR}. For these observables, we expect to see them distributed independently among different applications. Specifically, the choice of cryptographic key is expected to be independent to all contents in the headers.
+As we have explained in \Cref{Chp: Building Blocks}, the 6LoWPAN protocol suite is constructed layer by layer and each layer is conceptionally transparent to other layers. As a result, most of the headers are in theory independent to the application and thus are non leakable due to \Cref{Te: IR}. For these observables, we expect to see them distributed independently among different applications. Specifically, the choice of cryptographic key is expected to be independent to all contents in the headers.
 
 \subsubsection{Implicit Observables}
 
@@ -398,9 +396,9 @@ This result consists with our intuition and the Capacity in \Cref{Eq: Cap in len
 
 \subsubsection{Explicit Observables with noncoresec}
 
-As explained in \Cref{Subsubsec: Explicit noncoresec}, the only explicit observables when using noncoresec is the MAC Header. 
+As explained in \Cref{Subsubsec: Explicit noncoresec}, the only explicit observables when using noncoresec is the 802.15.4 MAC Header. 
 
-Referring to \Cref{Subsec: 802.15.4 MAC}, there are four types of MAC Frames. However, both Beacon and Command frame are solely used for connection maintenance and are independent to the application running on Sensor Nodes; therefore we consider them as non leakage sources as described above.
+Referring to \Cref{Subsec: 802.15.4 MAC}, there are four types of MAC Frames. However, both Beacon and Command frame are solely used for connection maintenance and are independent to the application running on Sensor Nodes; therefore we consider them as non leakable sources according to \Cref{Te: IR}.
 
 For the Data frame we explained in \Cref{Subsec: 802.15.4 MAC},
 \begin{description}[style=nextline]
@@ -414,10 +412,10 @@ For the Data frame we explained in \Cref{Subsec: 802.15.4 MAC},
 		\end{description}
 	\item[Sequence Number]
 	Sequence Number is solely managed by MAC Layer and hence likely to be independent to upper layer application.
-	\item[Address Information]
-	As explained above, address information is excluded from the potential leakage sources.
-	\item[Data]
-	Since the encryption is considered to be a random function, we consider the value Data to be independent from Application Data and Cryptographic Key.
+%	\item[Address Information]
+%	As explained above, address information is excluded from the potential leakage sources.
+%	\item[Data]
+%	Since the encryption is considered to be a random function, we consider the value Data to be independent from Application Data and Cryptographic Key.
 	\item[Frame Checksum]
 	Since Frame Checksum is computed from the frame itself and therefore contains only redundant information. We argue that Frame Checksum does not induce any additional information leakage to a packet.
 \end{description}
@@ -444,39 +442,39 @@ To summarise, among the explicit observables with noncoresec,
 
 Comparing to noncoresec, when DTLS is used we have additional information in IPv6 Header and UDP Header as explained in \Cref{Subsubsec: Explicit DTLS}.
 
-The MAC Header with DTLS is mostly the same as with noncoresec, except that:
+The 802.15.4  MAC Header with DTLS is mostly the same as with noncoresec, except that:
 
 \begin{itemize}
 	\item The Security Enabled in Frame Control is constantly $0$ as 802.15.4 Security is disabled. We conclude that it is not a potential leakage source due to \Cref{Cor: Constant Leakage}.
-	\item There is no Auxiliary Security Header; hence Frame Counter is excluded form potential leakage source within DTLS.
+	\item There is no Auxiliary Security Header; hence Frame Counter is not applicable within DTLS.
 \end{itemize}
 
 As we have explained in \Cref{Subsec: 6LoWPAN Adaptation Sub Layer}, the 6LoWPAN Header Compression is lossless; therefore it contains the identical information as of an uncompressed IPv6 Header. Referring to the IPv6 Header we explained in \Cref{Subsec: IPv6 Data Packets}:
 
 \begin{description}[style=nextline]
 	\item[Version]
-	This is constantly $0x6$.
+	This is constantly 0x6.
 	\item[Traffic Class and Flow Label]
 	Theoretically speaking these values can be set by upper layer application and thus are potential leakage sources. However, in the current version of Contiki release-3.0, their use are not supported and the values are constantly $0$.
 	\item[Payload Length]
-	This value is redundant as it can be computed by the packet length in implicit observables.
+	This value is redundant as it can be computed by the packet size.
 	\item[Next Header]
 	When DTLS is used, this field is constantly UDP(0x11).
 	\item[Hop Limit]
-	This field is solely processed at Network Layer and we suspect it is independent to the upper application. However, it is depended on the routing and network topology. We expect to see the identical values within the same topology setup of WSN among different applications.
-	\item[Source and Destination Address]
-	As explained above, the address information is excluded form the potential leakage sources.
+	This field is solely processed at Network Layer and we suspect it is independent to the upper application. However, it depends on routing and therefore network topology, we expect to see the identical values within the same topology setup among different applications.
+%	\item[Source and Destination Address]
+%	As explained above, the address information is excluded form the potential leakage sources.
 \end{description}
 
 %Length of Compressed and Uncompressed Header
-One thing to be noticed is that although the IPv6 Header Compression is lossless and thus does not affect the contents in IPv6 Header, there is still a potential side channel leakage that the difference in size may leak information about the content of IPv6 Header when it is not observable, such as when noncoresec is used. However, the analysis above showed that the only variable fields are the address information. Since we assumed the adversary has prior knowledge about the identity and address information of the WSN, we consider the size of compressed header is predictable to the adversary and thus does not consider this scenario as an information leakage. In practice, the same address family is used for all our experiments; thus all packets have used the same compression format, resulting into identical size of Compressed IPv6 Header.
+One thing to be noticed is that although the IPv6 Header Compression is lossless and thus does not affect the contents in IPv6 Header, there is still a potential side channel leakage that the difference in size may leak information about the content of IPv6 Header when it is not observable, such as when noncoresec is used. However, the analysis above showed that the only variable fields are the address information. Since we assumed the adversary has prior knowledge about the identity and address information of the WSN, we consider the size of compressed header is predictable to the adversary and thus does not consider this as an information leakage. In our experiments, the same address mode is used for all Sensor Nodes in all experiments; thus all packets have used the same compression format, resulting into identical size of Compressed IPv6 Header.
 
 %UDP Header
 For UDP Header described in \Cref{Subsec: UDP},
 
 \begin{description}[style=nextline]
 	\item[Source and Destination Port]
-	The ports are identical for the same application in our experiments. Practically speaking, the port may leak which application a packet corresponds to; however, we do not consider this as a leakage as explained in \Cref{Subsec: Cross Reference}.
+	The ports are identical for the same application in our experiments. Practically speaking, the ports may leak which application a packet corresponds to; however, we do not consider this as a leakage as we assumed the adversary has prior knowledge of the application.
 	\item[Payload Length]
 	Similar to Payload Length in IPv6 Header, this value is redundant.
 	\item[Checksum]
@@ -484,7 +482,7 @@ For UDP Header described in \Cref{Subsec: UDP},
 \end{description}
 
 %DTLS Header
-The UDP Payload can be generally classified into two categories, name Handshake Messages and Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to any Application Data. However,  the Handshake Messages are potentially affected by Cryptographic Key Materials. We provide an analysis of this subject in later chapters.
+The UDP Payload with DTLS can be either a Handshake Messages and a Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to any Application Data. However,  the Handshake Messages are potentially linked cryptographic key. We provide an analysis of this subject in later chapters.
 
 With respect to DTLS Data Records,
 
@@ -496,50 +494,47 @@ With respect to DTLS Data Records,
 	\item[Epoch]
 	Since no renegotiation took place in our applications, this value is constantly $1$ for all Data Records.
 	\item[Sequence Number]
-	Similar to MAC Sequence Number, we suspect this value to be independent  Application Data.
+	Similar to MAC Sequence Number, we suspect this value to be independent to Application Data.
 	\item[Length]
-	Similar to the length field upper layer headers, this value is redundant as it can be reconstructed from the packet length.
-	\item[Fragment]
-	This field contains the ciphertext of Application Data. We assumed its value to be independent to the plaintext and cryptographic key.
+	This value is as redundant as other length fields in upper layer headers.
+%	\item[Fragment]
+%	This field contains the ciphertext of Application Data. We assumed its value to be independent to the plaintext and cryptographic key.
 \end{description}
 
-Even though the handshake messages are generated solely by the DTLS module and thus are independent to the application,
-
-In conclusion, most of the explicit observables in DTLS does not seem to be a potential leakage source due to fixed value in our experiments, except:
+In conclusion, for the explicit observables within DTLS,
 
 \begin{itemize}
-	\item ACK Request flag and Sequence Number in MAC Header.
+	\item ACK Request flag is a potential leakage source as with noncoresec.
 	\item Hop Limit is theoretically depended on routing and network topology and is likely to be independent to the application.
-	\item Similar to MAC Sequence Number, the DTLS Sequence Number is also likely to be independent to the upper layer application.
+	\item Sequence Numbers in each layer are likely to be independent to the upper layer application.
 \end{itemize}
 
 \subsubsection{Leakage of Network Topology}
 
 As explained in \Cref{Subsec: Implicit Observables}, the geographical location of Sensor Nodes in practice can be reveal by RSSI. Practically speaking, combing this information with the effective radius of RF, the adversary should already be able reconstruct the topology of the network.
 
-Even without the knowledge of the geographical information of Sensor Nodes, we consider the topology of the 6LoWPAN network can still be reconstructed by looking at the captured packets.
+Even without the knowledge of the geographical information of Sensor Nodes, we suggest that the topology of the 6LoWPAN network can still be reconstructed by looking at the captured packets:
 
 \begin{description}[style=nextline]
 	%With DTLS
-	\item With DTLS, the RPL messages are not encrypted. The adversary can reconstruct the network from the captured packets.
+	\item With DTLS, the RPL messages are not encrypted. The adversary can reconstruct the network from the captured RPL messages.
 	%With noncoresec
-	\item With noncoresec, the RPL messages are encrypted. However, the MAC Layer address information is visible to the adversary; therefore the connectivity of Sensor Nodes can still be deduced at some level from the packets.
+	\item With noncoresec, the RPL messages are encrypted. However, the MAC Layer address information is visible to the adversary; therefore the connectivity of Sensor Nodes can still be deduced by looking at the MAC addresses.
 \end{description}
 
 \section{Summary}
 
-In this chapter, we started by specifying the information that could be leaked in WSNs. There are four objects we studied in this report, namely content and size of application data, cryptographic key, network topology and application specific feature.
+In this chapter, we started by specifying the objects of leakage we study. There are three objects we study in this report, namely content and size of application data, cryptographic key and network topology.
 
 We categorise the visible data to the adversary in our settings into implicit observables and explicit observables. Implicit observables are meta data of packets including size and timing. Explicit observables are those contents in the unencrypted headers. We also defined the trace in our analysis which contains all packets within a Session. A Session is modelled as an optional Request and a Response.
 
-Finally we give a theoretical analysis to the observables. We argue that if an observable is independent to the secret, then there is no information leakage. Further more, if an observable in the setting is constant, then neither there is any information leakage. We have done the analysis in two approaches. The first approach is cross referencing the observable exploited in Traffic Analysis Attacks with those applicable in our WSN applications. The second approach semantically analyse the observables based on their definitions in the 6LoWPAN protocol suite. 
+Finally we give a theoretical analysis to the observables. We argue that if an observable is independent to the secret, then there is no information leakage. Further more, if an observable in the setting is constant, then neither there is any information leakage. We have done the theoretical analysis in two approaches. The first approach is cross referencing the observables exploited in Traffic Analysis Attacks with those applicable in our WSN applications. In the second approach, we semantically analysed the observables based on their definitions in the 6LoWPAN protocol suite and implementation in our platform. 
 
-In conclusion, the potential leakage sources in the observables we defined are:
-
+In conclusion, the potential leakage sources in the observables include:
 \begin{enumerate}
-	\item The packet features derived from packet length and timing.
+	\item The packet features derived from packet size and timing.
 	\item ACK Request flag.
-	\item Sequence Numbers different headers are theoretically potential leakage sources, but we suspect they are independent to upper layer applications.
+	\item Sequence Numbers in different headers are theoretically potential leakage sources, but we suspect they are independent to upper layer applications.
 \end{enumerate}
 
-With respect to network topology, the adversary has full knowledge if the WSN is protected by DTLS. In case of noncoresec, the adversary can still reconstruct the topology at some level based the unencrypted MAC address information. 
+With respect to network topology, the adversary has its full knowledge if the WSN is protected by DTLS. In case of noncoresec, the adversary can still reconstruct the topology at some level based the unencrypted MAC address information. 
