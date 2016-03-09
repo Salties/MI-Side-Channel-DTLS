@@ -512,7 +512,7 @@ In conclusion, most of the explicit observables in DTLS does not seem to be a po
 	\item Similar to MAC Sequence Number, the DTLS Sequence Number is also likely to be independent to the upper layer application.
 \end{itemize}
 
-\subsubsection{Leakage of Topology}
+\subsubsection{Leakage of Network Topology}
 
 As explained in \Cref{Subsec: Implicit Observables}, the geographical location of Sensor Nodes in practice can be reveal by RSSI. Practically speaking, combing this information with the effective radius of RF, the adversary should already be able reconstruct the topology of the network.
 
@@ -520,9 +520,9 @@ Even without the knowledge of the geographical information of Sensor Nodes, we c
 
 \begin{description}[style=nextline]
 	%With DTLS
-	\item 
+	\item With DTLS, the RPL messages are not encrypted. The adversary can reconstruct the network from the captured packets.
 	%With noncoresec
-	\item 
+	\item With noncoresec, the RPL messages are encrypted. However, the MAC Layer address information is visible to the adversary; therefore the connectivity of Sensor Nodes can still be deduced at some level from the packets.
 \end{description}
 
 \subsection{Conclusion}
