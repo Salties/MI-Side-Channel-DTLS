@@ -22,3 +22,7 @@
 *.a
 *.map
 *.cc2538dk
+*.wismote
+*.sky
+symbols.c
+symbols.h

@@ -10,21 +10,24 @@ In this section, we provide an analysis of noncoresec implementation with respec
 
 As we have explained in \Cref{Subsec: 802154 Nonce}, the only variable field in the nonce is Frame Counter. Since noncoresec only supports network shared key, there are two potential problems according to \cite{802154sec}, namely nonce reuse and anti replay. Further inspecting the source code, we realised that the counter is declared as a static value and is initialised to $0$ on each reboot.
 
-Our experiments confirmed the vulnerability. We simulated two executions of  broadcast\_example of keyllsec in \Cref{Sec: Applications}, broadcasting the same message. 
+Our experiments confirmed the vulnerability. We simulated two executions of  broadcast\_example of keyllsec in \Cref{Sec: Applications}, broadcasting the same message. Our data\cite{NonceReuseData} showed that frames with the same Frame Counter results into the same ciphertext. In reality, this vulnerability implies that an adversary capable to reset the device can eventually learn the difference in plaintext by calculating the difference of ciphertext with the same Frame Counter, causing series breach of data confidentiality.
 
 \subsection{Anti Replay}
 
-\cite{802154sec} has pointed out that anti replay in 802.15.4 Security is incompatible with network key as the same ACL entry is shared among multiple nodes, causing confusion of Replay Counter in ACL. However, with an inspection of the source code of Contiki, we realised that the noncoresec does not suffer the same problem as the ACL is not implemented; instead, a similar data structure is added to the routing table in kernel  associated to each source address.%\footnote{The related source code are located at contiki/core/net/llsec/noncoresec/noncoresec.c: L160}
+\cite{802154sec} has pointed out that anti replay in 802.15.4 Security is incompatible with network key as the same ACL entry is shared among multiple nodes, causing confusion of Replay Counter in ACL. However, with an inspection of the source code of Contiki, we realised that the noncoresec does not suffer the same problem as the ACL is not implemented; instead, a similar data structure is added to the routing table in kernel  associated to each source address.
 
-\section{Experiments}
+\section{Common Analysis}
 
-\section{General Analysis}
+%Packet Length
 
-\section{APP Analysis1}
+%Timing for encryption
 
-\section{APP Analysis2}
+%RPL Messages
 
-\section{APP Analysis3}
+%Sequence Numbers
+
+\section{Application Analysis}
+
 
 
 
