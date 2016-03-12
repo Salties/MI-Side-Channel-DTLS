@@ -1,1 +1,101 @@
-\chapter{Something Here...}
+\chapter{}
+
+\section{Formal Proof of \Cref{Te: IR}} \label{Prf: IR}
+\begin{proof}
+	%Independent random variables does not leak.
+	Since $X$ and $Y$ are independent, therefore
+	\begin{eqnarray*}
+		\begin{aligned}
+			P(x,y) &= P(x)P(y) \\
+			P(x|y) &= P(x)
+		\end{aligned}
+	\end{eqnarray*}
+	where $x \in X$ and $y \in Y$.
+
+	For Mutual Information and Capacity, we have:
+	\begin{eqnarray*}
+		\begin{aligned}
+			H(X|Y) 
+			&= - \sum_{x \in X} \sum_{y \in Y} P(x,y)\log{P(x|y)} \\
+			&= - \sum_{x \in X} \sum_{y \in Y} P(x)P(y)\log{P(x)} \\
+			&= \sum_{y \in Y} P(y) (- \sum_{x \in X}P(x)\log{P(x)}) \\
+			&= \sum_{y \in Y} P(y) H(X) = H(X) \sum_{y \in Y}{P(y)} \\
+			&= H(X)
+		\end{aligned}
+	\end{eqnarray*}
+	
+	Therefore
+	\begin{eqnarray*}
+		\begin{aligned}
+			I(X;Y) &= H(X) - H(X|Y) = H(X) - H(X) = 0 \\
+			C &= \sup_{\forall P(X)} I(X;Y) = \sup_{\forall P(X)} 0 = 0
+		\end{aligned}
+	\end{eqnarray*}
+	
+	Similarly for gain function based leakage\cite{GLeakage},
+	\begin{eqnarray*}
+		\begin{aligned}
+			V_{g}(\pi, C) 
+			&= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]C[x,y]g(w,x)}} \\
+			&= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]P(y|x)g(w,x)}} \\
+			&= \sum_{y \in Y}{\max_{w \in W}\sum_{x \in X}{\pi[x]P(y)g(w,x)}} \\
+			&= \sum_{y \in Y}p(y){\max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)}} \\
+			&= \max_{w \in W}\sum_{x \in X}{\pi[x]g(w,x)} = V_{g}(\pi)
+		\end{aligned}
+	\end{eqnarray*}
+	
+	Therefore
+	\begin{equation*}
+		H_g(\pi, C) = -\log{V_g(\pi, C)} = -\log{V_g(\pi)} = H_g(\pi)
+	\end{equation*}
+	
+	Hence 
+	\begin{eqnarray*}
+		\begin{aligned}
+			L_g(\pi, C) &= H_g(\pi) - H_g(\pi,C) = H_g(\pi) - H_g(\pi) = 0\\
+			ML_g(C) &= \sup_{\pi} L_g(\pi, C) = \sup_{\pi} 0 = 0
+		\end{aligned}
+	\end{eqnarray*}
+\end{proof}
+
+
+
+\chapter{Details of Packet Feature Cross Reference} \label{Detail Cross Reference}
+
+For the exploited traffic features in 
+
+\begin{description}[style=nextline]
+	\item[Direction]
+	In our applications, the directions of packet is a predictable constant. We consider this is not a 
+	
+	\item[Length]
+	The is effectively the packet size in implicit observables.
+	
+	\item[Frequency Distribution of Length]
+	The same feature can be computed by packet sizes. However, since there are typically only two packets in a trace, the result is $0.5$ for the length of Request packet and $0.5$ for the length of Response packet. In a one packet Session there is only one value in the distribution with probability of $1$. This feature is applicable but with extremely low entropy of $1$ or $0$.
+	
+	\item[Size, HTML and Number Markers]
+	In a two packet Session there is only one direction change in a trace; thus the markers constantly mark the second packet. In an one packet Session this feature is not applicable.
+	
+	\item[Total Bytes]
+	The same feature can be computed through packet sizes.
+	
+	\item[Percentage Incoming Packets]
+	The term ``incoming'' refers to the direction of web server to the browser in its original Web Fingerprint literature. In our experiments we assumed the adversary monitors all packets in the network; thus there is not an explicit definition of ``incoming'' and ``outgoing''. Even though we can similarly define ``incoming'' as from Sensor Node to Manager, this is feature is fixed given an application. This value is constantly $50\%$ for a two packets Session and $100\%$ for a one packet Session.
+	
+	\item[Number of Packets]
+	Since UDP does not segment any application data, the number of packets in a trace is a constant given an application. 
+	
+	\item[Total Time]
+	In a two packets Session this is exactly the interval between Request and Response. In an one packet session this is not applicable.
+	
+	\item[Total Per-direction Bandwidth]
+	Since there is at most only one packet at each direction, this feature is effectively a single packet size divided by total time for each direction.
+	
+	\item[Traffic Burst]
+	Traffic burst is reduced to packet size in our applications as there is at most only one packet each direction.
+\end{description}
+
+Notice that we ignored Traffic Bursts since it is reduced to packet length in our applications as explained above.
+
+According to \Cref{Cor: Constant Leakage}, features with constant value are non leakable features. 

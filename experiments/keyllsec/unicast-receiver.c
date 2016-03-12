@@ -71,6 +71,7 @@ receiver(struct simple_udp_connection *c,
   uip_debug_ipaddr_print(sender_addr);
   printf(" on port %d from port %d with length %d: '%s'\n",
          receiver_port, sender_port, datalen, data);
+  simple_udp_sendto(c, "ACK", 3, sender_addr);
 }
 /*---------------------------------------------------------------------------*/
 static uip_ipaddr_t *

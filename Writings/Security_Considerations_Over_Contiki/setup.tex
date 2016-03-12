@@ -81,7 +81,8 @@ Cooja provides simulation for a whole WSN application. It generates simulated da
 \Cref{Fig: An Example of Cooja Execution} shows a simulation simulating the exact same WSN topology as described in \Cref{Fig: Experiment Setup}, with \textcircled{1} being the Border Router. 
 
 In this project, we are mostly interested in the radio traffic. The traffic is captured by the ``Radio messages'' plugin which exactly serves as the Sniffer in \Cref{Fig: Experiment Setup}. The corresponding pcap file is written by Cooja alongside the simulation under ``cooja/build/'' folder, which can later be opened by Wireshark\cite{Wireshark} for analysis, as shown in \Cref{Fig: A Wireshark Example}.
-
+ However, the timing information in the pcap file is not accurate as it is timed by the real world clock. The radio log captured by “Radio messages” plugin should be used instead when the simulation timing information is required.
+ 
 \begin{figure*}[h!]
 	\center
 	\includegraphics[width=0.8\textwidth]{fig/wireshark_example.png}
