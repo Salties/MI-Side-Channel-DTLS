@@ -49,14 +49,15 @@
 #define UDP_PORT 1234
 #define SERVICE_ID 190
 
-#define SEND_INTERVAL		(60 * CLOCK_SECOND)
-#define SEND_TIME		(random_rand() % (SEND_INTERVAL))
+#define SEND_INTERVAL		(15 * CLOCK_SECOND)
+//#define SEND_TIME		(random_rand() % (SEND_INTERVAL))
+#define SEND_TIME		((SEND_INTERVAL))
 
 static struct simple_udp_connection unicast_connection;
 //static uint8_t sendbuf[]={0x00,0x00,0x00,0x00};
 //static uint8_t sendbuf[]={0xFF,0xFF,0xFF,0xFF};
 static uint8_t sendbuf[]={0x12,0x34,0x56,0x78};
-static int sendlen = 2;
+static int sendlen = 4;
 
 /*---------------------------------------------------------------------------*/
 PROCESS(unicast_sender_process, "Unicast sender example process");
@@ -117,9 +118,9 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
     etimer_reset(&periodic_timer);
-    etimer_set(&send_timer, SEND_TIME);
+    //etimer_set(&send_timer, SEND_TIME);
 
-    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
+    //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
     addr = servreg_hack_lookup(SERVICE_ID);
     if(addr != NULL) {
       static unsigned int message_number;
