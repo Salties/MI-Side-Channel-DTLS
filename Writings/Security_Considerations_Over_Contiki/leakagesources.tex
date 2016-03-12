@@ -20,7 +20,7 @@ In this chapter, we discuss the potential leakage sources in the environment we 
 
 \section{Objects} \label{Sec: Objects}
 
-Without loss of generality, In this report, we are interested on leakages with respect to the following objects:
+Without loss of generality, in this report, we are interested on leakages with respect to the following objects:
 
 \begin{description}[style=nextline]
 	\item[Content and Size of Application Data]
@@ -35,50 +35,69 @@ Without loss of generality, In this report, we are interested on leakages with r
 	%\item[Application Specific Feature]
 \end{description}
 
-In this chapter we give a theoretical general analysis of the information leakage from the Traffic Analysis aspect. The inspection of protocol and implementation flaws are done in later chapters for each security measure.
+In this chapter we give a theoretical general analysis of the information leakage from the Traffic Analysis aspect. The inspection of protocol and implementation flaws are included in later chapters.
 
 Notice that Traffic Analysis is highly application specific. In this report, we discuss only the applications described in \Cref{Sec: Applications}. 
 
 \section{Observables} \label{Sec: Observables}
 
-As we have explained in \Cref{Chp: Experiment Setup}, we assume the adversary has full access to all traffic being transmitted in the WSN. Generally speaking, observables in captured traffic can be classified into two categories:
-\begin{description}[style=nextline]
-	\item[Implicit observables]
-	 These imply the data an adversary can access without inspecting the content of packets.
-	\item[Explicit observables]
-	 These imply the data given in the unencrypted part of packets.
-\end{description}
+As we have explained in \Cref{Chp: Experiment Setup}, we assumed the adversary has full access to all traffic being transmitted in the WSN. 
 
-In this research, we do not attempt to break the cryptographic primitives in the security measures; therefore we assume the value of ciphertext is independent to the plaintext and key. As a result, we do not consider the encrypted data as observables in this report.
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=0.9\textwidth]{fig/udpexample.png}
+	\caption{An Example of Captured Traffic}
+	\label{Fig: An Example of Captured Traffic}
+\end{figure*}
 
-\subsection{Implicit Observables} \label{Subsec: Implicit Observables}
-
-In this report, we consider the following implicit observables in captured WSN packets:
+\Cref{Fig: An Example of Captured Traffic} is a screenshot of packets in an experiment analysed by Wireshark\cite{Wireshark}. As we can see in \Cref{Fig: An Example of Captured Traffic}, the following side channel information are available in the captured traffic:
 
 \begin{itemize}
-	\item Packet Size
-	\item Packet Timing
-	\item Number of Packets
+	\item Unencrypted headers of packets. 
+	\item Timing of packets.
+	\item Length of packets.
 \end{itemize}
 
-These packet feature can be further used to compute other packet features, such as bandwidth. We define these computable features as part of implicit observables.
 
-Above them, there exist other implicit observables we do not concern in this report, including:
-\begin{description}[style=nextline]
-	\item[Presence of Packets]
-	Apparently, the presence of a packet implies the existence of a Sensor Node device, which is kind of an information leakage. However, we assume the adversary has prior knowledge of the existence of WSN and do not take this into account.
-	
-	\item[RSSI]
-	Receive Signal Strength Indicator, RSSI, indicates the RF signal strength from a Sensor Node. Practically speaking, by measuring the RSSI of frames sent from a specific source MAC address, the adversary is capable to reveal the physical location of a Sensor Node. In this report we do not consider RSSI as its physical character is beyond the scope of this project. Instead, we assume the adversary has prior knowledge of the geographic information of the Sensor Nodes.
-\end{description}
 
-The implicit observables are accessible in all scenarios in our experiments based on the assumption that the adversary has full access to all packets in the WSN.
+%Generally speaking, observables in captured traffic can be classified into two categories:
+%\begin{description}[style=nextline]
+%	\item[Implicit observables]
+%	 These imply the data an adversary can access without inspecting the content of packets.
+%	\item[Explicit observables]
+%	 These imply the data given in the unencrypted part of packets.
+%\end{description}
 
-\subsection{Explicit Observables}
+In this research, we assume the value of ciphertext is independent to the plaintext and key. 
 
-We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different for noncoresec and DTLS. 
-
-\subsubsection{noncoresec} \label{Subsubsec: Explicit noncoresec}
+%\subsection{Implicit Observables} \label{Subsec: Implicit Observables}
+%
+%In this report, we consider the following implicit observables in captured WSN packets:
+%
+%\begin{itemize}
+%	\item Packet Size
+%	\item Packet Timing
+%	\item Number of Packets
+%\end{itemize}
+%
+%These packet feature can be further used to compute other packet features, such as bandwidth. We define these computable features as part of implicit observables.
+%
+%Above them, there exist other implicit observables we do not concern in this report, including:
+%\begin{description}[style=nextline]
+%	\item[Presence of Packets]
+%	Apparently, the presence of a packet implies the existence of a Sensor Node device, which is kind of an information leakage. However, we assume the adversary has prior knowledge of the existence of WSN and do not take this into account.
+%	
+%	\item[RSSI]
+%	Receive Signal Strength Indicator, RSSI, indicates the RF signal strength from a Sensor Node. Practically speaking, by measuring the RSSI of frames sent from a specific source MAC address, the adversary is capable to reveal the physical location of a Sensor Node. In this report we do not consider RSSI as its physical character is beyond the scope of this project. Instead, we assume the adversary has prior knowledge of the geographic information of the Sensor Nodes.
+%\end{description}
+%
+%The implicit observables are accessible in all scenarios in our experiments based on the assumption that the adversary has full access to all packets in the WSN.
+%
+%\subsection{Explicit Observables}
+%
+%We have explained in \Cref{Chp: Experiment Setup} that there are two security measures implemented on our platform, namely noncoresec and DTLS. Referring to \Cref{Chp: Building Blocks}, these measures are implemented at different layers. The observables are therefore different for noncoresec and DTLS. 
+%
+\subsubsection{noncoresec} \label{Subsubsec: noncoresec header}
 
 As explained in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}, noncoresec is the 802.15.4 Security implementation on Contiki. When noncoresec is enabled, all captured frames are in the form we explained in \Cref{Subsec: 802.15.4 MAC} and \Cref{Subsec: 802154 Sec}. The 802.15.4 MAC Header is the only observable part of a packet.
 
@@ -97,7 +116,7 @@ As a result of MAC Payload being authenticated and encrypted,
 
 The IPv6 packets effectively are the packets with Application Data in our experiments. ICMPv6 packets on the other hand are mostly RPL messages.
 
-\subsubsection{DTLS} \label{Subsubsec: Explicit DTLS}
+\subsubsection{DTLS} \label{Subsubsec: DTLS header}
 
 As explained in \Cref{Chp: Building Blocks}, when DTLS is used, the explicit observables are: 
 
