@@ -1,6 +1,4 @@
-\chapter{}
-
-\section{Formal Proof of \Cref{Te: IR}} \label{Prf: IR}
+\chapter{Formal Proof of \Cref{Te: IR}} \label{Prf: IR}
 \begin{proof}
 	%Independent random variables does not leak.
 	Since $X$ and $Y$ are independent, therefore
@@ -99,3 +97,99 @@ For the exploited traffic features in
 Notice that we ignored Traffic Bursts since it is reduced to packet length in our applications as explained above.
 
 According to \Cref{Cor: Constant Leakage}, features with constant value are non leakable features. 
+
+\chapter{Leakage of Linear Packet Size} \label{Linear Leakage}
+
+Modelling the leakage of packet length as a channel $C(l_{C},l_{P})$ as in other Information Theoretic approaches we described in \Cref{Subsec: Information Theory}, we have a deterministic channel such that:
+
+\begin{equation}
+	C(l_{P}, l_{C}) = P(l_{P} | l_{C}) = 
+	\begin{cases}
+		1 &\text{if: } l_{C} = l_{P} + b \\
+		0 &\text{otherwise}
+	\end{cases}
+\end{equation}
+
+and
+
+\begin{equation}
+	C^{-1}(l_{C}, l_{P}) = P(l_{C} | l_{P}) = 
+	\begin{cases}
+		1 &\text{if: } l_{C} = l_{P} + b \\
+		0 &\text{otherwise}
+	\end{cases}
+\end{equation}
+
+So
+
+\begin{equation}
+	P(l_{P} , l_{C}) = P(l_{P}) P(l_{C} | l_{P}) =
+	\begin{cases}
+		P(l_{P}) &\text{if: } l_{C} = l_{P} + b \\
+		0 &\text{otherwise}
+	\end{cases}
+\end{equation}
+
+Therefore\footnote{Information Theory defines $0\log{0} = 0$.},
+\begin{equation}
+	P(l_{P} , l_{C}) \log{P(l_{P} | l_{C})} = 
+	\begin{cases}
+		P(l_{P})\log{1} = 0 &\text{if: } l_{C} = l_{P} + b \\
+		0 \log{0} = 0 &\text{otherwise}
+	\end{cases}
+\end{equation}
+
+Hence
+\begin{equation}
+	H(L_{P} | L_{C}) = - \sum_{l_{C} \in L_{C}} \sum_{l_{P} \in L_{P}}P(l_{P} , l_{C}) \log{P(l_{P} | l_{C})} = - \sum_{l_{C} \in L_{C}} \sum_{l_{P} \in L_{P}} 0 = 0
+\end{equation}
+where $L_{P}$ and $L_{C}$ are the possible length in bytes of encrypted and unencrypted packets.
+
+In this case, the Mutual Information is:
+\begin{equation} \label{Eq: MI in length}
+	I(L_{P};L_{C}) = H(L_{P}) - H(L_{P} | L_{C} ) = H(L_{P}) - 0 = H(L_{P})
+\end{equation}
+
+For the Capacity, according to \Cref{Eq: MI in length}, $I(L_{P};L_{C})$ has its maximum value when $L_{P}$ is uniformly distributed:
+\begin{equation} \label{Eq: Cap in length}
+	Capacity = \sup_{\forall L_{P}}{I(L_{P};L_{C})} = \sup_{\forall L_{P}}H(L_{P}) = - \sum_{i = 1}^{|L_{P}|}|L_{P}|^{-1}\log{|L_{P}|^{-1}} = \log{|L_{P}|}
+\end{equation}
+
+In another word, \Cref{Eq: MI in length} and \Cref{Eq: Cap in length}  imply that averagely all bits of $l_{P}$ is leaked through $l_{C}$.
+
+For the gain function based leakage\cite{GLeakage}, we realised that it would be hard to quantify the leakage without a specific gain function. Therefore instead, we provide an analysis with min-leakage.
+
+In this case, the Posterior Vulnerability is:
+\begin{equation}
+	\begin{aligned}
+		V(\pi_{L_P}, C^{-1}) 
+		&= \sum_{l_{C} \in L_{C}} \max_{l_{P} \in L_{P}} \pi_{L_P}[l_P]C^{-1}[l_P,l_C] \\
+		&=  \sum_{l_{C} \in L_{C}} P(l_C) \max_{l_{P} \in L_{P}} P(l_P | l_C) \\
+	      &= \sum_{l_{C} \in L_{C}} P(l_C) = 1 \\
+	\end{aligned}
+\end{equation}
+
+Therefore
+\begin{equation}
+	\begin{aligned}
+		H_{\infty}(\pi_{L_{P}}, C^{-1})
+		 &= - \log{V(\pi_{L_{P}}, C^{-1})} = - \log1= 0
+	\end{aligned}
+\end{equation}
+
+Thus the min-leakage is:
+\begin{equation}
+	\begin{aligned}
+	L(\pi_{L_P}, C^{-1}) 
+	 &= H_{\infty}(\pi_{L_P}) - H_{\infty}(\pi_{L_{P}}, C^{-1}) \\
+	 &= H_{\infty}(\pi_{L_P}) - 0 \\
+	 &= H_{\infty}(\pi_{L_P})
+	\end{aligned}
+\end{equation}
+
+And finally:
+\begin{equation}
+	ML(C^{-1}) = \sup_{\pi_{L_P}}{L(\pi_{L_P},C^{-1})} =  \sup_{\pi_{L_P}} H_{\infty}(\pi_{L_P}) = \log{|L_P|}
+\end{equation}
+
+This result consists with our intuition and the Capacity in \Cref{Eq: Cap in length} that all bits of $l_P$ are leaked through $l_C$.
