@@ -56,15 +56,13 @@
 	\end{eqnarray*}
 \end{proof}
 
-
-
 \chapter{Details of Packet Feature Cross Reference} \label{Detail Cross Reference}
 
 For the exploited traffic features in 
 
 \begin{description}[style=nextline]
 	\item[Direction]
-	In our applications, the directions of packet is a predictable constant. We consider this is not a 
+	In our applications, the directions of packet is a predictable constant. We consider this is not a leakage source.
 	
 	\item[Length]
 	The is effectively the packet size in implicit observables.
@@ -98,7 +96,7 @@ Notice that we ignored Traffic Bursts since it is reduced to packet length in ou
 
 According to \Cref{Cor: Constant Leakage}, features with constant value are non leakable features. 
 
-\chapter{Leakage of Linear Packet Size} \label{Linear Leakage}
+\chapter{Quantified Leakage for Linear Packet Size} \label{Linear Leakage}
 
 Modelling the leakage of packet length as a channel $C(l_{C},l_{P})$ as in other Information Theoretic approaches we described in \Cref{Subsec: Information Theory}, we have a deterministic channel such that:
 
@@ -193,3 +191,95 @@ And finally:
 \end{equation}
 
 This result consists with our intuition and the Capacity in \Cref{Eq: Cap in length} that all bits of $l_P$ are leaked through $l_C$.
+
+\chapter{Detail Analysis of Headers}
+
+\section{noncoresec} \label{Detail noncoresec Header}
+
+Recall \Cref{Subsec: 802.15.4 MAC}, there are four types of MAC Frames. In this project, we are mostly interested on the information leakage in the Data Frames.
+
+As explained in \Cref{Subsec: 802.15.4 MAC},
+
+\begin{description}[style=nextline]
+	\item[Frame Control]
+	Among the flags in Frame Control defined by \cite{802154}, we found only two flags potentially related to upper layer application:
+		\begin{description}
+			\item[Security Enabled]
+			When noncoresec is used, this field is constantly $1$
+			\item[ACK Required]
+			Since MAC ACK is optional and this field can be set by an upper layer application, we suspect this flag as a potential leakage source.
+		\end{description}
+	\item[Sequence Number]
+	Sequence Number is solely managed by MAC Layer and hence likely to be independent to upper layer application.
+	\item[Frame Checksum]
+	Since Frame Checksum is computed from the frame itself and therefore contains only redundant information. We argue that Frame Checksum does not induce any additional information leakage to a packet.
+\end{description}
+
+For the Auxiliary Security Header we explained in \Cref{Subsec: 802154 Sec},
+
+\begin{description}[style=nextline]
+	\item[Security Level]
+	As we explained in \Cref{Chp: Experiment Setup}, this value is constantly $7$ in our experiments and is not a potential leakage source due to \Cref{Cor: Constant Leakage}.
+	\item[Frame Counter]
+	Similar to Sequence Number, this field is likely to be independent to application.
+	\item[Key Strategy]
+	noncoresec does not utilise this field at all and thus is constantly $0$. It is not a leakage source due to \Cref{Cor: Constant Leakage}.
+\end{description}
+
+\section{Detailed Analyse of Headers within DTLS} \label{Detail DTLS Header}
+
+%MAC Header
+The 802.15.4  MAC Header with DTLS is mostly the same as with noncoresec, except that:
+
+\begin{itemize}
+	\item The Security Enabled in Frame Control is constantly $0$ as 802.15.4 Security is disabled. We conclude that it is not a potential leakage source due to \Cref{Cor: Constant Leakage}.
+	\item There is no Auxiliary Security Header; hence Frame Counter is not applicable within DTLS.
+\end{itemize}
+
+%IPv6
+As we have explained in \Cref{Subsec: 6LoWPAN Adaptation Sub Layer}, the 6LoWPAN Header Compression is lossless; therefore it contains the identical information as of an uncompressed IPv6 Header. Referring to the IPv6 Header we explained in \Cref{Subsec: IPv6 Data Packets}:
+
+\begin{description}[style=nextline]
+	\item[Version]
+	This is constantly 0x6.
+	\item[Traffic Class and Flow Label]
+	Theoretically speaking these values can be set by upper layer application and thus are potential leakage sources. However, in the current version of Contiki release-3.0, their use are not supported and the values are constantly $0$.
+	\item[Payload Length]
+	This value is redundant as it can be computed by the packet size.
+	\item[Next Header]
+	When DTLS is used, this field is constantly UDP(0x11).
+	\item[Hop Limit]
+	This field is solely processed at Network Layer and we suspect it is independent to the upper application. However, it depends on routing and therefore network topology, we expect to see the identical values within the same topology setup among different applications.
+%	\item[Source and Destination Address]
+%	As explained above, the address information is excluded form the potential leakage sources.
+\end{description}
+
+%UDP Header
+For UDP Header described in \Cref{Subsec: UDP},
+
+\begin{description}[style=nextline]
+	\item[Source and Destination Port]
+	The ports are identical for the same application in our experiments. Practically speaking, the ports may leak which application a packet corresponds to; however, we do not consider this as a leakage as we assumed the adversary has prior knowledge of the application.
+	\item[Payload Length]
+	Similar to Payload Length in IPv6 Header, this value is redundant.
+	\item[Checksum]
+	Similar to the MAC Checksum, this value is redundant.
+\end{description}
+
+%DTLS Header
+The UDP Payload with DTLS can be either a Handshake Messages and a Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to any Application Data. However,  the Handshake Messages are potentially linked cryptographic key. We provide an analysis of this subject in later chapters.
+
+With respect to DTLS Data Records,
+
+\begin{description}[style=nextline]
+	\item[Content Type]
+	In Data Record this is constantly $0x17$.
+	\item[Protocol Version]
+	In the tinydtls implementation, this is constantly \{0xfe, 0xfd\}.
+	\item[Epoch]
+	Since no renegotiation took place in our applications, this value is constantly $1$ for all Data Records.
+	\item[Sequence Number]
+	Similar to MAC Sequence Number, we suspect this value to be independent to Application Data.
+	\item[Length]
+	This value is as redundant as other length fields in upper layer headers.
+\end{description}
