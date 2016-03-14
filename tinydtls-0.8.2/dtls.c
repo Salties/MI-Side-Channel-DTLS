@@ -1617,10 +1617,6 @@ dtls_send_multi (dtls_context_t * ctx, dtls_peer_t * peer,
 
   /* FIXME: copy to peer's sendqueue (after fragmentation if
    * necessary) and initialize retransmit timer */
-#ifndef WITH_CONTIKI
-  printf("Press enter to send.");
-  getchar();
-#endif
   res = CALL (ctx, write, session, sendbuf, len);
 
   /* Guess number of bytes application data actually sent:
