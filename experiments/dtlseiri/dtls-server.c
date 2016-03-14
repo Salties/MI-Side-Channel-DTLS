@@ -14,6 +14,7 @@
 #include "tinydtls.h"
 #include "debug.h"
 #include "dtls.h"
+#include "sys/rtimer.h"
 
 #ifndef DEBUG
 #define DEBUG DEBUG_PRINT
@@ -173,9 +174,9 @@ int DtlsReadCb(struct dtls_context_t *ctx,
     if (!strncasecmp("GET\n", (char *) data, 4)) {
         PRINTF("Received GET\n");
         memset(buf, 0, MAX_BUF);
-        begin = clock_time();	//Start timing.
+        begin = RTIMER_NOW();	//Start timing.
         ReadSensors(buf, &buflen);
-        end = clock_time();	//End timing.
+        end = RTIMER_NOW();	//End timing.
         printf("ReadSensors Execution Time = %u - %u = %u \n",
                (unsigned int) end, (unsigned int) begin,
                (unsigned int) (end - begin));
