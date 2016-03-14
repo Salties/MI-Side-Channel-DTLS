@@ -421,8 +421,6 @@ void static ec_double(const uint32_t *px, const uint32_t *py, uint32_t *Dx, uint
 		return;
 	}
 
-	printf("ec_double()\n");
-
 	fieldMult(px, px, tempD, arrayLength);
 	fieldModP(tempA, tempD);
 	setZero(tempB, 8);
