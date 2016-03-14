@@ -2,42 +2,19 @@
 
 In this chapter, we discuss the potential leakage sources in the environment we have set up in \Cref{Chp: Experiment Setup}. 
 
-%\section{A review of review: what could be leaked?} \label{Sec: A Review of Review}
-%What is ``Information''
+\section{Subject} \label{Sec: Subjects}
 
-%The first and fundamental question that must be clarified in this project is: what is ``information''?
-%
-%If we review those attacks described in \Cref{Chp: Literature Review}:
-%
-%\begin{itemize}
-%	\item In literatures about the flaws in implementations of algorithms and protocols, ``information'' is the plaintext, usually represented as a numerical value, such as \cite{802154sec} \cite{rfc7457} \cite{CompressionRatioAttack} \cite{PaddingOracle}. Or it could be the secret key materials in many cryptographic side channel attack literatures, such as \cite{DPA}.
-%	\item In Traffic Analysis Attacks against web applications, ``informaiton'' is the user input, such as \cite{PinpointWeb} \cite{SearchAttack}, or the content of websites such as \cite{WebSideChannel}.
-%	\item When we talk about website fingerprinting such as \cite{WebsiteFingerprint} \cite{Peekaboo} and \cite{PClassifier}, ``information'' is the identity of websites. 
-%	\item The category only gets even more messy and trivial when we look at other Traffic Analysis Attacks, such as the spoken language and phrases in \cite{VoIPLanguage} and \cite{VoIPPhrases}, user event and OS of Apple product in \cite{AppleMessage} or even the ambient change and motion event in \cite{Video}.
-%\end{itemize}
-%
-%``Information'' is always a relative concept to ``application'', and so is ``leakage''. 
+Without loss of generality, in this report, we are interested in leakages with respect to the following subjects:
 
-\section{Objects} \label{Sec: Objects}
+\begin{itemize}
+	\item Content and size of encrypted data
+	\item Cryptographic key materials
+	\item Network topology
+\end{itemize}
 
-Without loss of generality, in this report, we are interested on leakages with respect to the following objects:
+In this chapter we give a theoretical analysis of the exploitable side channel information in the WSN traffic. The inspection of protocol and implementation flaws are included in later chapters.
 
-\begin{description}[style=nextline]
-	\item[Content and Size of Application Data]
-	The implication of Application Data varies in each application.
-	
-	\item[Cryptographic Key]
-	This represents the corresponding key materials in the security measure.
-	
-	\item[Network Topology]
-	This implies how Sensor Nodes are connected to each other.
-	
-	%\item[Application Specific Feature]
-\end{description}
-
-In this chapter we give a theoretical general analysis of the information leakage from the Traffic Analysis aspect. The inspection of protocol and implementation flaws are included in later chapters.
-
-Notice that Traffic Analysis is highly application specific. In this report, we discuss only the applications described in \Cref{Sec: Applications}. 
+Notice that Traffic Analysis is highly application specific. In this report, our discussions are based the simple applications described in \Cref{Sec: Applications}. 
 
 \section{Observables} \label{Sec: Observables}
 
@@ -50,13 +27,13 @@ As we have explained in \Cref{Chp: Experiment Setup}, we assumed the adversary h
 	\label{Fig: An Example of Captured Traffic}
 \end{figure*}
 
-\Cref{Fig: An Example of Captured Traffic} is a screenshot of packets in an experiment, analysed by Wireshark\cite{Wireshark}. In this research, we assume the value of ciphertext is independent to the plaintext and key. The following side channel information are available in the captured traffic:
+\Cref{Fig: An Example of Captured Traffic} shows the packets captured in a Cooja experiment, analysed by Wireshark\cite{Wireshark}. In this research, we assume the value of ciphertext is independent to the plaintext and key. The following side channel information are available in the captured traffic shown in \Cref{Fig: An Example of Captured Traffic}:
 
-\begin{itemize}
-	\item Unencrypted headers
-	\item Timing
-	\item Length
-\end{itemize}
+\begin{description}
+	\item[Unencrypted headers]
+	\item[Timing]
+	\item[Length]
+\end{description}
 
 The timing and length information are always available in the captured traffic. The unencrypted headers depend on the security measure adopted, which we explain in later sections.
 
@@ -97,7 +74,7 @@ Practically, the Receive Signal Strength Indicator, RSSI, should also be conside
 %
 %Since DTLS is built on Application Layer, therefore it does not impose any setting to the lower layer headers. 
 
-\section{Packet Traces} \label{Subsec: Traces}
+\section{Packet Traces} \label{Sec: Packet Traces}
 
 In this section, we discuss some features of packet traces in WSN applications.
 
@@ -142,7 +119,7 @@ In this project, we consider only information leakage within one Session. It is 
 
 %Further more, in our applications the content of Request is a constant 3 bytes ASCII string ``GET''. We assume this known by the adversary. We make this assumption to focus on the leakage of the Application Data in Responses. 
 
-\section{Theoretical Analysis}
+\section{Theoretical Analysis} \label{Sec: Theoretical Analysis}
 
 In this section we provide a theoretical analysis over all observables we explained in \Cref{Sec: Observables}. It is done in two approaches:
 
@@ -209,50 +186,53 @@ Timing information is another important side channel information in WSN traffic.
 	\item The low performance of the WSN devices potentially increases the resolution of timing information, i.e. the differences of execution time will be more distinguishable on these devices.
 \end{enumerate}
 
-However, timing information would be hard to exploit without precise knowledge of the code running on the target Sensor Node. Several protocol may also affect the measuring of timing, .e.g. ContikiMAC turns off the radio for most of time and preprocessing the traces is required to measure the timing information for packets.
+However, timing information would be hard to exploit without precise knowledge of the code running on the target Sensor Node. Several protocol may also affect the measuring of timing, .e.g. ContikiMAC turns off the radio for most of the time and therefore preprocessing the traces is required to measure the timing information for packets.
 
 \subsubsection{Headers with noncoresec}
 
-When noncoresec is enabled, the 802.15.4 MAC Header is the only visible part in all Data Frames. In conclusion, we have not identify any suspicious leakage source in the MAC Header that links to the application data. The details of the analysis of 802.15.4 MAC Header is given in \Cref{Detail noncoresec Header}. 
+When noncoresec is enabled, the 802.15.4 MAC Header is the only visible part in all Data Frames. In conclusion, we have not identify any obvious leakage source in the MAC Header that links to our application data. 
 
 %Address
-However, in the experiments we realised that the Address Information combined with other packet features can be used distinguish the RPL messages from the application packets.
+However, in the experiments we realised that the Address Information combined with some other packet features can be used distinguish the RPL messages from the application packets.
+
+Details of the semantic analysis of 802.15.4 MAC Header is given in \Cref{Detail noncoresec Header}. 
 
 \subsubsection{Headers with DTLS}
 
-DTLS is built over UDP; therefore visible headers are 802.15.4 MAC header, compressed IPv6 Header, UDP header and DTLS header.
+DTLS is built over UDP; therefore visible headers are 802.15.4 MAC header, compressed IPv6 Header, UDP header and DTLS header. In conclusion, we neither found any obvious value that links to our application data.
 
-\Cref{Detail DTLS Header}
-%CONTINUE FROM HERE!!!!!!
-%Length of Compressed and Uncompressed Header
-One thing to be noticed is that although the IPv6 Header Compression is lossless and thus does not affect the contents in IPv6 Header, there is still a potential side channel leakage that the difference in size may leak information about the content of IPv6 Header when it is not observable, such as when noncoresec is used. However, the analysis above showed that the only variable fields are the address information. Since we assumed the adversary has prior knowledge about the identity and address information of the WSN, we consider the size of compressed header is predictable to the adversary and thus does not consider this as an information leakage. In our experiments, the same address mode is used for all Sensor Nodes in all experiments; thus all packets have used the same compression format, resulting into identical size of Compressed IPv6 Header.
+Two thing should be noticed when DTLS is the security measure:
+\begin{enumerate}
+	\item Currently DTLS does not support any form of multicast; therefore when DTLS is used, the destination address can only be a unicast address. 
 
-\subsubsection{Leakage of Network Topology}
+	\item DTLS protects only application data, the ICMP messages, including RPL messages, are transmitted in plaintext.
+\end{enumerate}
 
-%As explained in \Cref{Subsec: Implicit Observables}, the geographical location of Sensor Nodes in practice can be reveal by RSSI. Practically speaking, combing this information with the effective radius of RF, the adversary should already be able reconstruct the topology of the network.
+Even though DTLS can only be used on unicast communications in our applications, proposals such as \cite{DtlsMulticast1} \cite{DtlsMulticast2} has been made to adapt DTLS to multicast; therefore it is reasonable to expect that the family\footnote{Unicast and multicast. Broadcast is treated as an instance of multicast in IPv6.} of destination address can be a hint to the contents of data encrypted by DTLS in the future. However, we do not discuss this topic further as multicast on DTLS is not implemented yet.
+
+Also to be noticed is that the size of compressed IPv6 Header is variable. Since most of the options are not available in our platform, the variance is most likely to be caused by the use of different modes of addresses. However, all our experiments are set up with the same mode addresses and therefore the compressed IPv6 Header effectively resulted into a constant size.
+
+Details of semantic analysis of the visible headers within DTLS is given in \Cref{Detail DTLS Header}. 
+
+\subsection{Conclusion}
+
+In conclusion, the packet size and timing information are still likely to be the most exploitable side channel information in WSN, just as those attacks on Internet. However, the address information is a potential leakage source in WSN applications.
+
+\section{Leakage of Network Topology} \label{Sec: Leakage of Network Topology}
 
 As explained in \Cref{Sec: Observables}, the geographical information of Sensor Nodes can be detected from the RSSI. Based on this information, topology of the 6LoWPAN network can be deduced in the following ways:
 
-\begin{description}[style=nextline]
+\begin{enumerate}
 	%With noncoresec
-	\item With noncoresec, the RPL messages are encrypted. However, the source and destination address information is still visible to the adversary; therefore the connectivity between Sensor Nodes can be estimated by these information.
+	\item Within noncoresec, the RPL messages are encrypted. However, the source and destination address information is still visible to the adversary; therefore the connectivity between Sensor Nodes can be estimated based on these information.
 	%With DTLS
-	\item With DTLS, the RPL messages are not encrypted. The adversary can reconstruct the network from the captured RPL messages.
-\end{description}
+	\item Within DTLS, the RPL messages are not encrypted. The adversary can reconstruct the network topology from the captured RPL messages.
+\end{enumerate}
 
 \section{Summary}
 
-In this chapter, we started by specifying the objects of leakage we study. There are three objects we study in this report, namely content and size of application data, cryptographic key and network topology.
+In this chapter, we started by specifying the subjects of information leakage, namely the content and size of application data, cryptographic key materials and network topology in \Cref{Sec: Subjects}. Then we demonstrated an example of captured data and pointed out the available information to an adversary in \Cref{Sec: Observables}. From there, we provided a definition of Sessions in WSN applications and the discussed the form of packet traces in our applications in \Cref{Sec: Packet Traces}.
 
-We categorise the visible data to the adversary in our settings into implicit observables and explicit observables. Implicit observables are meta data of packets including size and timing. Explicit observables are those contents in the unencrypted headers. We also defined the trace in our analysis which contains all packets within a Session. A Session is modelled as an optional Request and a Response.
+In \Cref{Sec: Theoretical Analysis}, we gave a theoretical analysis of the observables in WSN traffic. Packet size and timing information turned out to be the likely most exploitable feature even in WSN, while unencrypted address information can also be a hint to the contents in the encrypted data.
 
-Finally we give a theoretical analysis to the observables. We argue that if an observable is independent to the secret, then there is no information leakage. Further more, if an observable in the setting is constant, then neither there is any information leakage. We have done the theoretical analysis in two approaches. The first approach is cross referencing the observables exploited in Traffic Analysis Attacks with those applicable in our WSN applications. In the second approach, we semantically analysed the observables based on their definitions in the 6LoWPAN protocol suite and implementation in our platform. 
-
-In conclusion, the potential leakage sources in the observables include:
-\begin{enumerate}
-	\item The packet features derived from packet size and timing.
-	\item ACK Request flag.
-	\item Sequence Numbers in different headers are theoretically potential leakage sources, but we suspect they are independent to upper layer applications.
-\end{enumerate}
-
-With respect to network topology, the adversary has its full knowledge if the WSN is protected by DTLS. In case of noncoresec, the adversary can still reconstruct the topology at some level based on the unencrypted MAC address information. 
+With respect to network topology, the unencrypted 802.15.4 MAC Header within noncoresec can be used to estimate the connectivity between Sensor Nodes. DTLS does not protect the RPL messages thus an adversary can reconstruct the network topology from the RPL messages transmitted in plaintext.

@@ -1,7 +1,10 @@
 #ifndef __PROJECT_CONF_H__
 #define __PROJECT_CONF_H__
 
+#ifdef UIP_CONF_TCP
+#undef UIP_CONF_TCP
 #define UIP_CONF_TCP 0
+#endif
 
 #define ENABLE_LLSEC 1
 
