@@ -227,27 +227,17 @@ DTLS is built over UDP; therefore visible headers are 802.15.4 MAC header, compr
 %Length of Compressed and Uncompressed Header
 One thing to be noticed is that although the IPv6 Header Compression is lossless and thus does not affect the contents in IPv6 Header, there is still a potential side channel leakage that the difference in size may leak information about the content of IPv6 Header when it is not observable, such as when noncoresec is used. However, the analysis above showed that the only variable fields are the address information. Since we assumed the adversary has prior knowledge about the identity and address information of the WSN, we consider the size of compressed header is predictable to the adversary and thus does not consider this as an information leakage. In our experiments, the same address mode is used for all Sensor Nodes in all experiments; thus all packets have used the same compression format, resulting into identical size of Compressed IPv6 Header.
 
-
-
-In conclusion, for the explicit observables within DTLS,
-
-\begin{itemize}
-	\item ACK Request flag is a potential leakage source as with noncoresec.
-	\item Hop Limit is theoretically depended on routing and network topology and is likely to be independent to the application.
-	\item Sequence Numbers in each layer are likely to be independent to the upper layer application.
-\end{itemize}
-
 \subsubsection{Leakage of Network Topology}
 
-As explained in \Cref{Subsec: Implicit Observables}, the geographical location of Sensor Nodes in practice can be reveal by RSSI. Practically speaking, combing this information with the effective radius of RF, the adversary should already be able reconstruct the topology of the network.
+%As explained in \Cref{Subsec: Implicit Observables}, the geographical location of Sensor Nodes in practice can be reveal by RSSI. Practically speaking, combing this information with the effective radius of RF, the adversary should already be able reconstruct the topology of the network.
 
-Even without the knowledge of the geographical information of Sensor Nodes, we suggest that the topology of the 6LoWPAN network can still be reconstructed by looking at the captured packets:
+As explained in \Cref{Sec: Observables}, the geographical information of Sensor Nodes can be detected from the RSSI. Based on this information, topology of the 6LoWPAN network can be deduced in the following ways:
 
 \begin{description}[style=nextline]
+	%With noncoresec
+	\item With noncoresec, the RPL messages are encrypted. However, the source and destination address information is still visible to the adversary; therefore the connectivity between Sensor Nodes can be estimated by these information.
 	%With DTLS
 	\item With DTLS, the RPL messages are not encrypted. The adversary can reconstruct the network from the captured RPL messages.
-	%With noncoresec
-	\item With noncoresec, the RPL messages are encrypted. However, the MAC Layer address information is visible to the adversary; therefore the connectivity of Sensor Nodes can still be deduced by looking at the MAC addresses.
 \end{description}
 
 \section{Summary}
