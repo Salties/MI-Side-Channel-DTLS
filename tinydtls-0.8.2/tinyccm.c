@@ -28,7 +28,7 @@
 #include "dtls_config.h"
 #include "global.h"
 #include "numeric.h"
-#include "ccm.h"
+#include "tinyccm.h"
 
 #ifdef HAVE_ASSERT_H
 # include <assert.h>

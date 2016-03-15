@@ -44,7 +44,7 @@
 #endif /* WITH_CONTIKI */
 
 #include "alert.h"
-#include "crypto.h"
+#include "tinycrypto.h"
 #include "hmac.h"
 
 #include "global.h"
@@ -414,6 +414,8 @@ int dtls_handle_message(dtls_context_t *ctx, session_t *session,
  */
 dtls_peer_t *dtls_get_peer(const dtls_context_t *context,
 			   const session_t *session);
+
+
 #endif /* _DTLS_DTLS_H_ */
 
 /**

@@ -39,7 +39,7 @@
 //big number functions
 #include "ecc.h"
 #include <string.h>
-#include <stdio.h>
+#include "stdio.h"
 
 static uint32_t add( const uint32_t *x, const uint32_t *y, uint32_t *result, uint8_t length){
 	uint64_t d = 0; //carry
@@ -414,6 +414,8 @@ void static ec_double(const uint32_t *px, const uint32_t *py, uint32_t *Dx, uint
 	uint32_t tempB[8];
 	uint32_t tempC[8];
 	uint32_t tempD[16];
+
+	printf("ecc_double()\n");
 
 	if(isZero(px) && isZero(py)){
 		copy(px, Dx,arrayLength);

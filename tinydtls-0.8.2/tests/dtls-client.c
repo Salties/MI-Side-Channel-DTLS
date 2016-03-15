@@ -44,6 +44,7 @@ static dtls_str output_file = { 0, NULL }; /* output file name */
 
 static dtls_context_t *dtls_context = NULL;
 
+static int IsHandshakeComplete = 0;
 
 static const unsigned char ecdsa_priv_key[] = {
 			0x41, 0xC1, 0xCB, 0x6B, 0x51, 0x24, 0x7A, 0x14,
@@ -196,8 +197,10 @@ send_to_peer(struct dtls_context_t *ctx,
 	     session_t *session, uint8 *data, size_t len) {
 
   int fd = *(int *)dtls_get_app_data(ctx);
-  //printf("Press Enter to send a packet:");
-  //getchar();
+  if(!IsHandshakeComplete)
+  {
+	  sleep(1);
+  }
   return sendto(fd, data, len, MSG_DONTWAIT,
 		&session->addr.sa, session->size);
 }
@@ -453,7 +456,7 @@ main(int argc, char **argv) {
 
   dtls_set_handler(dtls_context, &cb);
 
-  dtls_connect(dtls_context, &dst);
+  IsHandshakeComplete = !dtls_connect(dtls_context, &dst);
 
   while (1) {
     FD_ZERO(&rfds);

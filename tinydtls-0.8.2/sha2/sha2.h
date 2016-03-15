@@ -71,7 +71,7 @@ extern "C" {
  * uintXX_t (from inttypes.h), you may need to define things by hand
  * for your system:
  */
-#ifdef PLATFORM_cc2538dk
+#ifdef CONTIKI_TARGET_CC2538DK
 typedef unsigned char u_int8_t;		/* 1-byte  (8-bits)  */
 typedef unsigned int u_int32_t;		/* 4-bytes (32-bits) */
 typedef unsigned long long u_int64_t;	/* 8-bytes (64-bits) */

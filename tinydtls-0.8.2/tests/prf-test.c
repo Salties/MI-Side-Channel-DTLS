@@ -3,7 +3,7 @@
 #include "tinydtls.h"
 #include "debug.h"
 #include "global.h"
-#include "crypto.h"
+#include "tinycrypto.h"
 
 int 
 main() {
