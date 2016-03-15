@@ -81,12 +81,18 @@ static const unsigned char ecdsa_pub_key_y[] = {
 static int
 read_from_peer(struct dtls_context_t *ctx, 
 	       session_t *session, uint8 *data, size_t len) {
-  size_t i;
-  for (i = 0; i < len; i++)
-    PRINTF("%c", data[i]);
+  int read, i;
+  char str[3];
 
-  /* echo incoming application data */
-  dtls_write(ctx, session, data, len);
+#define SECRET 255
+
+  printf("Received GET.\n");
+
+  for( i = 0; i < SECRET; i++)
+	  read = random_rand() % 100;
+  sprintf(str,"%02d\n", read);
+
+  dtls_write(ctx, session, (uint8_t*) str, sizeof(str));
   return 0;
 }
 
