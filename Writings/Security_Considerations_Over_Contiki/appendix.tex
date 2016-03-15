@@ -269,7 +269,7 @@ For UDP Header described in \Cref{Subsec: UDP},
 \end{description}
 
 %DTLS Header
-The UDP Payload with DTLS can be either a Handshake Messages and a Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to any Application Data. However,  the Handshake Messages are potentially linked cryptographic key. We provide an analysis of this subject in later chapters.
+The UDP Payload with DTLS can be either a Handshake Messages and a Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to any Application Data. However,  the Handshake Messages may contain the information of cryptographic key.
 
 With respect to DTLS Data Records,
 
@@ -285,3 +285,5 @@ With respect to DTLS Data Records,
 	\item[Length]
 	This value is as redundant as other length fields in upper layer headers.
 \end{description}
+
+In conclusion, we have identified no obvious potential leakage in the unencrypted headers within DTLS.
