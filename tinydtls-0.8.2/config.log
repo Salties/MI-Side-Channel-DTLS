@@ -77,7 +77,9 @@ config.status:808: creating sha2/Makefile
 config.status:808: creating aes/Makefile
 config.status:808: creating ecc/Makefile
 config.status:808: creating dtls_config.h
+config.status:978: dtls_config.h is unchanged
 config.status:808: creating tinydtls.h
+config.status:978: tinydtls.h is unchanged
 
 ## ---------------- ##
 ## Cache variables. ##
