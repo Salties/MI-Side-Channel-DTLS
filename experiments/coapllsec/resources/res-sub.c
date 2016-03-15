@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, Swedish Institute of Computer Science.
+ * Copyright (c) 2013, Institute for Pervasive Computing, ETH Zurich
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,38 +26,44 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ * This file is part of the Contiki operating system.
  */
 
-#ifndef PROJECT_ROUTER_CONF_H_
-#define PROJECT_ROUTER_CONF_H_
+/**
+ * \file
+ *      Example resource
+ * \author
+ *      Matthias Kovatsch <kovatsch@inf.ethz.ch>
+ */
 
-#ifndef UIP_FALLBACK_INTERFACE
-#define UIP_FALLBACK_INTERFACE rpl_interface
-#endif
+#include <string.h>
+#include "rest-engine.h"
 
-#ifndef QUEUEBUF_CONF_NUM
-#define QUEUEBUF_CONF_NUM          10
-#endif
+static void res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 
-#if 1
-#ifndef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE    3000
-#endif
+/*
+ * Example for a resource that also handles all its sub-resources.
+ * Use REST.get_url() to multiplex the handling of the request depending on the Uri-Path.
+ */
+PARENT_RESOURCE(res_sub,
+                "title=\"Sub-resource demo\"",
+                res_get_handler,
+                NULL,
+                NULL,
+                NULL);
 
-#ifndef UIP_CONF_RECEIVE_WINDOW
-#define UIP_CONF_RECEIVE_WINDOW  120
-#endif
-#endif
+static void
+res_get_handler(void *request, void *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset)
+{
+  REST.set_header_content_type(response, REST.type.TEXT_PLAIN);
 
-#ifndef WEBSERVER_CONF_CFS_CONNS
-#define WEBSERVER_CONF_CFS_CONNS 2
-#endif
+  const char *uri_path = NULL;
+  int len = REST.get_url(request, &uri_path);
+  int base_len = strlen(res_sub.url);
 
-//Explicitly disable ecc in this project.
-#ifdef DTLS_ECC
-#undef DTLS_ECC
-#endif
-
-#define WATCHDOG_CONF_ENABLE 0
-
-#endif /* PROJECT_ROUTER_CONF_H_ */
+  if(len == base_len) {
+    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, "Request any sub-resource of /%s", res_sub.url);
+  } else {
+    snprintf((char *)buffer, REST_MAX_CHUNK_SIZE, ".%.*s", len - base_len, uri_path + base_len);
+  } REST.set_response_payload(response, buffer, strlen((char *)buffer));
+}
