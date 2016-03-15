@@ -48,7 +48,6 @@ dtls_prng_init(unsigned short seed) {
 static inline int
 dtls_prng(unsigned char *buf, size_t len)
 {
-	asdasdsd
 	return contiki_prng_impl(buf, len);
 }
 #else

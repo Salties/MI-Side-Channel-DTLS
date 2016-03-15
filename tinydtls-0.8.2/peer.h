@@ -38,7 +38,7 @@
 #include "session.h"
 
 #include "state.h"
-#include "crypto.h"
+#include "tinycrypto.h"
 
 #ifndef WITH_CONTIKI
 #include "uthash.h"

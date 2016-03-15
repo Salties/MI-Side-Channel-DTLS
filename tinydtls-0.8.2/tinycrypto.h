@@ -38,7 +38,7 @@
 #include "state.h"
 #include "numeric.h"
 #include "hmac.h"
-#include "ccm.h"
+#include "tinyccm.h"
 
 /* TLS_PSK_WITH_AES_128_CCM_8 */
 #define DTLS_MAC_KEY_LENGTH    0

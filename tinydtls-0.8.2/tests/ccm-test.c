@@ -13,7 +13,7 @@
 
 //#include "debug.h"
 #include "numeric.h"
-#include "ccm.h"
+#include "tinyccm.h"
 
 #include "ccm-testdata.c"
 
