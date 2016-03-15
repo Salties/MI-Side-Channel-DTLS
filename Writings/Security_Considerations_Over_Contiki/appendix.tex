@@ -208,10 +208,10 @@ As explained in \Cref{Subsec: 802.15.4 MAC},
 			\item[ACK Required]
 			This is set to $1$ for all unicast messages and $0$ for multicast and broadcast messages.
 		\end{description}
-	Therefore even the configurable messages are predictable and are unlikely to leak any information of the application data.
+	Therefore even the configurable messages are predictable independently from the upper layer application. They are unlikely to leak any information of the application data.
 	
 	\item[Sequence Number]
-	Sequence Number is solely managed by MAC Layer and hence likely to be independent to upper layer application.
+	Sequence Number is solely managed by MAC Layer and hence independent to upper layer applications.
 	
 	\item[Frame Checksum]
 	Since Frame Checksum is computed from the frame itself and therefore contains only redundant information. We argue that Frame Checksum does not induce any additional information leakage to a packet.
@@ -231,10 +231,10 @@ For the Auxiliary Security Header we explained in \Cref{Subsec: 802154 Sec},
 \section{Detailed Analyse of Headers within DTLS} \label{Detail DTLS Header}
 
 %MAC Header
-The 802.15.4  MAC Header with DTLS is mostly the same as with noncoresec, except that:
+The 802.15.4  MAC Header with DTLS is mostly the same as with noncoresec, except:
 
 \begin{itemize}
-	\item The Security Enabled in Frame Control is constantly $0$ as 802.15.4 Security is disabled. We conclude that it is not a potential leakage source due to \Cref{Cor: Constant Leakage}.
+	\item The Security Enabled in Frame Control is constantly $0$ as 802.15.4 Security is disabled. We do not consider 802.15.4 Security jointly used with DTLS as explained in \Cref{Overload Sec}.
 	\item There is no Auxiliary Security Header.
 \end{itemize}
 
@@ -251,7 +251,7 @@ As we have explained in \Cref{Subsec: 6LoWPAN Adaptation Sub Layer}, the 6LoWPAN
 	\item[Next Header]
 	When DTLS is used, this field is constantly UDP(0x11).
 	\item[Hop Limit]
-	This field is solely processed at Network Layer and we suspect it is independent to the upper application. However, it depends on routing and therefore network topology, we expect to see the identical values within the same topology setup among different applications.
+	This field is solely processed at Network Layer and is independent to the upper application. However, it depends on the routing and therefore network topology, we expect to see the identical values within the same topology setup among different applications.
 %	\item[Source and Destination Address]
 %	As explained above, the address information is excluded form the potential leakage sources.
 \end{description}
@@ -261,7 +261,7 @@ For UDP Header described in \Cref{Subsec: UDP},
 
 \begin{description}[style=nextline]
 	\item[Source and Destination Port]
-	The ports are identical for the same application in our experiments. Practically speaking, the ports may leak which application a packet corresponds to; however, we do not consider this as a leakage as we assumed the adversary has prior knowledge of the application.
+	The ports are identical for the same application in our experiments. Practically speaking, the ports may leak which application a packet corresponds to; however, we do not consider this as a leakage as we assumed the adversary has prior knowledge of the application running on Sensor Nodes.
 	\item[Payload Length]
 	Similar to Payload Length in IPv6 Header, this value is redundant.
 	\item[Checksum]
@@ -269,7 +269,7 @@ For UDP Header described in \Cref{Subsec: UDP},
 \end{description}
 
 %DTLS Header
-The UDP Payload with DTLS can be either a Handshake Messages and a Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to any Application Data. However,  the Handshake Messages may contain the information of cryptographic key.
+The UDP Payload with DTLS can be either a Handshake Messages and a Data Records as explained in  \Cref{Subsec: DTLS}. Since the Handshake process is performed solely by the DTLS module, we consider it independent to application data. However,  the Handshake Messages may contain the information of the cryptographic key materials.
 
 With respect to DTLS Data Records,
 
@@ -286,4 +286,4 @@ With respect to DTLS Data Records,
 	This value is as redundant as other length fields in upper layer headers.
 \end{description}
 
-In conclusion, we have identified no obvious potential leakage in the unencrypted headers within DTLS.
+In conclusion, we have identified no obvious leakage source in the unencrypted headers within DTLS.

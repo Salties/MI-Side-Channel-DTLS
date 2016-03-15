@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, Swedish Institute of Computer Science.
+ * Copyright (c) 2013, Institute for Pervasive Computing, ETH Zurich
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,49 +26,41 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ * This file is part of the Contiki operating system.
  */
 
 /**
  * \file
- *         A simple webserver
+ *      Erbium (Er) CoAP client example
  * \author
- *         Adam Dunkels <adam@sics.se>
- *         Niclas Finne <nfi@sics.se>
- *         Joakim Eriksson <joakime@sics.se>
+ *      Matthias Kovatsch <kovatsch@inf.ethz.ch>
  */
 
-#ifndef HTTPD_SIMPLE_H_
-#define HTTPD_SIMPLE_H_
+#ifndef __ER_PLUGTEST_H__
+#define __ER_PLUGTEST_H__
 
-#include "contiki-net.h"
+#if !defined(CONTIKI_TARGET_NATIVE)
+#warning "Should only be compiled for native!"
+#endif
 
-/* The current internal border router webserver ignores the requested file name */
-/* and needs no per-connection output buffer, so save some RAM */
-#ifndef WEBSERVER_CONF_CFS_PATHLEN
-#define HTTPD_PATHLEN 2
-#else /* WEBSERVER_CONF_CFS_CONNS */
-#define HTTPD_PATHLEN WEBSERVER_CONF_CFS_PATHLEN
-#endif /* WEBSERVER_CONF_CFS_CONNS */
+#define DEBUG 0
+#if DEBUG
+#include <stdio.h>
+#define PRINTF(...) printf(__VA_ARGS__)
+#define PRINT6ADDR(addr) PRINTF("[%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x]", ((uint8_t *)addr)[0], ((uint8_t *)addr)[1], ((uint8_t *)addr)[2], ((uint8_t *)addr)[3], ((uint8_t *)addr)[4], ((uint8_t *)addr)[5], ((uint8_t *)addr)[6], ((uint8_t *)addr)[7], ((uint8_t *)addr)[8], ((uint8_t *)addr)[9], ((uint8_t *)addr)[10], ((uint8_t *)addr)[11], ((uint8_t *)addr)[12], ((uint8_t *)addr)[13], ((uint8_t *)addr)[14], ((uint8_t *)addr)[15])
+#define PRINTLLADDR(lladdr) PRINTF("[%02x:%02x:%02x:%02x:%02x:%02x]", (lladdr)->addr[0], (lladdr)->addr[1], (lladdr)->addr[2], (lladdr)->addr[3], (lladdr)->addr[4], (lladdr)->addr[5])
+#else
+#define PRINTF(...)
+#define PRINT6ADDR(addr)
+#define PRINTLLADDR(addr)
+#endif
 
-struct httpd_state;
-typedef char (* httpd_simple_script_t)(struct httpd_state *s);
+/* double expansion */
+#define TO_STRING2(x)  # x
+#define TO_STRING(x)  TO_STRING2(x)
 
-struct httpd_state {
-  struct timer timer;
-  struct psock sin, sout;
-  struct pt outputpt;
-  char inputbuf[HTTPD_PATHLEN + 24];
-/*char outputbuf[UIP_TCP_MSS]; */
-  char filename[HTTPD_PATHLEN];
-  httpd_simple_script_t script;
-  char state;
-};
+#define MAX_PLUGFEST_PAYLOAD 64 + 1       /* +1 for the terminating zero, which is not transmitted */
+#define MAX_PLUGFEST_BODY    2048
+#define CHUNKS_TOTAL         2012
 
-void httpd_init(void);
-void httpd_appcall(void *state);
-
-httpd_simple_script_t httpd_simple_get_script(const char *name);
-
-#define SEND_STRING(s, str) PSOCK_SEND(s, (uint8_t *)str, strlen(str))
-
-#endif /* HTTPD_SIMPLE_H_ */
+#endif /* __ER_PLUGTEST_H__ */

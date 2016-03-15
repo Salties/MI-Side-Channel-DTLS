@@ -137,7 +137,7 @@ The code from the tinydtls official website cannot be directly used on our platf
 
 In experiments with DTLS, we consider the adversary is a group of compromised Sensor Nodes in the WSN. In other words, not only having all access to packet transmitted over the network, the adversary is capable to send any crafted packets to any Sensor Node in the network as well. In experiments with TLS\_PSK\_WITH\_AES\_128\_CCM\_8 being the cipher suite, we assume the adversary has no knowledge of the pre shared keys in any other paired Sensor Nodes; otherwise any ciphertext is immediately broken. Similarly, when TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 is used, we assume the adversary has no knowledge of the private keys in other Sensor Nodes. In reality, such compromised Sensor Nodes can be Border Routers connected to adversary controlled Laptops deployed among the WSN. .
 
-\subsection{Overloading noncoresec and DTLS}
+\subsection{Overloading noncoresec and DTLS} \label{Overload Sec}
 
 Theoretically, it is possible to overload noncoresec with DTLS since they are implemented at different layers in the protocol stack. In another word, one can technically use noncoresec to provide MAC Layer security while using DTLS to provide Application Layer security.
 
