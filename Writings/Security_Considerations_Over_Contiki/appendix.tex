@@ -69,7 +69,7 @@ For those exploited traffic features in \Cref{Tbl: Classifiers in Traffic Analys
 	The is effectively the packet size.
 	
 	\item[Frequency Distribution of Length]
-	The same feature can be computed by packet sizes. However, since there are typically only two packets in a trace, the result is $0.5$ for the size of Request packet and $0.5$ for the size of Response packet. In a one packet Session there is only one value in the distribution with probability of $1$. This feature is applicable but with extremely low entropy of $1$ or $0$.
+	The same feature can be computed by packet sizes. However, since there are typically only two packets in a trace, the result is $0.5$ for the size of Request packet and $0.5$ for the size of Response packet. In a one packet Session there is only one value in the distribution with probability of $1$. We consider this feature as a constant given an application.
 	
 	\item[Size, HTML and Number Markers]
 	In a two packet Session there is only one direction change in a trace; thus the markers constantly mark the second packet. In an one packet Session this feature is not applicable.
@@ -93,7 +93,7 @@ For those exploited traffic features in \Cref{Tbl: Classifiers in Traffic Analys
 	Traffic burst is reduced to packet size in our applications as there is at most only one packet each direction.
 \end{description}
 
-According to \Cref{Cor: Constant Leakage}, features with constant value are non leakable features. 
+According to \Cref{Cor: Constant Leakage}, features with constant value are non leakable features. Therefore, the features above that can be potentially exploited are length, total bytes, total time and total per-direction bandwidth.
 
 \chapter{Quantified Leakage for Linear Packet Size} \label{Linear Leakage}
 
@@ -206,7 +206,7 @@ As explained in \Cref{Subsec: 802.15.4 MAC},
 			\item[Security Enabled]
 			When noncoresec is used, this field is constantly $1$
 			\item[ACK Required]
-			This is set to $1$ for all unicast messages and $0$ for multicast or broadcast messages.
+			This is set to $1$ for all unicast messages and $0$ for multicast and broadcast messages.
 		\end{description}
 	Therefore even the configurable messages are predictable and are unlikely to leak any information of the application data.
 	
