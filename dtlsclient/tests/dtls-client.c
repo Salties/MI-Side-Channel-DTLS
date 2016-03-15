@@ -32,7 +32,7 @@
 #define UNUSED_PARAM
 #endif /* __GNUC__ */
 
-static char buf[200];
+static char buf[1024];
 static size_t len = 0;
 
 typedef struct {
@@ -44,7 +44,7 @@ static dtls_str output_file = { 0, NULL }; /* output file name */
 
 static dtls_context_t *dtls_context = NULL;
 
-static int HandshakeComplete = 0;
+static int HandshakeCompleted = 0;
 
 static const unsigned char ecdsa_priv_key[] = {
 			0x41, 0xC1, 0xCB, 0x6B, 0x51, 0x24, 0x7A, 0x14,
@@ -187,6 +187,9 @@ static int
 read_from_peer(struct dtls_context_t *ctx, 
 	       session_t *session, uint8 *data, size_t len) {
   size_t i;
+
+  HandshakeCompleted = 1;
+
   for (i = 0; i < len; i++)
     printf("%c", data[i]);
   return 0;
@@ -197,11 +200,11 @@ send_to_peer(struct dtls_context_t *ctx,
 	     session_t *session, uint8 *data, size_t len) {
 
   int fd = *(int *)dtls_get_app_data(ctx);
-  if(!HandshakeComplete)
+  if(!HandshakeCompleted)
   {
-	  //printf("Press Enter to procees handshake:");
-	  //getchar();
-	  sleep(1);
+	  printf("Press Enter to proceed handshake:\n");
+	  fflush(stdout);
+	  getchar();
   }
   return sendto(fd, data, len, MSG_DONTWAIT,
 		&session->addr.sa, session->size);
@@ -437,6 +440,7 @@ main(int argc, char **argv) {
   }
 #endif
   on = 1;
+#if 0
 #ifdef IPV6_RECVPKTINFO
   if (setsockopt(fd, IPPROTO_IPV6, IPV6_RECVPKTINFO, &on, sizeof(on) ) < 0) {
 #else /* IPV6_RECVPKTINFO */
@@ -444,6 +448,7 @@ main(int argc, char **argv) {
 #endif /* IPV6_RECVPKTINFO */
     dtls_alert("setsockopt IPV6_PKTINFO: %s\n", strerror(errno));
   }
+#endif
 
   if (signal(SIGINT, dtls_handle_signal) == SIG_ERR) {
     dtls_alert("An error occurred while setting a signal handler.\n");
@@ -458,7 +463,7 @@ main(int argc, char **argv) {
 
   dtls_set_handler(dtls_context, &cb);
 
-  HandshakeComplete = !dtls_connect(dtls_context, &dst);
+  dtls_connect(dtls_context, &dst);
 
   while (1) {
     FD_ZERO(&rfds);
@@ -468,7 +473,7 @@ main(int argc, char **argv) {
     FD_SET(fd, &rfds);
     /* FD_SET(fd, &wfds); */
     
-    timeout.tv_sec = 5;
+    timeout.tv_sec = 120;
     timeout.tv_usec = 0;
     
     result = select(fd+1, &rfds, &wfds, 0, &timeout);
