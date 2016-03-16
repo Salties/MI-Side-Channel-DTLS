@@ -4,8 +4,53 @@ Support of PING is required by \cite{rfc1122} and is also enabled in Contiki OS 
 
 \section{Scenario Setting}
 
-In this attack, we use a different 
+In this attack, we consider a different scenario where the adversary is connected into the 6LoWPAN network and is able to send packets to a specific Sensor Node. As we have explained in \Cref{Subsec: ICMPv6}, ICMP ECHO is not authenticated; therefore it is always possible for the adversary to PING any target node in the network. An overview of such scenario is as depicted in \Cref{Fig: Scenario of PINGLOAD}.
 
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=0.8\textwidth]{fig/PINGLOAD_scenario.png}
+	\caption{Scenario of PINGLOAD}
+	\label{Fig: Scenario of PINGLOAD}
+\end{figure*}
+
+In this scenario, we assume the Manager engages with the target Sensor Node in Sessions. The Adversary Node is connected into the network and sends ICMP ECHO Requests (PING Request) to the Sensor Node. The Sensor Node, by default enabled by the Contiki system, replies with ICMP ECHO Responses (PING Respon. All packets are captured by the Adversary controlled Sniffer. \Cref{Fig: Time line of PINGLOAD} shows the time line of this scenario.
+
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=0.8\textwidth]{fig/PINGLOAD_time.png}
+	\caption{Time line of \Cref{Fig: Scenario of PINGLOAD}}
+	\label{Fig: Time line of PINGLOAD}
+\end{figure*}
+
+\section{Phenomenon}
+
+In our experiments, we realised that the latency between PING Request and PING Response varies according to the status of the Sensor Node. To be more specifically, the PING latency is apparently lower when the Sensor Node is not processing the Request sent by the Manager. The concept is shown in \Cref{Fig: Concept of PINGLOAD}. 
+
+\begin{figure*}[h!]
+	\center
+	\includegraphics[width=0.8\textwidth]{fig/PINGLOAD_concept.png}
+	\caption{Concept of PINGLOAD}
+	\label{Fig: Concept of PINGLOAD}
+\end{figure*}
+
+This indicates that there is a potential leakage of the status of Sensor Node over the PING latency.
+
+\section{Proof of Concept Experiment}
+
+We set up a series of experiments to proof the potential of such side channel information leakage. The experiments are done in Cooja simulator with Wismote. The experiment WSN is set up as \Cref{Fig: Proof of concept experiment of PINGLOAD}.
+
+\begin{figure*}
+	\center
+	\includegraphics[width=0.5\textwidth]{fig/PINGLOAD_PoC.png}
+	\caption{Proof of concept experiment of PINGLOAD. \textcirculed{1} is a border router and \textcirculed{2} is the target Sensor Node.}
+	\label{Fig: Proof of concept experiment of PINGLOAD}
+\end{figure*}
+
+In this experiment, two procedure on our Linux host are used to simulate the Manager and the Adversary respectively. We argue this is equivalent to the settings of \Cref{Fig: Scenario of PINGLOAD} as we are evaluating the latency between PING Requests and PING Responses and thus the source of the PING Request is irrelevant in this experiment.
+
+The target Sensor Node runs the dtlspingload application we explained in \Cref{Sec: Applications}. In this application, the Sensor Node establishes a DTLS connection with the Manager. Upon receiving a Request, the Sensor Node calls a ReadSensor() function to generate the data and replies that data to Manager, simulating a typical scenario in WSN. 
+
+For this experiment, we defined two types of ReadSensor() functions. 
 
 %
 %\subsection{Hypothesis} \label{Sec: pingload hypothesis}
