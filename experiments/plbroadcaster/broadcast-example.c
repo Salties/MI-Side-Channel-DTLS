@@ -50,6 +50,8 @@
 
 static struct simple_udp_connection broadcast_connection;
 
+static int secret = 256;
+
 /*---------------------------------------------------------------------------*/
 PROCESS(broadcast_example_process, "UDP broadcast example process");
 AUTOSTART_PROCESSES(&broadcast_example_process);
@@ -63,15 +65,27 @@ receiver(struct simple_udp_connection *c,
          const uint8_t *data,
          uint16_t datalen)
 {
-  printf("Data received on port %d from port %d with length %d\n",
+  printf("Data received on port %d from port %d with length %d.\n",
          receiver_port, sender_port, datalen);
 }
 /*---------------------------------------------------------------------------*/
+
+int ReadSensor()
+{
+	int i, read;
+	
+	for(i = 0; i<secret; i++)
+		read = random_rand()%100;
+
+	return read;
+}
+
 PROCESS_THREAD(broadcast_example_process, ev, data)
 {
   static struct etimer periodic_timer;
   static struct etimer send_timer;
   uip_ipaddr_t addr;
+  int read;
 
   PROCESS_BEGIN();
 
@@ -88,7 +102,10 @@ PROCESS_THREAD(broadcast_example_process, ev, data)
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
     printf("Sending broadcast\n");
     uip_create_linklocal_allnodes_mcast(&addr);
-    simple_udp_sendto(&broadcast_connection, "Test", 4, &addr);
+
+    //simple_udp_sendto(&broadcast_connection, "Test", 4, &addr);
+    read = ReadSensor();
+    simple_udp_sendto(&broadcast_connection, &read, sizeof(read), &addr);
   }
 
   PROCESS_END();

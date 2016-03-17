@@ -1,14 +1,21 @@
 \chapter{Link Layer Security: noncoresec} \label{Chp: LLSEC}
 
-In this chapter, we provide an analysis for the Link Layer security measure noncoresec, which we have explained in \Cref{Subsec: 802.15.4 Security Implementation in Contiki}.
+In this chapter, we analysis the Link Layer security measure in Contiki, noncoresec.
 
 \section{Protocol and Implementation}
-%Reset Problem
-In this section, we analysis the noncoresec implementation with respect to the problems described by \cite{802154sec}. 
+
+\cite{802154sec} has introduced some problems induced by the design of 802.15.4 security, as we has summarised in \Cref{Subsec: 802154 Sec Issue}. Since noncoresec supports only network shared key, we do not consider the key management issues mentioned in \cite{802154sec}. As a result, there are two potential problems left on our platform:
+
+\begin{enumerate}
+	\item Nonce reuse
+	\item Incompatible anti replay
+\end{enumerate}
+
+In this section, we analyse the noncoresec implementation with respect to these two potential problems.
 
 \subsection{Nonce Reuse}
 
-As we have explained in \Cref{Subsec: 802154 Nonce}, the only variable field in the nonce is Frame Counter. Since noncoresec only supports network shared key, there are two potential problems according to \cite{802154sec}, namely nonce reuse and anti replay. Further inspecting the source code, we realised that the counter is declared as a static value and is initialised to $0$ on each reboot.
+As we have explained in \Cref{Subsec: 802154 Nonce}, the only variable field in the nonce is Frame Counter. Since noncoresec only supports network shared key. Inspecting the source code, we realised that the Frame Counter is declared as a static value and therefore is initialised to $0$ on each reboot.
 
 Our experiments confirmed the vulnerability. We simulated two executions of  broadcast\_example of keyllsec in \Cref{Sec: Applications}, broadcasting the same message. Our data\cite{NonceReuseData} showed that frames with the same Frame Counter results into the same ciphertext. In reality, this vulnerability implies that an adversary capable to reset the device can eventually learn the difference in plaintext by calculating the difference of ciphertext with the same Frame Counter, causing severe breach of data confidentiality.
 
@@ -18,15 +25,31 @@ One solution might be to store part of the Frame Counter on the flash and increa
 
 \cite{802154sec} has pointed out that anti replay in 802.15.4 Security is incompatible with network key as the same ACL entry is shared among multiple nodes, causing confusion of Replay Counter in ACL. However, with an inspection of the source code of Contiki, we realised that the noncoresec does not suffer the same problem as the ACL is not implemented; instead, a similar data structure is added to the routing table in kernel  associated to each source address.
 
-\section{Common Analysis}
+\section{Packet Feature Analysis}
 
-%Packet Length
+In this section, we analyse the general packet features of WSN protected by noncoresec. We focus on the following subjects:
 
-%Timing for encryption
+\begin{enumerate}
+	\item Frame length
+	\item Encryption timing
+\end{enumerate}
 
-%RPL Messages
+During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by inspecting the MAC destination address and frame length, even though it is part of the encrypted MAC Payload.
+
+\subsection{Frame Length} 
+
+As described in \Cref{Subsec: 802154 Sec}, when 802.15.4 Security is enabled, the MAC Frame will have an additional Auxiliary Security Header and MIC. Since no Key Strategy support is implemented and we imposed Security Level $7$ in all our related applications, it is expected that noncoresec will linearly increases the frame length as explained in \Cref{Semantic Packet Size}.
+
+%With broadcast
+
+%With unicast
+
+\subsection{Encryption Timing}
+
+\subsection{RPL Messages}
 
 %Sequence Numbers
+%No need to do this any more...
 
 \section{Application Analysis}
 
