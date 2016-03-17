@@ -130,7 +130,7 @@ All other features have reduced to a constant or not applicable in our settings.
 
 In this section, we analysis the observables in \Cref{Sec: Observables} based on their semantics. The contents of headers can be referred to \Cref{Chp: Building Blocks}.
 
-\subsubsection{Packet Size}
+\subsubsection{Packet Size} \label{Semantic Packet Size}
 
 %Linear relationship of length
 We noticed that both noncoresec and DTLS use AES-128 with CCM mode to encrypt their payload. The data is therefore not padded due to the nature of a stream cipher. This effectively indicates that the length of a plaintext $l_P$ is expected to be linear to the length of its corresponding ciphertext $l_C$:

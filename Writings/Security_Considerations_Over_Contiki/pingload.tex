@@ -93,22 +93,18 @@ We also use the term ``payload'' to denote the application code being executed o
 
 As a base line comparison, we collected the pingload data from the helloworld application, i.e. the Sensor Node is put into eternal sleep after printing a line of ``Hello, world!''. In another word, there is no payload in this application.
 
-Not surprisingly, the PING latencies are mostly small values between $12$ and $13$ ms. There is only one exception in the experiment which is $293$ ms. We suspect this is caused by the Sensor Node executing kernel code.
 
-\begin{figure*}
+\begin{figure*}[h!]
 	\centering
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.4\textwidth]{fig/sleepRI.png}
-		\caption{Histogram of helloworld pingload}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.4\textwidth]{fig/sleepRI.png}
-		\caption{CDF of helloworld pingload}
-	\end{subfigure}
+	\includegraphics[width=0.8\textwidth]{fig/helloworld.png}
+	\caption{Histogram of helloworld pingload}
 \end{figure*}
 
+\begin{figure*}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{fig/helloworldcdf.png}
+	\caption{CDF of helloworld pingload}
+\end{figure*}
 
 %
 %\subsection{Hypothesis} \label{Sec: pingload hypothesis}

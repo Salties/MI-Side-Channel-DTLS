@@ -35,13 +35,12 @@
 #define UIP_FALLBACK_INTERFACE rpl_interface
 #endif
 
-#if 1
 #ifndef QUEUEBUF_CONF_NUM
-#define QUEUEBUF_CONF_NUM       64
+#define QUEUEBUF_CONF_NUM       20
 #endif				
 
 #ifndef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE    256
+#define UIP_CONF_BUFFER_SIZE    512
 #endif
 
 #ifndef UIP_CONF_RECEIVE_WINDOW
@@ -50,7 +49,6 @@
 
 #ifndef WEBSERVER_CONF_CFS_CONNS
 #define WEBSERVER_CONF_CFS_CONNS 2
-#endif
 #endif
 
 #endif /* PROJECT_ROUTER_CONF_H_ */
