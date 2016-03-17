@@ -131,7 +131,7 @@ def GetResponseIntervals(records, client, server):
 	    respintv = records[lastrpy].time - records[lastreq].time;
 	    #Record it if within timeout.
 	    if respintv <= timeout:
-		ri.append(int(respintv));
+		ri.append(respintv);
 	i += 1;
     
     return ri;
@@ -158,7 +158,10 @@ for rec in records:
     rec.PrintRecord();
 
 #Extrac response interval from records.
-ri = GetResponseIntervals(records, client, server);
-print "RIs = %s" % str(ri);
+ris = GetResponseIntervals(records, client, server);
+print "RIs =\n";
+for ri in ris:
+    print "%.3f" % ri,;
+print "";
 
 exit();
