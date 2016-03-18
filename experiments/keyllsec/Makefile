@@ -5,7 +5,9 @@ CONTIKI=$(CONTIKI_ROOT)
 APPS+=servreg-hack
 
 CONTIKI_WITH_IPV6 = 1
-
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+
+#Enable LLSEC
+CFLAGS += -DENABLE_LLSEC
 
 include $(CONTIKI)/Makefile.include
