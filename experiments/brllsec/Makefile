@@ -7,6 +7,7 @@ CONTIKI=${CONTIKI_ROOT}
 SMALL=1
 
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+CFLAGS += -DENABLE_LLSEC
 PROJECT_SOURCEFILES += slip-bridge.c
 
 #Simple built-in webserver is the default.

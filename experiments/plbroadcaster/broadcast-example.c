@@ -45,12 +45,12 @@
 
 #define UDP_PORT 1234
 
-#define SEND_INTERVAL		(20 * CLOCK_SECOND)
+#define SEND_INTERVAL		(5 * CLOCK_SECOND)
 #define SEND_TIME		(random_rand() % (SEND_INTERVAL))
 
 static struct simple_udp_connection broadcast_connection;
 
-static int secret = 256;
+static int secret = 512;
 
 /*---------------------------------------------------------------------------*/
 PROCESS(broadcast_example_process, "UDP broadcast example process");

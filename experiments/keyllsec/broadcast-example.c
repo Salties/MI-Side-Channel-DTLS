@@ -51,10 +51,11 @@
 static struct simple_udp_connection broadcast_connection;
 
 //static uint8_t sendbuf[4] = {0x00, 0x00, 0x00, 0x00};
-static uint8_t sendbuf[4]={0x12,0x34,0x56,0x78};
+//static uint8_t sendbuf[4]={0x12,0x34,0x56,0x78};
 //static uint8_t sendbuf[4]={0xff,0xff,0xff,0xff};
+static uint8_t sendbuf[]={'H','E','L','L','O'};
 
-static int sendlen = 4;
+static int sendlen = sizeof(sendbuf);
 
 /*---------------------------------------------------------------------------*/
 PROCESS(broadcast_example_process, "UDP broadcast example process");

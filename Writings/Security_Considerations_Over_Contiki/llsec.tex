@@ -30,23 +30,100 @@ One solution might be to store part of the Frame Counter on the flash and increa
 In this section, we analyse the general packet features of WSN protected by noncoresec. We focus on the following subjects:
 
 \begin{enumerate}
-	\item Frame length
+	\item Frame Size
 	\item Encryption timing
 \end{enumerate}
 
-During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by inspecting the MAC destination address and frame length, even though it is part of the encrypted MAC Payload.
+During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by inspecting the MAC destination address and frame size, even though it is part of the encrypted MAC Payload.
 
-\subsection{Frame Length} 
+\subsection{Frame Size} 
 
-As described in \Cref{Subsec: 802154 Sec}, when 802.15.4 Security is enabled, the MAC Frame will have an additional Auxiliary Security Header and MIC. Since no Key Strategy support is implemented and we imposed Security Level $7$ in all our related applications, it is expected that noncoresec will linearly increases the frame length as explained in \Cref{Semantic Packet Size}.
+As described in \Cref{Subsec: 802154 Sec}, when 802.15.4 Security is enabled, the MAC Frame will have an additional Auxiliary Security Header and MIC. Since no Key Strategy support is implemented and we imposed Security Level $7$ in all our related applications, it is expected that noncoresec will linearly increases the frame size as explained in \Cref{Semantic Packet Size}.
 
-%With broadcast
+Theoretically, the value of $b$ in \Cref{Eq: Linear Length} for noncoresec is $21$, for $5$ bytes from Auxiliary Header\footnote{Security Level together with Key Strategy are aligned into $1$ byte.} and $16$ bytes from the $128$ bits MIC. 
 
-%With unicast
+%With broadcast and unicast respectively.
+Our Cooja simulation confirmed this conjecture. We have done two groups of experiments on TelosB mote simulator, one with keyllsec broadcast application and the other with unicast application.
+
+An example data is available at: \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/frame_size}
+
+\subsubsection{Broadcast}
+In case of broadcast without noncoresec, the relation of application data, i.e. UDP Payload, size $l_D$ and plaintext MAC Frame size $l_P$ in bytes are:
+\begin{equation}
+	l_D = l_{P} - 66
+\end{equation}
+
+With noncoresec enabled, the application data size $l^{\prime}_D$ and ciphertext MAC Frame size $l_C$ are:
+\begin{equation} \label{Eq: broadcast llsec data size}
+	l^{\prime}_D = l_{C} - 87
+\end{equation}
+
+Assuming the same application data is sent, i.e. $l_D = l^{\prime}_D$, the change of frame size induced by noncoresec is:
+\begin{equation}
+	b = l_C - l_P = (l^{\prime}_D + 87) - (l_D + 66) = 21
+\end{equation}
+
+\subsubsection{Unicast}
+
+In case of keyllsec unicast application, we have:
+
+\begin{equation}
+	l_D= l_P - 80
+\end{equation}
+
+\begin{equation} \label{Eq: unicast llsec data size}
+	l^{\prime}_D = l_{C} - 101 
+\end{equation}
+
+Therefore, 
+\begin{equation}
+	b = l_C - l_P = (l^{\prime}_D + 87) - (l_D + 66) = 21
+\end{equation}
+
+which is exactly the expected value.
+
+\subsubsection{Summary}
+
+In either cases, the size of additional data induced by noncoresec is $21$ bytes. Specifically, \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} can be used to deduce the application data size in frames protected by noncoresec.
 
 \subsection{Encryption Timing}
 
 \subsection{RPL Messages}
+
+ICMPv6 messages are used for IPv6 network maintenance. Specifically, RPL messages are a family of ICMPv6 messages those are directly responsible in forming and maintaining a 6LoWPAN network. 
+
+ICMP messages are solely handled by the Contiki kernel and are thus transparent to  upper layer applications. Some of them, including RPL messages, are generated spontaneously by the Contiki kernel even when no application is running. We observed three RPL messages in our experiments, which are DIS, DIO and DAO. Four ICMPv6 messages are also observed, namely NS, NA and Echo messages. The semantic of these ICMPv6 messages are described in \Cref{Subsec: ICMPv6}.
+
+Further more, we realised all these ICMPv6 messages has distinctive packet features with respect to the combination of packet size and destination address family. We summarise the packet features in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}.
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|c|}
+		\hline
+		       & Packet Size (bytes) & 802.15.4 Destination Address \\ \hline
+		DIS    & 85                  & 0xffff                       \\ \hline
+		DIO(1) & 118                 & 0xffff                       \\ \hline
+		DIO(2) & 123                 & unicast                      \\ \hline
+		DAO    & 97                  & unicast                      \\ \hline
+		NS (1) & 87                  & 0xffff                       \\ \hline
+		NS (2) & 87                  & unicast                      \\ \hline
+		NA     & 87                  & unicast                      \\ \hline
+		ECHO   & 112(*)               & unicast                      \\ \hline
+	\end{tabular}
+	\caption{Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec, where 0xffff is the Link Layer broadcast address.}
+	\label{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}
+\end{table}
+
+
+\paragraph{Explanation of \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}}
+\begin{enumerate}
+	\item DIO and NS message can be sent in either multicast or unicast. The broadcast DIO message is smaller than the unicast one as it uses an abbreviated IPv6 multicast address ``ff02::1a''. NS uses another multicast destination address, ``ff02::1:ff00:0'', which has the same length as an unicast address. However, both of them are translated to the same ``ffff'' Link Layer broadcast address in 802.15.4 MAC Header.
+	%ICMP ECHO fragmentation in Wismote network.
+	\item The size of ICMP ECHO Request and Response may vary due to its payload. On our host machine which runs on Ubuntu 15.04, the default ping command payload is 56 bytes which is expected to result into a frame of 157 bytes, exceeding the MTU required by \cite{802154}.
+	%No NS and NA in Sky network.
+\end{enumerate}
+
 
 %Sequence Numbers
 %No need to do this any more...

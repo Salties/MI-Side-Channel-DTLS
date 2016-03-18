@@ -1,10 +1,10 @@
-\chapter{Preliminaries:\\ Building Blocks of WSN} \label{Chp: Building Blocks}
+\chapter{Preliminaries: Building Blocks of WSN} \label{Chp: Building Blocks}
 
 In this chapter, we introduce the building blocks of a WSN using OSI model\cite{OSI}.
 
 The data channel in OSI model is descried as a set of protocols stacked layer by layer from the Physical Layer at the bottom to the Application Layer at the top (\Cref{fig: OSI model}). Ideally, lower layer protocols provide an universal  interface to upper layer protocols; thus providing flexibility to protocol choice in different scenarios as well as interoperability between nodes with different lower level structures.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	{
 		\includegraphics[width=0.4\textwidth,]{fig/Osi-model-jb.png}
@@ -14,7 +14,7 @@ The data channel in OSI model is descried as a set of protocols stacked layer by
 
 \Cref{fig: OSI channel} demonstrates a typical data transmission in OSI modelled network. The application data is encapsulated by the sender from top to the bottom, with each encapsulation adds additional metadata, namely protocol headers, to the data. The receiver unwinds the process and reads out the data.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	{
 		\includegraphics[width=0.6\textwidth,]{fig/osi-model.png}
@@ -37,7 +37,7 @@ WSN features, as can be seen by its name, wireless connectivity. 802.15.4\cite{8
 
 \Cref{Fig: 802.15.4 PHY Frame} shows the constitution of a Physical Layer frame. A frame is a bit string transmitted sequentially from the left in the figure to the right. We use the same representations for the rest in \Cref{Chp: Building Blocks}.
 
-\begin{table}[h!]
+\begin{table}[th!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline
@@ -77,7 +77,7 @@ As of this research, we are more focused on the contents in a MAC Frame defined 
 
 We are particularly interested in Data frames as they are most relevant to application data. \Cref{Fig: 802154 Data Frame} describes its format.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
 		\multicolumn{3}{c}{\textit{MAC Header}}                           & \multicolumn{1}{c}{\textit{MAC Payload}} & \multicolumn{1}{c}{\textit{MAC Footer}}     \\ \hline
@@ -116,7 +116,7 @@ Setting the security flag in Frame Control enables 802.15.4 Security and adds ad
 
 The format of a 802.15.4 Data frame with security option set is described in \Cref{Fig: 802154 sec frame}.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\multicolumn{4}{c}{\textit{MAC Header}}                                                             & \multicolumn{2}{c}{\textit{MAC Payload}} & \multicolumn{1}{c}{\textit{MAC Footer}}     \\ \hline
@@ -128,7 +128,7 @@ The format of a 802.15.4 Data frame with security option set is described in \Cr
 
 The Auxiliary Security Header controls the security primitive and materials in 802.15.4 Security as shown in \Cref{Fig: Auxiliary Security Header of 802.15.4 Security}.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\begin{tabular}{|c|c|c|}
 	\hline
@@ -175,7 +175,7 @@ One thing to be noticed is that neither Key Strategy nor ACL is implemented on o
 \subsection{Nonce of CCM* in 802.15.4 Security} \label{Subsec: 802154 Nonce}
 As stated earlier in \Cref{Subsec: 802154 Sec}, CCM* requires that the format of ciphertext can be uniquely deduced from the nonce. \Cref{Fig: CCM nonce} describes the nonce used for encryption.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|}
 		\hline 
@@ -249,7 +249,7 @@ There are two typical types of network in WSN applications:
 
 %Some network are built with a hybrid approach of star network and mesh network, e.g. the Cluster Tree Network of Zigbee\cite{Zigbee} as showed in \Cref{fig: ZigBee Topologies}.
 %
-%\begin{figure*}[h!]
+%\begin{figure*}[th!]
 %	\centering
 %	{
 %		\includegraphics[width=0.7\textwidth,]{fig/ZigBeeTopologies.png}
@@ -281,7 +281,7 @@ We give a brief explanation of their contents in \Cref{Subsec: IPv6 Data Packets
 \subsection{6LoWPAN Adaptation Sub Layer} \label{Subsec: 6LoWPAN Adaptation Sub Layer}
 A sub layer is defined in 6LoWPAN standard\cite{rfc4944} which adapts IPv6\cite{rfc2460} to constrained environment by header compression. An adaption headers is prepended before the IPv6 header as shown in \Cref{Fig: 6LoWPAN Adaptation Header}. 
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	\begin{tabular}{|l|l|l|}
 		\hline
@@ -307,7 +307,7 @@ IPv6 Data Packets carry the IPv6 Payload. In 6LoWPAN, the IPv6 header is compres
 
 IPv6 packet is defined in \cite{rfc2460}. We show its basic format in \Cref{Fig: Basic IPv6 Packet Format}. Length information are omitted in the figure as they are inconsistent when compressed.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 \center
 	\begin{tabular}{l|c|c|c|c|c|c|}
 	\cline{2-7}
@@ -354,7 +354,7 @@ Internet Control Message Protocol for IPv6, ICMPv6, is a set of messages that ar
 %IPv6 General Format
 In IPv6, an ICMP messages is preceded by an IPv6 Basic Header and optional IPv6 extension headers with the last Next Header field set to ICMP as in \Cref{Fig: ICMP with IPv6}. The IP Payload in \Cref{Fig: Basic IPv6 Packet Format} is replaced by an ICMP message in this case.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	\begin{tabular}{|l|l|l|}
 		\hline
@@ -365,7 +365,7 @@ In IPv6, an ICMP messages is preceded by an IPv6 Basic Header and optional IPv6 
 \end{figure*}
 
 The general format of an IPv6 message is described in \cite{rfc4443} as \Cref{Fig: General Format of ICMPv6 Message}.
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\centering
 	\begin{tabular}{|c|c|c|c|}
 	\hline
@@ -397,7 +397,7 @@ We explain only a minor set of ICMP Messages that we have successfully observed 
 	\item[\textbf{RPL Messages}]
 	A family of ICMPv6 messages, RPL Messages, are defined by \cite{rfc6550}. RPL Messages are fundamental in foundation and self-organisation a 6LoWPAN network. A 6LoWPAN network instance is a Destination Oriented Directed Acyclic Graph, DODAG, shown in \Cref{Fig: DODAG}. 
 
-	\begin{figure*}[h!]
+	\begin{figure*}[th!]
 		\center
 		\includegraphics[width=0.6\textwidth]{fig/dodag.png}
 		\caption{A DODAG}
@@ -416,6 +416,15 @@ We explain only a minor set of ICMP Messages that we have successfully observed 
 	\end{description}
 	
 	\cite{rfc6550} also defined secure variants to these RPL Messages which provides authentication as well as confidentiality. However, they are not implemented on our platform and therefore we omit their details in this report.
+	
+	\item[Neighbour Solicitation (NS) and Neighbour Advertisement (NA)]
+	NS and NA messages are defined by \cite{rfc4861}. They are the IPv6 replacement of the ARP protocol in IPv4. A node sends a NS message under two circumstances:
+	\begin{enumerate}
+		\item It quires for a corresponding MAC address of an IPv6 address. In this case, the NS message is sent to a multicast\footnote{Broadcast is an instance of multicast in IPv6.} address.
+		\item It verifies the validity of a Link Layer connection. In this case, NS is sent as an unicast.
+	\end{enumerate}
+	NA message is sent in response to an NS message, to answer the corresponding MAC address as well a confirmation to the Link Layer connectivity.
+	
 \end{description}
 
 \section{Transport Layer} \label{Sec: Transport Layer}
@@ -427,7 +436,7 @@ TCP and UDP are the most widely used Transport Layer protocols over Internet. TC
 
 UDP is defined by \cite{rfc768}. The format of an UDP datagram is shown in \Cref{Fig: UDP Datagram Format}.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\begin{tabular}{ccccc}
 		\multicolumn{4}{c}{\textit{UDP Header}}                                                                                                                & \textit{UDP Payload}         \\ \hline
@@ -468,7 +477,7 @@ DTLS\cite{rfc6347} stands for Datagram Transport Layer Security, the datagram va
 
 A DTLS packet is called a record. Its format is as depicted in \Cref{Fig: DTLS Record Format}.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\begin{tabular}{cccccc}
 		\multicolumn{5}{c}{\textit{DTLS Header}}                                                                                                                                     & \textit{DTLS Encrypted Payload} \\ \hline
@@ -522,7 +531,7 @@ Constrained Application Protocol, CoAP, is a general application framework defin
 \end{itemize}
 
 We show an example of the execution of CoAP protocol in \Cref{Fig: An Example of CoAP}.
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\includegraphics[width=1\textwidth]{fig/CoapExample.png}
 	\caption{An Example of CoAP}
@@ -542,7 +551,7 @@ In the example of \Cref{Fig: An Example of CoAP}, the CoAP server is a CC2538 no
 In addition, CoAP also provides a lightweight reliable transmission mechanism including fragmentation\cite{CoapBlock}; therefore some context uses CoAP as a reliable transmission protocol that is an alternative of TCP. For example, \cite{CoDTLS} proposes to use CoAP to perform the DTLS handshake instead of the built in retransmission mechanism of DTLS. CoAP also supports multicast messages as it is based on UDP, comparing to HTTP which is generally based on TCP and  hence supports only one to one communication.
 
 \Cref{Fig: CoAP Message Format} describes the format of a CoAP message. The Token and Options uses a length-value representation. The length of Payload is not explicitly stated but is calculated by the payload length of upper layer protocol.
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 	\hline
@@ -609,7 +618,7 @@ Erbium\cite{Erbium} project is the CoAP implementation on Contiki, described in 
 \subsection{CoAPs} \label{Subsec: CoAPs}
 CoAPs is the security version of CoAP which is a counterpart of HTTPS to HTTP. CoAPs adopts DTLS as the security measure. Any CoAP message should be encrypted as DTLS payload when using CoAPs. CoAPs is defined by \cite{rfc7252}. An overview of CoAPs meesage is shown in \Cref{Fig: CoAPs Message}.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\begin{tabular}{cc}
 		\textit{}                                  & \textit{DTLS Encrypted Payload}            \\ \hline
@@ -637,7 +646,7 @@ Comparing to 6LoWPAN, RIME Stack is more flexible and efficient. However, since 
 %Protocol suite
 In \Cref{Chp: Building Blocks} we introduced a set of building blocks that could be use to build a secure WSN.  We introduced the protocol stack layer by layer within a simplified OSI model, as summarised in \Cref{Tbl: Summary of WSN Building Blocks}:
 
-\begin{table*}[h!]
+\begin{table*}[th!]
 	\center
 	\begin{tabular}{|c|c|c|}
 		\hline

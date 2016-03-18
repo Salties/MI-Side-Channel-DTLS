@@ -35,24 +35,23 @@
 #define UIP_FALLBACK_INTERFACE rpl_interface
 #endif
 
-#if 0
 #ifndef QUEUEBUF_CONF_NUM
-#define QUEUEBUF_CONF_NUM          4
+#define QUEUEBUF_CONF_NUM       20
 #endif
 
 #ifndef UIP_CONF_BUFFER_SIZE
-#define UIP_CONF_BUFFER_SIZE    140
+#define UIP_CONF_BUFFER_SIZE    200
 #endif
 
 #ifndef UIP_CONF_RECEIVE_WINDOW
-#define UIP_CONF_RECEIVE_WINDOW  60
+#define UIP_CONF_RECEIVE_WINDOW  120
 #endif
 
 #ifndef WEBSERVER_CONF_CFS_CONNS
 #define WEBSERVER_CONF_CFS_CONNS 2
 #endif
-#endif
 
+#ifdef ENABLE_LLSEC
 #undef NETSTACK_CONF_LLSEC
 #define NETSTACK_CONF_LLSEC noncoresec_driver
 #undef LLSEC802154_CONF_SECURITY_LEVEL
@@ -65,5 +64,6 @@
 	0x0C , 0x0D , 0x0E , 0x0F \
 }
 
+#endif
 
 #endif /* PROJECT_ROUTER_CONF_H_ */
