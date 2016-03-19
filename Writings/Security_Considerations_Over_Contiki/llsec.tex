@@ -11,7 +11,7 @@ In this chapter, we analysis the Link Layer security measure in Contiki, noncore
 	\item Incompatible anti replay
 \end{enumerate}
 
-In this section, we analyse the noncoresec implementation with respect to these two potential problems.
+In this section, we analyse the noncoresec implementation with respect to these two potential problems. The term ``broadcast'' in this section represents Link Layer broadcast.
 
 \subsection{Nonce Reuse}
 
@@ -95,7 +95,7 @@ ICMPv6 messages are used for IPv6 network maintenance. Specifically, RPL message
 
 ICMP messages are solely handled by the Contiki kernel and are thus transparent to  upper layer applications. Some of them, including RPL messages, are generated spontaneously by the Contiki kernel even when no application is running. We observed three RPL messages in our experiments, which are DIS, DIO and DAO. Four ICMPv6 messages are also observed, namely NS, NA and Echo messages. The semantic of these ICMPv6 messages are described in \Cref{Subsec: ICMPv6}.
 
-Further more, we realised all these ICMPv6 messages has distinctive packet features with respect to the combination of packet size and destination address family. We summarise the packet features in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}.
+Further more, we realised all these ICMPv6 messages has distinctive packet features with respect to the combination of packet size and destination address family. We summarise the packet features in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, where ``0xffff'' is the Link Layer broadcast address.
 
 \begin{table}[ht!]
 	\center
@@ -120,15 +120,41 @@ Further more, we realised all these ICMPv6 messages has distinctive packet featu
 \begin{enumerate}
 	\item DIO and NS message can be sent in either multicast or unicast. The broadcast DIO message is smaller than the unicast one as it uses an abbreviated IPv6 multicast address ``ff02::1a''. NS uses another multicast destination address, ``ff02::1:ff00:0'', which has the same length as an unicast address. However, both of them are translated to the same ``ffff'' Link Layer broadcast address in 802.15.4 MAC Header.
 	%ICMP ECHO fragmentation in Wismote network.
-	\item The size of ICMP ECHO Request and Response may vary due to its payload. On our host machine which runs on Ubuntu 15.04, the default ping command payload is 56 bytes which is expected to result into a frame of 157 bytes, exceeding the MTU required by \cite{802154}.
+	\item The size of ICMP ECHO Request and Response may vary due to its payload. On our host machine which runs on Ubuntu 15.04, the default ping command payload is 56 bytes which is expected to result into a frame of 157 bytes, exceeding the MTU required by \cite{802154} and causes fragmentation. The ``-s'' option is therefore used to reduce the size of ICMP ECHO packets. Theoretically, any packet less than 802.15.4 MTU, i.e. 127 bytes, should not be fragmented; however, in our experiments, we realised that ICMP ECHO packets larger than $107$ bytes, i.e. with payload more than $6$ bytes, will be fragmented. We have not identified the exact reason but we consider this might be a bug of implementation.
 	%No NS and NA in Sky network.
+	\item Different ICMPv6 messages maybe observed on different platforms. In our experiments, there is no NS and therefore NA observed in WSN built with TelosB.
 \end{enumerate}
 
+%Less than minimum size ICMP.
+Recalling \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size}, the minimum sizes of application packets, i.e. $l_D = 1$, are 88 bytes and 102 bytes respectively; therefore packets with size less than these values can immediately categorised as non application packets, which are basically ICMPv6 messages in practice. Therefore, some of these ICMPv6 messages can be distinguished in the traffic. We  represent the frame size and destination address combination in a two dimension vector $<l, dst>$ where $l$ is the size of frame in bytes and $dst \in \{\text{unicast}, \text{broadcast}\}$.
+
+\begin{table}[ht!]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		Packet Feature                     & ICMPv6 Message \\ \hline
+		\textless85, broadcast\textgreater & DIS            \\ \hline
+		\textless87, broadcast\textgreater & NS             \\ \hline
+		\textless97, unicast\textgreater   & DAO            \\ \hline
+		\textless87, unicast\textgreater   & NS / NA        \\ \hline
+	\end{tabular}
+	\caption{Distinguishable ICMP Messages}
+	\label{Tbl: Distinguishable ICMP Messages}
+\end{table}
+
+Specifically,
+\begin{enumerate}
+	\item If a trace of $<<87,unicast>, <87, unicast>>$ is observed, then the first packet is a NS message and the second a NA message.
+	\item If 
+ \end{enumerate}
+
+%Full list of ICMP
+
+%Example Data
 
 %Sequence Numbers
 %No need to do this any more...
-
-\section{Application Analysis}
+%\section{Application Analysis}
 
 
 
