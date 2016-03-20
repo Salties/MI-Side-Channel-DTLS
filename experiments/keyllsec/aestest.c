@@ -38,18 +38,71 @@
  */
 
 #include "contiki.h"
+#include "lib/aes-128.h"
+#include "sys/rtimer.h"
+#include "sys/etimer.h"
 
-#include <stdio.h> /* For printf() */
-/*---------------------------------------------------------------------------*/
-PROCESS(hello_world_process, "Hello world process");
-AUTOSTART_PROCESSES(&hello_world_process);
-/*---------------------------------------------------------------------------*/
-PROCESS_THREAD(hello_world_process, ev, data)
+#include <stdio.h>              /* For printf() */
+
+#define AES_KEY_LEN 16
+
+static uint8_t Aes128Key[AES_KEY_LEN] = {
+    0x00, 0x01, 0x02, 0x03,
+    0x04, 0x05, 0x06, 0x07,
+    0x08, 0x09, 0x0a, 0x0b,
+    0x0c, 0x0d, 0x0e, 0x0f
+};
+
+static uint8_t datablock[AES_KEY_LEN] = { 0 };
+
+void PrintBlock(char *prefix, uint8_t * block, char *appendix)
 {
-  PROCESS_BEGIN();
+    int i;
 
-  printf("Hello, world\n");
-  
-  PROCESS_END();
+    printf(prefix);
+    for (i = 0; i < AES_KEY_LEN; i++)
+        printf("%02x ", block[i]);
+    printf(appendix);
+
+    return;
 }
+
+/*---------------------------------------------------------------------------*/
+PROCESS(aestest, "aestest");
+AUTOSTART_PROCESSES(&aestest);
+/*---------------------------------------------------------------------------*/
+PROCESS_THREAD(aestest, ev, data)
+{
+    int i, round = 100;
+    unsigned long start, end;
+    struct etimer periodictimer;
+
+    PROCESS_BEGIN();
+
+    printf("Hello, world\n");
+
+    PrintBlock("Key\t:", Aes128Key, "\n");
+    AES_128.set_key(Aes128Key);
+
+    etimer_set(&periodictimer, 5 * CLOCK_SECOND);
+
+    for (;;) {
+        PrintBlock("Plaintext\t: ", datablock, "\n");
+        start = RTIMER_NOW();
+        for (i = 0; i < round; i++) {
+            AES_128.encrypt(datablock);
+        }
+        end = RTIMER_NOW();
+        PrintBlock("Ciphertext\t: ", datablock, "\n");
+
+
+        printf("Round: %d\n", round);
+        printf("Time Elapsed:%lu - %lu = %lu\n", end, start, end - start);
+        etimer_reset(&periodictimer);
+        PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodictimer));
+    }
+
+    PROCESS_END();
+}
+
 /*---------------------------------------------------------------------------*/
