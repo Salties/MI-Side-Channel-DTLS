@@ -81,9 +81,7 @@ PROCESS_THREAD(aestest, ev, data)
 
     printf("Hello, world\n");
 
-    PrintBlock("Key\t:", Aes128Key, "\n");
-    AES_128.set_key(Aes128Key);
-
+ 
     etimer_set(&periodic_timer, (5 * CLOCK_SECOND));
 
     for (;;) 
@@ -91,11 +89,15 @@ PROCESS_THREAD(aestest, ev, data)
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
         etimer_reset(&periodic_timer);
 
+
 #ifndef AES_128_CONF
 	printf("Testing Contiki Software AES implementation.\n");
 #else
 	printf("Testting Harware AES processor.\n");
 #endif
+
+	PrintBlock("Key\t:", Aes128Key, "\n");
+	AES_128.set_key(Aes128Key);
 
         PrintBlock("Plaintext\t: ", datablock, "\n");
         start = RTIMER_NOW();
@@ -105,10 +107,10 @@ PROCESS_THREAD(aestest, ev, data)
         end = RTIMER_NOW();
         PrintBlock("Ciphertext\t: ", datablock, "\n");
 
-        printf("Round: %d\n", round);
-	printf("Start: %lu\n", start);
-	printf("ENd: %lu\n", end);
-        printf("Time Elapsed: %lu\n", end - start);
+        printf("Round\t: %d\n", round);
+	printf("Start\t: %lu\n", start);
+	printf("ENd\t: %lu\n", end);
+        printf("Time Elapsed\t: %lu\n", end - start);
      }
 
     PROCESS_END();
