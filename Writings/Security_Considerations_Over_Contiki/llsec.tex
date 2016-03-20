@@ -2,6 +2,8 @@
 
 In this chapter, we analysis the Link Layer security measure in Contiki, noncoresec.
 
+One thing to be noticed is that IPv6 fragmentation may affect some packet features. However, as it would be avoided by most of the applications, we assume the packets are not fragmented in this section.
+
 \section{Protocol and Implementation}
 
 \cite{802154sec} has introduced some problems induced by the design of 802.15.4 security, as we has summarised in \Cref{Subsec: 802154 Sec Issue}. Since noncoresec supports only network shared key, we do not consider the key management issues mentioned in \cite{802154sec}. As a result, there are two potential problems left on our platform:
@@ -36,7 +38,7 @@ In this section, we analyse the general packet features of WSN protected by nonc
 
 During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by inspecting the MAC destination address and frame size, even though it is part of the encrypted MAC Payload.
 
-\subsection{Frame Size} 
+\subsection{Frame Size} \label{noncoresec frame size}
 
 As described in \Cref{Subsec: 802154 Sec}, when 802.15.4 Security is enabled, the MAC Frame will have an additional Auxiliary Security Header and MIC. Since no Key Strategy support is implemented and we imposed Security Level $7$ in all our related applications, it is expected that noncoresec will linearly increases the frame size as explained in \Cref{Semantic Packet Size}.
 
@@ -87,8 +89,6 @@ which is exactly the expected value.
 
 In either cases, the size of additional data induced by noncoresec is $21$ bytes. Specifically, \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} can be used to deduce the application data size in frames protected by noncoresec.
 
-\Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} does not hold when a packet is fragmented, but it is usually avoided in many applications.
-
 \subsection{Encryption Timing}
 
 \subsection{RPL Messages}
@@ -134,7 +134,7 @@ Recall \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data siz
 	\centering
 	\begin{tabular}{|c|c|}
 		\hline
-		Packet Feature                     & ICMPv6 Message \\ \hline
+		$<\text{Frame Size}, \text{Destination Address}>$                     & ICMPv6 Message \\ \hline
 		\textless85, broadcast\textgreater & DIS            \\ \hline
 		\textless87, broadcast\textgreater & NS             \\ \hline
 		\textless97, unicast\textgreater   & DAO            \\ \hline
@@ -144,11 +144,10 @@ Recall \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data siz
 	\label{Tbl: Distinguishable ICMP Messages}
 \end{table}
 
-%NS & NA
-The first observation is that NA is only sent as a response to NS; therefore if a round trip of two 87 bytes unicast packet, then it is likely that the first one is NS and the second NA.
+%NS & NA, DIS & DIO
+NA is only sent as a response to NS; therefore if a round trip of two 87 bytes unicast packet, it is likely that the first one is NS and the second NA. Similarly, DIS is sent for requesting DIO messages.  Once a valid DIO is received, the node no longer sends out DIS. Therefore if a sequence of broadcasted 85 bytes frames is terminated by a frame of 118 bytes, they are likely to be DIS and DIO messages.
 
-%DIS & DIO
-Similarly, DIS is sent for requesting DIO messages.  Once a valid DIO is received, the node no longer sends out DIS. Therefore if a sequence of broadcasted 85 bytes frames is terminated by a frame of 118 bytes, they are likely to be DIS and DIO messages.
+Other ICMPv6 messages are still possible to be distinguished by \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, but misidentification may occur if the application happened to send packets of both same size and destination address.
 
 %Full list of ICMP
 
@@ -158,6 +157,7 @@ Similarly, DIS is sent for requesting DIO messages.  Once a valid DIO is receive
 %No need to do this any more...
 %\section{Application Analysis}
 
+%\section{Packet Forwarding}
 
 
 
