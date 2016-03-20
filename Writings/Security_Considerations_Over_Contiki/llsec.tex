@@ -91,6 +91,8 @@ In either cases, the size of additional data induced by noncoresec is $21$ bytes
 
 \subsection{Encryption Timing}
 
+As described in \Cref{Subsec: 802154 Sec}, AES-128 is used as the building block cipher in 802.15.4 Security.
+
 \subsection{RPL Messages}
 
 ICMPv6 messages are used for IPv6 network maintenance. Specifically, RPL messages are a family of ICMPv6 messages those are directly responsible in forming and maintaining a 6LoWPAN network. 
@@ -145,7 +147,7 @@ Recall \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data siz
 \end{table}
 
 %NS & NA, DIS & DIO
-NA is only sent as a response to NS; therefore if a round trip of two 87 bytes unicast packet, it is likely that the first one is NS and the second NA. Similarly, DIS is sent for requesting DIO messages.  Once a valid DIO is received, the node no longer sends out DIS. Therefore if a sequence of broadcasted 85 bytes frames is terminated by a frame of 118 bytes, they are likely to be DIS and DIO messages.
+NA is only sent as a response to NS; therefore if a round trip of two 87 bytes unicast packet is observed, it is likely that the first one is NS and the second NA. Similarly, DIS is sent for requesting DIO messages.  Once a valid DIO is received, the node no longer sends out DIS. Therefore if a sequence of broadcasted 85 bytes frames is terminated by a frame of 118 bytes, they are likely to be DIS and DIO messages.
 
 Other ICMPv6 messages are still possible to be distinguished by \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, but misidentification may occur if the application happened to send packets of both same size and destination address.
 
