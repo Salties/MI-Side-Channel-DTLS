@@ -118,9 +118,9 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
     etimer_reset(&periodic_timer);
-    //etimer_set(&send_timer, SEND_TIME);
+    etimer_set(&send_timer, SEND_TIME);
 
-    //PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
+    PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
     addr = servreg_hack_lookup(SERVICE_ID);
     if(addr != NULL) {
       static unsigned int message_number;

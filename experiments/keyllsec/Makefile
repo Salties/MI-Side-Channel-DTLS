@@ -1,4 +1,4 @@
-all: broadcast-example unicast-sender unicast-receiver
+all: broadcast-example unicast-sender unicast-receiver aestest
 #APPS=servreg-hack
 CONTIKI=$(CONTIKI_ROOT)
 
