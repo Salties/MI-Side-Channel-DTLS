@@ -9,5 +9,6 @@ CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
 #Enable LLSEC
 CFLAGS += -DENABLE_LLSEC
+MODULES += core/net/llsec/noncoresec
 
 include $(CONTIKI)/Makefile.include
