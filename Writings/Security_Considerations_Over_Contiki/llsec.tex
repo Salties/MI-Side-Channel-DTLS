@@ -40,7 +40,7 @@ During the experiments, we also realised that the RPL messages can be distinguis
 
 As described in \Cref{Subsec: 802154 Sec}, when 802.15.4 Security is enabled, the MAC Frame will have an additional Auxiliary Security Header and MIC. Since no Key Strategy support is implemented and we imposed Security Level $7$ in all our related applications, it is expected that noncoresec will linearly increases the frame size as explained in \Cref{Semantic Packet Size}.
 
-Theoretically, the value of $b$ in \Cref{Eq: Linear Length} for noncoresec is $21$, for $5$ bytes from Auxiliary Header\footnote{Security Level together with Key Strategy are aligned into $1$ byte.} and $16$ bytes from the $128$ bits MIC. 
+Theoretically, the value of $b$ in \Cref{Eq: Linear Length} for noncoresec is $21$, for $5$ bytes from Auxiliary Header\footnote{Security Level together with Key Strategy are aligned into $1$ byte.} and $16$ bytes from the $128$ bits MIC.
 
 %With broadcast and unicast respectively.
 Our Cooja simulation confirmed this conjecture. We have done two groups of experiments on TelosB mote simulator, one with keyllsec broadcast application and the other with unicast application.
@@ -83,9 +83,11 @@ Therefore,
 
 which is exactly the expected value.
 
-\subsubsection{Summary}
+\subsubsection{Conclusion}
 
 In either cases, the size of additional data induced by noncoresec is $21$ bytes. Specifically, \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} can be used to deduce the application data size in frames protected by noncoresec.
+
+\Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} does not hold when a packet is fragmented, but it is usually avoided in many applications.
 
 \subsection{Encryption Timing}
 
@@ -126,7 +128,7 @@ Further more, we realised all these ICMPv6 messages has distinctive packet featu
 \end{enumerate}
 
 %Less than minimum size ICMP.
-Recalling \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size}, the minimum sizes of application packets, i.e. $l_D = 1$, are 88 bytes and 102 bytes respectively; therefore packets with size less than these values can immediately categorised as non application packets, which are basically ICMPv6 messages in practice. Therefore, some of these ICMPv6 messages can be distinguished in the traffic. We  represent the frame size and destination address combination in a two dimension vector $<l, dst>$ where $l$ is the size of frame in bytes and $dst \in \{\text{unicast}, \text{broadcast}\}$.
+Recall \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size}, when at least one byte is sent, the minimum frame sizes are 88 bytes and 102 bytes for broadcast and unicast respectively; therefore packets with size less than these values can be immediately categorised as non application packets, which are basically ICMPv6 messages in practice. Some ICMPv6 messages are thus can be distinguished, as shown in \Cref{Tbl: Distinguishable ICMP Messages}.
 
 \begin{table}[ht!]
 	\centering
@@ -142,11 +144,11 @@ Recalling \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data 
 	\label{Tbl: Distinguishable ICMP Messages}
 \end{table}
 
-Specifically,
-\begin{enumerate}
-	\item If a trace of $<<87,unicast>, <87, unicast>>$ is observed, then the first packet is a NS message and the second a NA message.
-	\item If 
- \end{enumerate}
+%NS & NA
+The first observation is that NA is only sent as a response to NS; therefore if a round trip of two 87 bytes unicast packet, then it is likely that the first one is NS and the second NA.
+
+%DIS & DIO
+Similarly, DIS is sent for requesting DIO messages.  Once a valid DIO is received, the node no longer sends out DIS. Therefore if a sequence of broadcasted 85 bytes frames is terminated by a frame of 118 bytes, they are likely to be DIS and DIO messages.
 
 %Full list of ICMP
 
