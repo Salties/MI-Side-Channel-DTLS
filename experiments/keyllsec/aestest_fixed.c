@@ -53,7 +53,7 @@
 #endif
 
 #ifndef NSAMPLE
-#define NSAMPLE 200
+#define NSAMPLE 1000
 #endif
 
 static uint8_t Aes128Key[AES_KEY_LEN] = {
@@ -74,12 +74,14 @@ static uint8_t datablock[NROUND][AES_BLOCK_LEN] = { {0} };
 
 void PrintBlock(const char *prefix, const uint8_t * block, const char *appendix)
 {
+#ifdef VERBOSE_AESTEST
     int i;
 
     printf(prefix);
     for (i = 0; i < AES_KEY_LEN; i++)
         printf("%02x ", block[i]);
     printf(appendix);
+#endif
 
     return;
 }
@@ -105,10 +107,12 @@ PROCESS_THREAD(aestest, ev, data)
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
         etimer_reset(&periodic_timer);
 
+#ifdef VERBOSE_AESTEST
 #ifndef AES_128_CONF
         printf("Testing Contiki Software AES implementation, sample %d/%d\n", i+1, NSAMPLE);
 #else
         printf("Testing Harware AES processor, sample %d/%d\n", i+1, NSAMPLE);
+#endif
 #endif
 
         PrintBlock("Key\t:", Aes128Key, "\n");
@@ -125,15 +129,18 @@ PROCESS_THREAD(aestest, ev, data)
         for (j = 0; j < NROUND; j++) 
 	{
             AES_128.encrypt(datablock[j]);
-         }
+        }
         end = RTIMER_NOW();
-
 	//Print result.
+#ifdef VERBOSE_AESTEST
         PrintBlock("Ciphertext\t: ", datablock[0], "\n");
         printf("Round\t: %d\n", NROUND);
         printf("Start\t: %lu\n", start);
         printf("ENd\t: %lu\n", end);
         printf("Time Elapsed\t: %lu\n", end - start);
+#else
+	printf("%lu\n", end -start);
+#endif
     }
 
     printf("%d tests done for %s.\n", NSAMPLE, TARGET_NAME);
