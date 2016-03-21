@@ -38,7 +38,7 @@
 
 //Disable Hardware AES-128 coprosessor. 
 #ifdef AES_128_CONF
-//#undef AES_128_CONF //Uncomment to enable AES-128 coprocessor if support.
+//#undef AES_128_CONF //Uncomment to disable AES-128 coprocessor.
 #endif //End of #ifdef AES_128_CONF
 
 #endif //End of #ifdef ENABLE_LLSEC
