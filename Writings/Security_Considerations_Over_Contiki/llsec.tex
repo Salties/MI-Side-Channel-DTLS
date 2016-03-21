@@ -89,9 +89,70 @@ which is exactly the expected value.
 
 In either cases, the size of additional data induced by noncoresec is $21$ bytes. Specifically, \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} can be used to deduce the application data size in frames protected by noncoresec.
 
-\subsection{Encryption Timing}
+\subsection{AES Timing}
 
-As described in \Cref{Subsec: 802154 Sec}, AES-128 is used as the building block cipher in 802.15.4 Security.
+As described in \Cref{Subsec: 802154 Sec}, AES-128 is used as the building block cipher for 802.15.4 Security. noncoresec uses the AES-128 implementation provided by Contiki system library. The implementation could be either:
+\begin{itemize}
+	\item An AES-128 coprocessor on the platform.
+	\item A software implementation provided in ``/contiki/core/lib/aes-128.c''.
+\end{itemize}
+
+The choice of implementation is controlled by the AES\_128\_CONF macro defined in the platform specific configuration file.
+
+Although CC2538 has an AES coprocessor embedded,  the system does not has it supported yet. Therefore we examined the following AES implementations that are used by noncoresec in Contiki release-3.0:
+\begin{description}
+	\item[AES Coprocessor:] TelosB
+	\item[Contiki Software Implementation:] TelosB, CC2538
+\end{description}
+
+Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and the encryption and decryption of a block is expected to be done within a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by caching, the attacks are unlikely to replicate on our platforms as the processors does not have cache implemented.
+
+We assume AES to be a pseudo random function and uses its output as random numbers in the experiments.
+
+\subsubsection{Timing Method}
+
+The AES-128 interface provided by Contiki is as described in \Cref{Contiki AES IF}.
+
+\lstinputlisting[label={Contiki AES IF},caption={AES Interface for Contiki release-3.0}]{src/aes_if.c} 
+
+We used the Contiki Real Timer Library\cite{RTimer}, which is basically an pre-emptive clock library provided by the hardware platform, to measure the system clock ticks of the AES implementation. Each sample measures continuous $n$ rounds executions of AES\_128.encrypt() with the same key and initial plaintext. The ciphertexts of each round are used as the plaintext for next round.
+
+We test this method on  with $n \in \{ 50, 100, 150, 200\}$ respectively on random key and input. The result is shown in \Cref{Tbl: AES timing estimation of Contiki with random key and input}.
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|c|c|}
+	\hline
+	                               & Ticks (TelosB HW) & Ticks (TelosB SW) & Ticks (CC2538 SW) \\ \hline
+	50 rounds                      & 633.57                  & 4565.0                  & 981.31                  \\ \hline
+	100 rounds                     & 1270.3                  & 9152.58                 & 1947.6                  \\ \hline
+	150 rounds                     & 1901.4                  & 13736.13                & 2913.2                  \\ \hline
+	200 rounds                     & 2542.4                  & 18298.92                & 3880.0                  \\ \hline
+	Correlation(rounds, ticks)     & 1.000                   & 1.000                   & 1.000                   \\ \hline
+        Clock Tick per Round & 12.72                   & 91.46                   & 19.33                   \\ \hline
+	AES Execution TIme   & 388.18 us               & 2791.14 us              & 589.90 us               \\ \hline
+	\end{tabular}
+	\caption{AES timing estimation of Contiki with random key and input}
+	\label{Tbl: AES timing estimation of Contiki with random key and input}
+\end{table}
+
+%Fix vs Random
+
+%The experimental data are available at:\\
+%\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/aestiming}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection{RPL Messages}
 
