@@ -6,9 +6,13 @@ APPS+=servreg-hack
 
 CONTIKI_WITH_IPV6 = 1
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+CFLAGS += -DTARGET_NAME=\"${TARGET}\"
 
 #Enable LLSEC
 CFLAGS += -DENABLE_LLSEC
 MODULES += core/net/llsec/noncoresec
+
+#Verbose output for aestests
+#CFLAGS += -DVERBOSE_AESTEST
 
 include $(CONTIKI)/Makefile.include
