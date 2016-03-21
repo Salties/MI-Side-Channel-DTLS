@@ -43,26 +43,38 @@
 #include "sys/etimer.h"
 
 #include <stdio.h>              /* For printf() */
+#include <string.h>
 
 #define AES_KEY_LEN 16
+#define AES_BLOCK_LEN 16
+
+#ifndef NROUND
+#define NROUND 100
+#endif
+
+#ifndef NSAMPLE
+#define NSAMPLE 100
+#endif
 
 static uint8_t Aes128Key[AES_KEY_LEN] = {
-    0x00, 0x01, 0x02, 0x03,
-    0x04, 0x05, 0x06, 0x07,
-    0x08, 0x09, 0x0a, 0x0b,
-    0x0c, 0x0d, 0x0e, 0x0f
+    0x01, 0x23, 0x45, 0x67,
+    0x89, 0xab, 0xcd, 0xef,
+    0x12, 0x34, 0x56, 0x78,
+    0x9a, 0xbc, 0xde, 0xf0
 };
 
-static uint8_t datablock[AES_KEY_LEN] = { 0 };
+static uint8_t datablock[NROUND][AES_KEY_LEN] = { { 0 } };
 
-void PrintBlock(char *prefix, uint8_t * block, char *appendix)
+void PrintBlock(const char *prefix, const uint8_t * block, const char *appendix)
 {
+#ifdef VERBOSE_AESTEST
     int i;
 
     printf(prefix);
     for (i = 0; i < AES_KEY_LEN; i++)
         printf("%02x ", block[i]);
     printf(appendix);
+#endif
 
     return;
 }
@@ -73,43 +85,75 @@ AUTOSTART_PROCESSES(&aestest);
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(aestest, ev, data)
 {
-    int i, round = 200;
+    static int i, j;
     unsigned long start, end;
     static struct etimer periodic_timer;
 
     PROCESS_BEGIN();
 
-    printf("Hello, world\n");
+    printf("Random AES-128 implementation test for %s.\n", TARGET_NAME);
+#ifndef AES_128_CONF
+    printf("Using Contiki software implementation.\n");
+#else
+    printf("Using Hardware coprocessor.\n");
+#endif
+    printf("Rounds in each sample: %d\n", NROUND);
+    printf("Sample size: %d\n", NSAMPLE);
+    printf("Rtimer clock ticks per second on this platform is : %lu\n", (unsigned long) RTIMER_SECOND);
 
-    PrintBlock("Key\t:", Aes128Key, "\n");
-    AES_128.set_key(Aes128Key);
+    etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
 
-    etimer_set(&periodic_timer, (5 * CLOCK_SECOND));
+    //Initialise input data.
+    for( j = 0; j < NROUND; j++)
+    {
+	    //Use different last byte.
+	    datablock[j][AES_BLOCK_LEN - 1] = j;
+    }
 
-    for (;;) 
+
+    for( i = 0; i < NSAMPLE; i++)
     {
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
         etimer_reset(&periodic_timer);
-
+#ifdef VERBOSE_AESTEST
 #ifndef AES_128_CONF
-	printf("Testing Contiki Software AES implementation.\n");
+        printf("Testing Contiki Software AES implementation, sample %d/%d\n", i+1, NSAMPLE);
 #else
-	printf("Testting Harware AES processor.\n");
+        printf("Testing Harware AES processor, sample %d/%d\n", i+1, NSAMPLE);
+#endif
 #endif
 
-        PrintBlock("Plaintext\t: ", datablock, "\n");
+        PrintBlock("Key\t: ", Aes128Key, "\n");
+        AES_128.set_key(Aes128Key);
+
+	//Start timing.
         start = RTIMER_NOW();
-        for (i = 0; i < round; i++) {
-            AES_128.encrypt(datablock);
+        for (j = 0; j < NROUND; j++) 
+	{
+            AES_128.encrypt(datablock[j]);
         }
         end = RTIMER_NOW();
-        PrintBlock("Ciphertext\t: ", datablock, "\n");
 
-        printf("Round: %d\n", round);
-	printf("Start: %lu\n", start);
-	printf("ENd: %lu\n", end);
-        printf("Time Elapsed: %lu\n", end - start);
-     }
+#ifdef VERBOSE_AESTEST
+	//Print result.
+        printf("Round\t: %d\n", NROUND);
+        printf("Start\t: %lu\n", start);
+        printf("End\t: %lu\n", end);
+        printf("Time Elapsed\t: %lu\n", end - start);
+#else
+        printf("%lu\n", end - start);
+#endif
+
+	//Randomise the key for next round.
+	for( j = 0; j < NROUND; j++)
+	{
+		int k;
+		for(k=0;k<AES_KEY_LEN;k++)
+			Aes128Key[k] ^= datablock[j][k];
+	}
+    }
+
+    printf("%d tests done for %s.\n", NSAMPLE, TARGET_NAME);
 
     PROCESS_END();
 }

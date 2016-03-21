@@ -53,7 +53,7 @@
 #endif
 
 #ifndef NSAMPLE
-#define NSAMPLE 1000
+#define NSAMPLE 100
 #endif
 
 static uint8_t Aes128Key[AES_KEY_LEN] = {
@@ -98,7 +98,16 @@ PROCESS_THREAD(aestest, ev, data)
 
     PROCESS_BEGIN();
 
-    printf("Testing AES-128 implementation for %s.\n", TARGET_NAME);
+    printf("Fixed AES-128 implementation test for %s.\n", TARGET_NAME);
+#ifndef AES_128_CONF
+    printf("Using Contiki software implementation.\n");
+#else
+    printf("Using Hardware coprocessor.\n");
+#endif
+    printf("Rounds in each sample: %d\n", NROUND);
+    printf("Sample size: %d\n", NSAMPLE);
+    printf("Rtimer clock ticks per second on this platform is : %lu\n", (unsigned long) RTIMER_SECOND);
+
 
     etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
 
