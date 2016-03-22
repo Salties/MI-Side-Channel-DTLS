@@ -27,6 +27,83 @@ One solution might be to store part of the Frame Counter on the flash and increa
 
 \cite{802154sec} has pointed out that anti replay in 802.15.4 Security is incompatible with network key as the same ACL entry is shared among multiple nodes, causing confusion of Replay Counter in ACL. However, with an inspection of the source code of Contiki, we realised that the noncoresec does not suffer the same problem as the ACL is not implemented; instead, a similar data structure is added to the routing table in kernel  associated to each source address.
 
+\section{AES Timing}
+
+As described in \Cref{Subsec: 802154 Sec}, AES-128 is used as the block cipher for 802.15.4 Security. noncoresec uses the AES-128 implementation provided by Contiki system library. The implementation could be either:
+\begin{itemize}
+	\item An AES-128 coprocessor on the platform.
+	\item A software implementation provided in ``/contiki/core/lib/aes-128.c''.
+\end{itemize}
+
+The choice of implementation is controlled by the AES\_128\_CONF macro defined in the platform specific configuration file.
+
+Although CC2538 has an AES coprocessor embedded,  the system does not has it supported yet. Therefore we examine the following AES implementations that are used by noncoresec in Contiki release-3.0:
+\begin{description}
+	\item[AES Coprocessor:] TelosB
+	\item[Contiki Software Implementation:] TelosB, CC2538
+\end{description}
+
+We assumed AES to be a pseudo random function and uses its output as random numbers in the experiments.
+
+The AES-128 interface provided by Contiki is as described in \Cref{Contiki AES IF}.
+
+\lstinputlisting[label={Contiki AES IF},caption={AES Interface for Contiki release-3.0}]{src/aes_if.c} 
+
+We used the Contiki Real Timer Library\cite{RTimer}, which is a pre-emptive clock library provided by the hardware platform, to measure the system clock ticks of the AES implementations. Each sample measures continuous $n$ rounds executions of AES\_128.encrypt(). The ciphertexts of each round are used as the plaintext for next round.
+\Cref{Contiki AES time} shows a simplified code for one sample collection.
+
+\lstinputlisting[label={Contiki AES time},caption={AES Timing on Contiki release-3.0}]{src/aes_timing.c} 
+
+We test this method on  $n \in \{ 50, 100, 150, 200\}$ rounds respectively on random key and plaintext. The result is shown in \Cref{Tbl: AES execution time estimation of Contiki}.
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|c|c|}
+	\hline
+	                               & Ticks (TelosB HW) & Ticks (TelosB SW) & Ticks (CC2538 SW) \\ \hline
+	50 rounds                      & 633.57 (ticks)                 & 4565.0                  & 981.31                  \\ \hline
+	100 rounds                     & 1270.3                  & 9152.58                 & 1947.6                  \\ \hline
+	150 rounds                     & 1901.4                  & 13736.13                & 2913.2                  \\ \hline
+	200 rounds                     & 2542.4                  & 18298.92                & 3880.0                  \\ \hline
+	Correlation(rounds, ticks)     & 1.000                   & 1.000                   & 1.000                   \\ \hline
+        Clock Tick per round & 12.72                   & 91.46                   & 19.33                   \\ \hline
+	AES Execution Time   & 388.18 us               & 2791.14 us              & 589.90 us               \\ \hline
+	\end{tabular}
+	\caption{AES execution time estimation on Contiki, with sample size 100}
+	\label{Tbl: AES execution time estimation of Contiki}
+\end{table}
+
+Each round is one AES execution and there are $32768$ ticks per second. We estimate the average time of one AES execution by the slope ratio of rounds and ticks.
+
+%Fix vs Random
+We apply the Fixed vs Random strategy inspired by TVLA\cite{TVLA} to test the affection induced by using different keys. To be more specifically, we compared $1000$ timing samples collected for $n=200$ on fixed and random inputs to the AES implementations respectively, by using t-test to determine whether a statistical difference can be observed  between two groups. If the null hypothesis, i.e. both timings are sampled from the same distribution, is accepted, then we conclude the timings are indistinguishable and there is unlikely  a leakage; otherwise there is a potential leakage in the timing information. The timings are assumed to follow a normal distribution.
+
+Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and thus the encryption and decryption of a block are expected to take a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by caching, the attacks are unlikely to be replicated on our platforms as the processors does not have cache implemented. 
+
+The results of our test are shown in \Cref{Tbl: Fixed vs Random test on Contiki AES timing}.
+
+\begin{table}[ht!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		              & p-value           & $\overline{t}$ for fixed & $s_{T}$ for fixed & $\overline{t}$ for random & $s_{T}$ for random\\ \hline
+		TelosB HW AES & $6.08 * 10^{-5}$  & 2536.9     & 4.77      & 2537.7      & 4.38       \\ \hline
+		TelosB SW AES & $5.88 * 10^{-14}$ & 18311.9    & 31.54     & 18293.106   & 36.11      \\ \hline
+		CC2538 SW AES & 0                 & 3800.49    & 3.93      & 3878.80     & 2.37       \\ \hline
+	\end{tabular}
+	\caption{Fixed vs Random test on Contiki AES timing, with sample size 1000 and $t \in T$ the ticks of execution time}
+	\label{Tbl: Fixed vs Random test on Contiki AES timing}
+\end{table}
+
+%Not observable from traffic.
+
+%Source code and data
+The source code and experiment data are available at:\\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/} \\
+and \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/aestiming}
+
+
 \section{Packet Feature Analysis}
 
 In this section, we analyse the general packet features of WSN protected by noncoresec. We focus on the following subjects:
@@ -89,81 +166,6 @@ which is exactly the expected value.
 
 In either cases, the size of additional data induced by noncoresec is $21$ bytes. Specifically, \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} can be used to deduce the application data size in frames protected by noncoresec.
 
-\subsection{AES Timing}
-
-As described in \Cref{Subsec: 802154 Sec}, AES-128 is used as the building block cipher for 802.15.4 Security. noncoresec uses the AES-128 implementation provided by Contiki system library. The implementation could be either:
-\begin{itemize}
-	\item An AES-128 coprocessor on the platform.
-	\item A software implementation provided in ``/contiki/core/lib/aes-128.c''.
-\end{itemize}
-
-The choice of implementation is controlled by the AES\_128\_CONF macro defined in the platform specific configuration file.
-
-Although CC2538 has an AES coprocessor embedded,  the system does not has it supported yet. Therefore we examined the following AES implementations that are used by noncoresec in Contiki release-3.0:
-\begin{description}
-	\item[AES Coprocessor:] TelosB
-	\item[Contiki Software Implementation:] TelosB, CC2538
-\end{description}
-
-We assumed AES to be a pseudo random function and uses its output as random numbers in the experiments.
-
-The AES-128 interface provided by Contiki is as described in \Cref{Contiki AES IF}.
-
-\lstinputlisting[label={Contiki AES IF},caption={AES Interface for Contiki release-3.0}]{src/aes_if.c} 
-
-We used the Contiki Real Timer Library\cite{RTimer}, which is a pre-emptive clock library provided by the hardware platform, to measure the system clock ticks of the AES implementations. Each sample measures continuous $n$ rounds executions of AES\_128.encrypt(). The ciphertexts of each round are used as the plaintext for next round.
-\Cref{Contiki AES time} shows a simplified code for the timing method.
-
-\lstinputlisting[label={Contiki AES time},caption={AES Timing on Contiki release-3.0}]{src/aes_timing.c} 
-
-We test this method on  $n \in \{ 50, 100, 150, 200\}$ rounds respectively on random key and plaintext. The result is shown in \Cref{Tbl: AES execution time estimation of Contiki}.
-
-\begin{table}[ht!]
-	\center
-	\begin{tabular}{|c|c|c|c|}
-	\hline
-	                               & Ticks (TelosB HW) & Ticks (TelosB SW) & Ticks (CC2538 SW) \\ \hline
-	50 rounds                      & 633.57 (ticks)                 & 4565.0                  & 981.31                  \\ \hline
-	100 rounds                     & 1270.3                  & 9152.58                 & 1947.6                  \\ \hline
-	150 rounds                     & 1901.4                  & 13736.13                & 2913.2                  \\ \hline
-	200 rounds                     & 2542.4                  & 18298.92                & 3880.0                  \\ \hline
-	Correlation(rounds, ticks)     & 1.000                   & 1.000                   & 1.000                   \\ \hline
-        Clock Tick per round & 12.72                   & 91.46                   & 19.33                   \\ \hline
-	AES Execution Time   & 388.18 us               & 2791.14 us              & 589.90 us               \\ \hline
-	\end{tabular}
-	\caption{AES execution time estimation on Contiki, with sample size 100}
-	\label{Tbl: AES execution time estimation of Contiki}
-\end{table}
-
-Each round is one AES execution and there are $32768$ ticks per second. We estimate the average time of one AES execution by the slope ratio of rounds and ticks.
-
-%Fix vs Random
-We apply the Fixed vs Random strategy inspired by TVLA\cite{TVLA} to test the affection induced by using different keys. To be more specifically, we compared $1000$ timing traces collected for $n=200$ on fixed and random inputs to the AES implementations, by using t-test to determine whether a statistical difference can be observed  between two groups. If the null hypothesis, i.e. both timings are sampled from the same distribution, is accepted, then we conclude the timings are indistinguishable and there is unlikely  a leakage; otherwise there is a potential leakage in the timing information. The timings are assumed to follow a normal distribution in these tests.
-
-Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and thus the encryption and decryption of a block are expected to take a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by caching, the attacks are unlikely to be replicated on our platforms as the processors does not have cache implemented. 
-
-The results of our test are shown in \Cref{Tbl: Fixed vs Random test on Contiki AES timing}.
-
-\begin{table}[ht!]
-	\centering
-	\begin{tabular}{|c|c|c|c|c|c|}
-		\hline
-		              & p-value           & $\overline{t}$ for fixed & $s_{T}$ for fixed & $\overline{t}$ for random & $s_{T}$ for random\\ \hline
-		TelosB HW AES & $6.08 * 10^{-5}$  & 2536.9     & 4.77      & 2537.7      & 4.38       \\ \hline
-		TelosB SW AES & $5.88 * 10^{-14}$ & 18311.9    & 31.54     & 18293.106   & 36.11      \\ \hline
-		CC2538 SW AES & 0                 & 3800.49    & 3.93      & 3878.80     & 2.37       \\ \hline
-	\end{tabular}
-	\caption{Fixed vs Random test on Contiki AES timing, with sample size 1000 and $t \in T$ the ticks of execution time}
-	\label{Tbl: Fixed vs Random test on Contiki AES timing}
-\end{table}
-
-
-
-%Source code and data
-The source code and experiment data are available at:\\
-\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/} \\
-and \\
-\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/aestiming}
 
 
 
