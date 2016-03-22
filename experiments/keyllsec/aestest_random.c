@@ -49,7 +49,7 @@
 #define AES_BLOCK_LEN 16
 
 #ifndef NROUND
-#define NROUND 100
+#define NROUND 200
 #endif
 
 #ifndef NSAMPLE
@@ -63,7 +63,7 @@ static uint8_t Aes128Key[AES_KEY_LEN] = {
     0x9a, 0xbc, 0xde, 0xf0
 };
 
-static uint8_t datablock[NROUND][AES_KEY_LEN] = { { 0 } };
+static uint8_t datablock[NROUND][AES_BLOCK_LEN] = { { 0 } };
 
 void PrintBlock(const char *prefix, const uint8_t * block, const char *appendix)
 {
