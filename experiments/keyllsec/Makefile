@@ -15,4 +15,10 @@ MODULES += core/net/llsec/noncoresec
 #Verbose output for aestests
 #CFLAGS += -DVERBOSE_AESTEST
 
+#Number of Rounds for aestiming.
+CFLAGS += -DNROUND=200
+
+#Number of Sample for aestiming.
+CFLAGS += -DNSAMPLE=1000
+
 include $(CONTIKI)/Makefile.include
