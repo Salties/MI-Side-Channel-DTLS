@@ -70,7 +70,7 @@ static const uint8_t fixed_data[AES_BLOCK_LEN] ={
 	0x95, 0x60, 0x18, 0x90
 };
 
-static uint8_t datablock[NROUND][AES_BLOCK_LEN] = { {0} };
+static uint8_t datablock[NROUND][AES_BLOCK_LEN] = { { 0 } };
 
 void PrintBlock(const char *prefix, const uint8_t * block, const char *appendix)
 {
@@ -140,15 +140,16 @@ PROCESS_THREAD(aestest, ev, data)
             AES_128.encrypt(datablock[j]);
         }
         end = RTIMER_NOW();
+
 	//Print result.
 #ifdef VERBOSE_AESTEST
         PrintBlock("Ciphertext\t: ", datablock[0], "\n");
         printf("Round\t: %d\n", NROUND);
         printf("Start\t: %lu\n", start);
-        printf("ENd\t: %lu\n", end);
+        printf("End\t: %lu\n", end);
         printf("Time Elapsed\t: %lu\n", end - start);
 #else
-	printf("%lu\n", end -start);
+	printf("%lu\n", end - start);
 #endif
     }
 
