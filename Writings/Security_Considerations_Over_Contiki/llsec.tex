@@ -91,12 +91,14 @@ The results of our test are shown in \Cref{Tbl: Fixed vs Random test on Contiki 
 		TelosB SW AES & $5.88 * 10^{-14}$ & 18311.9    & 31.54     & 18293.106   & 36.11      \\ \hline
 		CC2538 SW AES & 0                 & 3800.49    & 3.93      & 3878.80     & 2.37       \\ \hline
 	\end{tabular}
-	\caption{Fixed vs Random test on Contiki AES timing, with sample size 1000 and $t \in T$ the ticks of execution time}
+	\caption{Fixed vs Random test result on Contiki AES timing, with sample size 1000. $\overline{t}$: sample mean of ticks, $s_{T}$: sample standard deviation of ticks}
 	\label{Tbl: Fixed vs Random test on Contiki AES timing}
 \end{table}
 
 %Not observable from traffic.
-Although the results in \Cref{Tbl: Fixed vs Random test on Contiki AES timing} implies that there is potentially a leakage in the timing information, but we have not figure out the potential cause of this variance. We also noticed that this timing variance is of tens of clock ticks for $200$ executions, that is to say for one execution it is at $10^{-7}$s level. Even for a 802.15.4 Frame of MTU size which is 127 bytes, there is no more than $8$ AES executions for encryption and $8$ executions for MIC computation. Therefore the variance is expected at $10 ^ {-6}$s level. Since the bit rate of 802.15.4 PHY is at most 250 kb/s, i.e. at least $3.91 * 10^{-6}$s per bit, plus there are even more factors such as RDC and CSMA/CA those may affect the timing of packets at a magnitude of $10^{-4}$s level, we suspect that such timing variance would be difficult to observe from the traffic in practice.
+The results in \Cref{Tbl: Fixed vs Random test on Contiki AES timing} contradict with our intuition and imply a potential leakage of key in execution time. However, we have not yet came up with any potential cause of this variance. We leave this as an open question in this report.
+
+On the other hand, we also noticed that this timing variance is of tens of clock ticks for $200$ executions. Combing with the fact that there is $32768$ ticks per second, it is equivalent to say for one execution the variance is averagely at $10^{-7}$s level. Even for a 802.15.4 Frame of MTU size which is 127 bytes, there is no more than $8$ AES executions for encryption and $8$ executions for MIC computation. Therefore the variance is expected at $10 ^ {-6}$s level. Since the bit rate of 802.15.4 PHY is at most 250 kb/\cite{802154}, i.e. at least $3.91 * 10^{-6}$s per bit, plus there are even more factors such as RDC and CSMA/CA those may affect the timing of packets at a magnitude of $10^{-4}$s level, we suspect that such timing variance would be difficult to observe from the traffic in practice.
 
 %Source code and data
 The source code and experiment data are available at:\\
