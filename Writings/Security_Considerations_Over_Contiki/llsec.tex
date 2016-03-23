@@ -98,7 +98,7 @@ The results of our test are shown in \Cref{Tbl: Fixed vs Random test on Contiki 
 %Not observable from traffic.
 The results in \Cref{Tbl: Fixed vs Random test on Contiki AES timing} contradict with our intuition and imply a potential leakage of key in execution time. However, we have not yet came up with any potential cause of this variance. We leave this as an open question in this report.
 
-On the other hand, we also noticed that this timing variance is of tens of clock ticks for $200$ executions. Combing with the fact that there is $32768$ ticks per second, it is equivalent to say for one execution the variance is averagely at $10^{-7}$s level. Even for a 802.15.4 Frame of MTU size which is 127 bytes, there is no more than $8$ AES executions for encryption and $8$ executions for MIC computation. Therefore the variance is expected at $10 ^ {-6}$s level. Since the bit rate of 802.15.4 PHY is at most 250 kb/\cite{802154}, i.e. at least $3.91 * 10^{-6}$s per bit, plus there are even more factors such as RDC and CSMA/CA those may affect the timing of packets at a magnitude of $10^{-4}$s level, we suspect that such timing variance would be difficult to observe from the traffic in practice.
+On the other hand, we also noticed that this timing variance is of tens of clock ticks for $200$ executions. Combing with the fact that there is $32768$ ticks per second, it is equivalent to say for one execution the variance is averagely at $10^{-7}$s level. Even for a 802.15.4 Frame of MTU size which is 127 bytes, there is no more than $8$ AES executions for encryption and $8$ executions for MIC computation. Therefore the variance is expected at $10 ^ {-6}$s level. Since the bit rate of 802.15.4 PHY is at most 250 kb/s\cite{802154}, i.e. at least $3.91 * 10^{-6}$s is needed to transmit a bit, plus there are even more factors such as RDC and CSMA/CA those may affect the timing of packets at a magnitude of $10^{-4}$s level, we suspect that such timing variance would be difficult to observe from the traffic in practice.
 
 %Source code and data
 The source code and experiment data are available at:\\
@@ -106,13 +106,13 @@ The source code and experiment data are available at:\\
 and \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/aestiming}
 
-\section{Packet Feature Analysis}
+%\section{Packet Feature Analysis}
+%
+%In this section, we analyse the general packet features of WSN protected by noncoresec. We focus on the following subjects:
+%
+%During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by jointly inspect the MAC destination address and frame size, even though it is part of the encrypted MAC Payload.
 
-In this section, we analyse the general packet features of WSN protected by noncoresec. We focus on the following subjects:
-
-During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by jointly inspect the MAC destination address and frame size, even though it is part of the encrypted MAC Payload.
-
-\subsection{Frame Size} \label{noncoresec frame size}
+\section{Frame Size} \label{noncoresec frame size}
 
 As described in \Cref{Subsec: 802154 Sec}, when 802.15.4 Security is enabled, the MAC Frame will have an additional Auxiliary Security Header and MIC. Since no Key Strategy support is implemented and we imposed Security Level $7$ in all our related applications, it is expected that noncoresec will linearly increases the frame size as explained in \Cref{Semantic Packet Size}.
 
@@ -124,7 +124,7 @@ Our Cooja simulation confirmed this conjecture. We have done two groups of exper
 An example data is available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/frame_size}
 
-\subsubsection{Broadcast}
+\subsection{Broadcast}
 In case of broadcast without noncoresec, the relation of application data, i.e. UDP Payload, size $l_D$ and plaintext MAC Frame size $l_P$ in bytes are:
 \begin{equation}
 	l_D = l_{P} - 66
@@ -140,7 +140,7 @@ Assuming the same application data is sent, i.e. $l_D = l^{\prime}_D$, the chang
 	b = l_C - l_P = (l^{\prime}_D + 87) - (l_D + 66) = 21
 \end{equation}
 
-\subsubsection{Unicast}
+\subsection{Unicast}
 
 In case of keyllsec unicast application, we have:
 
@@ -159,17 +159,19 @@ Therefore,
 
 which is exactly the expected value.
 
-\subsubsection{Conclusion}
+\subsection{Conclusion}
 
 In either cases, the size of additional data induced by noncoresec is $21$ bytes. Specifically, \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} can be used to deduce the application data size in frames protected by noncoresec.
 
-\subsection{RPL Messages}
+\section{ICMPv6 Messages}
 
-ICMPv6 messages are used for IPv6 network maintenance. Specifically, RPL messages are a family of ICMPv6 messages those are directly responsible in forming and maintaining a 6LoWPAN network. 
+ICMPv6 messages are used for IPv6 network maintenance. Specifically, RPL messages are a family of ICMPv6 messages those are directly responsible in forming and maintaining a 6LoWPAN network. ICMP messages are solely handled by the Contiki kernel and are thus transparent to  upper layer applications. Some of them, including RPL messages, are generated spontaneously by the Contiki kernel even when no application is running. We observed three RPL messages in our experiments, which are DIS, DIO and DAO. Four ICMPv6 messages are also observed, namely NS, NA and Echo messages. The semantics of these ICMPv6 messages are described in \Cref{Subsec: ICMPv6}.
 
-ICMP messages are solely handled by the Contiki kernel and are thus transparent to  upper layer applications. Some of them, including RPL messages, are generated spontaneously by the Contiki kernel even when no application is running. We observed three RPL messages in our experiments, which are DIS, DIO and DAO. Four ICMPv6 messages are also observed, namely NS, NA and Echo messages. The semantic of these ICMPv6 messages are described in \Cref{Subsec: ICMPv6}.
+In this section, we analyse their packet features in a 6LoWPAN network protected by noncoresec.
 
-Further more, we realised all these ICMPv6 messages has distinctive packet features with respect to the combination of packet size and destination address family. We summarise the packet features in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, where ``0xffff'' is the Link Layer broadcast address.
+\subsection{Packet Size and MAC Destination Address}
+
+In the experiments, we realised most of the ICMPv6 messages observed has distinctive packet features with respect to the combination of packet size and destination address family. We summarise the packet features in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, where ``0xffff'' is the Link Layer broadcast address.
 
 \begin{table}[ht!]
 	\center
@@ -190,7 +192,7 @@ Further more, we realised all these ICMPv6 messages has distinctive packet featu
 \end{table}
 
 
-\paragraph{Explanation of \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}}
+%\paragraph{Explanation of \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}}
 \begin{enumerate}
 	\item DIO and NS message can be sent in either multicast or unicast. The broadcast DIO message is smaller than the unicast one as it uses an abbreviated IPv6 multicast address ``ff02::1a''. NS uses another multicast destination address, ``ff02::1:ff00:0'', which has the same length as an unicast address. However, both of them are translated to the same ``ffff'' Link Layer broadcast address in 802.15.4 MAC Header.
 	%ICMP ECHO fragmentation in Wismote network.

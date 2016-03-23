@@ -36,7 +36,7 @@
 #endif
 
 #ifndef QUEUEBUF_CONF_NUM
-#define QUEUEBUF_CONF_NUM       20
+#define QUEUEBUF_CONF_NUM       15
 #endif
 
 #ifndef UIP_CONF_BUFFER_SIZE
@@ -64,6 +64,15 @@
 	0x0C , 0x0D , 0x0E , 0x0F \
 }
 
-#endif
+//Disable Hardware AES-128 coprosessor. 
+#ifdef AES_128_CONF
+#undef AES_128_CONF
+#endif //End of #ifdef AES_128_CONF
+
+#endif //End of #ifdef ENABLE_LLSEC
+
+#ifdef CONTIKI_TARGET_CC2538DK //Bug fix for CC2538DK support.
+#define PRIu32 "d" 
+#endif //End of #ifdef CONTIKI_TARGET_CC2538DK
 
 #endif /* PROJECT_ROUTER_CONF_H_ */

@@ -23,6 +23,7 @@ PROJECT_SOURCEFILES += slip-bridge.c
 #control will overrun the transmit buffer when the style sheet is requested.
 
 WITH_WEBSERVER=0
+
 ifeq ($(WITH_WEBSERVER),1)
 CFLAGS += -DUIP_CONF_TCP=1
 CFLAGS += -DWEBSERVER=1
