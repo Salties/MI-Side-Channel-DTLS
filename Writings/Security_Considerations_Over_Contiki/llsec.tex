@@ -76,9 +76,9 @@ We test this method on  $n \in \{ 50, 100, 150, 200\}$ rounds respectively on ra
 Each round is one AES execution and there are $32768$ ticks per second. We estimate the average time of one AES execution by the slope ratio of rounds and ticks.
 
 %Fix vs Random
-We apply the Fixed vs Random strategy inspired by TVLA\cite{TVLA} to test the affection induced by using different keys. To be more specifically, we compared $1000$ timing samples collected for $n=200$ on fixed and random inputs to the AES implementations respectively, by using t-test to determine whether a statistical difference can be observed  between two groups. If the null hypothesis, i.e. both timings are sampled from the same distribution, is accepted, then we conclude the timings are indistinguishable and there is unlikely  a leakage; otherwise there is a potential leakage in the timing information. The timings are assumed to follow a normal distribution.
+We apply the Fixed vs Random strategy inspired by TVLA\cite{TVLA} to test the affection induced by using different keys. To be more specifically, we compared $1000$ timing samples collected for $n=200$ on fixed and random inputs to the AES implementations respectively, by using t-test to determine whether a statistical difference can be observed  between two groups. If the null hypothesis, i.e. two groups of timing have the same mean, is rejected, then we conclude there is a potential leakage in the timing information. The timings are assumed to follow a normal distribution.
 
-Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and thus the encryption and decryption of a block are expected to take a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by caching, the attacks are unlikely to be replicated on our platforms as the processors does not have cache implemented. 
+Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and most of its operations take a constant time; thus the encryption and decryption of a block are expected to take a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by caching, these attacks are unlikely to be replicable on our platforms as the processors do not have cache implemented. 
 
 The results of our test are shown in \Cref{Tbl: Fixed vs Random test on Contiki AES timing}.
 
@@ -96,6 +96,7 @@ The results of our test are shown in \Cref{Tbl: Fixed vs Random test on Contiki 
 \end{table}
 
 %Not observable from traffic.
+Although the results in \Cref{Tbl: Fixed vs Random test on Contiki AES timing} implies that there is potentially a leakage in the timing information, but we have not figure out the potential cause of this variance. We also noticed that this timing variance is of tens of clock ticks for $200$ executions, that is to say for one execution it is at $10^{-7}$s level. Even for a 802.15.4 Frame of MTU size which is 127 bytes, there is no more than $8$ AES executions for encryption and $8$ executions for MIC computation. Therefore the variance is expected at $10 ^ {-6}$s level. Since the bit rate of 802.15.4 PHY is at most 250 kb/s, i.e. at least $3.91 * 10^{-6}$s per bit, plus there are even more factors such as RDC and CSMA/CA those may affect the timing of packets at a magnitude of $10^{-4}$s level, we suspect that such timing variance would be difficult to observe from the traffic in practice.
 
 %Source code and data
 The source code and experiment data are available at:\\
@@ -103,17 +104,11 @@ The source code and experiment data are available at:\\
 and \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/aestiming}
 
-
 \section{Packet Feature Analysis}
 
 In this section, we analyse the general packet features of WSN protected by noncoresec. We focus on the following subjects:
 
-\begin{enumerate}
-	\item Frame Size
-	\item Encryption timing
-\end{enumerate}
-
-During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by inspecting the MAC destination address and frame size, even though it is part of the encrypted MAC Payload.
+During the experiments, we also realised that the RPL messages can be distinguished in most of our applications by jointly inspect the MAC destination address and frame size, even though it is part of the encrypted MAC Payload.
 
 \subsection{Frame Size} \label{noncoresec frame size}
 
@@ -165,20 +160,6 @@ which is exactly the expected value.
 \subsubsection{Conclusion}
 
 In either cases, the size of additional data induced by noncoresec is $21$ bytes. Specifically, \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data size} can be used to deduce the application data size in frames protected by noncoresec.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 \subsection{RPL Messages}
 
@@ -244,6 +225,9 @@ A list of supported ICMPv6 Messages in Contiki release-3.0 is given in \Cref{Sup
 
 Some example data are available at:\\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/RPL}
+
+%CONTINUE FROM HERE
+\section{RPL Messages Response Timing}
 
 %Sequence Numbers
 %No need to do this any more...
