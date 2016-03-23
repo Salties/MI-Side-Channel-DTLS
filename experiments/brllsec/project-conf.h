@@ -72,7 +72,7 @@
 #endif //End of #ifdef ENABLE_LLSEC
 
 #ifdef CONTIKI_TARGET_CC2538DK //Bug fix for CC2538DK support.
-#define PRIu32 "d" 
+#define PRIu32 "lu" 
 #endif //End of #ifdef CONTIKI_TARGET_CC2538DK
 
 #endif /* PROJECT_ROUTER_CONF_H_ */
