@@ -169,7 +169,7 @@ ICMPv6 messages are used for IPv6 network maintenance. Specifically, RPL message
 
 In this section, we analyse their packet features in a 6LoWPAN network protected by noncoresec.
 
-\subsection{Packet Size and MAC Destination Address}
+\subsection{Packet Size and MAC Destination Address} \label{Size and Dst of ICMP}
 
 In the experiments, we realised most of the ICMPv6 messages observed has distinctive packet features with respect to the combination of packet size and destination address family. We summarise the packet features in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, where ``0xffff'' is the Link Layer broadcast address.
 
@@ -219,7 +219,7 @@ Recall \Cref{Eq: broadcast llsec data size} and \Cref{Eq: unicast llsec data siz
 \end{table}
 
 %NS & NA, DIS & DIO
-NA is only sent as a response to NS; therefore if a round trip of two 87 bytes unicast packet is observed, it is likely that the first one is NS and the second NA. Similarly, DIS is sent for requesting DIO messages.  Once a valid DIO is received, the node no longer sends out DIS. Therefore if a sequence of broadcasted 85 bytes frames is terminated by a frame of 118 bytes, they are likely to be DIS and DIO messages.
+NA is only sent as a response to NS; therefore if a round trip of two 87 bytes unicast packet is observed, it is likely that the first one is NS and the second NA. Similarly, DIS is sent for requesting DIO messages.  
 
 Other ICMPv6 messages are still possible to be distinguished by \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, but misidentification may occur if the application happened to send packets of both same size and destination address.
 
@@ -231,7 +231,17 @@ Some example data are available at:\\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/RPL}
 
 %CONTINUE FROM HERE
-\section{RPL Messages Response Timing}
+\subsection{ICMP Messages Response Timing}
+
+Exploiting the fact that one could possibly distinguish ICMPv6 messages in the encrypted traffic by frame size and destination MAC addresses, it is possible to further differentiate different hardware by inspecting the response time of the ICMPv6 messages, as different devices have different processing power resulting into different processing time for the same ICMPv6 message.
+
+Ideally the most suitable messages to perform this attack would be unicast NS and NA messages, since:
+\begin{itemize}
+	\item They can always be distinguished from application packets by packet size and destination MAC address, as explained in \Cref{Size and Dst of ICMP}.
+	\item NA is immediately sent as a response to unicast NS, allowing precise measurement of response interval.
+\end{itemize}
+
+Unfortunately on our real device platforms, TelosB and CC2538, NS and NA are hardly observable.
 
 %Sequence Numbers
 %No need to do this any more...
