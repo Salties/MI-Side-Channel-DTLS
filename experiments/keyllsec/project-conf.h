@@ -30,7 +30,7 @@
 
 #undef NONCORESEC_CONF_KEY
 #define NONCORESEC_CONF_KEY {\
-	0x10 , 0x01 , 0x02 , 0x03 ,\
+	0x00 , 0x01 , 0x02 , 0x03 ,\
 	0x04 , 0x05 , 0x06 , 0x07 ,\
 	0x08 , 0x09 , 0x0A , 0x0B ,\
 	0x0C , 0x0D , 0x0E , 0x0F \
@@ -38,7 +38,7 @@
 
 //Disable Hardware AES-128 coprosessor. 
 #ifdef AES_128_CONF
-//#undef AES_128_CONF //Uncomment to disable AES-128 coprocessor.
+#undef AES_128_CONF
 #endif //End of #ifdef AES_128_CONF
 
 #endif //End of #ifdef ENABLE_LLSEC
