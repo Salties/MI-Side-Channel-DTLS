@@ -227,8 +227,8 @@ Other ICMPv6 messages are still possible to be distinguished by \Cref{Tbl: Packe
 %Example Data
 A list of supported ICMPv6 Messages in Contiki release-3.0 is given in \Cref{Supported ICMPv6}. Some of them not included in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, as we did not observe them in our experiments.
 
-Some example data are available at:\\
-\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/RPL}
+The sample data are available at:\\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/Data/ICMPv6}
 
 %CONTINUE FROM HERE
 \subsection{ICMP Messages Response Timing}
@@ -241,7 +241,37 @@ Ideally the most suitable messages to perform this attack would be unicast NS an
 	\item NA is immediately sent as a response to unicast NS, allowing precise measurement of response interval.
 \end{itemize}
 
-Unfortunately on our real device platforms, TelosB and CC2538, NS and NA are hardly observable.
+Unfortunately on our real device platforms, namely TelosB and CC2538, NS and NA are hardly observable. Alternatively, we measured the response time of ECHO messages, i.e. the interval between an ECHO Request and an ECHO Response.  We show the histograms of the ECHO response time in \Cref{Fig: Histograms of ECHO Response Times}.
+
+\begin{figure*}[ht!]
+	\center
+	\includegraphics[width=0.55\textwidth]{fig/noncoresec_ping_telosb_hw.png}
+	\includegraphics[width=0.55\textwidth]{fig/noncoresec_ping_telosb_sw.png}
+	\includegraphics[width=0.55\textwidth]{fig/noncoresec_ping_cc2538_sw.png}
+	\caption{Histograms of ECHO Response Times}
+	\label{Fig: Histograms of ECHO Response Times}
+\end{figure*}
+
+One of the most important character of the distributions shown in \Cref{Fig: Histograms of ECHO Response Times} is that the ECHO response times are densely clustered near a specific value for each distribution, while a few of them are drifted away. Therefore in addition to the means of ECHO response times, we also use their median to characterise their distribution, as summarised \Cref{Tbl: ICMP ECHO Response Time}.
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|c|}
+		\hline
+		              & Mean (ms)     & Median (ms)   \\ \hline
+		TelosB HW AES & 37.20 & 30.77 \\ \hline
+		TelosB SW AES & 105.19        & 87.4          \\ \hline
+		CC2538 SW AES & 48.83         & 24.6          \\ \hline
+	\end{tabular}
+	\caption{ICMP ECHO Response Time}
+	\label{Tbl: ICMP ECHO Response Time}
+\end{table}
+
+This result is consistent to our expectation. 
+
+Our data are available at: \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/ICMPv6/
+
 
 %Sequence Numbers
 %No need to do this any more...
