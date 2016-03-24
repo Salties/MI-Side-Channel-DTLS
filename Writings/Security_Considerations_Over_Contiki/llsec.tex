@@ -27,7 +27,7 @@ One solution might be to store part of the Frame Counter on the flash and increa
 
 \cite{802154sec} has pointed out that anti replay in 802.15.4 Security is incompatible with network key as the same ACL entry is shared among multiple nodes, causing confusion of Replay Counter in ACL. However, with an inspection of the source code of Contiki, we realised that the noncoresec does not suffer the same problem as the ACL is not implemented; instead, a similar data structure is added to the routing table in kernel  associated to each source address.
 
-\section{AES Timing}
+\section{AES Timing} \label{Sec: AES Timing}
 
 As described in \Cref{Subsec: 802154 Sec}, AES-128 is used as the block cipher for 802.15.4 Security. noncoresec uses the AES-128 implementation provided by Contiki system library. The implementation could be either:
 \begin{itemize}
@@ -61,7 +61,7 @@ We test this method on  $n \in \{ 50, 100, 150, 200\}$ rounds respectively on ra
 	\begin{tabular}{|c|c|c|c|}
 	\hline
 	                               & Ticks (TelosB HW) & Ticks (TelosB SW) & Ticks (CC2538 SW) \\ \hline
-	50 rounds                      & 633.57 (ticks)                 & 4565.0                  & 981.31                  \\ \hline
+	50 rounds                      & 633.57                  & 4565.0                  & 981.31                  \\ \hline
 	100 rounds                     & 1270.3                  & 9152.58                 & 1947.6                  \\ \hline
 	150 rounds                     & 1901.4                  & 13736.13                & 2913.2                  \\ \hline
 	200 rounds                     & 2542.4                  & 18298.92                & 3880.0                  \\ \hline
@@ -91,7 +91,7 @@ The results of our test are shown in \Cref{Tbl: Fixed vs Random test on Contiki 
 		TelosB SW AES & $5.88 * 10^{-14}$ & 18311.9    & 31.54     & 18293.106   & 36.11      \\ \hline
 		CC2538 SW AES & 0                 & 3800.49    & 3.93      & 3878.80     & 2.37       \\ \hline
 	\end{tabular}
-	\caption{Fixed vs Random test result on Contiki AES timing, with sample size 1000. $\overline{t}$: sample mean of ticks, $s_{T}$: sample standard deviation of ticks}
+	\caption{Fixed vs Random test result on Contiki AES timing, with $n=200$ and sample size 1000. $\overline{t}$: sample mean of ticks, $s_{T}$: sample standard deviation of ticks.}
 	\label{Tbl: Fixed vs Random test on Contiki AES timing}
 \end{table}
 
@@ -233,15 +233,15 @@ The sample data are available at:\\
 %CONTINUE FROM HERE
 \subsection{ICMP Messages Response Timing}
 
-Exploiting the fact that one could possibly distinguish ICMPv6 messages in the encrypted traffic by frame size and destination MAC addresses, it is possible to further differentiate different hardware by inspecting the response time of the ICMPv6 messages, as different devices have different processing power resulting into different processing time for the same ICMPv6 message.
+Exploiting the fact that one could possibly distinguish ICMPv6 messages in the encrypted traffic by frame size and destination MAC addresses, it might be possible to further differentiate different hardware by inspecting the response time of the ICMPv6 messages, as different devices have different processing power resulting into different processing time for the same ICMPv6 message.
 
 Ideally the most suitable messages to perform this attack would be unicast NS and NA messages, since:
 \begin{itemize}
 	\item They can always be distinguished from application packets by packet size and destination MAC address, as explained in \Cref{Size and Dst of ICMP}.
-	\item NA is immediately sent as a response to unicast NS, allowing precise measurement of response interval.
+	\item NA is immediately sent as a response to unicast NS, allowing precise measurement of their response interval.
 \end{itemize}
 
-Unfortunately on our real device platforms, namely TelosB and CC2538, NS and NA are hardly observable. Alternatively, we measured the response time of ECHO messages, i.e. the interval between an ECHO Request and an ECHO Response.  We show the histograms of the ECHO response time in \Cref{Fig: Histograms of ECHO Response Times}.
+Unfortunately on our real device platforms, TelosB and CC2538, NS and NA are hardly observable. Alternatively, we measured the response time of ECHO messages, i.e. the interval between an ECHO Request and an ECHO Response, to attempt to distinguish these hardware.  We show the histograms of the ECHO response time of our experiments in \Cref{Fig: Histograms of ECHO Response Times}.
 
 \begin{figure*}[ht!]
 	\center
@@ -252,7 +252,7 @@ Unfortunately on our real device platforms, namely TelosB and CC2538, NS and NA 
 	\label{Fig: Histograms of ECHO Response Times}
 \end{figure*}
 
-One of the most important character of the distributions shown in \Cref{Fig: Histograms of ECHO Response Times} is that the ECHO response times are densely clustered near a specific value for each distribution, while a few of them are drifted away. Therefore in addition to the means of ECHO response times, we also use their median to characterise their distribution, as summarised \Cref{Tbl: ICMP ECHO Response Time}.
+Intuitively, one of the most important character of the distributions shown in \Cref{Fig: Histograms of ECHO Response Times} is that the ECHO response times are densely clustered near a specific value for each distribution, while a few of them are drifted far away. Therefore in addition to the means of ECHO response times, we also use their median to characterise their distributions, as summarised in \Cref{Tbl: ICMP ECHO Response Time}.
 
 \begin{table}[ht!]
 	\center
@@ -267,11 +267,47 @@ One of the most important character of the distributions shown in \Cref{Fig: His
 	\label{Tbl: ICMP ECHO Response Time}
 \end{table}
 
-This result is consistent to our expectation. 
+This result is consistent to our expectation, as CC2538 has much better performance than TelosB, even though the hardware AES can greatly improve the performance, as shown in \Cref{Tbl: AES execution time estimation of Contiki}.
+
+It is apparent that TelosB with the software AES implementation takes an obvious longer time than the other settings. To further verify whether it is distinguishable between CC2538 with software AES implementation and TelosB with hardware AES implementation, we tried the data with two sample t-test and two sample Kolmogorov-Smirnov test, KS test, respectively. For simplicity, we denote $T_C}$ and $T_T}$ to be the ECHO response time for CC2538 software AES and TelosB hardware AES respectively. The test results are shown in \Cref{Tbl: p-values for statistical tests over ECHO response time}.
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|c|}
+	\hline
+	        & $T_C == T_T$ & $T_C < T_T$ \\ \hline
+	t-test  & 0.146        & 0.927       \\ \hline
+	KS test & 0            & 0.567       \\ \hline
+	\end{tabular}
+	\caption{p-values for statistical tests over ECHO response time. Columns are different null hypothesises.}
+	\label{Tbl: p-values for statistical tests over ECHO response time}
+\end{table}
+
+The test results suggest that the ECHO response time for CC2538 software AES is likely to be distinguishable from TelosB hardware AES, with the CC2538 tends to respond faster than TelosB.
+
+Therefore in conclusion, we suggest that the ECHO response time can be potentially exploited to distinguish the platforms and settings in our experiments.
+
+With respect to using the NS/NA messages to perform the same attack, we expect these messages will provide an even better distinguishability as they normally takes longer time to process comparing to ICMP ECHO messages. However, we failed to confirm this due to lack of solutions to generate analysable amount of NS/NA messages on our platforms. We leave this task as a future work in this report.
 
 Our data are available at: \\
-\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/ICMPv6/
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/keyllsec/ICMPv6/}
 
+\subsection{Countermeasures}
+
+The greatest difficultly to counter the ICMPv6 vulnerabilities in 6LoWPAN is the fact that these flaws are built-in nature of the standardised protocol stacks which cannot be easily changed. However, the countermeasures we proposed do not require any modification to the current protocol.
+
+\paragraph{Frame Size}
+
+The most effective and efficient solution to prevent the frame size side channel is to pad every frame to MTU. Unlike the similar Traffic Analysis countermeasure on Internet which may cause a drastic overhead, the MTU in a 6LoWPAN network is only 127 bytes which is significantly smaller than Internet. This effectively means that for those ICMPv6 messages we observed in our experiments as described in 
+\Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, the padding can be no more than $42$ bytes for a single frame, which is nearly below $1/3$ overhead. To cope with the current standard, the padding can be done using the Private experimentation type numbers\cite{rfc4443} of ICMPv6, where the receiver can simply silently discard the paddings.
+
+\paragraph{Destination MAC Address}
+
+Due to the nature of RF, all frames are physically broadcasted to all neighbour nodes. As a mitigation to the Destination MAC Address side channel, the Sensor Nodes may constantly use the Link Layer broadcast address when noncoresec is enabled, and relies on Network Layer to filter out the unintended packets. As a consequence, the frames will not be ACKed as ACKs are not sent for broadcast messages. We argue this will not cause malfunction in our settings since ACK in 802.15.4 standard is optional and thus the transmission is always unreliable; therefore any upper layer applications should not rely on  the MAC Layer ACK. However, this method may also cause performance overhead, as those frames supposed to be filtered out at MAC Layer will now be additional processed to Network Layer, resulting into exponentially increased power consumption.
+
+\paragraph{Response Time of ICMPv6 Messages}
+
+Due to the hardware relevance and constrained environment, it would be hard to prevent the timing side channel. One solution might be to treat the responding of ICMPv6 messages as real time tasks, and if drop the response if the specified time is exceeded. However, dropping the response in some cases may cause excessive performance issue, i.e. triggering flooded requests. In addition, real time tasks are pre emptive, which may result into complicated code that does not fit into the constrained devices. Further more, the pre emptive real time tasks may also induce vulnerabilities to DoS attacks. Alternatively, we may insert dummy operations to randomise the processing time. However, it is unclear whether it is feasible to sample enough randomness without downgrading the functionality of the network. In conclusion, the timing side channel may be hard to mitigate on these platforms.
 
 %Sequence Numbers
 %No need to do this any more...
