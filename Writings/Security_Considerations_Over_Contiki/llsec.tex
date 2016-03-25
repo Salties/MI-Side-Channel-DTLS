@@ -254,10 +254,18 @@ Ideally the most suitable messages to perform this attack would be unicast NS an
 Unfortunately on our real device platforms, TelosB and CC2538, NS and NA are hardly observable. Alternatively, we measured the response time of ECHO messages, i.e. the interval between an ECHO Request and an ECHO Response, as a proof of concept to this attack.  We show the histograms of the ECHO response time with different setups in \Cref{Fig: Histograms of ECHO response times on different setups}.
 
 \begin{figure*}[ht!]
-	\center
-	\includegraphics[width=0.55\textwidth]{fig/noncoresec_ping_telosb_hw.png}
-	\includegraphics[width=0.55\textwidth]{fig/noncoresec_ping_telosb_sw.png}
-	\includegraphics[width=0.55\textwidth]{fig/noncoresec_ping_cc2538_sw.png}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{fig/noncoresec_ping_telosb_hw.png}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{fig/noncoresec_ping_telosb_sw.png}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{fig/noncoresec_ping_cc2538_sw.png}
+	\end{subfigure}
 	\caption{Histograms of ECHO response times on different setups}
 	\label{Fig: Histograms of ECHO response times on different setups}
 \end{figure*}
@@ -317,9 +325,22 @@ The most effective and efficient solution to counter the packet size side channe
 
 Due to the nature of RF, all frames are physically broadcasted to all neighbour nodes. As a mitigation to the MAC destination address side channel, the Sensor Nodes may constantly use the Link Layer broadcast address when noncoresec is enabled, and relies on Network Layer to filter out the unintended packets. However, as a consequence, the frames will not be ACKed as ACKs are not sent for broadcast messages and any protocol relies on this feature, such as Contiki MAC, will be affected. We argue this will not cause significant malfunctioning since ACK in 802.15.4 standard is optional and the transmission is always unreliable; therefore any upper layer applications should not rely on  the MAC Layer ACK. However, this method may also cause performance overhead, as those frames supposed to be filtered out at MAC Layer will now be additional passed to Network Layer, resulting into increased computation and power consumption.
 
-\paragraph{Response Time of ICMPv6 Messages}
+\paragraph{Response Time}
 
 Due to the hardware relevance and constrained environment, it would be hard to prevent the timing side channel. One solution might be to treat the responding of ICMPv6 messages as real time tasks, and drop the response if the specified timeout is exceeded. However, dropping the response in some cases may cause excessive performance issue, e.g. triggering flooded retransmissions. In addition, real time tasks are pre emptive, which may result into complicated code that does not fit into the constrained devices. Further more, the pre emptive real time tasks may also induce vulnerabilities to DoS attacks. Alternatively, we may insert dummy operations to randomise the processing time. However, it is unclear whether it is feasible to sample enough randomness without downgrading the functionality of the network. In conclusion, the timing side channel may be hard to mitigate on these platforms.
+
+
+\section{Conclusion}
+
+In this section we analysed the 802.15.4 Security implementation on Contiki, noncoresec.
+
+noncoresec has a potential nonce reuse problem which can leak the differences of plaintexts by resetting the device.
+
+The execution time of AES implementations on our tested platforms may potentially leak the cryptographic key, but we have not yet identify the cause of the leakage and leave this as an open question. However, this timing leakage is unlikely to be exploitable from the WSN traffic.
+
+Frame sizes has linear relations to the application data, as the number of additional bytes induced by noncoresec is constant.
+
+The ICMPv6 messages are potentially vulnerable targets in a 6LoWPAN network, as they have characteristic packet sizes and MAC destination addresses. Some of them are distinguishable from application packets by the packet features. Further more, the different response time of the same ICMPv6 messages may be exploited to distinguish different hardware in the network. However, countermeasures to the timing side channel are generally difficult to implement in the constrained environment.
 
 %Sequence Numbers
 %No need to do this any more...
