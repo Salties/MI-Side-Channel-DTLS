@@ -2,18 +2,18 @@
 
 In this chapter, we analysis the Link Layer security measure in Contiki, noncoresec.
 
-One thing to be noticed is that IPv6 fragmentation may affect some packet features. However, as it would be avoided by most of the applications, we assume the packets are not fragmented in this section.
+One thing to be noticed is that IPv6 fragmentation may affect the packet features. However, as it would be avoided by most applications, we assume the packets are not fragmented in this section.
+
+The term ``broadcast'' in this section represents Link Layer broadcast.
 
 \section{Protocol and Implementation}
 
-\cite{802154sec} has introduced some problems induced by the design of 802.15.4 security, as we has summarised in \Cref{Subsec: 802154 Sec Issue}. Since noncoresec supports only network shared key, we do not consider the key management issues mentioned in \cite{802154sec}. As a result, there are two potential problems left on our platform:
+\cite{802154sec} analysed some design problems of 802.15.4 Security and  we summarised them in \Cref{Subsec: 802154 Sec Issue}. Since noncoresec supports only network shared key and does not implement ACL, we key management issues are not concerned in our settings. Instead, two potential problems are investigated in this report:
 
 \begin{enumerate}
 	\item Nonce reuse
 	\item Incompatible anti replay
 \end{enumerate}
-
-In this section, we analyse the noncoresec implementation with respect to these two potential problems. The term ``broadcast'' in this section represents Link Layer broadcast.
 
 \subsection{Nonce Reuse}
 
