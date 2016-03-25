@@ -1,14 +1,14 @@
-Contiki-3.0
-TI SmartRF06 + cc2538EM
- Net: sicslowpan
- MAC: CSMA
- RDC: ContikiMAC
-Rime configured with address 00:12:4b:00:04:1e:af:c6
-Fixed AES-128 implementation test for cc2538dk.
-Using Contiki software implementation.
-Rounds in each sample: 200
-Sample size: 1000
-Rtimer clock ticks per second on this platform is : 32768
+#Contiki-3.0
+#TI SmartRF06 + cc2538EM
+# Net: sicslowpan
+# MAC: CSMA
+# RDC: ContikiMAC
+#Rime configured with address 00:12:4b:00:04:1e:af:c6
+#Fixed AES-128 implementation test for cc2538dk.
+#Using Contiki software implementation.
+#Rounds in each sample: 200
+#Sample size: 1000
+#Rtimer clock ticks per second on this platform is : 32768
 3806
 3798
 3799
@@ -1007,4 +1007,4 @@ Rtimer clock ticks per second on this platform is : 32768
 3798
 3800
 3801
-1000 tests done for cc2538dk.
+#1000 tests done for cc2538dk.
