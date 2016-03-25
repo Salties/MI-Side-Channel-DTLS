@@ -1,0 +1,111 @@
+Rime started with address 0.18.116.0.14.50.241.215
+MAC 00:12:74:00:0e:32:f1:d7 Contiki-3.0 started. Node id is not set.
+noncoresec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26, CCA threshold -45
+Tentative link-local IPv6 address fe80:0000:0000:0000:0212:7400:0e32:f1d7
+Starting 'aestest'
+Random AES-128 implementation test for sky.
+Using Contiki software implementation.
+Rounds in each sample: 100
+Sample size: 100
+Rtimer clock ticks per second on this platform is : 32768
+9192
+9154
+9152
+9153
+9155
+9151
+9157
+9154
+9152
+9157
+9153
+9152
+9154
+9153
+9151
+9156
+9154
+9153
+9157
+9155
+9154
+9155
+9157
+9155
+9156
+9146
+9154
+9157
+9154
+9155
+9157
+9156
+9155
+9157
+9158
+9154
+9156
+9154
+9155
+9159
+9156
+9155
+9157
+9156
+9155
+9159
+9157
+9156
+9155
+9156
+9153
+9155
+9155
+9152
+9157
+9156
+9154
+9158
+9154
+9151
+9159
+9154
+9153
+9157
+9155
+9155
+9158
+9155
+9155
+9158
+9156
+9156
+9159
+9157
+9153
+9157
+9156
+9156
+9160
+9157
+9154
+9158
+9158
+9156
+9159
+9146
+9154
+9158
+9158
+9156
+9125
+9125
+9123
+9127
+9126
+9124
+9126
+9122
+9125
+9126
+100 tests done for sky.
