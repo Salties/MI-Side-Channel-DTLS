@@ -1,8 +1,18 @@
 \chapter{DTLS} \label{Chp: DTLS}
 
+In this chapter we analyse DTLS on Contiki. We consider only two ciphersuites those have been implemented by the tinydtls implementation, which are TLS\_PSK\_WITH\_AES\_128\_CCM\_8 and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8. 
+
+One thing to be noticed is that both ciphersuites uses AES-128 CCM for data encryption and therefore they only behave different during handshake. Hence we do not distinguish application data encrypted by both ciphersuites.
+
 \section{Packet Size}
 
-\section{DTLS Timing}
+Since application data are encrypted using AES-128 CCM, the size of application data is not hidden when using DTLS
+
+%CoAP
+
+\section{Timing}
+
+
 
 \section{DTLS Handshake}
 
