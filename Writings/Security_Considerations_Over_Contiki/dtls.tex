@@ -4,9 +4,20 @@ In this chapter we analyse DTLS on Contiki. We consider only two ciphersuites th
 
 One thing to be noticed is that both ciphersuites uses AES-128 CCM for data encryption and therefore they only behave different during handshake. Hence we do not distinguish application data encrypted by both ciphersuites.
 
+\section{DTLS Handshake}
+
 \section{Packet Size}
 
-Since application data are encrypted using AES-128 CCM, the size of application data is not hidden when using DTLS
+Since application data are encrypted using AES-128 CCM, the size of application data is not hidden and is visible in the header, as highlighted in \Cref{Fig: Size of application data in DTLS}.
+
+\begin{figure*}[ht!]
+	\center
+	\includegraphics[width=.9\textwidth]{fig/dtlslength.png}
+	\caption{Size of application data in DTLS}
+	\label{Fig: Size of application data in DTLS}
+\end{figure*}
+
+Referring to \cite{rfc5116}, the size of application data is exactly the value of the highlighted Length in \Cref{Fig: Size of application data in DTLS} minus $16$ bytes.
 
 %CoAP
 
@@ -14,7 +25,7 @@ Since application data are encrypted using AES-128 CCM, the size of application 
 
 
 
-\section{DTLS Handshake}
+
 
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
