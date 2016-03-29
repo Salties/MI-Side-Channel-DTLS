@@ -2,6 +2,8 @@
 	path = contiki
 	url = git://github.com/contiki-os/contiki.git
 	branch = release-3-0
+	ignore = dirty
 [submodule "sensniff"]
 	path = sensniff
 	url = https://github.com/g-oikonomou/sensniff
+	ignore = dirty
