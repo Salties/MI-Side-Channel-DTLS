@@ -1,0 +1,712 @@
+#Contiki-3.0
+#TI SmartRF06 + cc2538EM
+# Net: sicslowpan
+# MAC: CSMA
+# RDC: ContikiMAC
+#Rime configured with address 00:12:4b:00:04:1e:af:c6
+#Random AES-128 implementation test for cc2538dk.
+#Using OpenBSD optimised AES implementation.
+#Rounds in each sample: 200
+#Sample size: 100
+#Rtimer clock ticks per second on this platform is : 32768
+#Sample 1/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Round	: 200
+#Start	: 55710
+#End	: 56351
+#Time Elapsed	:
+ 641
+#Sample 2/100
+#Key	: 6e 10 c7 e9 01 2e 53 ca 9e 8c 76 43 4a 1a 55 58 
+#Round	: 200
+#Start	: 88133
+#End	: 88773
+#Time Elapsed	:
+ 640
+#Sample 3/100
+#Key	: 9d a2 5f f2 e5 d4 a7 2f 53 bc 1a 81 d6 25 dc 34 
+#Round	: 200
+#Start	: 120901
+#End	: 121542
+#Time Elapsed	:
+ 641
+#Sample 4/100
+#Key	: 05 f4 ea 2c 4c 0a 80 be ca 8e 56 c1 50 34 94 b7 
+#Round	: 200
+#Start	: 153669
+#End	: 154310
+#Time Elapsed	:
+ 641
+#Sample 5/100
+#Key	: 41 65 17 d3 dc 6b a0 6e ba ab 07 60 5c 1c 83 e0 
+#Round	: 200
+#Start	: 186439
+#End	: 187080
+#Time Elapsed	:
+ 641
+#Sample 6/100
+#Key	: 8b 21 25 3e 86 49 c1 9e 55 c6 a1 08 6b 86 e8 05 
+#Round	: 200
+#Start	: 219205
+#End	: 219845
+#Time Elapsed	:
+ 640
+#Sample 7/100
+#Key	: 21 1d 53 c9 95 98 c2 7f 11 ad f9 8c eb 22 cb 7c 
+#Round	: 200
+#Start	: 251974
+#End	: 252615
+#Time Elapsed	:
+ 641
+#Sample 8/100
+#Key	: aa 95 18 04 02 e8 b9 e8 f6 3c 3e 6b 0f 2e 5f cb 
+#Round	: 200
+#Start	: 284741
+#End	: 285381
+#Time Elapsed	:
+ 640
+#Sample 9/100
+#Key	: a5 39 c6 75 48 0f b1 e3 c7 0f d3 91 c0 cd ed 08 
+#Round	: 200
+#Start	: 317510
+#End	: 318150
+#Time Elapsed	:
+ 640
+#Sample 10/100
+#Key	: 9a 74 28 88 1e 62 75 92 a2 1e a1 7e c2 b1 bd a5 
+#Round	: 200
+#Start	: 350280
+#End	: 350921
+#Time Elapsed	:
+ 641
+#Sample 11/100
+#Key	: ca 5f f4 ef 6c ff 2d b7 ce e0 40 a1 2e 32 fc bd 
+#Round	: 200
+#Start	: 383047
+#End	: 383688
+#Time Elapsed	:
+ 641
+#Sample 12/100
+#Key	: 89 ea d3 53 24 4f 41 76 b5 1d a8 dd 07 1b b7 78 
+#Round	: 200
+#Start	: 415815
+#End	: 416455
+#Time Elapsed	:
+ 640
+#Sample 13/100
+#Key	: 7e ca c9 9e 84 46 6e b2 76 34 9d e3 ff 41 76 f3 
+#Round	: 200
+#Start	: 448583
+#End	: 449223
+#Time Elapsed	:
+ 640
+#Sample 14/100
+#Key	: 12 3c d4 27 f1 3e da 46 89 a8 a8 aa 30 29 0a 99 
+#Round	: 200
+#Start	: 481351
+#End	: 481991
+#Time Elapsed	:
+ 640
+#Sample 15/100
+#Key	: 81 25 d2 e0 c3 65 2a 13 c1 56 81 3e ba d2 78 13 
+#Round	: 200
+#Start	: 514120
+#End	: 514761
+#Time Elapsed	:
+ 641
+#Sample 16/100
+#Key	: f3 8a d3 d2 f6 97 52 21 8f b3 03 3c 80 f2 e0 f6 
+#Round	: 200
+#Start	: 546889
+#End	: 547529
+#Time Elapsed	:
+ 640
+#Sample 17/100
+#Key	: 90 0b 7c 03 40 2d c9 26 05 f6 a9 9f 5f 3e 9f ad 
+#Round	: 200
+#Start	: 579656
+#End	: 580296
+#Time Elapsed	:
+ 640
+#Sample 18/100
+#Key	: bd 2a 00 95 f4 94 2c 28 8e 90 60 71 cc 71 71 ff 
+#Round	: 200
+#Start	: 612424
+#End	: 613064
+#Time Elapsed	:
+ 640
+#Sample 19/100
+#Key	: eb d0 76 1c a1 38 e7 8c 39 dc 08 bf a8 e9 56 c0 
+#Round	: 200
+#Start	: 645192
+#End	: 645832
+#Time Elapsed	:
+ 640
+#Sample 20/100
+#Key	: 46 62 7e 70 21 2f c6 b8 5f 3c bb 4f 86 3e 59 e2 
+#Round	: 200
+#Start	: 677960
+#End	: 678600
+#Time Elapsed	:
+ 640
+#Sample 21/100
+#Key	: 1d 32 75 fe 65 48 20 5f 77 89 a4 5e 1d 7a 55 0b 
+#Round	: 200
+#Start	: 710729
+#End	: 711369
+#Time Elapsed	:
+ 640
+#Sample 22/100
+#Key	: 39 b5 24 b9 b2 21 7a b8 a2 84 c7 57 bb 91 59 0b 
+#Round	: 200
+#Start	: 743497
+#End	: 744137
+#Time Elapsed	:
+ 640
+#Sample 23/100
+#Key	: ed 87 a3 58 0a 28 ea a3 9d 60 df 00 ab ab 38 4f 
+#Round	: 200
+#Start	: 776264
+#End	: 776904
+#Time Elapsed	:
+ 640
+#Sample 24/100
+#Key	: d5 a5 30 81 45 0a a1 e0 55 ea 39 10 1a aa ce 6d 
+#Round	: 200
+#Start	: 809031
+#End	: 809671
+#Time Elapsed	:
+ 640
+#Sample 25/100
+#Key	: 4f 99 2a 18 34 66 c8 8d 3d 79 a4 da 3b 1e f1 13 
+#Round	: 200
+#Start	: 841800
+#End	: 842439
+#Time Elapsed	:
+ 639
+#Sample 26/100
+#Key	: cb 4a 2e 9e f4 44 88 c6 ea 4e b5 23 0d 7d f9 6b 
+#Round	: 200
+#Start	: 874568
+#End	: 875208
+#Time Elapsed	:
+ 640
+#Sample 27/100
+#Key	: ae 9d fa 64 7b 33 5c f2 70 dc 49 af 88 89 60 1e 
+#Round	: 200
+#Start	: 907335
+#End	: 907975
+#Time Elapsed	:
+ 640
+#Sample 28/100
+#Key	: 6b bb d9 00 b6 14 a0 4d fd ca bb 44 c1 75 56 e6 
+#Round	: 200
+#Start	: 940103
+#End	: 940743
+#Time Elapsed	:
+ 640
+#Sample 29/100
+#Key	: d7 f7 4b 38 c5 23 11 dd 09 d1 d3 ac 39 57 30 48 
+#Round	: 200
+#Start	: 972871
+#End	: 973511
+#Time Elapsed	:
+ 640
+#Sample 30/100
+#Key	: 8e 48 b1 11 d4 45 84 fa a0 62 39 93 99 07 57 fa 
+#Round	: 200
+#Start	: 1005640
+#End	: 1006280
+#Time Elapsed	:
+ 640
+#Sample 31/100
+#Key	: 24 b3 00 c6 a1 18 87 fa 52 a7 85 17 d2 ce d8 d9 
+#Round	: 200
+#Start	: 1038408
+#End	: 1039047
+#Time Elapsed	:
+ 639
+#Sample 32/100
+#Key	: 74 16 42 1f 22 51 e9 c3 1a 48 a0 bc d2 43 70 da 
+#Round	: 200
+#Start	: 1071176
+#End	: 1071815
+#Time Elapsed	:
+ 639
+#Sample 33/100
+#Key	: 61 37 d7 79 84 96 ea f9 24 c5 31 a1 70 20 9d cb 
+#Round	: 200
+#Start	: 1103944
+#End	: 1104584
+#Time Elapsed	:
+ 640
+#Sample 34/100
+#Key	: 64 03 88 c7 25 8d 58 15 5b a8 b9 ef 29 bb 2b ec 
+#Round	: 200
+#Start	: 1136712
+#End	: 1137352
+#Time Elapsed	:
+ 640
+#Sample 35/100
+#Key	: b5 69 fd ea 05 84 4c 7e 16 84 c8 59 2d f4 aa 01 
+#Round	: 200
+#Start	: 1169480
+#End	: 1170120
+#Time Elapsed	:
+ 640
+#Sample 36/100
+#Key	: d7 50 fe dd 5b 84 fb 1d 96 99 7b 93 85 fb 5f 83 
+#Round	: 200
+#Start	: 1202249
+#End	: 1202889
+#Time Elapsed	:
+ 640
+#Sample 37/100
+#Key	: 55 11 a8 76 0f ce 11 3a 33 74 9e 87 15 c7 df 13 
+#Round	: 200
+#Start	: 1235016
+#End	: 1235655
+#Time Elapsed	:
+ 639
+#Sample 38/100
+#Key	: cb 2a 2e a5 b2 66 d0 d9 47 77 db 7d 60 8c b4 40 
+#Round	: 200
+#Start	: 1267783
+#End	: 1268423
+#Time Elapsed	:
+ 640
+#Sample 39/100
+#Key	: d2 e1 47 e4 f2 37 02 4f 14 f6 58 db 09 07 73 cb 
+#Round	: 200
+#Start	: 1300553
+#End	: 1301193
+#Time Elapsed	:
+ 640
+#Sample 40/100
+#Key	: 67 5c 51 67 2f 89 61 6f 84 ed 13 d1 20 cc 2d 17 
+#Round	: 200
+#Start	: 1333321
+#End	: 1333961
+#Time Elapsed	:
+ 640
+#Sample 41/100
+#Key	: ad fa 6c 7d d3 f6 52 9b f6 14 c8 b3 ce 06 03 59 
+#Round	: 200
+#Start	: 1366088
+#End	: 1366728
+#Time Elapsed	:
+ 640
+#Sample 42/100
+#Key	: 11 5b 51 e6 e2 ab e4 9e 3c 94 fd 66 d2 61 9f 45 
+#Round	: 200
+#Start	: 1398856
+#End	: 1399496
+#Time Elapsed	:
+ 640
+#Sample 43/100
+#Key	: 99 13 14 b7 12 89 99 07 e2 7d c3 59 42 78 27 f2 
+#Round	: 200
+#Start	: 1431623
+#End	: 1432263
+#Time Elapsed	:
+ 640
+#Sample 44/100
+#Key	: ac e9 32 20 56 66 3d 1e 71 41 2b 49 68 22 71 76 
+#Round	: 200
+#Start	: 1464391
+#End	: 1465031
+#Time Elapsed	:
+ 640
+#Sample 45/100
+#Key	: 35 4a 05 1c 87 94 a0 c9 8a b0 eb 9f d7 69 96 7c 
+#Round	: 200
+#Start	: 1497160
+#End	: 1497801
+#Time Elapsed	:
+ 641
+#Sample 46/100
+#Key	: 65 8f 5f d7 93 1e b1 38 ee dc fd f0 cc 77 b8 53 
+#Round	: 200
+#Start	: 1529927
+#End	: 1530567
+#Time Elapsed	:
+ 640
+#Sample 47/100
+#Key	: 32 1d ae 33 e2 d7 4b 47 8b 27 01 53 3a c9 04 d8 
+#Round	: 200
+#Start	: 1562696
+#End	: 1563336
+#Time Elapsed	:
+ 640
+#Sample 48/100
+#Key	: d4 d7 66 24 b0 ee 38 33 40 e0 5b 7c 8f 7e 24 13 
+#Round	: 200
+#Start	: 1595464
+#End	: 1596104
+#Time Elapsed	:
+ 640
+#Sample 49/100
+#Key	: db 4c f3 a3 ab 6c 12 9d 24 58 f1 16 c7 cc de 9d 
+#Round	: 200
+#Start	: 1628232
+#End	: 1628872
+#Time Elapsed	:
+ 640
+#Sample 50/100
+#Key	: 85 01 eb 1d e6 f3 2f 98 64 d8 09 09 27 0f 59 f6 
+#Round	: 200
+#Start	: 1661001
+#End	: 1661642
+#Time Elapsed	:
+ 641
+#Sample 51/100
+#Key	: 45 25 76 ec af 35 59 bb 8a 43 56 c7 a4 b2 9e 80 
+#Round	: 200
+#Start	: 1693767
+#End	: 1694408
+#Time Elapsed	:
+ 641
+#Sample 52/100
+#Key	: ec 8f 1c bc 62 19 1a 91 26 f8 97 f7 4e e9 9d c8 
+#Round	: 200
+#Start	: 1726536
+#End	: 1727176
+#Time Elapsed	:
+ 640
+#Sample 53/100
+#Key	: 91 a4 52 e4 fb b4 26 63 b8 9d 9f 70 56 cd 19 9c 
+#Round	: 200
+#Start	: 1759304
+#End	: 1759945
+#Time Elapsed	:
+ 641
+#Sample 54/100
+#Key	: 36 f9 35 b7 35 cf c1 80 90 e0 13 2f f6 28 39 d1 
+#Round	: 200
+#Start	: 1792071
+#End	: 1792711
+#Time Elapsed	:
+ 640
+#Sample 55/100
+#Key	: 91 a1 f2 5f e4 0f b2 33 b9 4a 8d de f1 4b c9 5d 
+#Round	: 200
+#Start	: 1824839
+#End	: 1825479
+#Time Elapsed	:
+ 640
+#Sample 56/100
+#Key	: ea 40 4f e0 23 f7 02 ee 61 3f a8 74 9f 8e 30 41 
+#Round	: 200
+#Start	: 1857607
+#End	: 1858248
+#Time Elapsed	:
+ 641
+#Sample 57/100
+#Key	: dc e4 2d 5d 0b c3 c7 2c b5 3a 36 4a 51 3b 81 68 
+#Round	: 200
+#Start	: 1890376
+#End	: 1891016
+#Time Elapsed	:
+ 640
+#Sample 58/100
+#Key	: 83 a8 5b 02 98 30 bd a0 8e cc 75 90 3a 08 f5 44 
+#Round	: 200
+#Start	: 1923143
+#End	: 1923783
+#Time Elapsed	:
+ 640
+#Sample 59/100
+#Key	: 70 0e 75 12 9b b2 52 ad fd 6c d3 94 fd 2f 72 c2 
+#Round	: 200
+#Start	: 1955911
+#End	: 1956552
+#Time Elapsed	:
+ 641
+#Sample 60/100
+#Key	: a3 03 15 6f 00 30 cf bb b2 b8 2c c4 00 c7 75 55 
+#Round	: 200
+#Start	: 1988681
+#End	: 1989321
+#Time Elapsed	:
+ 640
+#Sample 61/100
+#Key	: ef 67 d7 18 1c 19 fe 2c a0 3f e0 7c 01 fc 57 cd 
+#Round	: 200
+#Start	: 2021787
+#End	: 2022427
+#Time Elapsed	:
+ 640
+#Sample 62/100
+#Key	: 66 f0 b2 54 b7 f4 f9 a8 86 da f4 f9 0d ee af 0f 
+#Round	: 200
+#Start	: 2054216
+#End	: 2054856
+#Time Elapsed	:
+ 640
+#Sample 63/100
+#Key	: 08 19 da 97 92 e9 7f e8 f8 0d aa be f2 07 c9 37 
+#Round	: 200
+#Start	: 2086984
+#End	: 2087624
+#Time Elapsed	:
+ 640
+#Sample 64/100
+#Key	: 41 f0 d3 ec 89 d4 24 bb ea 7f 30 7d 54 be 46 35 
+#Round	: 200
+#Start	: 2119752
+#End	: 2120393
+#Time Elapsed	:
+ 641
+#Sample 65/100
+#Key	: 21 e1 36 ad bb 8c 50 c5 8d 78 3a 83 1e b4 bd 9c 
+#Round	: 200
+#Start	: 2152521
+#End	: 2153161
+#Time Elapsed	:
+ 640
+#Sample 66/100
+#Key	: ff 53 1f a8 c0 fb e0 2c 0d 79 72 d5 80 91 c2 f1 
+#Round	: 200
+#Start	: 2185289
+#End	: 2185929
+#Time Elapsed	:
+ 640
+#Sample 67/100
+#Key	: 8c 8e 6f c5 e9 d2 59 cc 70 34 73 45 cb 18 bf 74 
+#Round	: 200
+#Start	: 2218057
+#End	: 2218697
+#Time Elapsed	:
+ 640
+#Sample 68/100
+#Key	: e3 6f ea f7 5a 88 9d 81 e2 1c d4 ec 3d 87 73 8c 
+#Round	: 200
+#Start	: 2250824
+#End	: 2251465
+#Time Elapsed	:
+ 641
+#Sample 69/100
+#Key	: 35 4e b0 d0 f9 ef 05 59 25 d4 82 eb e5 97 3b 4f 
+#Round	: 200
+#Start	: 2283591
+#End	: 2284231
+#Time Elapsed	:
+ 640
+#Sample 70/100
+#Key	: e0 4f 98 d4 37 5d 46 fb 67 0c bf 4f 8e 02 98 9e 
+#Round	: 200
+#Start	: 2316360
+#End	: 2317000
+#Time Elapsed	:
+ 640
+#Sample 71/100
+#Key	: f9 bd 36 2c ad 75 a9 ad 0a e9 2f 88 36 36 90 40 
+#Round	: 200
+#Start	: 2349128
+#End	: 2349769
+#Time Elapsed	:
+ 641
+#Sample 72/100
+#Key	: ac 72 a1 b3 18 54 46 32 dc 57 4f bf cb 07 04 f9 
+#Round	: 200
+#Start	: 2381897
+#End	: 2382537
+#Time Elapsed	:
+ 640
+#Sample 73/100
+#Key	: 5d ab 70 0b 15 00 5c 95 66 a0 63 94 90 04 fa d1 
+#Round	: 200
+#Start	: 2414664
+#End	: 2415304
+#Time Elapsed	:
+ 640
+#Sample 74/100
+#Key	: 1b 3f 99 a7 c9 66 36 0d f2 65 9b 9d 09 32 bf ae 
+#Round	: 200
+#Start	: 2447432
+#End	: 2448072
+#Time Elapsed	:
+ 640
+#Sample 75/100
+#Key	: 2e d6 42 ae f3 6a 52 4d 83 4e b5 80 a2 6a f1 a9 
+#Round	: 200
+#Start	: 2480199
+#End	: 2480839
+#Time Elapsed	:
+ 640
+#Sample 76/100
+#Key	: ca df be a8 dd 75 2d 6c 62 22 0d a9 c7 99 d6 37 
+#Round	: 200
+#Start	: 2512969
+#End	: 2513609
+#Time Elapsed	:
+ 640
+#Sample 77/100
+#Key	: 9f 2c 40 ab 71 66 b6 7f aa 99 30 21 25 a1 92 f8 
+#Round	: 200
+#Start	: 2545737
+#End	: 2546377
+#Time Elapsed	:
+ 640
+#Sample 78/100
+#Key	: c9 d3 74 d9 1c ab 7e 63 b5 84 fb 07 2a 08 b7 5d 
+#Round	: 200
+#Start	: 2578504
+#End	: 2579144
+#Time Elapsed	:
+ 640
+#Sample 79/100
+#Key	: ab 85 50 c7 e3 b6 93 26 05 a6 61 92 66 4b d7 0d 
+#Round	: 200
+#Start	: 2611273
+#End	: 2611913
+#Time Elapsed	:
+ 640
+#Sample 80/100
+#Key	: 09 4d 09 87 72 60 bc 86 1a 4f 52 86 62 59 eb 46 
+#Round	: 200
+#Start	: 2644039
+#End	: 2644680
+#Time Elapsed	:
+ 641
+#Sample 81/100
+#Key	: 5b db be d7 74 8a 5d 4a 95 05 e2 7e 6d be 65 a3 
+#Round	: 200
+#Start	: 2676807
+#End	: 2677448
+#Time Elapsed	:
+ 641
+#Sample 82/100
+#Key	: 4a 1e 7d 07 20 6e f4 2a c5 76 4c 19 32 95 32 34 
+#Round	: 200
+#Start	: 2709576
+#End	: 2710216
+#Time Elapsed	:
+ 640
+#Sample 83/100
+#Key	: d9 51 55 4b 79 7b e9 52 ff 2a 67 9c 88 bd 64 44 
+#Round	: 200
+#Start	: 2742343
+#End	: 2742984
+#Time Elapsed	:
+ 641
+#Sample 84/100
+#Key	: 48 bc 0f 1e 4b 65 e4 52 1b a8 66 0a 5b a8 b2 9f 
+#Round	: 200
+#Start	: 2775111
+#End	: 2775752
+#Time Elapsed	:
+ 641
+#Sample 85/100
+#Key	: a7 45 14 ce ed 1a f0 be 3f b4 71 24 9a 1e 49 3f 
+#Round	: 200
+#Start	: 2807880
+#End	: 2808520
+#Time Elapsed	:
+ 640
+#Sample 86/100
+#Key	: 3e 90 d5 92 c5 61 a7 f1 3a e1 e7 75 34 a7 72 5e 
+#Round	: 200
+#Start	: 2840647
+#End	: 2841287
+#Time Elapsed	:
+ 640
+#Sample 87/100
+#Key	: 28 16 c7 78 be 36 5e 63 21 38 ef 2b a1 3d 5f a1 
+#Round	: 200
+#Start	: 2873416
+#End	: 2874056
+#Time Elapsed	:
+ 640
+#Sample 88/100
+#Key	: fd 31 5e 27 3b 84 4b d9 cc ed 12 f5 b6 98 6c 43 
+#Round	: 200
+#Start	: 2906184
+#End	: 2906824
+#Time Elapsed	:
+ 640
+#Sample 89/100
+#Key	: 6c 1c a4 a9 99 ab 13 90 f6 2d 5d 85 94 25 c7 fe 
+#Round	: 200
+#Start	: 2938953
+#End	: 2939593
+#Time Elapsed	:
+ 640
+#Sample 90/100
+#Key	: 2c 80 5f b3 98 34 89 1e 79 03 66 c6 5b 7e ff db 
+#Round	: 200
+#Start	: 2971721
+#End	: 2972360
+#Time Elapsed	:
+ 639
+#Sample 91/100
+#Key	: ca 28 88 da ea 04 89 f5 7e d9 22 73 48 6e 23 92 
+#Round	: 200
+#Start	: 3004488
+#End	: 3005128
+#Time Elapsed	:
+ 640
+#Sample 92/100
+#Key	: 74 d5 0e 09 91 9f d6 ca 0d d4 44 35 b1 5f c0 12 
+#Round	: 200
+#Start	: 3037256
+#End	: 3037895
+#Time Elapsed	:
+ 639
+#Sample 93/100
+#Key	: 08 48 2b 5e 9e 1b e7 60 35 08 a0 20 31 de 23 5f 
+#Round	: 200
+#Start	: 3070023
+#End	: 3070663
+#Time Elapsed	:
+ 640
+#Sample 94/100
+#Key	: 03 87 21 e0 60 75 2d 5c b6 63 87 cc 5d 96 f5 9d 
+#Round	: 200
+#Start	: 3102793
+#End	: 3103433
+#Time Elapsed	:
+ 640
+#Sample 95/100
+#Key	: 38 21 42 76 e6 8b 54 9f fe ef ad ef 9f 03 57 be 
+#Round	: 200
+#Start	: 3135559
+#End	: 3136199
+#Time Elapsed	:
+ 640
+#Sample 96/100
+#Key	: c5 b8 7c a3 c1 19 39 a5 e0 24 7e 80 16 f7 16 e4 
+#Round	: 200
+#Start	: 3168328
+#End	: 3168968
+#Time Elapsed	:
+ 640
+#Sample 97/100
+#Key	: 63 4e 68 d0 69 9b e5 ff 15 3c 2f 4b 39 0f e1 69 
+#Round	: 200
+#Start	: 3201096
+#End	: 3201736
+#Time Elapsed	:
+ 640
+#Sample 98/100
+#Key	: 76 3b 22 e3 e4 fa 61 ab 43 da e3 36 80 27 38 4d 
+#Round	: 200
+#Start	: 3233864
+#End	: 3234504
+#Time Elapsed	:
+ 640
+#Sample 99/100
+#Key	: 40 49 a8 71 2e 76 c0 fd ff f8 a4 4e 4e 01 c2 67 
+#Round	: 200
+#Start	: 3266632
+#End	: 3267272
+#Time Elapsed	:
+ 640
+#Sample 100/100
+#Key	: 87 03 91 5e 13 81 f4 26 ad a9 91 44 87 46 9b 5b 
+#Round	: 200
+#Start	: 3299403
+#End	: 3300042
+#Time Elapsed	:
+ 639
+#100 tests done for cc2538dk.
