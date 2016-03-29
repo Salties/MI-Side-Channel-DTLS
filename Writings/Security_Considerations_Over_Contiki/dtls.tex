@@ -8,7 +8,7 @@ One thing to be noticed is that both ciphersuites uses AES-128 CCM for data encr
 
 \section{Packet Size}
 
-Since application data are encrypted using AES-128 CCM, the size of application data is not hidden and is visible in the header, as highlighted in \Cref{Fig: Size of application data in DTLS}.
+Since application data are encrypted using AES-128 CCM, its size is not hidden and is visible in the header, as highlighted in the middle of \Cref{Fig: Size of application data in DTLS}.
 
 \begin{figure*}[ht!]
 	\center
@@ -36,7 +36,24 @@ The procedure of a Session with DTLS is as depicted by \Cref{Fig: A Session with
 	\label{Fig: A Session with DTLS}
 \end{figure*}
 
+DTLS provides protection between only two Sensor Nodes in the network; thus the source and destination are consistent within a DTLS session. The 6LoWPAN encapsulation and decapsulation procedure are hence identical for all packets using the same DTLS session; therefore the time length of 6LoWPAN decapsulation and encapsulation in \Cref{Fig: A Session with DTLS} are considered to be constant.
 
+Therefore in this section we put our interest in the timing of DTLS decryption/encryption and the execution time of application code.
+
+\subsection{DTLS Encryption and Decryption}
+
+\subsubsection{AES Timing}
+
+tinydtls uses the OpenBSD optimised AES implementation. Its source code is available at:\\ 
+\url{https://github.com/Salties/MyRepository/blob/master/tinydtls-0.8.2/aes/rijndael.c}
+
+Inspecting the source code, we realised that there is no branch for AES-128 encryption as expected. This implies that its execution time is expected to be constant, regardless of the key and plaintext.
+
+To verify this, we applied the similar TVLA-like test as described in \Cref{Sec: AES Timing}.
+
+\subsubsection{Overall Timing}
+
+\subsection{Application Code}
 
 
 

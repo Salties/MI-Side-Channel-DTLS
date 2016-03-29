@@ -33,4 +33,4 @@ while i < len(ris):
 for ri in ris:
     print "%.3f" % float(ri),;
 
-sys.stderr.write("# %d / %d\r\n" % (nvalid, ntotal));
+sys.stderr.write("# %d / %d\n" % (nvalid, ntotal));
