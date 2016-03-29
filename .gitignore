@@ -9,7 +9,7 @@
 
 #Ignore submodules.
 
-#Ignore compiled files.
+#Ignore compilation files.
 *.o
 *.d
 *.ld
@@ -30,3 +30,7 @@ symbols.h
 Makefile.target
 config.log
 tinydtls/doc
+
+#Ignore intermediate data
+*.csv
+*.dat
