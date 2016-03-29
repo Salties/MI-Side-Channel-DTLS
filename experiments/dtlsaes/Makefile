@@ -1,6 +1,5 @@
-#CONTIKI_PROJECT = dtls-server dtls-client
-#CONTIKI_PROJECT = aestest_fixed aestest_random
-CONTIKI_PROJECT = helloworld
+CONTIKI_PROJECT = aestest_fixed aestest_random
+
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = $(CONTIKI_ROOT)
