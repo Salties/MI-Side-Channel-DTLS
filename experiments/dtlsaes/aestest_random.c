@@ -53,6 +53,21 @@ void PrintBlock(const char *prefix, const uint8_t * block,
     return;
 }
 
+void finalise()
+{
+    int i;
+    
+    printf("#Finalise");
+    //Randomise the key for next round.
+    for(i = 0; i < AES_KEY_LEN; i++)
+	Aes128Key[j] ^= ciphertext[0][j];
+    //Randomise the plaintext for next round.
+    for(i = 0; i < NROUND; i++)
+	memcpy(plaintext[i], fixed_data, AES_BLOCK_LEN);
+    
+    return;
+}
+
 /*---------------------------------------------------------------------------*/
 PROCESS(aestest, "aestest");
 AUTOSTART_PROCESSES(&aestest);
@@ -71,8 +86,8 @@ PROCESS_THREAD(aestest, ev, data)
     printf("#Sample size: %d\n", NSAMPLE);
     printf("#Rtimer clock ticks per second on this platform is : %lu\n",
            (unsigned long) RTIMER_SECOND);
-    printf("plaintext addr: %ul\n", (unsigned int)plaintext);
-    printf("ciphertext addr: %ul\n", (unsigned int)ciphertext);
+    printf("#plaintext addr: %ul\n", (unsigned int)plaintext);
+    printf("#ciphertext addr: %ul\n", (unsigned int)ciphertext);
 
     etimer_set(&periodic_timer, (2 * CLOCK_SECOND));
 
@@ -112,10 +127,8 @@ PROCESS_THREAD(aestest, ev, data)
 #endif
 	//Print execution time.
         printf("%lu\n", end - start);
-
-        //Randomise the key for next round.
-	for(j = 0; j < AES_KEY_LEN; j++)
-	    Aes128Key[j] ^= ciphertext[0][j];
+	
+	finalise();
     }
 
     printf("#%d tests done for %s.\n", NSAMPLE, TARGET_NAME);

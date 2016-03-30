@@ -16,7 +16,7 @@ MODULES += core/net/llsec/noncoresec
 CFLAGS += -DVERBOSE_AESTEST
 
 #Number of Rounds for aestiming.
-CFLAGS += -DNROUND=150
+CFLAGS += -DNROUND=200
 
 #Number of Sample for aestiming.
 CFLAGS += -DNSAMPLE=100
@@ -25,6 +25,6 @@ CFLAGS += -DNSAMPLE=100
 #CFLAGS += -DTIMING_FRAMEWORK_TEST
 
 #Disable HW AES
-CFLAGS += -DDISABLE_HW_AES
+#CFLAGS += -DDISABLE_HW_AES
 
 include $(CONTIKI)/Makefile.include

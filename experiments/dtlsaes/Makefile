@@ -11,6 +11,6 @@ APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
 
 CFLAGS += -DTARGET_NAME=\"$(TARGET)\"
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
-CFLAGS += -DVERBOSE_AESTEST -O0
+CFLAGS += -DVERBOSE_AESTEST
 
 include $(CONTIKI)/Makefile.include

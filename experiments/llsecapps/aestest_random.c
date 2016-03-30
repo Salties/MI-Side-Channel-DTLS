@@ -4,7 +4,7 @@
 #include "sys/etimer.h"
 #include "lib/random.h"
 
-#include <stdio.h>              /* For printf() */
+#include <stdio.h>
 #include <string.h>
 
 #define AES_KEY_LEN 16

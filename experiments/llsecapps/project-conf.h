@@ -39,7 +39,7 @@
 //Disable Hardware AES-128 coprosessor. 
 #ifdef DISABLE_HW_AES
 #ifdef AES_128_CONF
-//#undef AES_128_CONF
+#undef AES_128_CONF
 #endif //End of #ifdef AES_128_CONF
 #endif
 
