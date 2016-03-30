@@ -97,7 +97,7 @@ PROCESS_THREAD(aestest, ev, data)
            (unsigned long) RTIMER_SECOND);
     printf("#datablock address: %u\n", (unsigned int) datablock);
 
-    etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
+    etimer_set(&periodic_timer, (2 * CLOCK_SECOND));
 
     //Initialise Data
     for (j = 0; j < NROUND; j++)

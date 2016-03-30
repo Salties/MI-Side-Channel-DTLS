@@ -1,6 +1,7 @@
 #include "contiki.h"
 #include "sys/rtimer.h"
 #include "sys/etimer.h"
+#include "lib/random.h"
 
 #include "aes/rijndael.h"
 
@@ -26,6 +27,16 @@ static uint8_t Aes128Key[AES_KEY_LEN] = {
     0x12, 0x34, 0x56, 0x78,
     0x9a, 0xbc, 0xde, 0xf0
 };
+
+static const uint8_t fixed_data[AES_BLOCK_LEN] = {
+    0xda, 0x39, 0xa3, 0xee,
+    0x54, 0x6b, 0x4b, 0x0d,
+    0x32, 0x55, 0xbf, 0xef,
+    0x95, 0x60, 0x18, 0x90
+};
+
+static uint8_t dummyplaintext[AES_BLOCK_LEN] = { 0 };
+static uint8_t dummyciphertext[AES_BLOCK_LEN] = { 0 };
 
 static uint8_t plaintext[NROUND][AES_BLOCK_LEN] = { {0} };
 static uint8_t ciphertext[NROUND][AES_BLOCK_LEN] = { {0} };
@@ -60,25 +71,29 @@ PROCESS_THREAD(aestest, ev, data)
     printf("#Sample size: %d\n", NSAMPLE);
     printf("#Rtimer clock ticks per second on this platform is : %lu\n",
            (unsigned long) RTIMER_SECOND);
+    printf("plaintext addr: %ul\n", (unsigned int)plaintext);
+    printf("ciphertext addr: %ul\n", (unsigned int)ciphertext);
 
-    etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
+    etimer_set(&periodic_timer, (2 * CLOCK_SECOND));
 
     //Initialise plaintext.
     for (j = 0; j < NROUND; j++) {
-        //Use different last byte.
-        plaintext[j][AES_BLOCK_LEN - 1] = j;
+        memcpy(plaintext[j], fixed_data, AES_BLOCK_LEN);
     }
 
     //Begin test.
     for (i = 0; i < NSAMPLE; i++) {
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
         etimer_reset(&periodic_timer);
+
 #ifdef VERBOSE_AESTEST
         printf("#Sample %d/%d\n", i + 1, NSAMPLE);
-        PrintBlock("#Key\t: ", Aes128Key, "\n");
+        PrintBlock("#Key\t:", Aes128Key, "\n");
+        PrintBlock("#Plaintext\t: ", plaintext[0], "\n");
 #endif
         //Set key.
         rijndael_set_key_enc_only(&aes_ctx, Aes128Key, 8 * AES_KEY_LEN);
+        rijndael_encrypt(&aes_ctx, dummyplaintext, dummyciphertext);
 
         //Timing AES.
         start = RTIMER_NOW();
@@ -89,23 +104,18 @@ PROCESS_THREAD(aestest, ev, data)
 
 #ifdef VERBOSE_AESTEST
         //Print result.
+        PrintBlock("#Ciphertext\t: ", ciphertext[0], "\n");
         printf("#Round\t: %d\n", NROUND);
         printf("#Start\t: %lu\n", start);
         printf("#End\t: %lu\n", end);
-        printf("#Time Elapsed\t:\n %lu\n", end - start);
-#else
-        printf("%lu\n", end - start);
+        printf("#Time Elapsed\t:\n");
 #endif
+	//Print execution time.
+        printf("%lu\n", end - start);
 
-        //Randomise the key and plaintext for next round.
-        for (j = 0; j < NROUND; j++) {
-            int k;
-            //XOR all ciphertext to key.
-            for (k = 0; k < AES_KEY_LEN; k++)
-                Aes128Key[k] ^= ciphertext[j][k];
-	    //Use the last ciphertext as new plaintext.
-	    memcpy(plaintext[j], ciphertext[j], AES_BLOCK_LEN);
-        }
+        //Randomise the key for next round.
+	for(j = 0; j < AES_KEY_LEN; j++)
+	    Aes128Key[j] ^= ciphertext[0][j];
     }
 
     printf("#%d tests done for %s.\n", NSAMPLE, TARGET_NAME);

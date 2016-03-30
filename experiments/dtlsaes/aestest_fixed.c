@@ -1,6 +1,7 @@
 #include "contiki.h"
 #include "sys/rtimer.h"
 #include "sys/etimer.h"
+#include "lib/random.h"
 
 #include "aes/rijndael.h"
 
@@ -33,6 +34,9 @@ static const uint8_t fixed_data[AES_BLOCK_LEN] = {
     0x32, 0x55, 0xbf, 0xef,
     0x95, 0x60, 0x18, 0x90
 };
+
+static uint8_t dummyplaintext[AES_BLOCK_LEN] = { 0 };
+static uint8_t dummyciphertext[AES_BLOCK_LEN] = { 0 };
 
 static uint8_t plaintext[NROUND][AES_BLOCK_LEN] = { {0} };
 static uint8_t ciphertext[NROUND][AES_BLOCK_LEN] = { {0} };
@@ -67,13 +71,15 @@ PROCESS_THREAD(aestest, ev, data)
     printf("#Sample size: %d\n", NSAMPLE);
     printf("#Rtimer clock ticks per second on this platform is : %lu\n",
            (unsigned long) RTIMER_SECOND);
+    printf("plaintext addr: %ul\n", (unsigned int)plaintext);
+    printf("ciphertext addr: %ul\n", (unsigned int)ciphertext);
 
+    etimer_set(&periodic_timer, (2 * CLOCK_SECOND));
 
-    etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
-
-    //Initialise Data.
-    for (j = 0; j < NROUND; j++)
+    //Initialise plaintext.
+    for (j = 0; j < NROUND; j++) {
         memcpy(plaintext[j], fixed_data, AES_BLOCK_LEN);
+    }
 
     //Begin test.
     for (i = 0; i < NSAMPLE; i++) {
@@ -83,18 +89,18 @@ PROCESS_THREAD(aestest, ev, data)
 #ifdef VERBOSE_AESTEST
         printf("#Sample %d/%d\n", i + 1, NSAMPLE);
         PrintBlock("#Key\t:", Aes128Key, "\n");
-        PrintBlock("#Plaintext\t: ", fixed_data, "\n");
+        PrintBlock("#Plaintext\t: ", plaintext[0], "\n");
 #endif
-        //Set Key.
+        //Set key.
         rijndael_set_key_enc_only(&aes_ctx, Aes128Key, 8 * AES_KEY_LEN);
+        rijndael_encrypt(&aes_ctx, dummyplaintext, dummyciphertext);
 
-        //Timing.AES.
+        //Timing AES.
         start = RTIMER_NOW();
         for (j = 0; j < NROUND; j++) {
             rijndael_encrypt(&aes_ctx, plaintext[j], ciphertext[j]);
         }
         end = RTIMER_NOW();
-
 
 #ifdef VERBOSE_AESTEST
         //Print result.
@@ -102,10 +108,10 @@ PROCESS_THREAD(aestest, ev, data)
         printf("#Round\t: %d\n", NROUND);
         printf("#Start\t: %lu\n", start);
         printf("#End\t: %lu\n", end);
-        printf("#Time Elapsed\t:\n %lu\n", end - start);
-#else
-        printf("%lu\n", end - start);
+        printf("#Time Elapsed\t:\n");
 #endif
+	//Print execution time.
+        printf("%lu\n", end - start);
     }
 
     printf("#%d tests done for %s.\n", NSAMPLE, TARGET_NAME);

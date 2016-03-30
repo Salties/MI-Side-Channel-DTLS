@@ -1,1011 +1,1012 @@
-#Rime started with address 0.18.116.0.14.50.241.215
-#MAC 00:12:74:00:0e:32:f1:d7 Contiki-3.0 started. Node id is not set.
+#Rime started with address 0.18.116.0.14.51.19.137
+#MAC 00:12:74:00:0e:33:13:89 Contiki-3.0 started. Node id is not set.
 #noncoresec CSMA ContikiMAC, channel check rate 8 Hz, radio channel 26, CCA threshold -45
-#Tentative link-local IPv6 address fe80:0000:0000:0000:0212:7400:0e32:f1d7
+#Tentative link-local IPv6 address fe80:0000:0000:0000:0212:7400:0e33:1389
 #Starting 'aestest'
 #Fixed AES-128 implementation test for sky.
 #Using Hardware coprocessor.
 #Rounds in each sample: 200
-#Sample size: 1000
+#Sample size: 100
 #Rtimer clock ticks per second on this platform is : 32768
-2539
-2539
-2538
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2544
-2539
-2540
-2544
-2540
-2540
-2544
-2540
-2540
-2545
-2540
-2541
-2544
-2540
-2529
-2532
-2531
-2529
-2532
-2531
-2529
-2532
-2532
-2533
-2533
-2532
-2533
-2533
-2532
-2534
-2533
-2532
-2534
-2533
-2532
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2533
-2532
-2534
-2534
-2533
-2534
-2534
-2533
-2534
-2534
-2533
-2534
-2534
-2533
-2535
-2534
-2534
-2535
-2538
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2535
-2535
-2535
-2536
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2539
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2535
-2534
-2535
-2535
-2534
-2535
-2536
-2534
-2535
-2536
-2534
-2535
-2536
-2534
-2536
-2536
-2534
-2536
-2536
-2534
-2535
-2536
-2534
-2535
-2536
-2534
-2535
-2536
-2534
-2536
-2540
-2534
-2535
-2536
-2534
-2535
-2536
-2534
-2537
-2536
-2534
-2537
-2536
-2535
-2537
-2536
-2535
-2538
-2537
-2535
-2538
-2536
-2535
-2538
-2536
-2535
-2537
-2537
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2538
-2536
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2537
-2537
-2535
-2537
-2541
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2537
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2537
-2537
-2535
-2537
-2537
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2537
-2535
-2537
-2536
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2541
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2541
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2537
-2535
-2537
-2537
-2535
-2537
-2536
-2535
-2537
-2536
-2534
-2537
-2536
-2535
-2537
-2536
-2534
-2536
-2536
-2534
-2537
-2536
-2535
-2537
-2536
-2534
-2537
-2536
-2534
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2538
-2537
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2537
-2536
-2535
-2538
-2540
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2535
-2538
-2537
-2536
-2538
-2537
-2536
-2538
-2537
-2536
-2538
-2537
-2536
-2538
-2537
-2536
-2538
-2537
-2536
-2537
-2537
-2536
-2538
-2537
-2536
-2537
-2537
-2536
-2537
-2537
-2536
-2538
-2537
-2536
-2537
-2537
-2537
-2538
-2542
-2537
-2538
-2538
-2537
-2538
-2538
-2537
-2538
-2538
-2537
-2539
-2538
-2537
-2538
-2538
-2537
-2539
-2538
-2537
-2539
-2538
-2537
-2539
-2538
-2537
-2539
-2538
-2537
-2539
-2539
-2537
-2539
-2539
-2537
-2539
-2539
-2537
-2539
-2539
-2537
-2539
-2539
-2537
-2539
-2539
-2538
-2539
-2539
-2538
-2539
-2539
-2538
-2539
-2539
-2538
-2539
-2539
-2538
-2539
-2544
-2538
-2539
-2539
-2538
-2539
-2540
-2538
-2539
-2540
-2538
-2539
-2540
-2539
-2539
-2540
-2538
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2540
-2540
-2539
-2540
-2544
-2539
-2539
-2540
-2539
-2539
-2544
-2539
-2539
-2540
-2539
-2539
-2544
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2544
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2539
-2544
-2539
-2539
-2540
-2539
-2540
-2544
-2539
-2540
-2544
-2539
-2540
-2544
-2539
-2540
-2544
-2539
-2539
-2540
-2539
-2539
-2540
-2539
-2540
-2544
-2539
-2540
-2544
-2539
-2540
-2544
-2539
-2540
-2540
-2539
-2540
-2544
-2539
-2540
-2545
-2539
-2540
-2544
-2540
-2540
-2544
-2540
-2541
-2544
-2540
-2540
-2544
-2540
-2540
-2544
-2540
-2540
-2544
-2540
-2540
-2544
-2539
-2540
-2544
-2540
-2541
-2544
-2540
-2540
-2544
-2540
-2541
-2544
-2540
-2540
-2544
-2540
-2541
-2544
-2540
-2541
-2544
-2540
-2540
-2544
-2540
-2541
-2544
-2540
-2540
-2544
-2539
-2540
-2544
-2540
-2541
-2544
-2540
-2540
-2544
-2540
-2541
-2544
-2540
-2541
-2544
-2544
-2541
-2544
-2540
-2541
-2544
-2540
-2542
-2544
-2544
-2542
-2544
-2544
-2542
-2545
-2544
-2542
-2544
-2544
-2542
-2545
-2544
-2541
-2545
-2544
-2542
-2544
-2544
-2542
-2544
-2544
-2542
-2545
-2544
-2542
-2545
-2544
-2542
-2545
-2544
-2542
-2545
-2544
-2542
-2545
-2544
-2542
-2545
-2544
-2542
-2545
-2544
-2542
-2544
-2544
-2543
-2545
-2544
-2543
-2545
-2544
-2543
-2545
-2544
-2543
-2546
-2544
-2543
-2546
-2544
-2543
-2545
-2544
-2543
-2545
-2544
-2543
-2545
-2540
-2543
-2545
-2544
-2543
-2545
-2544
-2543
-2545
-2544
-2543
-2545
-2544
-2543
-2545
-2544
-2543
-2546
-2544
-2543
-2546
-2544
-2543
-2546
-2544
-2543
-2546
-2544
-2543
-2546
-2544
-2543
-2546
-2544
-2543
-2545
-2544
-2543
-2546
-2544
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2534
-2533
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2534
-2533
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2534
-2532
-2523
-2524
-2522
-2522
-2525
-2523
-2523
-2524
-2523
-2523
-2525
-2523
-2523
-2525
-2523
-2523
-2525
-2523
-2523
-2525
-2523
-2523
-2525
-2523
-2523
-2528
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2523
-2525
-2524
-2534
-2534
-2533
-2534
-2534
-2532
-2534
-2534
-2532
-2534
-2533
-2532
-2534
-2533
-2532
-2534
-2533
-2532
-2534
-2533
-2532
-2534
-2534
-2532
-2534
-2537
-2532
-2534
-2534
-2532
-2534
-2532
-2532
-2533
-2533
-2532
-2533
-2532
-2532
-2529
-#1000 tests done for sky.
+#datablock address: 4614
+#Sample 1/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2654
+#End	: 5217
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 2/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2667
+#End	: 5226
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 3/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2654
+#End	: 5215
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 4/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2654
+#End	: 5217
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 5/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2667
+#End	: 5226
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 6/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2654
+#End	: 5215
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 7/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2654
+#End	: 5217
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 8/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2667
+#End	: 5226
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 9/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2654
+#End	: 5215
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 10/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 11/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5229
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 12/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5220
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 13/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 6468
+#End	: 9003
+#Time Elapsed	:
+2535
+#Finalise.
+#Sample 14/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5229
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 15/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 16/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 17/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5229
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 18/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5220
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 19/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 20/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5229
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 21/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 22/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 23/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5229
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 24/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 25/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 26/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5229
+#Time Elapsed	:
+2559
+#Finalise.
+#Sample 27/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 28/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 29/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5230
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 30/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 31/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 32/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5230
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 33/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 34/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 35/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5230
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 36/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 37/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 38/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5230
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 39/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5221
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 40/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 41/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5230
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 42/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 43/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 6414
+#End	: 8948
+#Time Elapsed	:
+2534
+#Finalise.
+#Sample 44/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5230
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 45/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 46/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 47/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5230
+#Time Elapsed	:
+2560
+#Finalise.
+#Sample 48/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 49/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 50/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5231
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 51/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 52/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 53/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5231
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 54/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 55/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 56/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5231
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 57/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 58/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 59/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5232
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 60/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 61/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 62/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5231
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 63/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 64/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 65/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5232
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 66/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 67/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5224
+#Time Elapsed	:
+2564
+#Finalise.
+#Sample 68/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5232
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 69/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 70/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5224
+#Time Elapsed	:
+2564
+#Finalise.
+#Sample 71/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2671
+#End	: 5232
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 72/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 73/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 6465
+#End	: 9003
+#Time Elapsed	:
+2538
+#Finalise.
+#Sample 74/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2671
+#End	: 5232
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 75/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 76/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5224
+#Time Elapsed	:
+2564
+#Finalise.
+#Sample 77/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2671
+#End	: 5232
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 78/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 79/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 80/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5231
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 81/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 82/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5224
+#Time Elapsed	:
+2564
+#Finalise.
+#Sample 83/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5231
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 84/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 85/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5224
+#Time Elapsed	:
+2564
+#Finalise.
+#Sample 86/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5231
+#Time Elapsed	:
+2561
+#Finalise.
+#Sample 87/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 88/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 89/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5241
+#Time Elapsed	:
+2571
+#Finalise.
+#Sample 90/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 91/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 92/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5241
+#Time Elapsed	:
+2571
+#Finalise.
+#Sample 93/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 94/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 95/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5241
+#Time Elapsed	:
+2571
+#Finalise.
+#Sample 96/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 97/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5223
+#Time Elapsed	:
+2563
+#Finalise.
+#Sample 98/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2670
+#End	: 5254
+#Time Elapsed	:
+2584
+#Finalise.
+#Sample 99/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2660
+#End	: 5222
+#Time Elapsed	:
+2562
+#Finalise.
+#Sample 100/100
+#Key	: 01 23 45 67 89 ab cd ef 12 34 56 78 9a bc de f0 
+#Plaintext	: da 39 a3 ee 54 6b 4b 0d 32 55 bf ef 95 60 18 90 
+#Ciphertext	: b2 45 f1 db 3e 26 1f 4e 84 8e 13 e1 ec ee 5c c9 
+#Round	: 200
+#Start	: 2666
+#End	: 5229
+#Time Elapsed	:
+2563
+#Finalise.
+#100 tests done for sky.

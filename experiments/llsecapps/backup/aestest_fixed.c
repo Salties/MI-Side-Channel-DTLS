@@ -54,22 +54,24 @@ void finalise()
     static char garbage = 0;
     uint8_t *gbg = datablock[0];
 #endif
-
+    
     printf("#Finalise.\n");
     
-    //Randomise the key.
-    for (i = 0; i < AES_KEY_LEN; i++)
-        Aes128Key[i] ^= datablock[0][i];
-	
+    //Reset plaintext.
+    for (i = 0; i < NROUND; i++)
+    {
+        memcpy(datablock[i], fixed_data, AES_BLOCK_LEN);
+    }
+    
 #ifdef CONTIKI_TARGET_CC2538DK
-    //Do garbage operations to flush the cache.(?) For unknown reason this is needed for CC2538,  although it does not have cache. Doing this on TelosB causes timing error.
+    //Do garbage operations to flush the cache.(?) For unknown reason this is needed for CC2538,  although it does not have cache. Doing the same on TelosB causes timing error.
     for ( i = 0; i < NROUND * AES_BLOCK_LEN; i++)
 	garbage ^= *gbg++;
 	
     if(garbage != 0)
 	return;
 #endif
-	
+
     return;
 }
 
@@ -85,7 +87,7 @@ PROCESS_THREAD(aestest, ev, data)
 
     PROCESS_BEGIN();
 
-    printf("#Random AES-128 implementation test for %s.\n", TARGET_NAME);
+    printf("#Fixed AES-128 implementation test for %s.\n", TARGET_NAME);
 #ifndef AES_128_CONF
     printf("#Using Contiki software implementation.\n");
 #else
@@ -97,7 +99,7 @@ PROCESS_THREAD(aestest, ev, data)
            (unsigned long) RTIMER_SECOND);
     printf("#datablock address: %u\n", (unsigned int) datablock);
 
-    etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
+    etimer_set(&periodic_timer, (2 * CLOCK_SECOND));
 
     //Initialise Data
     for (j = 0; j < NROUND; j++)
