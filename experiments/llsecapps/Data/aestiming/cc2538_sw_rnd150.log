@@ -1,9 +1,9 @@
-Contiki-3.0
-TI SmartRF06 + cc2538EM
- Net: sicslowpan
- MAC: CSMA
- RDC: ContikiMAC
-Rime configured with address 00:12:4b:00:04:1e:af:c6
+#Contiki-3.0
+#TI SmartRF06 + cc2538EM
+# Net: sicslowpan
+# MAC: CSMA
+# RDC: ContikiMAC
+#Rime configured with address 00:12:4b:00:04:1e:af:c6
 #Random AES-128 implementation test for cc2538dk.
 #Using Contiki software implementation.
 #Rounds in each sample: 150
