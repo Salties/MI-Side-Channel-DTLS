@@ -63,6 +63,7 @@ We used the Contiki Real Timer Library\cite{RTimer}, which is a pre-emptive cloc
 \lstinputlisting[label={Contiki AES time},caption={AES Timing on Contiki release-3.0}, captionpos=b]{src/aes_timing.c} 
 
 \textbf{NEED CALIBRATE!}
+\testbf{TVLS: t-score +/- 4.5!}
 
 
 We tested this method for  $n \in \{ 50, 100, 150, 200\}$ rounds respectively with random keys and plaintexts. The result is shown in \Cref{Tbl: AES execution time estimation of Contiki}. The measurements are done in system clock ticks. Each round is one AES execution and there are $32768$ ticks per second. We estimate the average time of one AES execution by the slope ratio of rounds and ticks.
