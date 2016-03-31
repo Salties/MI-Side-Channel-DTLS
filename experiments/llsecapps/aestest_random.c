@@ -4,7 +4,7 @@
 #include "sys/etimer.h"
 #include "lib/random.h"
 
-#include <stdio.h>
+#include <stdio.h>              /* For printf() */
 #include <string.h>
 
 #define AES_KEY_LEN 16
@@ -85,8 +85,6 @@ PROCESS_THREAD(aestest, ev, data)
 
     PROCESS_BEGIN();
 
-    rtimer_init();
-
     printf("#Random AES-128 implementation test for %s.\n", TARGET_NAME);
 #ifndef AES_128_CONF
     printf("#Using Contiki software implementation.\n");
@@ -99,7 +97,7 @@ PROCESS_THREAD(aestest, ev, data)
            (unsigned long) RTIMER_SECOND);
     printf("#datablock address: %u\n", (unsigned int) datablock);
 
-    etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
+    etimer_set(&periodic_timer, (2 * CLOCK_SECOND));
 
     //Initialise Data
     for (j = 0; j < NROUND; j++)

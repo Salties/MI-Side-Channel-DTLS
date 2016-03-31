@@ -63,36 +63,43 @@ We used the Contiki Real Timer Library\cite{RTimer}, which is a pre-emptive cloc
 \lstinputlisting[label={Contiki AES time},caption={AES Timing on Contiki release-3.0}, captionpos=b]{src/aes_timing.c} 
 
 %Fix vs Random
-To verify whether the execution time leaks any information of the AES key, we applied the Fixed vs Random strategy inspired by TVLA\cite{TVLA}, with slight adaptation. To be more specifically, we collect timing samples for fixed key and fixed plaintext, and compares it to random keys and random plaintext, using t-test\footnote{The timings are assumed to follow a normal, or similar, distribution.} to determine whether a statistical difference can be observed  between two groups. The test is to see whether a specific input to AES, incarnated by the fixed group, has any bias comparing to average case, incarnated by the random group. We use the null hypothesis that two groups of AES timing data have the same mean for the t-test. If the null hypothesis is rejected, then we conclude that there is a potential leakage in the timing information as the samples are likely to be distinguishable. 
+To verify whether the execution time leaks any information of the AES key, we applied the Fixed vs Random strategy inspired by TVLA\cite{TVLA}, with slight adaptation. To be more specifically, we collect timing samples for fixed key and fixed plaintext, and compares it to random keys and random plaintext, using t-test\footnote{The timings are assumed to follow a normal, or similar, distribution.} to determine whether a statistical difference can be observed  between two groups. The test is to see whether a specific input to AES, incarnated by the fixed group, has any bias comparing to average case, incarnated by the random group. We use the null hypothesis that two groups of AES timing data have the same mean for the t-test. Using the t-score threshold adopted by \cite{TVLA}, $4.5$, if the t-test returns a t-score which absolute value is greater than the threshold, we conclude there is a potential leakage of the key from the execution time; otherwise we conclude no leakage is detected.
 
 %Calibration
 However during the experiments, we realised that a constant timing error can be induced by codes outside the timing area on platform specific manner, e.g. a memcpy call to initialise some blocks of data in the memory on CC2538 may reduce the execution time of the timed code, but the same phenomenon is not observed on TelosB. The cause of this error is unclear so far, but we have ruled out the following factors:
 
 \begin{itemize}
-	\item Caching is not supported on the platforms we tested.
+	\item Caching and virtual memory (swap file) is not supported in Contiki.
 	\item Disabling the compiler optimisation does not remove the error.
 	\item The error occurs even when memory allocation of variables are identical.
 \end{itemize}
 
-In order to mitigate the error, calibration need to be done before measurements. We have not found a generic method of calibration as the cause of error is unclear. In practice, we replace the AES execution code to other 
+In order to mitigate the error, calibrations are needed before measurements. To calibrate the tests, we replace AES encryption for two groups by code of constant execution time as an indicator of calibration. If the execution time of the replaced code in two groups have similar results, then we consider the tests are calibrated and replace the AES encryption back to begin the tests.
 
-\textbf{TVLS: t-score +/- 4.5!}
+Since the exact cause of the timing error is not identified yet, we have not found a generic method to calibrate the tests. The solutions we used in our experiments are done by trials.
 
+\begin{description}
+	\item[TelosB] On TelosB, our test code does not need this calibration.
+	\item[CC2538] On CC2538, our tests are calibrated by reading out the whole plaintext once before each measurement. This measure applied on TelosB causes timing error.
+\end{description}
 
-We tested this method for  $n \in \{ 50, 100, 150, 200\}$ rounds respectively with random keys and plaintexts. The result is shown in \Cref{Tbl: AES execution time estimation of Contiki}. The measurements are done in system clock ticks. Each round is one AES execution and there are $32768$ ticks per second. We estimate the average time of one AES execution by the slope ratio of rounds and ticks.
+In our experiments, we calibrated using $2000$ random\_rand() calls to $\pm{2}$ ticks.
+
+%Test result
+We tested this method for  $n \in \{ 50, 100, 150, 200\}$ executions respectively with random keys and random plaintext to estimate the average execution time of the AES implementations. The result is shown in \Cref{Tbl: AES execution time estimation of Contiki}. The measurements are done in system real timer clock ticks, with $32768$ ticks per second, i.e. $3.05 * 10^{-5}$s per tick. We estimate the average time of one AES execution by ordinary least square estimation.
 
 \begin{table}[ht!]
 	\center
 	\begin{tabular}{|c|c|c|c|}
 	\hline
 	                               & Ticks (TelosB HW) & Ticks (TelosB SW) & Ticks (CC2538 SW) \\ \hline
-	50 rounds                      & 633.57                  & 4565.0                  & 981.31                  \\ \hline
-	100 rounds                     & 1270.3                  & 9152.58                 & 1947.6                  \\ \hline
-	150 rounds                     & 1901.4                  & 13736.13                & 2913.2                  \\ \hline
-	200 rounds                     & 2542.4                  & 18298.92                & 3880.0                  \\ \hline
-	Correlation(rounds, ticks)     & 1.000                   & 1.000                   & 1.000                   \\ \hline
-        Tick per round & 12.72                   & 91.46                   & 19.33                   \\ \hline
-	AES Execution Time   & 388.18 us               & 2791.14 us              & 589.90 us               \\ \hline
+	50 executions                      & 633.00                  & 4571.05                  & 979.96                  \\ \hline
+	100 executions                     & 1268.46                  & 9127.84                 & 1960.03                  \\ \hline
+	150 executions                     & 1901.31                  & 13707.69                & 2940.22                  \\ \hline
+	200 executions                     & 2563.28                  & 18256.40                & 3747.64                  \\ \hline
+	%Correlation     	            	& 1.000                   & 1.000                   & 0.998                   \\ \hline
+        Ticks per executions & 12.75                   & 91.32                   & 19.14                   \\ \hline
+	AES Execution Time (ms)   & 0.389                & 2.786               & 0.584                \\ \hline
 	\end{tabular}
 	\caption{AES execution time estimation on Contiki, with sample size 100}
 	\label{Tbl: AES execution time estimation of Contiki}
@@ -102,27 +109,27 @@ We tested this method for  $n \in \{ 50, 100, 150, 200\}$ rounds respectively wi
 
 Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and most of its operations take a constant time; thus the encryption and decryption of a block are expected to be done with a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by CPU caching, these attacks are unlikely to be replicable on our platforms as the processors do not have cache implemented. 
 
-Nevertheless, our test result surprisingly indicates that there is a potential leakage in the AES execution time on the implementation we tested, as shown in \Cref{Tbl: Fixed vs Random test on Contiki AES timing}.
+Nevertheless, our test result surprisingly indicates that there is a potential leakage in the AES execution time on two implementation we tested, as shown in \Cref{Tbl: Fixed vs Random test on Contiki AES timing}.
 
 \begin{table}[ht!]
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|}
 		\hline
-		              & p-value           & $\overline{t}$ for fixed & $s_{T}$ for fixed & $\overline{t}$ for random & $s_{T}$ for random\\ \hline
-		TelosB HW AES & $6.08 * 10^{-5}$  & 2536.9     & 4.77      & 2537.7      & 4.38       \\ \hline
-		TelosB SW AES & $5.88 * 10^{-14}$ & 18311.9    & 31.54     & 18293.106   & 36.11      \\ \hline
-		CC2538 SW AES & 0                 & 3800.49    & 3.93      & 3878.80     & 2.37       \\ \hline
+		              & t score           & $\overline{t}$ for fixed & $s_{T}$ for fixed & $\overline{t}$ for random & $s_{T}$ for random\\ \hline
+		TelosB HW AES & $-5.31 $ & 2565.80     & 6.11      & 2567.12      & 4.93       \\ \hline
+		TelosB SW AES & $11.56$ & 18293.19    & 23.41     & 18277.265   & 36.72      \\ \hline
+		CC2538 SW AES & $-0.57$ & 3750.20    & 1.62      & 3750.24     & 1.59       \\ \hline
 	\end{tabular}
 	\caption{Fixed vs Random test result on Contiki AES timing, with $n=200$ and sample size 1000. $\overline{t}$: sample mean of ticks, $s_{T}$: sample standard deviation of ticks.}
 	\label{Tbl: Fixed vs Random test on Contiki AES timing}
 \end{table}
 
 %Not observable from traffic.
-The negligible p-values in \Cref{Tbl: Fixed vs Random test on Contiki AES timing} indicates that there is a statistical significance between the fixed group and random group. However, we have not yet came up with a reasonable explanation of the cause of this variance. We leave this as an open question in this report.
+According to the $4.5$ t-score threshold set by TVLA, only CC2538 software AES has passed this test. The other results indicates the execution time could be a potential leakage source of key in TelosB implementations. However, we have not yet came up with a reasonable explanation of the cause of this variance. We leave this as an open question in this report.
 
-On the other hand, we also noticed that this timing variance is of tens of clock ticks for $200$ executions. In the most significantly variant platform, TelosB Software AES implementation, for one AES execution the timing variance is estimated to be less than $7.63 * 10^{-6}$s based on the sample standard deviation\footnote{Assuming there is no more than $\pm50$ ticks variance for 200 AES executions.}.
+On the other hand, we also noticed that even for the most significantly varied platform, TelosB Software AES implementation, the range is 139 ticks for $200$ executions, which translates to $0.0212$ms per execution. We consider such variance not applicable in the captured traffic as many other factors, such as  RDC and CSMA/CA, can induce significantly greater noises to the timing.
 
-Even for a 802.15.4 Frame of MTU size, which is 127 bytes, there is no more than $8$ AES executions for encryption and $8$ executions for MIC computation. Therefore the timing variance is expected to be less than  $1.22 * 10 ^ {-4}$s. Since the bit rate of 802.15.4 PHY is at most 250 kb/s\cite{802154}, i.e. at least $5.08 * 10^{-4}$s is needed to transmit a frame of MTU size in the optimal scenario. Further more, other factors such as RDC and CSMA/CA  may as well induce noises at $10^{-4}$s level, plus the inaccuracy of measurement. We suspect such timing variance on AES execution time would be difficult to observe from the traffic in practice.
+%Even for a 802.15.4 Frame of MTU size, which is 127 bytes, there is no more than $8$ AES executions for encryption and $8$ executions for MIC computation. Therefore the timing variance is expected to be less than  $0.339$ms. Since the bit rate of 802.15.4 PHY is at most 250 kb/s\cite{802154}, i.e. at least $0.508$ms is needed to transmit a frame of MTU size in the optimal scenario. Further more, other factors such as RDC and CSMA/CA  may as well induce noises at $10^{-4}$s level, plus the inaccuracy of measurement. We suspect such timing variance on AES execution time would be difficult to observe from the traffic in practice.
 
 %Source code and data
 The source code and experiment data are available at:\\
