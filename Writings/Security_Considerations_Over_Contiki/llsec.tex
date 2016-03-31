@@ -62,8 +62,21 @@ We used the Contiki Real Timer Library\cite{RTimer}, which is a pre-emptive cloc
 
 \lstinputlisting[label={Contiki AES time},caption={AES Timing on Contiki release-3.0}, captionpos=b]{src/aes_timing.c} 
 
-\textbf{NEED CALIBRATE!}
-\testbf{TVLS: t-score +/- 4.5!}
+%Fix vs Random
+To verify whether the execution time leaks any information of the AES key, we applied the Fixed vs Random strategy inspired by TVLA\cite{TVLA}, with slight adaptation. To be more specifically, we collect timing samples for fixed key and fixed plaintext, and compares it to random keys and random plaintext, using t-test\footnote{The timings are assumed to follow a normal, or similar, distribution.} to determine whether a statistical difference can be observed  between two groups. The test is to see whether a specific input to AES, incarnated by the fixed group, has any bias comparing to average case, incarnated by the random group. We use the null hypothesis that two groups of AES timing data have the same mean for the t-test. If the null hypothesis is rejected, then we conclude that there is a potential leakage in the timing information as the samples are likely to be distinguishable. 
+
+%Calibration
+However during the experiments, we realised that a constant timing error can be induced by codes outside the timing area on platform specific manner, e.g. a memcpy call to initialise some blocks of data in the memory on CC2538 may reduce the execution time of the timed code, but the same phenomenon is not observed on TelosB. The cause of this error is unclear so far, but we have ruled out the following factors:
+
+\begin{itemize}
+	\item Caching is not supported on the platforms we tested.
+	\item Disabling the compiler optimisation does not remove the error.
+	\item The error occurs even when memory allocation of variables are identical.
+\end{itemize}
+
+In order to mitigate the error, calibration need to be done before measurements. We have not found a generic method of calibration as the cause of error is unclear. In practice, we replace the AES execution code to other 
+
+\textbf{TVLS: t-score +/- 4.5!}
 
 
 We tested this method for  $n \in \{ 50, 100, 150, 200\}$ rounds respectively with random keys and plaintexts. The result is shown in \Cref{Tbl: AES execution time estimation of Contiki}. The measurements are done in system clock ticks. Each round is one AES execution and there are $32768$ ticks per second. We estimate the average time of one AES execution by the slope ratio of rounds and ticks.
@@ -85,8 +98,7 @@ We tested this method for  $n \in \{ 50, 100, 150, 200\}$ rounds respectively wi
 	\label{Tbl: AES execution time estimation of Contiki}
 \end{table}
 
-%Fix vs Random
-To verify whether the execution time leaks any information of the AES key, we applied the Fixed vs Random strategy inspired by TVLA\cite{TVLA}, with slight adaptation. To be more specifically, we compared $1000$ samples collected for $n=200$ on fixed and random inputs to the AES implementations respectively, by using t-test\footnote{The timings are assumed to follow a normal, or similar, distribution.} to determine whether a statistical difference can be observed  between two groups. We use the null hypothesis that two groups of AES timing data have the same mean for the t-test. If the null hypothesis is rejected, then we conclude that there is a potential leakage in the timing information as the samples are likely to be distinguishable. 
+
 
 Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and most of its operations take a constant time; thus the encryption and decryption of a block are expected to be done with a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by CPU caching, these attacks are unlikely to be replicable on our platforms as the processors do not have cache implemented. 
 

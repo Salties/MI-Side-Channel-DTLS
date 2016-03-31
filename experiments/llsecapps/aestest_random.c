@@ -85,6 +85,8 @@ PROCESS_THREAD(aestest, ev, data)
 
     PROCESS_BEGIN();
 
+    rtimer_init();
+
     printf("#Random AES-128 implementation test for %s.\n", TARGET_NAME);
 #ifndef AES_128_CONF
     printf("#Using Contiki software implementation.\n");

@@ -176,7 +176,7 @@ There are two points need to be noticed within DTLS:
 	\item DTLS protects only application data, the ICMP messages, including RPL messages, are transmitted in plaintext.
 \end{enumerate}
 
-Even though DTLS can only be used on unicast communications in our applications, proposals such as \cite{DtlsMulticast1} \cite{DtlsMulticast2} has been made to adapt DTLS to multicast; therefore it is reasonable to expect that the family\footnote{Unicast and multicast. Broadcast is treated as an instance of multicast in IPv6.} of destination address can be a hint to the contents of data encrypted by DTLS in the future. However, we do not discuss this topic further as multicast on DTLS is not implemented yet.
+Even though DTLS can only be used on unicast communications in our applications, proposals such as \cite{DtlsMulticast1} \cite{DtlsMulticast2} has been made to adapt DTLS to multicast; therefore it is reasonable to expect that the family\footnote{Unicast address and multicast address. Broadcast is treated as an instance of multicast in IPv6.} of destination address can be a hint to the contents of data encrypted by DTLS in the future. However, we do not discuss this topic further as multicast on DTLS is not implemented yet.
 
 Also to be noticed is that the size of compressed IPv6 Header is variable. Since many IPv6 options are not available in our platform, the variance is most likely to be caused by the use of different modes of addresses. However, all our experiments are set up with the same mode of addresses and therefore the compressed IPv6 Headers resulted into a constant size.
 

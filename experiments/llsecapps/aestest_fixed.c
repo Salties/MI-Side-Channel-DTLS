@@ -4,7 +4,7 @@
 #include "sys/etimer.h"
 #include "lib/random.h"
 
-#include <stdio.h>
+#include <stdio.h>           
 #include <string.h>
 
 #define AES_KEY_LEN 16
@@ -54,7 +54,7 @@ void finalise()
     static char garbage = 0;
     uint8_t *gbg = datablock[0];
 #endif
-
+    
     printf("#Finalise.\n");
     
     //Reset plaintext.
@@ -86,6 +86,8 @@ PROCESS_THREAD(aestest, ev, data)
     static struct etimer periodic_timer;
 
     PROCESS_BEGIN();
+
+    rtimer_init();
 
     printf("#Fixed AES-128 implementation test for %s.\n", TARGET_NAME);
 #ifndef AES_128_CONF

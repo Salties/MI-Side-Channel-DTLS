@@ -19,12 +19,12 @@ CFLAGS += -DVERBOSE_AESTEST
 CFLAGS += -DNROUND=200
 
 #Number of Sample for aestiming.
-CFLAGS += -DNSAMPLE=100
+CFLAGS += -DNSAMPLE=1000
 
 #Calibrate the AES timing framework test.
 #CFLAGS += -DTIMING_FRAMEWORK_TEST
 
 #Disable HW AES
-#CFLAGS += -DDISABLE_HW_AES
+CFLAGS += -DDISABLE_HW_AES
 
 include $(CONTIKI)/Makefile.include
