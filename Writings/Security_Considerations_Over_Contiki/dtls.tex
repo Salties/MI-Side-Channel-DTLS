@@ -47,9 +47,7 @@ Therefore in this section we put our interest in the timing of DTLS decryption/e
 tinydtls uses the OpenBSD optimised AES implementation. Its source code is available at:\\ 
 \url{https://github.com/Salties/MyRepository/blob/master/tinydtls-0.8.2/aes/rijndael.c}
 
-Inspecting the source code, we realised that there is no branch for AES-128 encryption as expected. This implies that its execution time is expected to be constant, regardless of the key and plaintext.
-
-To verify this, we applied the similar TVLA-like test as described in \Cref{Sec: AES Timing}. 
+We applied the similar TVLA-like test as described in \Cref{Sec: AES Timing}. 
 
 \subsubsection{Overall Timing}
 
