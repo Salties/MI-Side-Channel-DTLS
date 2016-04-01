@@ -6,6 +6,8 @@ One thing to be noticed is that both ciphersuites uses AES-128 CCM for data encr
 
 \section{DTLS Handshake}
 
+\textbf{[To be done...]}
+
 \section{Packet Size}
 
 Since application data are encrypted using AES-128 CCM, its size is not hidden and is visible in the header, as highlighted in the middle of \Cref{Fig: Size of application data in DTLS}.
@@ -47,9 +49,53 @@ Therefore in this section we put our interest in the timing of DTLS decryption/e
 tinydtls uses the OpenBSD optimised AES implementation. Its source code is available at:\\ 
 \url{https://github.com/Salties/MyRepository/blob/master/tinydtls-0.8.2/aes/rijndael.c}
 
-We applied the similar TVLA-like test as described in \Cref{Sec: AES Timing}. 
+We applied the same tests as described in \Cref{Sec: AES Timing}. 
+
+The average AES execution time is shown in \Cref{Tbl: tinydtls AES execution time estimation}.
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|}
+		\hline
+		                        & CC2538 SW \\ \hline
+		50 executions           & 160.07          \\ \hline
+		100 executions          & 320.06          \\ \hline
+		150 executions          & 480.05          \\ \hline
+		200 executions          & 640.13          \\ \hline
+		Ticks per executions    & 3.20            \\ \hline
+		AES Execution Time (ms) & 0.098           \\ \hline
+	\end{tabular}
+	\caption{tinydtls AES execution time estimation}
+	\label{Tbl: tinydtls AES execution time estimation}
+\end{table}
+
+The result of Fixed vs Random test is shown in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538}
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|c|}
+		\hline
+		                         & Fixed       & Random      \\ \hline
+		Sample Mean              & 640.28      & 640.25      \\ \hline
+		Sample Standard Deviation & 0.49        & 0.53        \\ \hline
+		t-score                  & \multicolumn{2}{c|}{1.32} \\ \hline
+	\end{tabular}
+	\caption{Fixed vs Random test result for tinydtls optimised AES execution time on CC2538. Executions per sample: $200$. Sample size: $1000$.}
+	\label{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538}
+\end{table}
+
+Applying the TVLS t-score threshold which is $4.5$, the results in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538} imply that the tinydtls optimised AES implementation has passed test, i.e. no leakage is detected through the execution time of the tinydtls optimised AES implementation. 
+
+The result is consistent with our expectation, as the implementation has no branches\footnote{The only branch in the source code is for AES-192 and AES-256, which are not used in the ciphersuites.} in the source code and is done with only statements of assignment, shift and XORs. The low sample standard deviation is also an evidence that supports our expectation that the AES implementation takes a nearly constant time.
+
+The source code and data for our tinydtls AES timing experiments are available at: \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsaes} \\
+and \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsaes/Data}
 
 \subsubsection{Overall Timing}
+
+Since the AES implementation takes a nearly constant time to execute, the time length of DTLS Decryption and DTLS Encryption in \Cref{Fig: A Session with DTLS} are expected to be identical among different DTLS sessions. 
 
 \subsection{Application Code}
 

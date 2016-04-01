@@ -90,7 +90,7 @@ We first estimated the average execution time of AES encryption for $n \in \{ 50
 	\center
 	\begin{tabular}{|c|c|c|c|}
 	\hline
-	                               & Ticks (TelosB HW) & Ticks (TelosB SW) & Ticks (CC2538 SW) \\ \hline
+	                               & TelosB HW & TelosB SW & CC2538 SW \\ \hline
 	50 executions                      & 633.00                  & 4571.05                  & 979.96                  \\ \hline
 	100 executions                     & 1268.46                  & 9127.84                 & 1960.03                  \\ \hline
 	150 executions                     & 1901.31                  & 13707.69                & 2940.22                  \\ \hline
@@ -102,8 +102,6 @@ We first estimated the average execution time of AES encryption for $n \in \{ 50
 	\caption{AES execution time estimation on Contiki, with sample size 100}
 	\label{Tbl: AES execution time estimation of Contiki}
 \end{table}
-
-
 
 Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and most of its operations take a constant time; thus the encryption and decryption of a block are expected to be done within a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by CPU caching, these attacks are unlikely to be replicable on our platforms as the processors do not have cache implemented. 
 
