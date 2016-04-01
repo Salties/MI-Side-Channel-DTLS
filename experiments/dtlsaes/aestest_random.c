@@ -53,18 +53,25 @@ void PrintBlock(const char *prefix, const uint8_t * block,
     return;
 }
 
+int calibrate()
+{
+    return 0;
+}
+
 void finalise()
 {
     int i;
-    
-    printf("#Finalise");
+
+    printf("#Finalise.\n");
     //Randomise the key for next round.
     for(i = 0; i < AES_KEY_LEN; i++)
-	Aes128Key[j] ^= ciphertext[0][j];
+	Aes128Key[i] ^= ciphertext[0][i];
     //Randomise the plaintext for next round.
     for(i = 0; i < NROUND; i++)
 	memcpy(plaintext[i], fixed_data, AES_BLOCK_LEN);
     
+    calibrate();
+
     return;
 }
 
@@ -112,9 +119,15 @@ PROCESS_THREAD(aestest, ev, data)
 
         //Timing AES.
         start = RTIMER_NOW();
+#ifdef CALIBRATE_FRAMEWORK
+	for (j = 0; j < NROUND * 10; j++){
+	    random_rand();
+	}
+#else
         for (j = 0; j < NROUND; j++) {
             rijndael_encrypt(&aes_ctx, plaintext[j], ciphertext[j]);
         }
+#endif
         end = RTIMER_NOW();
 
 #ifdef VERBOSE_AESTEST

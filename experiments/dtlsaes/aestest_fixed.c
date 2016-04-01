@@ -53,8 +53,24 @@ void PrintBlock(const char *prefix, const uint8_t * block,
     return;
 }
 
+int calibrate()
+{
+    int i;
+
+    for(i = 0; i < AES_KEY_LEN; i++)
+	Aes128Key[i] ^= 0;
+    for(i = 0; i < NROUND; i++)
+	memcpy(dummyplaintext, plaintext[i], AES_BLOCK_LEN);
+
+    return 0;
+}
+
 void finalise()
 {
+    printf("#Finalise.\n");
+    
+    calibrate();
+
     return;
 }
 
@@ -102,9 +118,15 @@ PROCESS_THREAD(aestest, ev, data)
 
         //Timing AES.
         start = RTIMER_NOW();
+#ifdef CALIBRATE_FRAMEWORK
+	for (j = 0; j < NROUND * 10; j++){
+	    random_rand();
+	}
+#else
         for (j = 0; j < NROUND; j++) {
             rijndael_encrypt(&aes_ctx, plaintext[j], ciphertext[j]);
         }
+#endif
         end = RTIMER_NOW();
 
 #ifdef VERBOSE_AESTEST
@@ -118,7 +140,7 @@ PROCESS_THREAD(aestest, ev, data)
 	//Print execution time.
         printf("%lu\n", end - start);
 	
-	finalsie();
+	finalise();
     }
 
     printf("#%d tests done for %s.\n", NSAMPLE, TARGET_NAME);
