@@ -96,7 +96,7 @@ PROCESS_THREAD(aestest, ev, data)
     printf("#plaintext addr: %ul\n", (unsigned int)plaintext);
     printf("#ciphertext addr: %ul\n", (unsigned int)ciphertext);
 
-    etimer_set(&periodic_timer, (2 * CLOCK_SECOND));
+    etimer_set(&periodic_timer, (1 * CLOCK_SECOND));
 
     //Initialise plaintext.
     for (j = 0; j < NROUND; j++) {
