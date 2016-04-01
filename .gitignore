@@ -7,8 +7,6 @@
 /Writings/*/*.synctex.gz
 /Writings/*/*.blg
 
-#Ignore submodules.
-
 #Ignore compilation files.
 *.o
 *.d
@@ -34,3 +32,6 @@ tinydtls/doc
 #Ignore intermediate data
 *.csv
 *.dat
+
+#Ignore backups
+*/backup/*
