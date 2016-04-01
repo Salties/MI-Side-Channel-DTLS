@@ -4,12 +4,14 @@ all: $(CONTIKI_PROJECT)
 
 CONTIKI = $(CONTIKI_ROOT)
 APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
-#APPS += servreg-hack
 
-#Uncomment to enable null mac and rdc driver
-#CFLAGS += -DNULL_DRIVER
-
-CFLAGS += -DPLATFORM_$(TARGET)
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+
+#Disable PSK
+#CFLAGS += -DDISABLE_PSK
+
+#Disable ECC
+CFLAGS += -DDISABLE_ECC
+
 
 include $(CONTIKI)/Makefile.include

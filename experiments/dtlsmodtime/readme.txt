@@ -1,4 +1,4 @@
-This folder contains the source code of the application that intended to perform key detection through traffic analysis.
+This application is used to investigate the execution time of DTLS module.
 
 Tinydtls version: 0.8.2
 Suporrted Cipher-suite: TLS_PSK_WITH_AES_128_CCM_8
