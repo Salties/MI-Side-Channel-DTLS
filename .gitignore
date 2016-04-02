@@ -28,6 +28,14 @@ symbols.h
 Makefile.target
 config.log
 tinydtls/doc
+*/doc/html/
+*/ecc/testecc
+*/ecc/testfield
+*/tests/ccm-test
+*/tests/dtls-client
+*/tests/dtls-server
+*/tests/prf-test
+
 
 #Ignore intermediate data
 *.csv
