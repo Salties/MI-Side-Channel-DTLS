@@ -4,6 +4,8 @@ In this chapter we analyse DTLS on Contiki. We consider only two ciphersuites th
 
 One thing to be noticed is that both ciphersuites uses AES-128 CCM for data encryption and therefore they only behave different during handshake. Hence we do not distinguish application data encrypted by both ciphersuites.
 
+\section{Protocol and Implementation}
+
 \section{DTLS Handshake}
 
 \textbf{[To be done...]}
@@ -42,9 +44,7 @@ DTLS provides protection between only two Sensor Nodes in the network; thus the 
 
 Therefore in this section we put our interest in the timing of DTLS decryption/encryption and the execution time of application code.
 
-\subsection{DTLS Encryption and Decryption}
-
-\subsubsection{AES Timing}
+\subsection{AES Timing} \label{tinydtls AES Timing}
 
 tinydtls uses the OpenBSD optimised AES implementation. Its source code is available at:\\ 
 \url{https://github.com/Salties/MyRepository/blob/master/tinydtls-0.8.2/aes/rijndael.c}
@@ -93,11 +93,9 @@ The source code and data for our tinydtls AES timing experiments are available a
 and \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsaes/Data}
 
-\subsubsection{Overall Timing}
+\subsection{Protocol Suite Processing Timing}
 
-Since the AES implementation takes a nearly constant time to execute, the time length of DTLS Decryption and DTLS Encryption in \Cref{Fig: A Session with DTLS} are expected to be identical among different DTLS sessions. 
-
-\subsection{Application Code}
+\subsection{Application Code Timing}
 
 
 

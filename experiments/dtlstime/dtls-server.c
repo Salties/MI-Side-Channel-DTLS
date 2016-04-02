@@ -56,9 +56,15 @@
 
 #define MAX_PAYLOAD_LEN 120
 
+#ifndef PAYLOAD_LEN
+#define PAYLOAD_LEN 1
+#endif
+
 static struct uip_udp_conn *server_conn;
 
 static dtls_context_t *dtls_context;
+
+static unsigned char dummydata[MAX_PAYLOAD_LEN] = { 0 };
 
 static const unsigned char ecdsa_priv_key[] = {
 			0xD9, 0xE2, 0x70, 0x7A, 0x72, 0xDA, 0x6A, 0x05,
@@ -81,15 +87,15 @@ static const unsigned char ecdsa_pub_key_y[] = {
 static int
 read_from_peer(struct dtls_context_t *ctx, 
 	       session_t *session, uint8 *data, size_t len) {
-  size_t i;
-  for (i = 0; i < len; i++)
-    PRINTF("%c", data[i]);
+  //size_t i;
+  //for (i = 0; i < len; i++)
+  //  PRINTF("%c", data[i]);
 
   /* echo incoming application data */
   //dtls_write(ctx, session, data, len);
   
   //Reply with a constant value.
-  dtls_write(ctx, session, (void*)"ACK\r\n", 5);
+  dtls_write(ctx, session, dummydata, PAYLOAD_LEN);
   
   return 0;
 }

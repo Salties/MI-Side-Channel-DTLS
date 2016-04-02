@@ -146,40 +146,40 @@ However, in Contiki we noticed that either of them de facto adopts AES-128 with 
 On the other hand, the performance impact of overloading cannot be ignored in WSNs. In fact noncoresec and DTLS adds 23 bytes and 21 bytes overhead to each packet respectively whereas the MTU specified by 802.15.4 Standard is only 127 bytes, overloading them will immediately adds great overhead in terms of bandwidth and thus energy consumption. 
 
 Hence, we argue that overloading is not practical and thus is excluded from our experiments.
-
-\section{Applications} \label{Sec: Applications}
-
-In this section we explain some simple applications we have developed in our experiments. These applications are aimed to cover the most generic scenarios of WSN applications. The source code of the applications are located in the ``experiments'' folder in our source code. 
-
-\begin{description}[style=nextline]
-
-	\item[{dtls-telnet}]
-	This tool is a DTLS client runs on Linux. It establishes a DTLS session with a DTLS server and runs a telnet application that reads and sends data in ASCII. We use this tool in most of our experiment as the DTLS client. It is located under the ``tools'' folder in our source code.
-	
-	\item[{dtlsbr}]
-	{dtlsbr} is a DTLS echo server merged with a Border Router application running concurrently. An echo server echoes everything received from the clients similar to PING. {dtlsbr} is developed to study how the tinydtls implementation affects the packet features.
-	
-	\item[{borderest}]
-	{boderest} is a CoAP server merged with a Border Router application running concurrently. This application is used to predict some traffic features with CoAPs. Even though there is no security measure adopted in this application, we expect that most of the packet features should be linearly preserved with CoAPs as we explained in \Cref{Subsec: CoAPs}. This application is not compatible with TelosB due to code oversize.
-	
-	\item[{keydtls}]
-	{keydtls} is developed to study how different DTLS session keys affect the packet features. The Sensor Node runs a DTLS server and reads client input, responses with a random string in ASCII representing a sensor reading.
-	
-	\item[{keyllsec}]
-	{keyllsec} is developed to study how different noncoresec keys affect the packet features. There are two sub-applications in this application:
-	\begin{itemize}
-		\item \textbf{broadcast} application broadcasts an arbitrary message periodically. \footnote{We did not implement any broadcast application with DTLS as it is not supported.}
-		\item \textbf{unicast-sender} and \textbf{unicast-receiver} are a pair of applications where the sender periodically pushes an arbitrary message to the receiver.
-	\end{itemize}
-	These applications are protected by noncoresec.
-
-	\item[{dtlseiri}]
-	\textit{dtlseiri} is developed to study how the execution time of code on a DTLS server affects the time interval of response. Similar to {keydtls}, {dtlseiri} repeatedly calls the Contiki random number generator to generate a random ASCII string as response, representing a sensor reading with additional processing. The execution time is controlled by the number of calls to the random number generator. 
-
-%application detection dtls PINGLOAD
-	\item[{dtlspingload}]
-	This application is identical to \textit{dtlseiri} but developed for a different purpose. It is used to study a potential side channel attack we named ``pingload'' which we explain in later chapters.
-\end{description}
+%
+%\section{Applications} \label{Sec: Applications}
+%
+%In this section we explain some simple applications we have developed in our experiments. These applications are aimed to cover the most generic scenarios of WSN applications. The source code of the applications are located in the ``experiments'' folder in our source code. 
+%
+%\begin{description}[style=nextline]
+%
+%	\item[{dtls-telnet}]
+%	This tool is a DTLS client runs on Linux. It establishes a DTLS session with a DTLS server and runs a telnet application that reads and sends data in ASCII. We use this tool in most of our experiment as the DTLS client. It is located under the ``tools'' folder in our source code.
+%	
+%	\item[{dtlsbr}]
+%	{dtlsbr} is a DTLS echo server merged with a Border Router application running concurrently. An echo server echoes everything received from the clients similar to PING. {dtlsbr} is developed to study how the tinydtls implementation affects the packet features.
+%	
+%	\item[{borderest}]
+%	{boderest} is a CoAP server merged with a Border Router application running concurrently. This application is used to predict some traffic features with CoAPs. Even though there is no security measure adopted in this application, we expect that most of the packet features should be linearly preserved with CoAPs as we explained in \Cref{Subsec: CoAPs}. This application is not compatible with TelosB due to code oversize.
+%	
+%	\item[{keydtls}]
+%	{keydtls} is developed to study how different DTLS session keys affect the packet features. The Sensor Node runs a DTLS server and reads client input, responses with a random string in ASCII representing a sensor reading.
+%	
+%	\item[{keyllsec}]
+%	{keyllsec} is developed to study how different noncoresec keys affect the packet features. There are two sub-applications in this application:
+%	\begin{itemize}
+%		\item \textbf{broadcast} application broadcasts an arbitrary message periodically. \footnote{We did not implement any broadcast application with DTLS as it is not supported.}
+%		\item \textbf{unicast-sender} and \textbf{unicast-receiver} are a pair of applications where the sender periodically pushes an arbitrary message to the receiver.
+%	\end{itemize}
+%	These applications are protected by noncoresec.
+%
+%	\item[{dtlseiri}]
+%	\textit{dtlseiri} is developed to study how the execution time of code on a DTLS server affects the time interval of response. Similar to {keydtls}, {dtlseiri} repeatedly calls the Contiki random number generator to generate a random ASCII string as response, representing a sensor reading with additional processing. The execution time is controlled by the number of calls to the random number generator. 
+%
+%%application detection dtls PINGLOAD
+%	\item[{dtlspingload}]
+%	This application is identical to \textit{dtlseiri} but developed for a different purpose. It is used to study a potential side channel attack we named ``pingload'' which we explain in later chapters.
+%\end{description}
 
 \section{Summary}
 
