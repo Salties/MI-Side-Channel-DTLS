@@ -14,6 +14,6 @@ CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 CFLAGS += -DDISABLE_ECC
 
 #Response length.
-CFLAGS += -DPAYLOAD_LEN=1
+CFLAGS += -DPAYLOAD_LEN=23
 
 include $(CONTIKI)/Makefile.include

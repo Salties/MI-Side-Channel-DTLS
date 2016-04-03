@@ -6,6 +6,8 @@ One thing to be noticed is that both ciphersuites uses AES-128 CCM for data encr
 
 \section{Protocol and Implementation}
 
+Due to the fact that tinydlts implemented only a minimum features of DTLS and supports only two ciphersuites, TLS\_PSK\_WITH\_AES\_128\_CCM\_8 and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8, we have found no applicable attacks from \cite{rfc7457}.
+
 \section{DTLS Handshake}
 
 \textbf{[To be done...]}
@@ -84,9 +86,9 @@ The result of Fixed vs Random test is shown in \Cref{Tbl: Fixed vs Random test r
 	\label{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538}
 \end{table}
 
-Applying the TVLS t-score threshold which is $4.5$, the results in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538} imply that the tinydtls optimised AES implementation has passed test, i.e. no leakage is detected through the execution time of the tinydtls optimised AES implementation. 
+Applying the TVLA t-score threshold which is $4.5$, the results in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538} imply that the tinydtls optimised AES implementation has passed our test, i.e. no leakage is detected through the execution time of the tinydtls optimised AES implementation. 
 
-The result is consistent with our expectation, as the implementation has no branches\footnote{The only branch in the source code is for AES-192 and AES-256, which are not used in the ciphersuites.} in the source code and is done with only statements of assignment, shift and XORs. The low sample standard deviation is also an evidence that supports our expectation that the AES implementation takes a nearly constant time.
+The result is consistent with our expectation, as the implementation has no branch\footnote{The only branch in the source code is for AES-192 and AES-256, which are not used in the ciphersuites.} in the source code and is done with only statements of assignment, shift and XORs. The low sample standard deviation is also an evidence that supports our expectation that the AES implementation takes a nearly constant time.
 
 The source code and data for our tinydtls AES timing experiments are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsaes} \\
@@ -94,6 +96,64 @@ and \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsaes/Data}
 
 \subsection{Protocol Suite Processing Timing}
+
+Since the AES implementation takes a nearly constant time, its impact to the timing information induced by different session keys is therefore can be considered negligible. 
+
+We estimated the overall processing time of the protocol suite\footnote{6LoWPAN and DTLS processing in \Cref{Fig: A Session with DTLS}.} by using an application which the Sensor Node responses with a constant predefined value. A hint of the source code is shown in \Cref{nullapp}.
+
+\lstinputlisting[label={nullapp}, captionpos=b, caption={Application code with negligible execution time}]{src/nullapp.c} 
+
+There is no actual code being executed in the application showed in \Cref{nullapp}. The execution time of this application code can be considered negligible and hence the observable response time between Request and Response in \Cref{Fig: A Session with DTLS} can therefore viewed as an approximation of the overall protocol suite processing time.
+
+Without exceeding 802.15.4 MTU, the length of DTLS Payload is ranged from $1$ byte to $47$ bytes. However in our setup, the Requests are retransmitted by the border router and thus one byte is taken by the decompressed Hop Limit in IPv6 Header. We experimented with combinations of Requests ranging from $1$ byte to $46$ bytes and Responses ranging from $1$ byte to $47$ bytes. We denote $|Req|$ and $|Res|$ as the length in bytes of the DTLS Payload in Requests and Responses respectively.
+
+\Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} shows two example histograms of part of our results on CC2538.
+
+\begin{figure}[ht!]
+	\center
+	\begin{subfigure}{.4\textwidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/dtlstimehist_min.png}
+	\end{subfigure}
+	\begin{subfigure}{.4\textwidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/dtlstimehist_max.png}
+	\end{subfigure}
+	\caption{Example histograms of protocol suite processing time on CC2538 with DTLS}
+	\label{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS}
+\end{figure}
+
+Similar to the ECHO response time we have shown in \Cref{Fig: Histograms of ECHO response times on different setups}, the response times in these experiments also appears to densely cluster near a specific value while a few are drifted away; hence we use their sample median to characterise the protocol suite processing time. The medians of the examples shown in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. It is clear that the response time of Request and Response at their maximum length is significantly longer comparing to Request and Response at their minimum length.
+ 
+\begin{table}
+	\center
+	\begin{tabular}{|c|c|c|}
+		\hline
+		 				&($|Req|$ == 1, $|Res|$ == 1) 	& ($|Req|$ == 46, $|Res|$ == 47) 	\\ \hline
+		 Sample Median	&79.712 ms                  			& 132.740 ms                   			\\ \hline
+	\end{tabular}
+
+	\caption{Medians of response time in the examples of \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS}}
+	\label{Tbl: Median of response times in examples}
+\end{table}
+
+Further more, our data also shows that both $|Req|$ and $|Res|$ are linear related to the response time.
+
+\begin{figure}[ht!]
+	\center
+	\begin{subfigure}{0.45\textwidth}
+	\center
+	\includegraphics[width=\textwidth]{fig/dtlstime_req1.png}
+	\subcaption{$|Req| = 1$, variable $|Res|$}
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+	\center
+	\includegraphics[width=\textwidth]{fig/dtlstime_res1.png}
+	\subcaption{Variable $|Req|$, $|Res| = 1$}
+	\end{subfigure}
+	\caption{Protocol suite processing time on CC2538 with DTLS}
+	\label{Fig: Protocol suite processing time on CC2538 with DTLS}
+\end{figure}
 
 \subsection{Application Code Timing}
 

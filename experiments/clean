@@ -26,9 +26,9 @@ for subfolder in `ls`; do
 		make  TARGET=$target clean;
 		#Remove binary images.
 		rm -f *.$target;
-		rm symbols.c
-		rm symbols.h
-		rm *~
+		rm -f symbols.c
+		rm -f symbols.h
+		rm -f *~
 	done
 
 	echo Leaving $subfolder

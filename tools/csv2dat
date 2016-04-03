@@ -1,0 +1,6 @@
+#!/bin/bash
+
+FILENAME=$1
+
+plxtrcws.py ${FILENAME}.csv -k Application -c ::1 -s ::212:4b00:41e:afc6 | tail -n 1 > ${FILENAME}.dat
+

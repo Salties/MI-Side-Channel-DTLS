@@ -1,1 +1,11 @@
 load dtlstime
+
+function lrplot(x,y)
+plot(x,y,'rx', 'MarkerSize', 8);
+m = length(x);
+X = [ones(m,1) x];
+theta = (pinv(X'*X))*X'*y;
+hold on;
+plot(X(:,2), X*theta, '-');
+hold off;
+endfunction
