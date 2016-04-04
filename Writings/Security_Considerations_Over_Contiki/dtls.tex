@@ -97,17 +97,34 @@ and \\
 
 \subsection{Protocol Suite Processing Timing}
 
-Since the AES implementation takes a nearly constant time, its impact to the timing information induced by different session keys is therefore can be considered negligible. 
+The observable response time in \Cref{Fig: A Session with DTLS}, , denotes as $t_R$, can be divided into two parts:
 
-We estimated the overall processing time of the protocol suite\footnote{6LoWPAN and DTLS processing in \Cref{Fig: A Session with DTLS}.} by using an application which the Sensor Node responses with a constant predefined value. A hint of the source code is shown in \Cref{nullapp}.
+\begin{enumerate}
+	\item Protocol suite processing time $t_P$. This part consists of the 6LoWPAN decapsulation / encapsulation and DTLS decryption / encryption in \Cref{Fig: A Session with DTLS}. $t_P$ is independent to the application. 
+	\item Application code execution time $t_A$. It is one of the most interested information to the Adversary that could be exploited to learn information about the application data.
+\end{enumerate}
+
+Apparently we have
+\begin{equation}
+t_R = t_P + t_A
+\end{equation}
+
+One way to extract $t_A$ is to compute it by 
+\begin{equation}
+t_A = t_R - t_P
+\end{equation}
+
+Practically, given a specific platform the value of $t_P$ is predictable, as it is independent to the upper layer application and the choices of different DTLS session key does not affect the timing as shown in \Cref{tinydtls AES Timing}. 
+
+We estimated $t_P$ on CC2538 by an application that the Sensor Node replies to any Requests with a constant predefined value. A hint of the source code is shown in \Cref{nullapp}.
 
 \lstinputlisting[label={nullapp}, captionpos=b, caption={Application code with negligible execution time}]{src/nullapp.c} 
 
-There is no actual code being executed in the application showed in \Cref{nullapp}. The execution time of this application code can be considered negligible and hence the observable response time between Request and Response in \Cref{Fig: A Session with DTLS} can therefore viewed as an approximation of the overall protocol suite processing time.
+Since no effective application code exists in this application, its $t_A$ can be considered negligible; hence the $t_R$ can be viewed as an approximation of $t_P$.
 
-Without exceeding 802.15.4 MTU, the length of DTLS Payload is ranged from $1$ byte to $47$ bytes. However in our setup, the Requests are retransmitted by the border router and thus one byte is taken by the decompressed Hop Limit in IPv6 Header. We experimented with combinations of Requests ranging from $1$ byte to $46$ bytes and Responses ranging from $1$ byte to $47$ bytes. We denote $|Req|$ and $|Res|$ as the length in bytes of the DTLS Payload in Requests and Responses respectively.
+Avoid exceeding 802.15.4 MTU, the length of DTLS Payload can be ranged from $1$ byte to $47$ bytes. However in our setup, the Requests are forwarded by an Border Router and thus one byte is taken by the decompressed Hop Limit in IPv6 Header; therefore the the length of DTLS Payload in our Requests is ranged from $1$ byte to $46$ bytes.
 
-\Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} shows two example histograms of part of our results on CC2538.
+\Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} shows two example histograms of part of our result. We denote $|Req|$ and $|Res|$ as the length in bytes of the DTLS Payload in Requests and Responses respectively.
 
 \begin{figure}[ht!]
 	\center
@@ -123,7 +140,7 @@ Without exceeding 802.15.4 MTU, the length of DTLS Payload is ranged from $1$ by
 	\label{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS}
 \end{figure}
 
-Similar to the ECHO response time we have shown in \Cref{Fig: Histograms of ECHO response times on different setups}, the response times in these experiments also appears to densely cluster near a specific value while a few are drifted away; hence we use their sample median to characterise the protocol suite processing time. The medians of the examples shown in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. It is clear that the response time of Request and Response at their maximum length is significantly longer comparing to Request and Response at their minimum length.
+Similar to the ECHO response time we have shown in \Cref{Fig: Histograms of ECHO response times on different setups},$t_R$ in the samples also appeared to densely cluster near a specific value while a few are drifted away; hence we use the sample median to characterise $t_R$ in our experiments. Medians of the examples in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. It is clear that when $|Req|$ and $|Res|$ are at their maximum value, $t_R$ is significantly longer comparing to $Req$ and $Res$ at their minimum value.
  
 \begin{table}
 	\center
@@ -137,23 +154,28 @@ Similar to the ECHO response time we have shown in \Cref{Fig: Histograms of ECHO
 	\label{Tbl: Median of response times in examples}
 \end{table}
 
-Further more, our data also shows that both $|Req|$ and $|Res|$ are linear related to the response time.
+We measured $t_R$ with different combinations of $|Req|$ and $|Res|$. The results are shown in \Cref{Fig: Protocol suite processing time on CC2538 with DTLS}.
 
 \begin{figure}[ht!]
 	\center
-	\begin{subfigure}{0.45\textwidth}
+	\begin{subfigure}{0.6\textwidth}
 	\center
-	\includegraphics[width=\textwidth]{fig/dtlstime_req1.png}
-	\subcaption{$|Req| = 1$, variable $|Res|$}
+	\includegraphics[width=\textwidth]{fig/dtlstime_fixed_req.png}
+	\subcaption{Response time with $|Req| \in \{1, 23, 46\}$}
 	\end{subfigure}
-	\begin{subfigure}{0.45\textwidth}
+	\begin{subfigure}{0.6\textwidth}
 	\center
-	\includegraphics[width=\textwidth]{fig/dtlstime_res1.png}
-	\subcaption{Variable $|Req|$, $|Res| = 1$}
+	\includegraphics[width=\textwidth]{fig/dtlstime_fixed_res.png}
+	\subcaption{Response time with $|Res| \in \{1, 23, 46\}$}
 	\end{subfigure}
 	\caption{Protocol suite processing time on CC2538 with DTLS}
 	\label{Fig: Protocol suite processing time on CC2538 with DTLS}
 \end{figure}
+
+The source code and data for our the protocol suite processing timing experiments are available at: \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstime} \\
+and \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstims/Data}
 
 \subsection{Application Code Timing}
 

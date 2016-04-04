@@ -1,21 +1,10 @@
-# Created by Octave 3.8.2, Mon Apr 04 16:32:51 2016 BST <yy12135@salties>
-# name: a
-# type: matrix
-# rows: 1
-# columns: 3
- 1 2 3
-
-
+# Created by Octave 3.8.2, Mon Apr 04 19:11:58 2016 BST <yy12135@salties>
 # name: ans
-# type: scalar
-126.315
-
-
-# name: b
 # type: matrix
-# rows: 1
-# columns: 3
- 4 5 6
+# rows: 2
+# columns: 1
+ 78.93404743128838
+ 0.5466159109358715
 
 
 # name: dtlstime_12_1
@@ -438,23 +427,19 @@
  132.74
 
 
-# name: m
-# type: scalar
-5
-
-
 # name: n
 # type: matrix
-# rows: 1
-# columns: 9
- 1 7 12 18 23 29 35 41 46
-
-
-# name: rlr
-# type: matrix
-# rows: 1
-# columns: 14
- 75 80 85 90 95 100 105 110 115 120 125 130 135 140
+# rows: 9
+# columns: 1
+ 1
+ 7
+ 12
+ 18
+ 23
+ 29
+ 35
+ 41
+ 46
 
 
 # name: t
