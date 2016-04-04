@@ -1,4 +1,4 @@
-# Created by Octave 3.8.2, Mon Apr 04 16:25:56 2016 BST <yy12135@salties>
+# Created by Octave 3.8.2, Mon Apr 04 16:32:51 2016 BST <yy12135@salties>
 # name: a
 # type: matrix
 # rows: 1
@@ -363,6 +363,36 @@
  104.154
 
 
+# name: dtlstime_req23
+# type: matrix
+# rows: 9
+# columns: 1
+ 93.65000000000001
+ 96.642
+ 99.176
+ 102.899
+ 105.433
+ 108.446
+ 112.2595
+ 115.296
+ 118.238
+
+
+# name: dtlstime_req46
+# type: matrix
+# rows: 9
+# columns: 1
+ 108.185
+ 111.197
+ 113.737
+ 117.582
+ 119.939
+ 123.111
+ 127.065
+ 130.038
+ 132.74
+
+
 # name: dtlstime_res1
 # type: matrix
 # rows: 9
@@ -376,6 +406,36 @@
  101.5865
  105.2345
  108.185
+
+
+# name: dtlstime_res23
+# type: matrix
+# rows: 9
+# columns: 1
+ 91.43000000000001
+ 95.00800000000001
+ 98.126
+ 102.447
+ 105.433
+ 109.008
+ 113.3895
+ 116.9775
+ 119.939
+
+
+# name: dtlstime_res47
+# type: matrix
+# rows: 9
+# columns: 1
+ 104.154
+ 107.824
+ 110.9495
+ 115.31
+ 118.238
+ 121.845
+ 126.315
+ 130.0195
+ 132.74
 
 
 # name: m
