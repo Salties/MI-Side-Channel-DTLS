@@ -1,0 +1,70 @@
+# Created by Octave 3.8.2, Tue Apr 05 20:34:27 2016 BST <yy12135@salties>
+# name: D
+# type: matrix
+# rows: 3
+# columns: 3
+ 84.491 85.006 0.79345703125
+ 86.0745 85.544 2.38037109375
+ 88.526 85.544 4.791259765625
+
+
+# name: E
+# type: matrix
+# rows: 3
+# columns: 1
+ -1.308457031250001
+ -1.849871093749996
+ -1.809259765625001
+
+
+# name: T_A
+# type: matrix
+# rows: 3
+# columns: 1
+ 0.79345703125
+ 2.38037109375
+ 4.791259765625
+
+
+# name: T_P
+# type: matrix
+# rows: 3
+# columns: 1
+ 85.006
+ 85.544
+ 85.544
+
+
+# name: T_R
+# type: matrix
+# rows: 3
+# columns: 1
+ 84.491
+ 86.0745
+ 88.526
+
+
+# name: ans
+# type: matrix
+# rows: 3
+# columns: 2
+ 0.79345703125 -1.308457031250001
+ 2.38037109375 -1.849871093749996
+ 4.791259765625 -1.809259765625001
+
+
+# name: tA
+# type: scalar
+0
+
+
+# name: tP
+# type: scalar
+0
+
+
+# name: tR
+# type: scalar
+0
+
+
