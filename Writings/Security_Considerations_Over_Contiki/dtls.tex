@@ -116,7 +116,7 @@ t_A = t_R - t_P
 
 Practically, given a specific platform the value of $t_P$ is predictable, as it is independent to the upper layer application and the choices of different DTLS session key does not affect the timing as shown in \Cref{tinydtls AES Timing}. 
 
-We estimated $t_P$ on CC2538 by an application that the Sensor Node replies to any Requests with a constant predefined value. A hint of the source code is shown in \Cref{nullapp}.
+We estimated $t_P$ on CC2538 by an application where the Sensor Node replies to any Requests with a constant predefined value. A hint of the source code is shown in \Cref{nullapp}.
 
 \lstinputlisting[label={nullapp}, captionpos=b, caption={Application code with negligible execution time}]{src/nullapp.c} 
 
@@ -140,7 +140,7 @@ Avoid exceeding 802.15.4 MTU, the length of DTLS Payload can be ranged from $1$ 
 	\label{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS}
 \end{figure}
 
-Similar to the ECHO response time we have shown in \Cref{Fig: Histograms of ECHO response times on different setups},$t_R$ in the samples also appeared to densely cluster near a specific value while a few are drifted away; hence we use the sample median to characterise $t_R$ in our experiments. Medians of the examples in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. It is clear that when $|Req|$ and $|Res|$ are at their maximum value, $t_R$ is significantly longer comparing to $Req$ and $Res$ at their minimum value.
+Similar to the ECHO response time,$t_R$ in the samples also appeared to densely clustered near a specific value while a few are drifted away; hence we use the sample median to characterise $t_R$ in our experiments. Medians of the examples in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. It is clear that when $|Req|$ and $|Res|$ are at their maximum value, $t_R$ is significantly longer comparing to $Req$ and $Res$ at their minimum value.
  
 \begin{table}
 	\center
@@ -161,18 +161,18 @@ We measured $t_R$ with different combinations of $|Req|$ and $|Res|$. The result
 	\begin{subfigure}{0.45\linewidth}
 	\center
 	\includegraphics[width=\textwidth]{fig/dtlstime_fixed_req.png}
-	\subcaption{Response time with $|Req| \in \{1, 23, 46\}$}
+	\subcaption{Response time($t_R$) with $|Req| \in \{1, 23, 46\}$}
 	\end{subfigure}
 	\begin{subfigure}{0.45\linewidth}
 	\center
 	\includegraphics[width=\textwidth]{fig/dtlstime_fixed_res.png}
-	\subcaption{Response time with $|Res| \in \{1, 23, 46\}$}
+	\subcaption{Response time($t_R$) with $|Res| \in \{1, 23, 46\}$}
 	\end{subfigure}
 	\caption{Protocol suite processing time on CC2538 with DTLS}
 	\label{Fig: Protocol suite processing time on CC2538 with DTLS}
 \end{figure}
 
-The results in \Cref{Fig: Protocol suite processing time on CC2538 with DTLS} suggest that $|Req|$ and $|Res|$ might both be linear to the response time on CC2538. Assume $t_R$ is in the form of:
+The results in \Cref{Fig: Protocol suite processing time on CC2538 with DTLS} suggest that $|Req|$ and $|Res|$ might both be linear to the $t_R$ on CC2538. Assume $t_R$ is in the form of:
 \begin{equation}
 	t_R = b_0 + b_1|Req| + b_2|Res|
 \end{equation}
@@ -186,6 +186,13 @@ Applying multiple linear regression using least squares fit, we have an estimati
 
 The $R^2$ for the extimation of \Cref{Eq: t_R estimation} is $0.9997$, which is consistent to our intuition of \Cref{Fig: Protocol suite processing time on CC2538 with DTLS} that $|Req|$ and $|Res|$ are strongly linear related to $t_R$ on the platform.
 
+Since $t_A$ in this application is negligible, we can therefore approximate $t_P$ by $t_R$ for CC2538:
+\begin{equation} \label{Eq: CC2538tP}
+	t_P \approx t_R = 78.388 + 0.538|Req| + 0.638|Res|
+\end{equation}
+
+The estimation of $t_P$ can be used as a profile to estimate $t_A$ in an attack where the Adversary attempts to recover the execution time of application code on CC2538.
+
 The source code and data for our the protocol suite processing timing experiments are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstime} \\
 and \\
@@ -195,11 +202,38 @@ and \\
 
 Given the knowledge of the protocol suite processing time for a specific platform, $t_P$, the application code execution time, $t_A$, can therefore be estimated by subtracting $t_P$ from the observable response time, $t_R$, by \Cref{Eq: t_A}.
 
-To test this method, we used the application code hinted by \Cref{apptime}.
+To test this method, we used an application that repeatedly invokes the Contiki system random number generator according to the data in the Request, and replies the execution time as the Response.
+
+The code is hinted by \Cref{apptime}.
 
 \lstinputlisting[label={apptime}, captionpos=b, caption={Code for application code timing}]{src/dtlsapptime.c} 
 
-The code in \Cref{apptime} invokes the Contiki system random number library according to Request data, and sends the execution time as the Response. 
+We tested the \Cref{Eq: t_A} with \Cref{apptime} on CC2538 with different values of $t_A$, using $t_P$ estimation given by \Cref{Eq: CC2538tP}.
+
+The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low tA}.
+
+\begin{figure}[ht!]
+	\center
+	\begin{subfigure}{0.45\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/lowtaest.png}
+	\subcaption{Estimation of values of $t_A$}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/lowabstaerr.png}
+	\subcaption{Absolute approximation error of $t_A$ estimation}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/lowrtvtaerr.png}
+	\subcaption{Relative approximation error of $t_A$ estimation}
+	\end{subfigure}
+	\caption{Estimation for low $t_A$($<1.5$ms) on CC2538}
+	\label{Fig: Estimation for low tA}
+\end{figure}
+
+The result indicates that the estimation totally failed at low $t_A$, such that negative execution time is estimated. We consider this is caused by the fact that at such level the execution time is dominated by the systematic noise. The absolute approximation error increases almost linearly, whilst the relative approximation error decreases inverse proportionally.
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 %

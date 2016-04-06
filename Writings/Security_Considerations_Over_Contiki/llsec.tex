@@ -64,7 +64,9 @@ We used the Contiki Real Timer Library\cite{RTimer}, which is a pre-emptive cloc
 To verify whether the execution time leaks any information of the AES key, we applied the Fixed vs Random strategy inspired by TVLA\cite{TVLA}, with slight adaptation for timing measurement. Specifically, we collect timing samples for fixed key and fixed plaintext, compare them to samples of random keys and random plaintext, using t-test\footnote{The timings are assumed to follow a normal, or similar, distribution.} to determine whether a statistical difference can be observed  between two groups. The test is to see whether a specific input to AES, incarnated by the fixed group, has any bias comparing to average case, incarnated by the random group. We use the null hypothesis that two groups of timing samples have the same mean for the t-test. If the t-test returns a t-score which absolute value is greater than the threshold, which is $4.5$ as of TVLA, we conclude that there is a potential leakage of the key through the execution time; otherwise we conclude no leakage is detected.
 
 %Calibration
-However during the experiments, we realised that a constant timing error can be induced by codes outside the timing area on platform specific manner, e.g. a memcpy() call to initialise some blocks of data increases the measurement results on CC2538, but not on TelosB. The cause of this error is unclear so far, but we have ruled out the following factors:
+However during the experiments, we realised that a constant timing error can be induced by codes outside the timing area on platform specific manner, e.g. a memcpy() call to initialise some blocks of data increases the measurement results on CC2538, but not on TelosB.
+
+The cause of this error is unclear so far, but we have ruled out the following factors:
 
 \begin{itemize}
 	\item Caching and virtual memory (swap file) is not supported in Contiki.
@@ -72,7 +74,13 @@ However during the experiments, we realised that a constant timing error can be 
 	\item The error occurs even when memory allocation of variables are identical.
 \end{itemize}
 
-In order to mitigate the error, calibrations are needed before measurements. To calibrate the tests, we replace AES encryption in the code of two groups by code with constant execution time as the indicator of calibration. If the execution time of the replaced code in two groups are same, then we consider the tests are calibrated and replace the AES encryption back to begin the tests.
+In the original TVLA test, such systematic error is mitigated by interleaving the measurements of fixed group and random group, but the same strategy cannot be easily adopted in timing measurements for two reasons:
+\begin{enumerate}
+	\item The resolution of timers are not appropriate for measuring one AES execution. Frequent calls to the timing API also induces more errors to the measurement from the execution time of the timing API itself.
+	\item There is no guarantee that the intermediate code does not induce more error.
+\end{enumerate}
+
+Therefore as a compensation, calibrations are needed before measurements. To calibrate the tests, we replace AES encryption in the code of two groups by code with constant execution time as the indicator of calibration. If the execution time of the replaced code in two groups are same, then we consider the tests are calibrated and replace the AES encryption back to begin the tests.
 
 Since the exact cause of the timing error is not identified yet, we have not found a generic method to calibrate the tests. The solutions we used in our experiments are done by trials.
 
@@ -105,7 +113,7 @@ We first estimated the average execution time of AES encryption for $n \in \{ 50
 
 Theoretically, AES-128 is unlikely to be vulnerable to timing attacks as there is no branch in the algorithm and most of its operations take a constant time; thus the encryption and decryption of a block are expected to be done within a constant time. Even though \cite{Cache-Timing1} and \cite{Cache-Timing2} described attacks that exploits the timing side channel induced by CPU caching, these attacks are unlikely to be replicable on our platforms as the processors do not have cache implemented. 
 
-Nevertheless, our test results surprisingly indicated that there is a potential leakage in the AES execution time on two implementation we tested, as shown in \Cref{Tbl: Fixed vs Random test on Contiki AES timing}.
+Nevertheless, our test results surprisingly indicated that there is a potential leakage in the AES execution time on two implementations we tested, as shown in \Cref{Tbl: Fixed vs Random test on Contiki AES timing}.
 
 \begin{table}[ht!]
 	\centering
@@ -254,7 +262,7 @@ Other ICMPv6 messages are still possible to be distinguished by \Cref{Tbl: Packe
 
 %Full list of ICMP
 %Example Data
-A list of supported ICMPv6 Messages in Contiki release-3.0 is given in \Cref{Supported ICMPv6}. Some of them not included in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, as we did not observe them in our experiments.
+A list of supported ICMPv6 Messages in Contiki release-3.0 is given in \Cref{Supported ICMPv6}. Some of them are not included in \Cref{Tbl: Packet Features of ICMPv6 Messages in 6LoWPAN with noncoresec}, as we did not observe them in our experiments.
 
 The sample data are available at:\\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/llsecapps/Data/ICMPv6}
