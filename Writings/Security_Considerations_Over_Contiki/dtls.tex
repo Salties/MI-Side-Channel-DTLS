@@ -191,16 +191,16 @@ Since $t_A$ in this application is negligible, we can therefore approximate $t_P
 	t_P \approx t_R = 78.388 + 0.538|Req| + 0.638|Res|
 \end{equation}
 
-The estimation of $t_P$ can be used as a profile to estimate $t_A$ in an attack where the Adversary attempts to recover the execution time of application code on CC2538.
+The estimation of $t_P$ can be used as a profile to estimate $t_A$ in an attack where the Adversary attempts to recover the execution time of application code on CC2538, which we explain in \Cref{App code timing}.
 
-The source code and data for our the protocol suite processing timing experiments are available at: \\
+The source code and data for our protocol suite processing timing experiments are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstime} \\
 and \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstims/Data}
 
-\subsection{Application Code Timing}
+\subsection{Application Code Timing} \label{App code timing}
 
-Given the knowledge of the protocol suite processing time for a specific platform, $t_P$, the application code execution time, $t_A$, can therefore be estimated by subtracting $t_P$ from the observable response time, $t_R$, by \Cref{Eq: t_A}.
+Theoretically, the execution time of the code 
 
 To test this method, we used an application that repeatedly invokes the Contiki system random number generator according to the data in the Request, and replies the execution time as the Response.
 
@@ -208,32 +208,136 @@ The code is hinted by \Cref{apptime}.
 
 \lstinputlisting[label={apptime}, captionpos=b, caption={Code for application code timing}]{src/dtlsapptime.c} 
 
-We tested the \Cref{Eq: t_A} with \Cref{apptime} on CC2538 with different values of $t_A$, using $t_P$ estimation given by \Cref{Eq: CC2538tP}.
+We tested \Cref{Eq: t_A} with \Cref{apptime} on CC2538 with different execution time induced by different Request data, with $t_P$ estimated by \Cref{Eq: CC2538tP}. 
+
+We denote the actual execution time returned in the Response as $t_A$ and the estimated execution time as $\hat{t}_A$. We further denote their absolute and relative approximation error as $\epsilon$ and $\mu$ respectively, where:
+\begin{eqnarray}
+	\begin{aligned}
+		\epsilon	&= |t_A - \hat{t}_A| \\
+		\mu 	&= \epsilon / |t_A|
+	\end{aligned}
+\end{eqnarray}
+
+For clarity, we arbitrarily divide our data into three groups:
+\begin{itemize}
+	\item Low $t_A$, for $t_A < 1.5$ ms.
+	\item Medium $t_A$, for $t_A \in [1.5, 100)$ ms.
+	\item High $t_A$, for $t_A \geq 100$ ms.
+\end{itemize}
+
+The source code and data for our application code timing estimation experiments are available at: \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsapptime} \\
+and \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsapptime/Data}
+
+\subsubsection{Low Execution Time Estimation}
 
 The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low tA}.
 
 \begin{figure}[ht!]
 	\center
-	\begin{subfigure}{0.45\linewidth}
+	\begin{subfigure}{0.6\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/lowtaest.png}
-	\subcaption{Estimation of values of $t_A$}
+	\subcaption{Estimated execution time $\hat{t}_A}
 	\end{subfigure}
 	\begin{subfigure}{0.45\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/lowabstaerr.png}
-	\subcaption{Absolute approximation error of $t_A$ estimation}
+	\subcaption{Absolute approximation error $\epsilon$}
 	\end{subfigure}
 	\begin{subfigure}{0.45\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/lowrtvtaerr.png}
-	\subcaption{Relative approximation error of $t_A$ estimation}
+	\subcaption{Relative approximation error $\mu$}
 	\end{subfigure}
 	\caption{Estimation for low $t_A$($<1.5$ms) on CC2538}
 	\label{Fig: Estimation for low tA}
 \end{figure}
 
-The result indicates that the estimation totally failed at low $t_A$, such that negative execution time is estimated. We consider this is caused by the fact that at such level the execution time is dominated by the systematic noise. The absolute approximation error increases almost linearly, whilst the relative approximation error decreases inverse proportionally.
+The result in \Cref{Fig: Estimation for low tA} indicates that the estimation totally failed at low $t_A$, such that $\hat{t}_A$ are negative values. We consider this is caused by the fact that at such level the execution time is dominated by the systematic noise. At this level of $t_A$, $\epsilon$ increases nearly linearly whilst the $\mu$ decreases nearly inverse proportionally with $t_A$.
+
+\subsubsection{Medium Execution Time Estimation}
+
+For $t_A$ with medium values ($t_A \in[1.5, 100)$ ms), the results are shown in \Cref{Fig: Estimation for medium tA}.
+
+\begin{figure}[ht!]
+	\center
+	\begin{subfigure}{0.6\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/midtaest.png}
+	\subcaption{Estimated execution time $\hat{t}_A}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/midabstaerr.png}
+	\subcaption{Absolute approximation error $\epsilon$}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/midrtvtaerr.png}
+	\subcaption{Relative approximation error $\mu$}
+	\end{subfigure}
+	\caption{Estimation for medium $t_A$($[1.5,100)$ ms) on CC2538}
+	\label{Fig: Estimation for medium tA}
+\end{figure}
+
+$\hat{t}_A$ increase nearly linearly with $t_A$ in \Cref{Fig: Estimation for medium tA}. However, we realised that our estimations are strictly beneath the actual value. The $\epsilon$ appears to be random at these values but its range is within $[1.721, 1.860]$ ms in our experiments. Due to the narrow range of $\epsilon$, $\mu$ decreases dramatically as $t_A$ increases.
+
+Applying least squares fitting for medium $t_A$ and $\hat{t}_A$, we have an estimation of:
+\begin{equation}
+	t_A = 1.830 + 0.999\hat{t}_A 
+\end{equation}
+
+where $R^2=1.000$, which indicates that our estimation $\hat{t}_A$ is almost perfectly linearly related to $t_A$. The sample mean and standard deviation of $\epsilon$ are $1.784$ and $0.049$ ms respectively.
+
+The result suggests that for medium $t_A$, the accuracy of estimation increases as $t_A$ increases. Specifically, our data suggests that for $t_A > 35.7$ ms, we can have the relative approximation error $\mu < 0.05$.
+
+\subsubsection{High Execution Time Estimation}
+
+Further increasing $t_A$, we have the result for high $t_A$ ($\geq 100$ ms), shown in \Cref{Fig: Estimation for high tA}.
+
+\begin{figure}[ht!]
+	\center
+	\begin{subfigure}{0.6\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/hightaest.png}
+	\subcaption{Estimated execution time $\hat{t}_A}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/highabstaerr.png}
+	\subcaption{Absolute approximation error $\epsilon$}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+	\center
+	\includegraphics[width=\linewidth]{fig/highrtvtaerr.png}
+	\subcaption{Relative approximation error $\mu$}
+	\end{subfigure}
+	\caption{Estimation for high $t_A$($\geq 100$ ms) on CC2538}
+	\label{Fig: Estimation for high tA}
+\end{figure}
+
+The result in \Cref{Fig: Estimation for high tA} is similar to the result of medium $t_A$ such that $\hat{t}_A$ is linear to $t_A$. The least square estimation is:
+\begin{equation}
+	t_A = 1.569 + 1.000\hat{t}_A
+\end{equation}
+
+where $R^2 = 1.000$. 
+
+The absolute approximation error $\epsilon$ for high $t_A$ has sample mean and standard deviation of $1.660$ and $0.094$ respectively, with range $[1.571, 1.898]$ ms.
+
+The relative approximation error $\mu$ further decreases in this group, reaching $< 0.01$ when $t_A$ is about $160$ ms.
+
+\subsubsection{Estimation Errors}
+
+During the experiments, we realised that the estimation error $e$, defined as $e = t_A - \hat{t}_A$, is constantly positive in all our experiments, as shown in
+\begin{figure}
+	\center
+	\caption{Estimation Error}
+	\label{Fig: Estimation Error}
+\end{figure}
+
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 %
