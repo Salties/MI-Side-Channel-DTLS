@@ -173,7 +173,7 @@ We measured $t_R$ with different combinations of $|Req|$ and $|Res|$. The result
 \end{figure}
 
 The results in \Cref{Fig: Protocol suite processing time on CC2538 with DTLS} suggest that $|Req|$ and $|Res|$ might both be linear to the $t_R$ on CC2538. Assume $t_R$ is in the form of:
-\begin{equation}
+\begin{equation} \label{Eq: tR est}
 	t_R = b_0 + b_1|Req| + b_2|Res|
 \end{equation}
 
@@ -221,14 +221,14 @@ We denote the actual execution time returned in the Response as $t_A$ and the es
 For clarity, we arbitrarily divide our data into three groups:
 \begin{itemize}
 	\item Low $t_A$, for $t_A < 1.5$ ms.
-	\item Medium $t_A$, for $t_A \in [1.5, 100)$ ms.
-	\item High $t_A$, for $t_A \geq 100$ ms.
+	\item Medium $t_A$, for $t_A \in [1.5, 25)$ ms.
+	\item High $t_A$, for $t_A \geq 25$ ms.
 \end{itemize}
 
 The source code and data for our application code timing estimation experiments are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsapptime} \\
 and \\
-\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsapptime/Data}
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsapptime/Data/varrnd}
 
 \subsubsection{Low Execution Time Estimation}
 
@@ -239,7 +239,7 @@ The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low 
 	\begin{subfigure}{0.6\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/lowtaest.png}
-	\subcaption{Estimated execution time $\hat{t}_A}
+	\subcaption{Estimated execution time $\hat{t}_A$}
 	\end{subfigure}
 	\begin{subfigure}{0.45\linewidth}
 	\center
@@ -255,7 +255,7 @@ The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low 
 	\label{Fig: Estimation for low tA}
 \end{figure}
 
-The result in \Cref{Fig: Estimation for low tA} indicates that the estimation totally failed at low $t_A$, such that $\hat{t}_A$ are negative values. We consider this is caused by the fact that at such level the execution time is dominated by the systematic noise. At this level of $t_A$, $\epsilon$ increases nearly linearly whilst the $\mu$ decreases nearly inverse proportionally with $t_A$.
+The result in \Cref{Fig: Estimation for low tA} indicates that the estimation totally failed at low $t_A$ such that even negative values are estimated. We consider this is caused by the fact that at such level $t_A$ is negligible and is dominated by the systematic noise. $\epsilon$ increases nearly linearly with $t_A$, whilst $\mu$ indicates that the estimation does not make much sense at this level of $t_A$.
 
 \subsubsection{Medium Execution Time Estimation}
 
@@ -266,7 +266,7 @@ For $t_A$ with medium values ($t_A \in[1.5, 100)$ ms), the results are shown in 
 	\begin{subfigure}{0.6\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/midtaest.png}
-	\subcaption{Estimated execution time $\hat{t}_A}
+	\subcaption{Estimated execution time $\hat{t}_A$}
 	\end{subfigure}
 	\begin{subfigure}{0.45\linewidth}
 	\center
@@ -282,27 +282,27 @@ For $t_A$ with medium values ($t_A \in[1.5, 100)$ ms), the results are shown in 
 	\label{Fig: Estimation for medium tA}
 \end{figure}
 
-$\hat{t}_A$ increase nearly linearly with $t_A$ in \Cref{Fig: Estimation for medium tA}. However, we realised that our estimations are strictly beneath the actual value. The $\epsilon$ appears to be random at these values but its range is within $[1.721, 1.860]$ ms in our experiments. Due to the narrow range of $\epsilon$, $\mu$ decreases dramatically as $t_A$ increases.
+$\hat{t}_A$ increase nearly linearly with $t_A$ in \Cref{Fig: Estimation for medium tA}. However, we realised that our estimations are strictly beneath the actual value. The $\epsilon$ appears to be random with medium $t_A$,  ranging $[1.34, 1.49]$ ms.  The sample mean and standard deviation for $\epsilon$ are $1.405$ and $0.043$ ms respectively in these experiments. Due to the narrow range of $\epsilon$, $\mu$ decreases inverse proportionally as $t_A$ increases.
 
-Applying least squares fitting for medium $t_A$ and $\hat{t}_A$, we have an estimation of:
+Applying least squares fitting, we have an estimation of medium $t_A$:
 \begin{equation}
-	t_A = 1.830 + 0.999\hat{t}_A 
+	t_A = 1.412 + 0.999\hat{t}_A 
 \end{equation}
 
-where $R^2=1.000$, which indicates that our estimation $\hat{t}_A$ is almost perfectly linearly related to $t_A$. The sample mean and standard deviation of $\epsilon$ are $1.784$ and $0.049$ ms respectively.
+with $R^2=1.000$, which indicates that $\hat{t}_A$ is almost perfectly linear to $t_A$. 
 
-The result suggests that for medium $t_A$, the accuracy of estimation increases as $t_A$ increases. Specifically, our data suggests that for $t_A > 35.7$ ms, we can have the relative approximation error $\mu < 0.05$.
+The result suggests that for medium $t_A$, the accuracy of estimation increases as $t_A$ increases. 
 
 \subsubsection{High Execution Time Estimation}
 
-Further increasing $t_A$, we have the result for high $t_A$ ($\geq 100$ ms), shown in \Cref{Fig: Estimation for high tA}.
+Further increasing $t_A$, we have the result for high $t_A$ ($\geq 25$ ms), shown in \Cref{Fig: Estimation for high tA}.
 
 \begin{figure}[ht!]
 	\center
 	\begin{subfigure}{0.6\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/hightaest.png}
-	\subcaption{Estimated execution time $\hat{t}_A}
+	\subcaption{Estimated execution time $\hat{t}_A$}
 	\end{subfigure}
 	\begin{subfigure}{0.45\linewidth}
 	\center
@@ -318,26 +318,48 @@ Further increasing $t_A$, we have the result for high $t_A$ ($\geq 100$ ms), sho
 	\label{Fig: Estimation for high tA}
 \end{figure}
 
-The result in \Cref{Fig: Estimation for high tA} is similar to the result of medium $t_A$ such that $\hat{t}_A$ is linear to $t_A$. The least square estimation is:
+The result in \Cref{Fig: Estimation for high tA} is similar to the result of medium $t_A$ such that $\hat{t}_A$ is almost linear to $t_A$ that nearly overlapped. The least square estimation of high $t_A$ group is:
 \begin{equation}
-	t_A = 1.569 + 1.000\hat{t}_A
+	t_A = 1.459 + 1.000\hat{t}_A
 \end{equation}
 
 where $R^2 = 1.000$. 
 
-The absolute approximation error $\epsilon$ for high $t_A$ has sample mean and standard deviation of $1.660$ and $0.094$ respectively, with range $[1.571, 1.898]$ ms.
+The absolute approximation error $\epsilon$ in high $t_A$ has sample mean and standard deviation of $1.399$ and $0.051$ respectively, ranging in $[1.34, 1.48]$ ms.
 
-The relative approximation error $\mu$ further decreases in this group, reaching $< 0.01$ when $t_A$ is about $160$ ms.
+The relative approximation error $\mu$ further decreases in this group, down to $0.041$  for $t_A = 35.8$ ms and $0.009$ for $t_A = 143.5$ ms
+
 
 \subsubsection{Estimation Errors}
 
-During the experiments, we realised that the estimation error $e$, defined as $e = t_A - \hat{t}_A$, is constantly positive in all our experiments, as shown in
-\begin{figure}
+The absolute approximation error $\epsilon$ is defined to be signledness. However, during the experiments we noticed that the signed approximation error, defined as $e = t_A - \hat{t}_A$, is strictly positive. 
+
+\Cref{Fig: Overall estimation error} shows the overall signed approximation error among all $t_A$ in our experiments.
+
+\begin{figure}[ht!]
 	\center
-	\caption{Estimation Error}
-	\label{Fig: Estimation Error}
+	\begin{subfigure}{0.45\linewidth}
+		\center
+		\includegraphics[width=1\linewidth]{fig/esterr.png}
+		\subcaption{Signed approximation error ($e$)}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+		\center
+		\includegraphics[width=\linewidth]{fig/rtvesterr.png}
+		\subcaption{Relative estimation error ($\mu$), for $< 0.1$}
+	\end{subfigure}
+	\caption{Overall approximation error}
+	\label{Fig: Overall estimation error}
 \end{figure}
 
+The result suggests that $e$ dramatically increases at low $t_A$ but quickly converges to [1.34, 1.49] ms at medium and high $t_A$. From a practical aspect, it would be reasonable to simply approximate the negligible low $t_A$ as $0$ ms.
+
+For the converged $e$, i.e. when $t_A > 1.5$ ms, the sample mean and standard deviation of $e$ are $1.402$ ms and $0.046$ ms respectively. Using Shapiro-Wilk nomality test on $e$, we have $\text{p-value}  = 0.116$, which suggests that $e$ is likely to be sampled from a normal distribution. Considering the fact that the sample mean of $e$ is much greater than its standard deviation, we suppose it is mainly induced by a systematic error. We have considered the following potential cause of the error:
+\begin{itemize}
+	\item Application code implicitly affected $t_P$.
+	\item Error in estimation of $t_P$.
+	\item Error in the measurement of $t_A$.
+\end{itemize}
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 %

@@ -8,6 +8,6 @@ static int ApplicationCode(/*...DTLS arguments...*/)
   end = RTIMER_NOW();  
   //Reply with the execution time.
   resp = end - start;
-  dtls_write(ctx, session, &resp, sizeof(resp));
+  dtls_write(ctx, session, &resp, resplen);
   return 0;
 }

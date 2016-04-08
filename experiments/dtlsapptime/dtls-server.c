@@ -86,6 +86,7 @@ read_from_peer(struct dtls_context_t *ctx,
 	       session_t *session, uint8 *data, size_t len) {
   clock_time_t start, end;
   char resp[7];
+  int resplen;
   int i;
   unsigned int control;
   
@@ -95,9 +96,9 @@ read_from_peer(struct dtls_context_t *ctx,
 	  random_rand();
   
   end = RTIMER_NOW();
-  sprintf(resp, "%5lu\n", end - start);
+  resplen = sprintf(resp, "%lu\n", end - start);
   
-  dtls_write(ctx, session, (void*) &resp, sizeof(resp));
+  dtls_write(ctx, session, (void*) &resp, resplen);
   
   return 0;
 }
