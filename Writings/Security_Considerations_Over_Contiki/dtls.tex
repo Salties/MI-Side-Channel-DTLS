@@ -354,12 +354,18 @@ The absolute approximation error $\epsilon$ is defined to be signledness. Howeve
 
 The result suggests that $e$ dramatically increases at low $t_A$ but quickly converges to [1.34, 1.49] ms at medium and high $t_A$. From a practical aspect, it would be reasonable to simply approximate the negligible low $t_A$ as $0$ ms.
 
-For the converged $e$, i.e. when $t_A > 1.5$ ms, the sample mean and standard deviation of $e$ are $1.402$ ms and $0.046$ ms respectively. Using Shapiro-Wilk nomality test on $e$, we have $\text{p-value}  = 0.116$, which suggests that $e$ is likely to be sampled from a normal distribution. Considering the fact that the sample mean of $e$ is much greater than its standard deviation, we suppose it is mainly induced by a systematic error. We have considered the following potential cause of the error:
+For the converged $e$, i.e. when $t_A > 1.5$ ms, the sample mean and standard deviation of $e$ are $1.402$ ms and $0.046$ ms respectively. The result of Shapiro-Wilk nomality test on $e$ in our data suggests that $e$ is likely to be normally  distributed. 
+
+Considering the fact that the sample mean of $e$ is much greater than its standard deviation, we suppose it is dominated by a systematic error. The potential cause of the error we considered are:
 \begin{itemize}
-	\item Application code implicitly affected $t_P$.
+	\item Application code implicitly affects $t_P$.
 	\item Error in estimation of $t_P$.
-	\item Error in the measurement of $t_A$.
+	\item Error in measurement of $t_A$.
 \end{itemize}
+
+As a comparison, we replaced the system random number generator call by an AES encryption
+
+\subsubsection{Differential Analysis}
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 %
