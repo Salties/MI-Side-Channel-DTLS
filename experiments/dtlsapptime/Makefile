@@ -1,4 +1,4 @@
-CONTIKI_PROJECT = dtls-server dtls-server-aes
+CONTIKI_PROJECT = dtls-server dtls-server-aes dtls-server-len
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = $(CONTIKI_ROOT)
