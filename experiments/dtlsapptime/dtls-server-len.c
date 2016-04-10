@@ -92,8 +92,9 @@ read_from_peer(struct dtls_context_t *ctx,
   unsigned int control;
   
 #define CC2538_5_MS 2620
-#define APPEXETIME CC2538_5_MS   
-  
+//#define APPEXETIME CC2538_5_MS   
+#define APPEXETIME ((5*CC2538_5_MS))
+
   start = RTIMER_NOW();
   control = atoi((char*)data);
   for(i=0; i < APPEXETIME; i++)
