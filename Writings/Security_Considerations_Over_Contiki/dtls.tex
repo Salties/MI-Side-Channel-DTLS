@@ -95,7 +95,7 @@ The source code and data for our tinydtls AES timing experiments are available a
 and \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsaes/Data}
 
-\subsection{Protocol Suite Processing Timing}
+\subsection{Protocol Suite Processing Timing} \label{Protocol Suite Processing Time}
 
 The observable response time in \Cref{Fig: A Session with DTLS}, , denotes as $t_R$, can be divided into two parts:
 
@@ -180,18 +180,23 @@ The results in \Cref{Fig: Protocol suite processing time on CC2538 with DTLS} su
 Applying multiple linear regression using least squares fit, we have an estimation of $t_R$ (in ms) for CC2538:
 
 \begin{equation}
-	t_R = 78.388 + 0.538|Req| + 0.638|Res|
+	\hat{t}_R = 78.388 + 0.538|Req| + 0.638|Res|
 	\label{Eq: t_R estimation}
 \end{equation}
 
-The $R^2$ for the extimation of \Cref{Eq: t_R estimation} is $0.9997$, which is consistent to our intuition of \Cref{Fig: Protocol suite processing time on CC2538 with DTLS} that $|Req|$ and $|Res|$ are strongly linear related to $t_R$ on the platform.
+The $R^2$ for the extimation of \Cref{Eq: t_R estimation} is $0.9997$, which is consistent to our intuition of \Cref{Fig: Protocol suite processing time on CC2538 with DTLS}.
 
-Since $t_A$ in this application is negligible, we can therefore approximate $t_P$ by $t_R$ for CC2538:
+Since $t_A$ in this application is negligible, we therefore approximate $t_P$ by $t_R$ for CC2538:
 \begin{equation} \label{Eq: CC2538tP}
-	t_P \approx t_R = 78.388 + 0.538|Req| + 0.638|Res|
+	\hat{t}_P \approx \hat{t}_R = 78.388 + 0.538|Req| + 0.638|Res|
 \end{equation}
 
-The estimation of $t_P$ can be used as a profile to estimate $t_A$ in an attack where the Adversary attempts to recover the execution time of application code on CC2538, which we explain in \Cref{App code timing}.
+In the WSN scenario described in \Cref{Fig: Experiment Setup}, $t_R$ is directly observable from the captured traffic. Given the estimation $\hat{t}_P$, we can further estimate the the application execution time by substituting $t_P$ in \Cref{Eq: t_A} by $\hat{t}_P$:
+\begin{equation} \label{Eq: hattA}
+	\hat{t}_A = t_R - \hat{t}_P
+\end{equation}
+
+We discuss more details of this estimation in \Cref{App code timing}.
 
 The source code and data for our protocol suite processing timing experiments are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstime} \\
@@ -200,11 +205,7 @@ and \\
 
 \subsection{Application Code Timing} \label{App code timing}
 
-Theoretically, the execution time of the code 
-
-To test this method, we used an application that repeatedly invokes the Contiki system random number generator according to the data in the Request, and replies the execution time as the Response.
-
-The code is hinted by \Cref{apptime}.
+\Cref{Eq: hattA} provides a method to estimate the application code execution time on a Sensor  Node. To test this method, we used an application that repeatedly invokes the Contiki system random number generator according to the data in the Request, and replies the execution time as the Response. The random number generator is selected arbitrary to provide some payload for $t_A$. In real world applications, the random number generator will be replaced by actual application code, such as reading a sensor or actual data processing. The code of our application is hinted by \Cref{apptime}.
 
 \lstinputlisting[label={apptime}, captionpos=b, caption={Code for application code timing}]{src/dtlsapptime.c} 
 
@@ -230,7 +231,7 @@ The source code and data for our application code timing estimation experiments 
 and \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsapptime/Data/varrnd}
 
-\subsubsection{Low Execution Time Estimation}
+\subsubsection{Low Execution Time}
 
 The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low tA}.
 
@@ -257,7 +258,7 @@ The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low 
 
 The result in \Cref{Fig: Estimation for low tA} indicates that the estimation totally failed at low $t_A$ such that even negative values are estimated. We consider this is caused by the fact that at such level $t_A$ is negligible and is dominated by the systematic noise. $\epsilon$ increases nearly linearly with $t_A$, whilst $\mu$ indicates that the estimation does not make much sense at this level of $t_A$.
 
-\subsubsection{Medium Execution Time Estimation}
+\subsubsection{Medium Execution Time}
 
 For $t_A$ with medium values ($t_A \in[1.5, 100)$ ms), the results are shown in \Cref{Fig: Estimation for medium tA}.
 
@@ -293,7 +294,7 @@ with $R^2=1.000$, which indicates that $\hat{t}_A$ is almost perfectly linear to
 
 The result suggests that for medium $t_A$, the accuracy of estimation increases as $t_A$ increases. 
 
-\subsubsection{High Execution Time Estimation}
+\subsubsection{High Execution Time}
 
 Further increasing $t_A$, we have the result for high $t_A$ ($\geq 25$ ms), shown in \Cref{Fig: Estimation for high tA}.
 
@@ -330,11 +331,14 @@ The absolute approximation error $\epsilon$ in high $t_A$ has sample mean and st
 The relative approximation error $\mu$ further decreases in this group, down to $0.041$  for $t_A = 35.8$ ms and $0.009$ for $t_A = 143.5$ ms
 
 
-\subsubsection{Estimation Errors}
+\subsection{Errors}
 
-The absolute approximation error $\epsilon$ is defined to be signledness. However, during the experiments we noticed that the signed approximation error, defined as $e = t_A - \hat{t}_A$, is strictly positive. 
+The absolute approximation error $\epsilon$ is defined to be signledness. We further define the signed approximation error :
+\begin{equation} \label{Eq: e}
+e = t_A - \hat{t}_A
+\end{equation}
 
-\Cref{Fig: Overall estimation error} shows the overall signed approximation error among all $t_A$ in our experiments.
+We show the overall signed approximation error among of all $t_A$ we tested in \Cref{Fig: Overall approximation error}.
 
 \begin{figure}[ht!]
 	\center
@@ -349,23 +353,92 @@ The absolute approximation error $\epsilon$ is defined to be signledness. Howeve
 		\subcaption{Relative estimation error ($\mu$), for $< 0.1$}
 	\end{subfigure}
 	\caption{Overall approximation error}
-	\label{Fig: Overall estimation error}
+	\label{Fig: Overall approximation error}
 \end{figure}
 
-The result suggests that $e$ dramatically increases at low $t_A$ but quickly converges to [1.34, 1.49] ms at medium and high $t_A$. From a practical aspect, it would be reasonable to simply approximate the negligible low $t_A$ as $0$ ms.
+The result suggests that $e$ dramatically increases at low $t_A$ but quickly converges to [1.34, 1.49] ms at medium($[1.5, 25)$ ms) and high $t_A$ ($>25$ ms). From a practical aspect, it would be reasonable to simply approximate the negligible low $t_A$ as $0$ ms. Also the positive errors indicates that $t_A$ is generally underestimated.
 
-For the converged $e$, i.e. when $t_A > 1.5$ ms, the sample mean and standard deviation of $e$ are $1.402$ ms and $0.046$ ms respectively. The result of Shapiro-Wilk nomality test on $e$ in our data suggests that $e$ is likely to be normally  distributed. 
+For the converged $e$, i.e. when $t_A > 1.5$ ms, the sample mean and standard deviation of $e$ are $1.402$ ms and $0.046$ ms respectively. The result of Shapiro-Wilk nomality test on $e$ in our data suggests that $e$ is likely to be normally  distributed.
 
 Considering the fact that the sample mean of $e$ is much greater than its standard deviation, we suppose it is dominated by a systematic error. The potential cause of the error we considered are:
 \begin{itemize}
-	\item Application code implicitly affects $t_P$.
+	\item Implicit affection of application code.
 	\item Error in estimation of $t_P$.
 	\item Error in measurement of $t_A$.
 \end{itemize}
 
-As a comparison, we replaced the system random number generator call by an AES encryption
+Due to practical reason, the last cause is difficult to verify; hence we focus on the implicit affection of application code and error in estimation of $t_P$.
 
-\subsubsection{Differential Analysis}
+\subsubsection{Affection of application code} \label{Affection of application code}
+
+As a comparison, we replace the random number generator by Contiki software AES encryption call and then computed the error. The result is shown in \Cref{Fig: Overall estimation error for AES replacement}.
+
+\begin{figure}[ht!]
+	\center
+	\begin{subfigure}{0.45\linewidth}
+		\center
+		\includegraphics[width=1\linewidth]{fig/esterraes.png}
+		\subcaption{Signed approximation error ($e$)}
+	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+		\center
+		\includegraphics[width=\linewidth]{fig/rtvesterraes.png}
+		\subcaption{Relative estimation error ($\mu$), for $< 0.1$}
+	\end{subfigure}
+	\caption{Overall approximation error for AES replacement}
+	\label{Fig: Overall estimation error for AES replacement}
+\end{figure}
+
+We denote $e_{RND}$ and $e_{AES}$ to be the singed approximation errors in the original application with random number call, i.e. the application showed in \Cref{apptime}, and its AES encryption replacement. Intuitively, $e_A$ showed some similar characteristics of $e_R$:
+
+\begin{itemize}
+	\item They both dramatically increases at low $t_A$, then converges into some range at medium and high $t_A$.
+	\item The relative approximation error $\mu$ decreases nearly inverse proportionally, reaching $<0.1$ at $25$ ms.
+\end{itemize}
+
+The converged sample mean and standard deviation for $e_A$ are $1.520$ ms and $0.082$ ms respectively. Again using Shapiro-Wilk normality test, the result indicates that $e_A$ is also likely to be normally distributed.
+
+We summarise the statistical features of $e_R$ and $e_A$ in \Cref{Tbl: Statistical features of eR and eA}.
+
+\begin{table}
+	\center
+	\begin{tabular}{|c|c|c|}
+	\hline
+	      & Sample Mean (ms) & Sample Standard Deviation (ms) \\ \hline
+	$e_{RND}$ & 1.402            & 0.046                          \\ \hline
+	$e_{AES}$ & 1.520            & 0.082                          \\ \hline
+	\end{tabular}
+	\caption{Statistical features of $e_{RND}$ and $e_{AES}$}
+	\label{Tbl: Statistical features of eR and eA}
+\end{table}
+
+Using two sample t-test on $e_R$ and $e_A$, the result shows that they are unlikely to have the same mean; therefore we conclude that the replacement of AES did affect the error in our estimations. 
+
+In another word, the results implies that the application code could potentially The mechanism of such affection is not clear so far; thus such error would be difficult to quantify as it is directly related the specific application code. We leave the cause of this error as an open question in this report. However in practice, we would argue that such error can be mitigated as $t_A$ increases, as depicted by the relative approximation errors in \Cref{Fig: Overall approximation error} and \Cref{Fig: Overall estimation error for AES replacement}.
+
+\subsubsection{Error in estimation of protocol suite processing time}
+
+Substituting \Cref{Eq: t_A} and \Cref{Eq: hattA} into \Cref{Eq: e}, we have:
+
+\begin{equation}\label{Eq: tP error}
+	\begin{aligned}
+		e &= t_A - \hat{t}_A = (t_R - t_P) - (t_R - \hat{t}_P) = \hat{t}_P - t_P\\
+		t_P &= \hat{t}_P - e
+	\end{aligned}
+\end{equation}
+
+Our estimation in \Cref{Eq: CC2538tP} solely depends on$|Req|$ and $|Res|$, while our experiments in \Cref{Affection of application code} suggests that $e$ has dependency to the application code. These combined together implies that given a fixed estimation $\hat{t}_P$, the protocol suite processing time $t_P$ can vary due to different application code.
+
+To further investigate the estimation $\hat{t}_P$, we conducted experiments similar to those in \Cref{Protocol Suite Processing Time}, but with $t_A$ adjusted to a fixed amount of time.
+
+\begin{figure}
+	\center
+	\caption{}
+\end{figure}
+
+\subsection{Execution time of CoAP Implementation}
+
+\subsection{Differential Analysis}
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 %
