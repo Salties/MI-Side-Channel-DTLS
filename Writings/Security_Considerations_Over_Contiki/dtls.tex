@@ -429,11 +429,15 @@ Substituting \Cref{Eq: t_A} and \Cref{Eq: hattA} into \Cref{Eq: e}, we have:
 
 Our estimation in \Cref{Eq: CC2538tP} solely depends on$|Req|$ and $|Res|$, while our experiments in \Cref{Affection of application code} suggests that $e$ has dependency to the application code. These combined together implies that given a fixed estimation $\hat{t}_P$, the protocol suite processing time $t_P$ can vary due to different application code.
 
-To further investigate the estimation $\hat{t}_P$, we conducted experiments similar to those in \Cref{Protocol Suite Processing Time}, but with $t_A$ adjusted to a fixed amount of time.
+To further investigate the estimation $\hat{t}_P$, we conducted experiments similar to those in \Cref{Protocol Suite Processing Time}, with $t_A$ adjusted to a fixed amount of time using Contiki random number generator call.
 
 \begin{figure}
 	\center
-	\caption{}
+	\begin{subfigure}{0.45\linewidth}
+		\center
+		\includegraphics[width=\linewidth]{fig/errwithlen5ms.png}
+	\end{subfigure}
+	\caption{Affection on $e$ by $|Req|$ and $|Res|$, with Contiki RNG}
 \end{figure}
 
 \subsection{Execution time of CoAP Implementation}
