@@ -429,20 +429,73 @@ Substituting \Cref{Eq: t_A} and \Cref{Eq: hattA} into \Cref{Eq: e}, we have:
 
 Our estimation in \Cref{Eq: CC2538tP} solely depends on$|Req|$ and $|Res|$, while our experiments in \Cref{Affection of application code} suggests that $e$ has dependency to the application code. These combined together implies that given a fixed estimation $\hat{t}_P$, the protocol suite processing time $t_P$ can vary due to different application code.
 
-To further investigate the estimation $\hat{t}_P$, we conducted experiments similar to those in \Cref{Protocol Suite Processing Time}, with $t_A$ adjusted to a fixed amount of time using Contiki random number generator call.
+We therefore conducted similar experiments as in \Cref{Protocol Suite Processing Time}, with $t_A$ adjusted to a fixed amount of time using Contiki random number generator call. \Cref{Fig: e by len} shows the result of how $e$ is affected by $|Req|$ and $|Res|$, on $t_A$ adjusted to $5$ ms and $25$ ms respectively.
 
-\begin{figure}
+\begin{figure}[ht!]
 	\center
 	\begin{subfigure}{0.45\linewidth}
 		\center
 		\includegraphics[width=\linewidth]{fig/errwithlen5ms.png}
 	\end{subfigure}
+	\begin{subfigure}{0.45\linewidth}
+		\center
+		\includegraphics[width=\linewidth]{fig/errwithlen25ms.png}
+	\end{subfigure}
 	\caption{Affection on $e$ by $|Req|$ and $|Res|$, with Contiki RNG}
+	\label{Fig: e by len}
 \end{figure}
+
+The result in \Cref{Fig: e by len} suggests that:
+
+\begin{itemize}
+	\item $e$ may also multi linearly related to both $|Rea|$ and $|Res|$.
+	\item Change of $t_A$ does not seem to affect $e$.
+\end{itemize}
+
+Apply multiple linear regression on the results of $t_A = 5$ and $t_A = 25$, we have two regression models:
+
+\begin{equation}
+	\hat{e} = 2.007 - 0.111|Req| + 0.088|Res|
+\end{equation}
+
+with $R^2 = 0.971$ for $t_A = 5$, and
+
+\begin{equation}
+	\hat{e} = 1.962 - 0.111|Req| + 0.089|Res|
+\end{equation}
+
+with $R^2 = 0.978$ for $t_A = 25$.
+
+Using the coefficient equality test proposed in \cite{CoeEqTest} on both regression models, the test reports no statistical significance on the coefficients of the regression models. Therefore we re-estimate $e$ using the full data\footnote{Data in both 5 ms group and 25 ms group.} as:
+
+\begin{equation} \label{hate}
+	\hat{e} = 1.984 - 0.111|Req| + 0.089|Res|
+\end{equation}
+
+with $R^2 = 0.975$.
+
+Recall the fact that the length of packets are constrained by 802.15.4 MTU thus $|Req| \in [0,47]$ and $|Res| \in [0,46]$, we have $\hat{e} \in [-3.233,6.078]$ ms. Although $\hat{e}$ might be hard to predict as it is related to specific application code, in our experiment, $e$ is in a relatively small range. In practice, we would expect that such level of error is tolerable, especially when estimating application code with longer execution time.
+
+\subsection{Differential Analysis}
+
+Sometimes the difference in execution time may also be an interested target to an adversary. 
+
+Denote $\Delta t_A$ to be the difference in application code execution time of two Sessions of the same device, we have:
+\begin{equation}\label{Eq: delta t}
+	\begin{aligned}
+		\Delta t_A &= t_A - t'_A \\
+			&= (t_R - t_P) - (t'_R - t'_P) \\
+			&= t_R - t'_R - (t_P - t'_P) \\
+			&= t_R - t'_R - [(\hat{t}_P - e) - (\hat{t'}_P - e')] \\
+			&= t_R - t'_R - \hat{t}_P - \hat{t'}_P - (e - e')
+	\end{aligned}
+\end{equation}
+ 
+Notice that in \Cref{Eq: delta t}, $t_R$ and $t'_R$ are directly observable from the captured traffic. $\hat{t}_P$ and $\hat{t'}_P$ can solely calculated by $|Req|$ and $|Res|$ which are also directly observable in the packets. This left only $(e-e')$ the uncertainty in \Cref{Eq: delta t}.
 
 \subsection{Execution time of CoAP Implementation}
 
-\subsection{Differential Analysis}
+
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 %
