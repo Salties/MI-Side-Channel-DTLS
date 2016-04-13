@@ -37,9 +37,11 @@ tinydtls/doc
 */tests/prf-test
 
 
+
 #Ignore intermediate data
 *.csv
 *.dat
 
 #Ignore backups
 */backup/*
+*.swp
