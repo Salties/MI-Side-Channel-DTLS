@@ -474,7 +474,7 @@ Using the coefficient equality test proposed in \cite{CoeEqTest} on both regress
 
 with $R^2 = 0.975$.
 
-Recall the fact that the length of packets are constrained by 802.15.4 MTU thus $|Req| \in [0,47]$ and $|Res| \in [0,46]$, we have $\hat{e} \in [-3.233,6.078]$ ms. Although $\hat{e}$ might be hard to predict as it is related to specific application code, in our experiment, $e$ is in a relatively small range. In practice, we would expect that such level of error is tolerable, especially when estimating application code with longer execution time.
+Recall the fact that the length of packets are constrained by 802.15.4 MTU and thus $|Req| \in [0,47]$ and $|Res| \in [0,46]$, we have $\hat{e} \in [-3.233,6.078]$ ms. Although $\hat{e}$ might be hard to predict as it is related to specific application code, in our experiment, $e$ is in a relatively small range. In practice, we would expect that such level of error is tolerable, especially when estimating application code with longer execution time.
 
 \subsection{Differential Analysis}
 
@@ -502,7 +502,54 @@ However, we consider $(e - e')$ difficult to further quantified, as its value ca
 
 \subsection{Execution time of CoAP Implementation}
 
+CoAP, described in \Cref{Subsec: CoAP}, is an interesting target in real world WSN applications. Although the secure version, CoAPs, has not been implemented in Contiki release-3.0 yet, the execution time of CoAP can be considered as a reference to CoAPs, as CoAP directly maps to the application code in \Cref{Fig: A Session with DTLS} during a CoAPs session.
 
+We measured the execution time of CoAP on CC2538 by the coaptime application,  derived from the er-example-server application in Contiki examples. A timing module is also added to the CoAP implementation. 
+
+The available resources on coaptime are described in \Cref{Tbl: Resources on coaptime}.
+
+\begin{table}[ht!]
+	\center
+	\begin{tabular}{|c|c|l|}
+		\hline
+		Resource & Method & \multicolumn{1}{c|}{Description}                          \\ \hline
+		toggle   & POST   & Toggle the red LED.                                       \\ \hline
+		sensors  & GET    & Read all sensors on the board (VDD, temperature and ALS). \\ \hline
+		als      & GET    & Read Ambient Light Sensor, ALS.                           \\ \hline
+		tmp      & GET    & Read temperature sensor.                                  \\ \hline
+		vdd      & GET    & Read voltage sensor.                                      \\ \hline
+		hello    & GET    & Return a string of "Hello world!".                        \\ \hline
+		timing   & GET    & Return the last CoAP request processing time.             \\ \hline
+	\end{tabular}
+	\caption{Resources on coaptime}
+	\label{Tbl: Resources on coaptime}
+\end{table}
+
+The processing time of each Coap requests are summarised in \Cref{Tbl: Coap requests processing time of coaptime}.
+
+\begin{table}
+	\center
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Resource & Processing time (Clock Ticks) & Processing time (ms) \\ \hline
+		toggle   & 9.70                          & 0.30                 \\ \hline
+		sensors  & 99.75                         & 3.04                 \\ \hline
+		als      & 85.16                         & 2.60                 \\ \hline
+		tmp      & 18.67                         & 0.57                 \\ \hline
+		vdd      & 16.77                         & 0.51                 \\ \hline
+		hello    & 6.30                          & 0.19                 \\ \hline
+	\end{tabular}
+	\caption{Coap requests processing time of coaptime, on CC2538}
+	\label{Tbl: Coap requests processing time of coaptime}
+\end{table}
+
+The results in \Cref{Tbl: Coap requests processing time of coaptime} suggests that the processing time of sensors and als had fell into the medium $t_A$ category ($[1.5, 25)$ ms), which are potentially distinguishable by timing information when used in CoAPs.
+
+The source code of our coaptime application and the timed CoAP implementation are available at: \\
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/coaptime}\\
+and \\
+\url{https://github.com/Salties/MyRepository/tree/master/er-coap} \\
+respectively.
 
 %DTLS has potentially the best interoperability as it is an variation of the widely used TLS in Internet. However, its design might not fit into the nature of WSN for practical reasons.
 %
