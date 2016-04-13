@@ -493,6 +493,13 @@ Denote $\Delta t_A$ to be the difference in application code execution time of t
  
 Notice that in \Cref{Eq: delta t}, $t_R$ and $t'_R$ are directly observable from the captured traffic. $\hat{t}_P$ and $\hat{t'}_P$ can solely calculated by $|Req|$ and $|Res|$ which are also directly observable in the packets. This left only $(e-e')$ the uncertainty in \Cref{Eq: delta t}.
 
+On the other hand,  based on the results shown in \Cref{Tbl: Statistical features of eR and eA}, we suppose  the variance of $e$ might be negligible in practice and therefore so is $(e - e')$. In this case, we suggest to approximate \Cref{Eq: delta t} as:
+\begin{equation}
+	\Delta t \approx t_R - t'_R - \hat{t}_P - \hat{t'}_P = \hat{t}_A - \hat{t'}_A
+\end{equation}
+
+However, we consider $(e - e')$ difficult to further quantified, as its value can be affected by the application code (as shown in \Cref{Affection of application code} ) which can hardly be quantified without knowing exactly how it affects the execution time.
+
 \subsection{Execution time of CoAP Implementation}
 
 
