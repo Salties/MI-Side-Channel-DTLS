@@ -6,11 +6,13 @@ METHOD=$1
 ADDR=$2
 RESOURCE=$3
 
-#Send Coap Request.
-$COAPCLIENT -m $METHOD "coap://[${ADDR}]/${RESOURCE}"
 
-#Wait for a second.
-sleep 0.5
+while [[ 1 ]]; do
+	#Send Coap Request.
+	$COAPCLIENT -m $METHOD "coap://[${ADDR}]/${RESOURCE}"
+	sleep 0.5
 
-#Query for execution time.
-$COAPCLIENT -m get "coap://[${ADDR}]/test/timing"
+	#Query for execution time.
+	$COAPCLIENT -m get "coap://[${ADDR}]/test/timing"
+	sleep 0.5
+done;
