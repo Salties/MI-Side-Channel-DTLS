@@ -15,7 +15,10 @@ Due to the fact that tinydlts implements only minimum features of DTLS we have f
 	\item RC4 is excluded by DTLS; therefore its attacks are also excluded.
 	\item No compression is implemented and thus Compression Attacks are also excluded.
 	\item RSA is not used in the ciphersuites and its attacks are thus excluded.
+	\item tinydtls is hardcoded to support only secp256r1curve, thus immune to Diffie-Hellman Parameters attacks.
 \end{itemize}
+
+Exceptionally, Renegotiation vulnerability\cite{rfc5746} may exist in the tinydtls implementation as its counter measure, the Renegotiation Indication Extension, is not supported in tinydtls and thus may allow the man-in-the-middle adversary to inject data into the DTLS session.
 
 \section{DTLS Handshake}
 
@@ -23,18 +26,18 @@ Due to the fact that tinydlts implements only minimum features of DTLS we have f
 
 \section{Packet Size}
 
-Since application data are encrypted using AES-128 CCM, its size is not hidden and is visible in the header, as highlighted in the middle of \Cref{Fig: Size of application data in DTLS}.
+The exact size of data in DTLS Data Records are directly visible in the captured packets, as highlighted in the middle of \Cref{Fig: Size of application data in a DTLS Data Record}.
 
-\begin{figure*}[ht!]
+\begin{figure}[ht!]
 	\center
-	\includegraphics[width=.7\textwidth]{fig/dtlslength.png}
-	\caption{Size of application data in DTLS}
-	\label{Fig: Size of application data in DTLS}
-\end{figure*}
+	\includegraphics[width=.9\linewidth]{fig/dtlslength.png}
+	\caption{Size of application data in a DTLS Data Record}
+	\label{Fig: Size of application data in a DTLS Data Record}
+\end{figure}
 
-Referring to \cite{rfc5116}, the size of application data is exactly the value of the highlighted Length in \Cref{Fig: Size of application data in DTLS} minus $16$ bytes.
+The size of application data is exactly the value of highlighted Length field in the middle of \Cref{Fig: Size of application data in a DTLS Data Record} minus $16$ bytes, as explained in \cite{rfc5116}.
 
-%CoAP
+%Practically length is useful ,but we don't go further.%
 
 \section{Timing}
 
