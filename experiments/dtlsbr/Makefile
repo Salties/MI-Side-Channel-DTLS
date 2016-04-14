@@ -4,7 +4,7 @@ all: $(CONTIKI_PROJECT)
 CONTIKI=${CONTIKI_ROOT}
 
 APPS += tinydtls tinydtls/aes tinydtls/sha2 tinydtls/ecc
-CFLAGS += -DDTLS_PSK -g -Os
+CFLAGS += -DDTLS_PSK -g -Os -DNDEBUG
 
 #linker optimizations
 SMALL=1
@@ -37,7 +37,7 @@ CFLAGS += -DWEBSERVER=2
 endif
 
 ifeq ($(PREFIX),)
- PREFIX = aaaa::1/64
+PREFIX = aaaa::1/64
 endif
 
 CONTIKI_WITH_IPV6 = 1

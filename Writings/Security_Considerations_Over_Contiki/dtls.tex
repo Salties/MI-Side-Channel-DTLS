@@ -1,12 +1,21 @@
 \chapter{DTLS} \label{Chp: DTLS}
 
-In this chapter we analyse DTLS on Contiki. We consider only two ciphersuites those have been implemented by the tinydtls implementation, which are TLS\_PSK\_WITH\_AES\_128\_CCM\_8 and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8. 
+DTLS is the another widely considered security measure in the WSN community. Comparing to Link Layer security measures such as 802.15.4 Security, DTLS is implemented on a higher level and thus is more flexible. 
 
-One thing to be noticed is that both ciphersuites uses AES-128 CCM for data encryption and therefore they only behave different during handshake. Hence we do not distinguish application data encrypted by both ciphersuites.
+On Contiki, DTLS is provided by a third party module tinydtls. The current version of tinydtls supports only two ciphersuites, namely TLS\_PSK\_WITH\_AES\_128\_CCM\_8 \\
+and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8. Since both ciphersuites use AES-128 CCM for data encryption and are only different during handshake; hence we do not distinguish them when analysing the application data.
 
 \section{Protocol and Implementation}
 
-Due to the fact that tinydlts implemented only a minimum features of DTLS and supports only two ciphersuites, TLS\_PSK\_WITH\_AES\_128\_CCM\_8 and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8, we have found no applicable attacks from \cite{rfc7457}.
+Due to the fact that tinydlts implements only minimum features of DTLS we have found most attacks in \cite{rfc7457} not applicable in our scenario. To be more specifically,
+
+\begin{itemize}
+	\item WSN devices tend to support only minimum, usually only single, protocols due to constrained resources; thus downgrade attacks are unlikely to be a threat.
+	\item The block cipher is used in CTR mode and thus immune to Padding Oracle Attacks.
+	\item RC4 is excluded by DTLS; therefore its attacks are also excluded.
+	\item No compression is implemented and thus Compression Attacks are also excluded.
+	\item RSA is not used in the ciphersuites and its attacks are thus excluded.
+\end{itemize}
 
 \section{DTLS Handshake}
 

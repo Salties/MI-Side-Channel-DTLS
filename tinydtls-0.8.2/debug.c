@@ -44,7 +44,9 @@
 #include "global.h"
 #include "debug.h"
 
+#ifndef NDEBUG
 static int maxlog = DTLS_LOG_WARN;	/* default maximum log level */
+#endif
 
 const char *dtls_package_name() {
   return PACKAGE_NAME;
@@ -53,7 +55,7 @@ const char *dtls_package_name() {
 const char *dtls_package_version() {
   return PACKAGE_VERSION;
 }
-
+#ifndef NDEBUG
 log_t 
 dtls_get_log_level() {
   return maxlog;
@@ -68,6 +70,7 @@ dtls_set_log_level(log_t level) {
 static char *loglevels[] = {
   "EMRG", "ALRT", "CRIT", "WARN", "NOTE", "INFO", "DEBG" 
 };
+#endif
 
 #ifdef HAVE_TIME_H
 
@@ -114,6 +117,7 @@ dtls_strnlen(const char *s, size_t maxlen) {
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #endif
 
+#ifndef NDEBUG
 static size_t
 dsrv_print_addr(const session_t *addr, char *buf, size_t len) {
 #ifdef HAVE_ARPA_INET_H
@@ -202,6 +206,8 @@ dsrv_print_addr(const session_t *addr, char *buf, size_t len) {
   return 0;
 #endif
 }
+#endif
+
 
 #ifndef WITH_CONTIKI
 void 
@@ -274,6 +280,7 @@ void dump(unsigned char *buf, size_t len) {
     printf("%02x", *buf++);
 }
 
+#ifndef NDEBUG
 void dtls_dsrv_log_addr(log_t level, const char *name, const session_t *addr)
 {
   char addrbuf[73];
@@ -284,6 +291,7 @@ void dtls_dsrv_log_addr(log_t level, const char *name, const session_t *addr)
     return;
   dsrv_log(level, "%s: %s\n", name, addrbuf);
 }
+#endif
 
 #ifndef WITH_CONTIKI
 void 
