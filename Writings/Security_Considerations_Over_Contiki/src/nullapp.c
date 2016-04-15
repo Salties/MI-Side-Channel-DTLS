@@ -1,4 +1,4 @@
-static const uint8_t ConstantValue[MAX_PAYLOAD_LEN] = {{0}};
+static const uint8_t ConstantValue[MAX_PAYLOAD_LEN] = {0};
 
 static int ApplicationCode(/*...DTLS arguments...*/) 
 {  

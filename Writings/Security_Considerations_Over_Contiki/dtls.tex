@@ -1,13 +1,15 @@
-\chapter{DTLS} \label{Chp: DTLS}
+\chapter{DTLS: tinydtls} \label{Chp: DTLS}
 
-DTLS is the another widely considered security measure in the WSN community. Comparing to Link Layer security measures such as 802.15.4 Security, DTLS is implemented on a higher level and thus is more flexible. 
+DTLS is the another widely considered security measure in the WSN community. Comparing to Link Layer security measures such as 802.15.4 Security, DTLS is implemented at a higher level and thus is more flexible. 
 
 On Contiki, DTLS is provided by a third party module tinydtls. The current version of tinydtls supports only two ciphersuites, namely TLS\_PSK\_WITH\_AES\_128\_CCM\_8 \\
-and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8. Since both ciphersuites use AES-128 CCM for data encryption and are only different during handshake; hence we do not distinguish them when analysing the application data.
+and TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8. Since both ciphersuites use AES-128 CCM for data encryption and are only different during handshake; hence we do not distinguish them when analysing the application data\cite{TlsRenego}.
+
+The data in this chapter are all collected for CC2538.
 
 \section{Protocol and Implementation}
 
-Due to the fact that tinydlts implements only minimum features of DTLS we have found most attacks in \cite{rfc7457} not applicable in our scenario. To be more specifically,
+Due to the fact that tinydlts implements only minimum features of DTLS, we have found most attacks in \cite{rfc7457} not applicable in this scenario. To be more specifically,
 
 \begin{itemize}
 	\item WSN devices tend to support only minimum, usually only single, protocols due to constrained resources; thus downgrade attacks are unlikely to be a threat.
@@ -15,16 +17,16 @@ Due to the fact that tinydlts implements only minimum features of DTLS we have f
 	\item RC4 is excluded by DTLS; therefore its attacks are also excluded.
 	\item No compression is implemented and thus Compression Attacks are also excluded.
 	\item RSA is not used in the ciphersuites and its attacks are thus excluded.
-	\item tinydtls is hardcoded to support only secp256r1curve, thus immune to Diffie-Hellman Parameters attacks.
+	\item tinydtls is hardcoded to support only secp256r1 curve, thus is immune to Diffie-Hellman Parameters attacks.
 \end{itemize}
 
-Exceptionally, Renegotiation vulnerability\cite{rfc5746} may exist in the tinydtls implementation as its counter measure, the Renegotiation Indication Extension, is not supported in tinydtls and thus may allow the man-in-the-middle adversary to inject data into the DTLS session.
+Exceptionally, Renegotiation vulnerability\cite{rfc5746} may exist in the tinydtls implementation as the counter measure, Renegotiation Indication Extension, is not supported in tinydtls. This vulnerability allows a man-in-the-middle adversary to inject data into the DTLS session. In case of web applications, for example, this allows the adversary to inject malicious code into a HTTP request sent by the client\cite{TlsRenego}.
 
 \section{DTLS Handshake}
 
 \textbf{[To be done...]}
 
-\section{Packet Size}
+\section{Data Size}
 
 The exact size of data in DTLS Data Records are directly visible in the captured packets, as highlighted in the middle of \Cref{Fig: Size of application data in a DTLS Data Record}.
 
@@ -38,14 +40,15 @@ The exact size of data in DTLS Data Records are directly visible in the captured
 The size of application data is exactly the value of highlighted Length field in the middle of \Cref{Fig: Size of application data in a DTLS Data Record} minus $16$ bytes, as explained in \cite{rfc5116}.
 
 %Practically length is useful ,but we don't go further.%
+In practice data length is one of the most widely exploited side channel information in Traffic Analysis attacks, but it is also highly dependent to the upper layer application. Without loss of generality, we leave the analysis of data length to specific applications.
 
-\section{Timing}
+\section{Packet Timing}
 
-In this section, we analyse the availability of timing information when the application data is protected by DTLS using the tinydtls implementation on Contiki.
+The second column in \Cref{Fig: Size of application data in a DTLS Data Record} is the timing of packets being sent. In this section, we analyse the timing feature of applications protected by tinydtls on Contiki.
 
 \subsection{Processing Model}
 
-The procedure of a Session with DTLS is as depicted by \Cref{Fig: A Session with DTLS}.
+\Cref{Fig: A Session with DTLS} illustrates the procedure of a Session protected by DTLS. For example, packet No.15 and No.16 in \Cref{Fig: Size of application data in a DTLS Data Record} are a Session of two Sensor Nodes exchanging application data, where No.15 is the Request and No.16 the Response. 
 
 \begin{figure*}[ht!]
 	\center
@@ -54,18 +57,34 @@ The procedure of a Session with DTLS is as depicted by \Cref{Fig: A Session with
 	\label{Fig: A Session with DTLS}
 \end{figure*}
 
-DTLS provides protection between only two Sensor Nodes in the network; thus the source and destination are consistent within a DTLS session. The 6LoWPAN encapsulation and decapsulation procedure are hence identical for all packets using the same DTLS session; therefore the time length of 6LoWPAN decapsulation and encapsulation in \Cref{Fig: A Session with DTLS} are considered to be constant.
+The observable response time is calculated as the time difference of Request and Response in the captured traffic, e.g. the response time of pakcet No. 15 and No.16 in \Cref{Fig: Size of application data in a DTLS Data Record} is $298.574717 - 298.474984 = 0.099733 \text{(s)} = 99.733 \text{(ms)}$. From a practical aspect, we consider the accuracy of measurement to be $10^{-4}$ s ($10^{-1}$ ms).
 
-Therefore in this section we put our interest in the timing of DTLS decryption/encryption and the execution time of application code.
+DTLS provides protections between only two Sensor Nodes in the network; thus the source and destination are consistent within the a DTLS session. The 6LoWPAN encapsulation and decapsulation procedure are identical for all packets within the same DTLS session as the headers are basically identical except the sequence numbers. We therefore consider 6LowPAN decapsulation and encapsulation takes a constant time.
+
+The observable response time in \Cref{Fig: A Session with DTLS} can be divided into two parts:
+\begin{enumerate}
+	\item Protocol suite processing time. This part consists of the 6LoWPAN decapsulation / encapsulation and DTLS decryption / encryption. We assume the code of this part is independent to the application code and is identical among all applications.
+	\item Application code execution time. It is one of the most interested information to adversaries that could be exploited to learn information about the application data.
+\end{enumerate}
+
+For simplicity, we denote $t_R$, $t_P$ and $t_A$ to be the observable response time, protocol suite processing time and application code execution time respectively. Apparently we have:
+\begin{equation}
+t_R = t_P + t_A
+\end{equation}
+
+Therefore a method to extract $t_A$ is to compute it by 
+\begin{equation} \label{Eq: t_A}
+t_A = t_R - t_P
+\end{equation}
+
+From an information leakage aspect,$t_A$ may be exploited to correlate the data in the packet. In later this section, we focus on how it can be approximated from $t_R$, which is directly accessible in the captured traffic.
 
 \subsection{AES Timing} \label{tinydtls AES Timing}
 
 tinydtls uses the OpenBSD optimised AES implementation. Its source code is available at:\\ 
 \url{https://github.com/Salties/MyRepository/blob/master/tinydtls-0.8.2/aes/rijndael.c}
 
-We applied the same tests as described in \Cref{Sec: AES Timing}. 
-
-The average AES execution time is shown in \Cref{Tbl: tinydtls AES execution time estimation}.
+We applied the same tests as described in \Cref{Sec: AES Timing}. The average AES execution time is shown in \Cref{Tbl: tinydtls AES execution time estimation} and the Fixed vs Random test is shown in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538}.
 
 \begin{table}[ht!]
 	\center
@@ -83,8 +102,6 @@ The average AES execution time is shown in \Cref{Tbl: tinydtls AES execution tim
 	\label{Tbl: tinydtls AES execution time estimation}
 \end{table}
 
-The result of Fixed vs Random test is shown in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538}
-
 \begin{table}[ht!]
 	\center
 	\begin{tabular}{|c|c|c|}
@@ -94,13 +111,13 @@ The result of Fixed vs Random test is shown in \Cref{Tbl: Fixed vs Random test r
 		Sample Standard Deviation & 0.49        & 0.53        \\ \hline
 		t-score                  & \multicolumn{2}{c|}{1.32} \\ \hline
 	\end{tabular}
-	\caption{Fixed vs Random test result for tinydtls optimised AES execution time on CC2538. Executions per sample: $200$. Sample size: $1000$.}
+	\caption{Fixed vs Random test result for tinydtls optimised AES execution time on CC2538. Executions per sample: $200$. Sample size: $1000$, measured in ticks.}
 	\label{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538}
 \end{table}
 
-Applying the TVLA t-score threshold which is $4.5$, the results in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538} imply that the tinydtls optimised AES implementation has passed our test, i.e. no leakage is detected through the execution time of the tinydtls optimised AES implementation. 
+Applying the TVLA t-score threshold $4.5$, the result in \Cref{Tbl: Fixed vs Random test result for tinydtls AES execution time on CC2538} concludes that the optimised AES implementation has passed our test, i.e. no leakage is detected through the execution time. 
 
-The result is consistent with our expectation, as the implementation has no branch\footnote{The only branch in the source code is for AES-192 and AES-256, which are not used in the ciphersuites.} in the source code and is done with only statements of assignment, shift and XORs. The low sample standard deviation is also an evidence that supports our expectation that the AES implementation takes a nearly constant time.
+The result is consistent with our expectation, as the implementation has no branch\footnote{The only branch in the source code is for AES-192 and AES-256, which are not used in the ciphersuites.} in the source code and is done with only statements of assignment, shift and XORs. The low sample standard deviation is also an evidence that supports our expectation that the AES implementation takes a nearly constant time. We conclude that the timing difference of $t_P$ induced by AES execution is negligible.
 
 The source code and data for our tinydtls AES timing experiments are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlsaes} \\
@@ -109,50 +126,34 @@ and \\
 
 \subsection{Protocol Suite Processing Timing} \label{Protocol Suite Processing Time}
 
-The observable response time in \Cref{Fig: A Session with DTLS}, , denotes as $t_R$, can be divided into two parts:
-
-\begin{enumerate}
-	\item Protocol suite processing time $t_P$. This part consists of the 6LoWPAN decapsulation / encapsulation and DTLS decryption / encryption in \Cref{Fig: A Session with DTLS}. $t_P$ is independent to the application. 
-	\item Application code execution time $t_A$. It is one of the most interested information to the Adversary that could be exploited to learn information about the application data.
-\end{enumerate}
-
-Apparently we have
-\begin{equation}
-t_R = t_P + t_A
-\end{equation}
-
-One way to extract $t_A$ is to compute it by 
-\begin{equation} \label{Eq: t_A}
-t_A = t_R - t_P
-\end{equation}
-
-Practically, given a specific platform the value of $t_P$ is predictable, as it is independent to the upper layer application and the choices of different DTLS session key does not affect the timing as shown in \Cref{tinydtls AES Timing}. 
-
-We estimated $t_P$ on CC2538 by an application where the Sensor Node replies to any Requests with a constant predefined value. A hint of the source code is shown in \Cref{nullapp}.
+Theoretically, given a specific platform the value of $t_P$ is predictable, as it is independent to the upper layer application and the choice of different DTLS session keys does not affect the timing as shown in \Cref{tinydtls AES Timing}. We therefore assumed it is identical among all applications and estimated it on CC2538 by an application where the Sensor Node replies to any Requests with a constant predefined value. Our source code is illustrated in \Cref{nullapp}.
 
 \lstinputlisting[label={nullapp}, captionpos=b, caption={Application code with negligible execution time}]{src/nullapp.c} 
 
-Since no effective application code exists in this application, its $t_A$ can be considered negligible; hence the $t_R$ can be viewed as an approximation of $t_P$.
+Since no effective application code exists in this application, its $t_A$ can be considered negligible; hence $t_R$ can be viewed as an approximation of $t_P$:
+\begin{equation}
+t_R = t_P + t_A \approx t_P + 0 = t_P
+\end{equation}
 
-Avoid exceeding 802.15.4 MTU, the length of DTLS Payload can be ranged from $1$ byte to $47$ bytes. However in our setup, the Requests are forwarded by an Border Router and thus one byte is taken by the decompressed Hop Limit in IPv6 Header; therefore the the length of DTLS Payload in our Requests is ranged from $1$ byte to $46$ bytes.
+Avoid exceeding 802.15.4 MTU, the length of DTLS Payload ranges from $1$ byte to $46$ bytes in general. However in our setup the Response is sent in an one hop transmission and hence its TTL in IPv6 Header is compressed, allowing the Response for one extra byte.
 
-\Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} shows two example histograms of part of our result. We denote $|Req|$ and $|Res|$ as the length in bytes of the DTLS Payload in Requests and Responses respectively.
+\Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} shows two example histograms of part of our result. We denote $|Req| \in [1,46]$ and $|Res| \in [1,47]$ as the length in bytes of the DTLS Payload in Requests and Responses respectively.
 
 \begin{figure}[ht!]
 	\center
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.8\textwidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/dtlstimehist_min.png}
 	\end{subfigure}
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.8\textwidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/dtlstimehist_max.png}
 	\end{subfigure}
-	\caption{Example histograms of protocol suite processing time on CC2538 with DTLS}
+	\caption{Example histograms of protocol suite processing time on CC2538 with tinydtls}
 	\label{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS}
 \end{figure}
 
-Similar to the ECHO response time,$t_R$ in the samples also appeared to densely clustered near a specific value while a few are drifted away; hence we use the sample median to characterise $t_R$ in our experiments. Medians of the examples in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. It is clear that when $|Req|$ and $|Res|$ are at their maximum value, $t_R$ is significantly longer comparing to $Req$ and $Res$ at their minimum value.
+Similar to the ECHO response time,$t_R$ in the samples also appeared to densely clustered near a specific value with a few outliers; hence we use the sample median to characterise $t_R$ in our experiments. Medians of the examples in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. The data shows that when $|Req|$ and $|Res|$ are at their maximum value, $t_R$ is significantly longer comparing to $Req$ and $Res$ at their minimum value.
  
 \begin{table}
 	\center
@@ -166,16 +167,16 @@ Similar to the ECHO response time,$t_R$ in the samples also appeared to densely 
 	\label{Tbl: Median of response times in examples}
 \end{table}
 
-We measured $t_R$ with different combinations of $|Req|$ and $|Res|$. The results are shown in \Cref{Fig: Protocol suite processing time on CC2538 with DTLS}.
+\Cref{Fig: Protocol suite processing time on CC2538 with DTLS} shows $t_R$ with different combinations of $|Req|$ and $|Res|$.
 
 \begin{figure}[ht!]
 	\center
-	\begin{subfigure}{0.45\linewidth}
+	\begin{subfigure}{0.8\linewidth}
 	\center
 	\includegraphics[width=\textwidth]{fig/dtlstime_fixed_req.png}
 	\subcaption{Response time($t_R$) with $|Req| \in \{1, 23, 46\}$}
 	\end{subfigure}
-	\begin{subfigure}{0.45\linewidth}
+	\begin{subfigure}{0.8\linewidth}
 	\center
 	\includegraphics[width=\textwidth]{fig/dtlstime_fixed_res.png}
 	\subcaption{Response time($t_R$) with $|Res| \in \{1, 23, 46\}$}
@@ -184,46 +185,46 @@ We measured $t_R$ with different combinations of $|Req|$ and $|Res|$. The result
 	\label{Fig: Protocol suite processing time on CC2538 with DTLS}
 \end{figure}
 
-The results in \Cref{Fig: Protocol suite processing time on CC2538 with DTLS} suggest that $|Req|$ and $|Res|$ might both be linear to the $t_R$ on CC2538. Assume $t_R$ is in the form of:
+\Cref{Fig: Protocol suite processing time on CC2538 with DTLS} suggests that $|Req|$ and $|Res|$ might be multi linear to $t_R$. Therefore we assume $t_R$ is in the form of:
 \begin{equation} \label{Eq: tR est}
 	t_R = b_0 + b_1|Req| + b_2|Res|
 \end{equation}
 
-Applying multiple linear regression using least squares fit, we have an estimation of $t_R$ (in ms) for CC2538:
-
+Applying multiple linear regression using least squares fit, we have an estimation of $t_R$ (in ms), denotes as $\hat{t}$, for CC2538:
 \begin{equation}
 	\hat{t}_R = 78.388 + 0.538|Req| + 0.638|Res|
 	\label{Eq: t_R estimation}
 \end{equation}
 
-The $R^2$ for the extimation of \Cref{Eq: t_R estimation} is $0.9997$, which is consistent to our intuition of \Cref{Fig: Protocol suite processing time on CC2538 with DTLS}.
+The $R^2$ for the extimation of \Cref{Eq: t_R estimation} is $0.9997$ with $F=87778$ ($F_{0.05} = 3.18$). The result indicates that $t_R$ is significantly linearly related to $|Req|$ and $|Res|$.
 
-Since $t_A$ in this application is negligible, we therefore approximate $t_P$ by $t_R$ for CC2538:
+Since $t_A$ in this application (\Cref{nullapp}) is negligible, we therefore approximate $t_P$ by $t_R$:
 \begin{equation} \label{Eq: CC2538tP}
 	\hat{t}_P \approx \hat{t}_R = 78.388 + 0.538|Req| + 0.638|Res|
 \end{equation}
 
-In the WSN scenario described in \Cref{Fig: Experiment Setup}, $t_R$ is directly observable from the captured traffic. Given the estimation $\hat{t}_P$, we can further estimate the the application execution time by substituting $t_P$ in \Cref{Eq: t_A} by $\hat{t}_P$:
+So \Cref{Eq: CC2538tP} is our estimation of the protocol suite processing time for a CC2538 Sensor Node using Contiki release-3.0 with tinydtls, upon observing a Request of length $|Req|$ with Response of length $|Res|$.
+
+In practice, assume the adversary has the pre-knowledge of the type of device, he can profile and estimate $t_P$ as we have done on CC2538. Given the estimation $\hat{t}_P$, we can further estimate the the application execution time by substituting $t_P$ in \Cref{Eq: t_A} by $\hat{t}_P$:
 \begin{equation} \label{Eq: hattA}
 	\hat{t}_A = t_R - \hat{t}_P
 \end{equation}
-
-We discuss more details of this estimation in \Cref{App code timing}.
+where $t_R$ is directly accessible in the captured traffic. We discuss more details of the estimation of \Cref{Eq: hattA} in \Cref{App code timing}.
 
 The source code and data for our protocol suite processing timing experiments are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstime} \\
 and \\
-\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstims/Data}
+\url{https://github.com/Salties/MyRepository/tree/master/experiments/dtlstime/Data}
 
 \subsection{Application Code Timing} \label{App code timing}
 
-\Cref{Eq: hattA} provides a method to estimate the application code execution time on a Sensor  Node. To test this method, we used an application that repeatedly invokes the Contiki system random number generator according to the data in the Request, and replies the execution time as the Response. The random number generator is selected arbitrary to provide some payload for $t_A$. In real world applications, the random number generator will be replaced by actual application code, such as reading a sensor or actual data processing. The code of our application is hinted by \Cref{apptime}.
+\Cref{Eq: hattA} provides a method to estimate the application code execution time on a Sensor  Node. To test this method, we used an application that repeatedly invokes the Contiki system random number generator according to the data in the Request, and replies the execution time as the Response. The random number generator is selected arbitrary simply for a controllable $t_A$. In real world applications, the loop is replaced by actual application code, such as reading a sensor, data processing, or any application over CoAP, etc. The code of this application is illustrated by \Cref{apptime}.
 
 \lstinputlisting[label={apptime}, captionpos=b, caption={Code for application code timing}]{src/dtlsapptime.c} 
 
-We tested \Cref{Eq: t_A} with \Cref{apptime} on CC2538 with different execution time induced by different Request data, with $t_P$ estimated by \Cref{Eq: CC2538tP}. 
+We tested \Cref{Eq: hattA} of application in \Cref{apptime} on CC2538, with different execution time and arbitrary length of data, using $t_P$ estimated by \Cref{Eq: CC2538tP}. The actual execution time of $t_A$ is obtained by the execution time sent in Response.
 
-We denote the actual execution time returned in the Response as $t_A$ and the estimated execution time as $\hat{t}_A$. We further denote their absolute and relative approximation error as $\epsilon$ and $\mu$ respectively, where:
+We also denote their absolute and relative approximation error as $\epsilon$ and $\mu$ respectively, where:
 \begin{eqnarray}
 	\begin{aligned}
 		\epsilon	&= |t_A - \hat{t}_A| \\
@@ -231,7 +232,7 @@ We denote the actual execution time returned in the Response as $t_A$ and the es
 	\end{aligned}
 \end{eqnarray}
 
-For clarity, we arbitrarily divide our data into three groups:
+For clarity of the view of data, we arbitrarily divide $t_A$ into three groups:
 \begin{itemize}
 	\item Low $t_A$, for $t_A < 1.5$ ms.
 	\item Medium $t_A$, for $t_A \in [1.5, 25)$ ms.
@@ -249,7 +250,7 @@ The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low 
 
 \begin{figure}[ht!]
 	\center
-	\begin{subfigure}{0.6\linewidth}
+	\begin{subfigure}{0.8\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/lowtaest.png}
 	\subcaption{Estimated execution time $\hat{t}_A$}
@@ -268,7 +269,7 @@ The result for  low $t_A$ ($<1.5$ ms) is shown in \Cref{Fig: Estimation for low 
 	\label{Fig: Estimation for low tA}
 \end{figure}
 
-The result in \Cref{Fig: Estimation for low tA} indicates that the estimation totally failed at low $t_A$ such that even negative values are estimated. We consider this is caused by the fact that at such level $t_A$ is negligible and is dominated by the systematic noise. $\epsilon$ increases nearly linearly with $t_A$, whilst $\mu$ indicates that the estimation does not make much sense at this level of $t_A$.
+The result in \Cref{Fig: Estimation for low tA} indicates that the estimation totally failed at low $t_A$ such that even negative values are estimated. We consider this is caused by the fact that at such level $t_A$ is negligible and is dominated by noise. $\epsilon$ increases nearly linearly with $t_A$, whilst $\mu$ indicates that the estimation does not make much sense at this level of $t_A$.
 
 \subsubsection{Medium Execution Time}
 
@@ -276,7 +277,7 @@ For $t_A$ with medium values ($t_A \in[1.5, 100)$ ms), the results are shown in 
 
 \begin{figure}[ht!]
 	\center
-	\begin{subfigure}{0.6\linewidth}
+	\begin{subfigure}{0.8\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/midtaest.png}
 	\subcaption{Estimated execution time $\hat{t}_A$}
@@ -295,24 +296,24 @@ For $t_A$ with medium values ($t_A \in[1.5, 100)$ ms), the results are shown in 
 	\label{Fig: Estimation for medium tA}
 \end{figure}
 
-$\hat{t}_A$ increase nearly linearly with $t_A$ in \Cref{Fig: Estimation for medium tA}. However, we realised that our estimations are strictly beneath the actual value. The $\epsilon$ appears to be random with medium $t_A$,  ranging $[1.34, 1.49]$ ms.  The sample mean and standard deviation for $\epsilon$ are $1.405$ and $0.043$ ms respectively in these experiments. Due to the narrow range of $\epsilon$, $\mu$ decreases inverse proportionally as $t_A$ increases.
+$\hat{t}_A$ increase nearly linearly with $t_A$ in \Cref{Fig: Estimation for medium tA}. However, we realised that our estimations are strictly beneath the actual value. $\epsilon$ appears to be random with medium $t_A$,  ranging between $[1.34, 1.49]$ ms.  The sample mean and standard deviation for $\epsilon$ are $1.405$ and $0.043$ ms respectively in these experiments. Due to the narrow range of $\epsilon$, $\mu$ decreases inverse proportionally as $t_A$ increases.
 
 Applying least squares fitting, we have an estimation of medium $t_A$:
-\begin{equation}
+\begin{equation} \label{Eq: midta}
 	t_A = 1.412 + 0.999\hat{t}_A 
 \end{equation}
 
-with $R^2=1.000$, which indicates that $\hat{t}_A$ is almost perfectly linear to $t_A$. 
+with $R^2=1.000$, $F=3.45 * 10^5$ ($F_{0.05} = 4.7472$) which suggests that $\hat{t}_A$ is linearly related to $t_A$. 
 
-The result suggests that for medium $t_A$, the accuracy of estimation increases as $t_A$ increases. 
+Theoretically, we hope $t_A = \hat{t}_A$. The result of \Cref{Eq: midta} implies that there exists a systematic bias in our estimation such that we underestimated $t_A$ by roughly $1.4$ ms. On the other hand, the slope of $0.999$ also suggests that the differential estimation is relatively reliable such that its error is roughly less than $0.025$ ms within medium $t_A$.
 
 \subsubsection{High Execution Time}
 
-Further increasing $t_A$, we have the result for high $t_A$ ($\geq 25$ ms), shown in \Cref{Fig: Estimation for high tA}.
+Further increasing $t_A$, we have the results for high $t_A$ ($\geq 25$ ms) shown in \Cref{Fig: Estimation for high tA}.
 
 \begin{figure}[ht!]
 	\center
-	\begin{subfigure}{0.6\linewidth}
+	\begin{subfigure}{0.8\linewidth}
 	\center
 	\includegraphics[width=\linewidth]{fig/hightaest.png}
 	\subcaption{Estimated execution time $\hat{t}_A$}
@@ -331,26 +332,34 @@ Further increasing $t_A$, we have the result for high $t_A$ ($\geq 25$ ms), show
 	\label{Fig: Estimation for high tA}
 \end{figure}
 
-The result in \Cref{Fig: Estimation for high tA} is similar to the result of medium $t_A$ such that $\hat{t}_A$ is almost linear to $t_A$ that nearly overlapped. The least square estimation of high $t_A$ group is:
-\begin{equation}
+The result for high $t_A$ is similar to medium $t_A$ such that $\hat{t}_A$ is almost overlapped to $t_A$. The least square estimation of $t_A$ in this group is:
+\begin{equation} \label{Eq: hita}
 	t_A = 1.459 + 1.000\hat{t}_A
 \end{equation}
+with $R^2 = 1.000$, $F=3.21 * 10^{7}$ ($F_{0.05} = 5.1174$), which also implies that $t_A$ and $\hat{t}_A$ are linearly related.
 
-where $R^2 = 1.000$. 
+$\epsilon$ and $\mu$ are also similar to their counterpart of medium $t_A$ that $\epsilon$ seems to be random in a small range whilst $\mu$ appears to be inverse proportionally decreasing.
 
-The absolute approximation error $\epsilon$ in high $t_A$ has sample mean and standard deviation of $1.399$ and $0.051$ respectively, ranging in $[1.34, 1.48]$ ms.
+Further more, we realised that the regression model of \Cref{Eq: midta} and \Cref{Eq: hita} are similar. We applied the regression coefficient equality test proposed by \cite{CoeEqTest}. The test returns $F=0.010$ ($F_{0.05} = 3.47$), indicates that \Cref{Eq: midta} and \Cref{Eq: hita} are likely to be the same regression model.
 
-The relative approximation error $\mu$ further decreases in this group, down to $0.041$  for $t_A = 35.8$ ms and $0.009$ for $t_A = 143.5$ ms
+\subsubsection{Summary}
 
+In conclusion, our estimation of the application execution time $t_A$:
+\begin{itemize}
+	\item For $t_A < 1.5$ ms, the estimation is unreliable as the result is dominated by error.
+	\item For $t_A \geq 1.5$ ms, the estimation is relatively reliable. The reliability increases as $t_A$ increases.
+\end{itemize}
 
-\subsection{Errors}
+We give further detailed analysis of the error in \Cref{ta error}.
 
-The absolute approximation error $\epsilon$ is defined to be signledness. We further define the signed approximation error :
+\subsection{Errors} \label{ta error}
+
+The absolute approximation error $\epsilon$ is defined to be signedness. We further define the signed approximation error :
 \begin{equation} \label{Eq: e}
 e = t_A - \hat{t}_A
 \end{equation}
 
-We show the overall signed approximation error among of all $t_A$ we tested in \Cref{Fig: Overall approximation error}.
+We show the overall signed approximation error among all $t_A$ we tested in \Cref{Fig: Overall approximation error}.
 
 \begin{figure}[ht!]
 	\center

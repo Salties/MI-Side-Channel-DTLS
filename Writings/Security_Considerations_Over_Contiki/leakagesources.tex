@@ -14,13 +14,11 @@ Without loss of generality, in this report, we are interested in leakages with r
 
 In this chapter we give a theoretical analysis of the exploitable side channel information in the WSN traffic. The inspection of protocol and implementation flaws are included in later chapters.
 
-Notice that Traffic Analysis is highly application specific. In this report, our discussions are based the simple applications described in \Cref{Sec: Applications}. 
-
 \section{Observables} \label{Sec: Observables}
 
 As we have explained in \Cref{Chp: Experiment Setup}, we assumed the adversary has full access to all traffic being transmitted in the WSN. 
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\includegraphics[width=0.9\textwidth]{fig/udpexample.png}
 	\caption{An Example of Captured Traffic}
@@ -46,7 +44,7 @@ Practically, the Receive Signal Strength Indicator, RSSI, should also be conside
 
 In this section, we explain some features of WSN traffic traces comparing to Internet applications.
 
-Design of WSN applications tends to be simple and stateless due to the nature of constrained resources and unreliable transmission. As a result, data exchange is minimised for efficiency and robustness. From this aspect, we argue that our simple applications in \Cref{Sec: Applications} have captured these most significant characteristics of WSN applications.
+Design of WSN applications tends to be simple and stateless due to the nature of constrained resources and unreliable transmission. As a result, data exchange is minimised for efficiency and robustness. From this aspect, we argue that our sample applications have captured these most significant characteristics of WSN applications.
 
 In this report, we define a generic model for the data exchanging process in WSN applications.
 
@@ -56,7 +54,7 @@ A Session is defined as a series of events where a Sensor Node reports applicati
 
 \Cref{Fig: Overview of Session} shows an overview of a Session. Practically, the Manager can be a specific Sensor Node in the WSN, or a desktop connected to the WSN through a border router.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\includegraphics[width=0.8\textwidth]{fig/Session.png}
 	\caption{Overview of Session}
@@ -71,7 +69,7 @@ Although not necessary under \Cref{Def: Session}, in most of our applications, t
 
 We also assume the adversary is capable to distinguish Sessions. Practically, the time interval of packets within the same Session are usually significantly less then the interval between Sessions. \Cref{Fig: Example Traces of keyllsec} shows an example of traces in a unicast keyllsec application instance. Marked are packets from two continuous Sessions, where No.977 and No.990 are from the first Session and No.998 and No.1011 are from the second. We can see that the time interval within a Session is about 150ms which is significantly less than the 15s interval between Sessions.
 
-\begin{figure*}[h!]
+\begin{figure*}[th!]
 	\center
 	\includegraphics[width=0.5\textwidth]{fig/unicast_keyllsec.png}
 	\\
