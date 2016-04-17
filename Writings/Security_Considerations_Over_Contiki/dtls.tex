@@ -203,7 +203,7 @@ Since $t_A$ in this application (\Cref{nullapp}) is negligible, we therefore app
 	\hat{t}_P \approx \hat{t}_R = 78.388 + 0.538|Req| + 0.638|Res|
 \end{equation}
 
-So \Cref{Eq: CC2538tP} is our estimation of the protocol suite processing time for a CC2538 Sensor Node using Contiki release-3.0 with tinydtls, upon observing a Request of length $|Req|$ with Response of length $|Res|$.
+\Cref{Eq: CC2538tP} is our estimation of the protocol suite processing time for a CC2538 Sensor Node using Contiki release-3.0 with tinydtls, upon observing a Request of length $|Req|$ with Response of length $|Res|$.
 
 In practice, assume the adversary has the pre-knowledge of the type of device, he can profile and estimate $t_P$ as we have done on CC2538. Given the estimation $\hat{t}_P$, we can further estimate the the application execution time by substituting $t_P$ in \Cref{Eq: t_A} by $\hat{t}_P$:
 \begin{equation} \label{Eq: hattA}
@@ -344,22 +344,18 @@ Further more, we realised that the regression model of \Cref{Eq: midta} and \Cre
 
 \subsubsection{Summary}
 
-In conclusion, our estimation of the application execution time $t_A$:
-\begin{itemize}
-	\item For $t_A < 1.5$ ms, the estimation is unreliable as the result is dominated by error.
-	\item For $t_A \geq 1.5$ ms, the estimation is relatively reliable. The reliability increases as $t_A$ increases.
-\end{itemize}
+In conclusion, our estimation for CC2538 is unreliable when $t_A < 1.5$ ms. For $t_A \geq 1.5$ ms, the estimation is relatively reliable and relative accuracy increases as $t_A$ increases.
 
-We give further detailed analysis of the error in \Cref{ta error}.
+We further analysis the error in \Cref{ta error}.
 
 \subsection{Errors} \label{ta error}
 
-The absolute approximation error $\epsilon$ is defined to be signedness. We further define the signed approximation error :
+The absolute approximation error $\epsilon$ is defined to be signedness. We define the signed approximation error :
 \begin{equation} \label{Eq: e}
 e = t_A - \hat{t}_A
 \end{equation}
 
-We show the overall signed approximation error among all $t_A$ we tested in \Cref{Fig: Overall approximation error}.
+We show the overall signed approximation error among all $t_A$ in \Cref{Fig: Overall approximation error}.
 
 \begin{figure}[ht!]
 	\center
@@ -377,22 +373,21 @@ We show the overall signed approximation error among all $t_A$ we tested in \Cre
 	\label{Fig: Overall approximation error}
 \end{figure}
 
-The result suggests that $e$ dramatically increases at low $t_A$ but quickly converges to [1.34, 1.49] ms at medium($[1.5, 25)$ ms) and high $t_A$ ($>25$ ms). From a practical aspect, it would be reasonable to simply approximate the negligible low $t_A$ as $0$ ms. Also the positive errors indicates that $t_A$ is generally underestimated.
+The result suggests that $e$ dramatically increases at low $t_A$ but quickly converges to [1.34, 1.49] at higher $t_A$. For the converged $e$, (i.e. when $t_A > 1.5$ ms), the sample mean and standard deviation of $e$ are $1.402$ ms and $0.046$ ms respectively. Using Shapiro-Wilk nomality test on $e$, the result was $W = 0.934$ ($W_{0.05} = 0.918$), suggesting that $e$ is likely to be normally distributed.
 
-For the converged $e$, i.e. when $t_A > 1.5$ ms, the sample mean and standard deviation of $e$ are $1.402$ ms and $0.046$ ms respectively. The result of Shapiro-Wilk nomality test on $e$ in our data suggests that $e$ is likely to be normally  distributed.
+From a practical aspect, it would be reasonable to simply approximate the negligible low $t_A$ as $0$ ms. Observing \Cref{Fig: Estimation for low tA}, we suggest to discard the estimations when $\hat{t}_A < 0.1$ as different $t_A$ may confusingly mapped to same $\hat{t}_A$. In another word,the low $t_A$ would be unmeasureable from the captured traffic by this method.
 
-Considering the fact that the sample mean of $e$ is much greater than its standard deviation, we suppose it is dominated by a systematic error. The potential cause of the error we considered are:
+Considering the fact that the sample mean of $e$ is much greater than its standard deviation, we suppose it is dominated by a systematic error. The potential factors of the error we have considered include:
 \begin{itemize}
 	\item Implicit affection of application code.
 	\item Error in estimation of $t_P$.
-	\item Error in measurement of $t_A$.
 \end{itemize}
 
-Due to practical reason, the last cause is difficult to verify; hence we focus on the implicit affection of application code and error in estimation of $t_P$.
+Therefore we conducted comparison experiments to study the impact to $e$ of these factors, showed in the following context.
 
-\subsubsection{Affection of application code} \label{Affection of application code}
+\subsubsection{Implicit affection of application code} \label{Affection of application code}
 
-As a comparison, we replace the random number generator by Contiki software AES encryption call and then computed the error. The result is shown in \Cref{Fig: Overall estimation error for AES replacement}.
+As a comparison, we replace the random number generator by Contiki software AES encryption and then measured the error as we have done on \Cref{apptime}. The result is shown in \Cref{Fig: Overall estimation error for AES replacement}.
 
 \begin{figure}[ht!]
 	\center
@@ -410,18 +405,15 @@ As a comparison, we replace the random number generator by Contiki software AES 
 	\label{Fig: Overall estimation error for AES replacement}
 \end{figure}
 
-We denote $e_{RND}$ and $e_{AES}$ to be the singed approximation errors in the original application with random number call, i.e. the application showed in \Cref{apptime}, and its AES encryption replacement. Intuitively, $e_A$ showed some similar characteristics of $e_R$:
-
+We denote $e_{R}$ and $e_{A}$ to be the singed approximation errors in the original application with random number call (the application showed in \Cref{apptime}) and its AES encryption replacement. Intuitively,  \Cref{Fig: Overall estimation error for AES replacement} showed that $e_{A}$ has some similar characteristics as of $e_{R}$:
 \begin{itemize}
-	\item They both dramatically increases at low $t_A$, then converges into some range at medium and high $t_A$.
+	\item They both dramatically increases at low $t_A$, then converges into a small range for medium and high $t_A$.
 	\item The relative approximation error $\mu$ decreases nearly inverse proportionally, reaching $<0.1$ at $25$ ms.
 \end{itemize}
 
-The converged sample mean and standard deviation for $e_A$ are $1.520$ ms and $0.082$ ms respectively. Again using Shapiro-Wilk normality test, the result indicates that $e_A$ is also likely to be normally distributed.
+The converged sample mean and standard deviation for $e_A$ are $1.520$ ms and $0.082$ ms respectively. Again using Shapiro-Wilk normality test, we have $W=0.962$ ($W_{0.05} = 0.904$), indicating $e_{A}$ is also likely to be normally distributed. We summarise some basic statistical features of $e_R$ and $e_A$ in \Cref{Tbl: Statistical features of eR and eA}.
 
-We summarise the statistical features of $e_R$ and $e_A$ in \Cref{Tbl: Statistical features of eR and eA}.
-
-\begin{table}
+\begin{table}[ht!]
 	\center
 	\begin{tabular}{|c|c|c|}
 	\hline
@@ -433,9 +425,9 @@ We summarise the statistical features of $e_R$ and $e_A$ in \Cref{Tbl: Statistic
 	\label{Tbl: Statistical features of eR and eA}
 \end{table}
 
-Using two sample t-test on $e_R$ and $e_A$, the result shows that they are unlikely to have the same mean; therefore we conclude that the replacement of AES did affect the error in our estimations. 
+Two sample t-test on $e_R$ and $e_A$ returned $p=2.32 * 10^{-7}$, indicating their mean might be different; thus replacing random number generator to AES may have impacted $e$.
 
-In another word, the results implies that the application code could potentially The mechanism of such affection is not clear so far; thus such error would be difficult to quantify as it is directly related the specific application code. We leave the cause of this error as an open question in this report. However in practice, we would argue that such error can be mitigated as $t_A$ increases, as depicted by the relative approximation errors in \Cref{Fig: Overall approximation error} and \Cref{Fig: Overall estimation error for AES replacement}.
+The reason of why such replacement affected $e$ is so far unclear. Theoretically, since there is no data dependency between the timed code and other parts of the code, they are normally considered independent. On the other hand, different sequence of code execution, i.e. different number of loops, does not affect such error, suggesting it is might be caused by a static change of  system state that we are not aware of. We leave this as an open question in this report. However in practice, we would argue that such error can be mitigated as $t_A$ increases, as depicted by the relative approximation errors in \Cref{Fig: Overall approximation error} and \Cref{Fig: Overall estimation error for AES replacement}. We also expect the difference of this error among applications to be minor as there is no known data dependency.
 
 \subsubsection{Error in estimation of protocol suite processing time}
 
@@ -448,9 +440,13 @@ Substituting \Cref{Eq: t_A} and \Cref{Eq: hattA} into \Cref{Eq: e}, we have:
 	\end{aligned}
 \end{equation}
 
-Our estimation in \Cref{Eq: CC2538tP} solely depends on$|Req|$ and $|Res|$, while our experiments in \Cref{Affection of application code} suggests that $e$ has dependency to the application code. These combined together implies that given a fixed estimation $\hat{t}_P$, the protocol suite processing time $t_P$ can vary due to different application code.
+\Cref{Eq: tP error} implies that $e$ can be also viewed as the residual of the error of $\hat{t}_P$. However, our experiments in \Cref{Affection of application code} suggests that $e$ has dependency to the application code. \Cref{Eq: CC2538tP} does not captured this as $\hat{t}_P$ is solely decided by $|Req|$ and $|Res|$. 
 
-We therefore conducted similar experiments as in \Cref{Protocol Suite Processing Time}, with $t_A$ adjusted to a fixed amount of time using Contiki random number generator call. \Cref{Fig: e by len} shows the result of how $e$ is affected by $|Req|$ and $|Res|$, on $t_A$ adjusted to $5$ ms and $25$ ms respectively.
+We therefore re-estimated the impact of $|Req|$ and $|Res|$ to $\hat{t}_P$ for the code of \Cref{apptime} by:
+\begin{equation}
+	t_P = t_R - t_A
+\end{equation}
+where $t_A$ is adjusted to $4.9$ ms and $24.7$ ms respectively. The result is shown in \Cref{Fig: e by len}.
 
 \begin{figure}[ht!]
 	\center
@@ -466,33 +462,28 @@ We therefore conducted similar experiments as in \Cref{Protocol Suite Processing
 	\label{Fig: e by len}
 \end{figure}
 
-The result in \Cref{Fig: e by len} suggests that:
-
+The result suggests that:
 \begin{itemize}
-	\item $e$ may also multi linearly related to both $|Rea|$ and $|Res|$.
+	\item Even with different application code, $e$ still seems to be multi linearly related to both $|Rea|$ and $|Res|$.
 	\item Change of $t_A$ does not seem to affect $e$.
 \end{itemize}
 
-Apply multiple linear regression on the results of $t_A = 5$ and $t_A = 25$, we have two regression models:
-
+Apply multiple linear regression on the results for each $t_A$, we have two regression models:
 \begin{equation}
 	\hat{e} = 2.007 - 0.111|Req| + 0.088|Res|
 \end{equation}
-
-with $R^2 = 0.971$ for $t_A = 5$, and
+with $R^2 = 0.971$ for $t_A = 4.9$, and
 
 \begin{equation}
 	\hat{e} = 1.962 - 0.111|Req| + 0.089|Res|
 \end{equation}
+with $R^2 = 0.978$ for $t_A = 24.7$.
 
-with $R^2 = 0.978$ for $t_A = 25$.
-
-Using the coefficient equality test proposed in \cite{CoeEqTest} on both regression models, the test reports no statistical significance on the coefficients of the regression models. Therefore we re-estimate $e$ using the full data\footnote{Data in both 5 ms group and 25 ms group.} as:
-
+Again using the coefficient equality test on both regression models, the test reports no statistical significance on the coefficients of the regression models. Therefore we re-estimate $e$ using the full data. The estimation is:
 \begin{equation} \label{hate}
 	\hat{e} = 1.984 - 0.111|Req| + 0.089|Res|
 \end{equation}
-
+%Show Fstat!!!!! CONTINUE HERE
 with $R^2 = 0.975$.
 
 Recall the fact that the length of packets are constrained by 802.15.4 MTU and thus $|Req| \in [0,47]$ and $|Res| \in [0,46]$, we have $\hat{e} \in [-3.233,6.078]$ ms. Although $\hat{e}$ might be hard to predict as it is related to specific application code, in our experiment, $e$ is in a relatively small range. In practice, we would expect that such level of error is tolerable, especially when estimating application code with longer execution time.
