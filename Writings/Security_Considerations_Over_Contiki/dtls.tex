@@ -427,7 +427,9 @@ The converged sample mean and standard deviation for $e_A$ are $1.520$ ms and $0
 
 Two sample t-test on $e_R$ and $e_A$ returned $p=2.32 * 10^{-7}$, indicating their mean might be different; thus replacing random number generator to AES may have impacted $e$.
 
-The reason of why such replacement affected $e$ is so far unclear. Theoretically, since there is no data dependency between the timed code and other parts of the code, they are normally considered independent. On the other hand, different sequence of code execution, i.e. different number of loops, does not affect such error, suggesting it is might be caused by a static change of  system state that we are not aware of. We leave this as an open question in this report. However in practice, we would argue that such error can be mitigated as $t_A$ increases, as depicted by the relative approximation errors in \Cref{Fig: Overall approximation error} and \Cref{Fig: Overall estimation error for AES replacement}. We also expect the difference of this error among applications to be minor as there is no known data dependency.
+The reason of why such replacement affected $e$ is so far unclear. Theoretically, since there is no data dependency between the timed code and other parts of the code, they are normally considered independent. On the other hand, different sequence of code execution, i.e. different number of loops, does not affect such error, suggesting it is might be caused by a static change of  system state that we are not aware of. Investigating the cause is difficult as it would be hard to quantify  application code by its nature. We leave this as an open question in this report. 
+
+However in practice, we would argue that such error can be mitigated as $t_A$ increases, as depicted by the relative approximation errors in \Cref{Fig: Overall approximation error} and \Cref{Fig: Overall estimation error for AES replacement}. We also expect the difference of this error among applications to be minor as there is no known data dependency between application code and protocol processing.
 
 \subsubsection{Error in estimation of protocol suite processing time}
 
@@ -440,13 +442,9 @@ Substituting \Cref{Eq: t_A} and \Cref{Eq: hattA} into \Cref{Eq: e}, we have:
 	\end{aligned}
 \end{equation}
 
-\Cref{Eq: tP error} implies that $e$ can be also viewed as the residual of the error of $\hat{t}_P$. However, our experiments in \Cref{Affection of application code} suggests that $e$ has dependency to the application code. \Cref{Eq: CC2538tP} does not captured this as $\hat{t}_P$ is solely decided by $|Req|$ and $|Res|$. 
+\Cref{Eq: tP error} implies that $e$ can be also viewed as the opposite of error of $\hat{t}_P$. Considering our experiments in \Cref{Affection of application code} suggested that $e$ has dependency to the application code, \Cref{Eq: CC2538tP} might not be accurate is the estimation does not take this factor into account and solely relies on $|Req|$ and $|Res|$. 
 
-We therefore re-estimated the impact of $|Req|$ and $|Res|$ to $\hat{t}_P$ for the code of \Cref{apptime} by:
-\begin{equation}
-	t_P = t_R - t_A
-\end{equation}
-where $t_A$ is adjusted to $4.9$ ms and $24.7$ ms respectively. The result is shown in \Cref{Fig: e by len}.
+We therefore estimated the impact of $|Req|$ and $|Res|$ to $e$, using code of \Cref{apptime}. We adjusted $t_A$ to $4.9$ ms and $24.7$ ms respectively. The result is shown in \Cref{Fig: e by len}.
 
 \begin{figure}[ht!]
 	\center
@@ -465,91 +463,92 @@ where $t_A$ is adjusted to $4.9$ ms and $24.7$ ms respectively. The result is sh
 The result suggests that:
 \begin{itemize}
 	\item Even with different application code, $e$ still seems to be multi linearly related to both $|Rea|$ and $|Res|$.
-	\item Change of $t_A$ does not seem to affect $e$.
+	\item Change of $t_A$ does not seem to affect $e$ in our experiments.
 \end{itemize}
 
 Apply multiple linear regression on the results for each $t_A$, we have two regression models:
 \begin{equation}
 	\hat{e} = 2.007 - 0.111|Req| + 0.088|Res|
 \end{equation}
-with $R^2 = 0.971$ for $t_A = 4.9$, and
+with $R^2 = 0.971$ for $t_A = 4.9$ ms, and
 
 \begin{equation}
 	\hat{e} = 1.962 - 0.111|Req| + 0.089|Res|
 \end{equation}
-with $R^2 = 0.978$ for $t_A = 24.7$.
+with $R^2 = 0.978$ for $t_A = 24.7$ ms.
 
-Again using the coefficient equality test on both regression models, the test reports no statistical significance on the coefficients of the regression models. Therefore we re-estimate $e$ using the full data. The estimation is:
+Again using the coefficient equality test on both regression models, the test reports no statistical significance on the coefficients of the regression models. Therefore we re-estimate $e$ using the full data as:
 \begin{equation} \label{hate}
 	\hat{e} = 1.984 - 0.111|Req| + 0.089|Res|
 \end{equation}
 %Show Fstat!!!!! CONTINUE HERE
-with $R^2 = 0.975$.
+with $R^2 = 0.975$ and $F=287.19$ ($F_{0.05} = 3.55$). Assume $|Req|$ and $|Res|$ are both averagely $23$ bytes, i.e. half of the allowed value under 802.15.4 MTU, the average of $\hat{e}$ would be $1.478$ ms by \Cref{hate}.
 
-Recall the fact that the length of packets are constrained by 802.15.4 MTU and thus $|Req| \in [0,47]$ and $|Res| \in [0,46]$, we have $\hat{e} \in [-3.233,6.078]$ ms. Although $\hat{e}$ might be hard to predict as it is related to specific application code, in our experiment, $e$ is in a relatively small range. In practice, we would expect that such level of error is tolerable, especially when estimating application code with longer execution time.
+Recall the fact that the length of packets are constrained by 802.15.4 MTU and thus $|Req| \in [0,47]$ and $|Res| \in [0,46]$, we have $\hat{e} \in [-3.233,6.078]$ ms.
+
+Given the specific application code, \Cref{hate} and be used to better calibrate \Cref{Eq: CC2538tP} by subtracting them:
+\begin{equation}
+	\hat{t'}_P = \hat{t}_P - \hat{e}
+\end{equation}
+which would give a better approximation of $t_P$. However in real world scenarios, the adversary might not have access to the exact application code and thus such calibration might not be applicable.
 
 \subsection{Differential Analysis}
 
 Sometimes the difference in execution time may also be an interested target to an adversary. 
 
-Denote $\Delta t_A$ to be the difference in application code execution time of two Sessions of the same device, we have:
+Denote $t_A$ and $t'_A$ to be the application execution time for two different Sessions on the same device and $\Delta t$ their difference. We have:
 \begin{equation}\label{Eq: delta t}
 	\begin{aligned}
 		\Delta t_A &= t_A - t'_A \\
-			&= (t_R - t_P) - (t'_R - t'_P) \\
-			&= t_R - t'_R - (t_P - t'_P) \\
-			&= t_R - t'_R - [(\hat{t}_P - e) - (\hat{t'}_P - e')] \\
-			&= t_R - t'_R - \hat{t}_P - \hat{t'}_P - (e - e')
+			&= (\hat{t}_A + e) - (\hat{t'}_A + e') \\
+			&= \hat{t}_A - \hat{t'}_A + (e - e')
 	\end{aligned}
 \end{equation}
- 
-Notice that in \Cref{Eq: delta t}, $t_R$ and $t'_R$ are directly observable from the captured traffic. $\hat{t}_P$ and $\hat{t'}_P$ can solely calculated by $|Req|$ and $|Res|$ which are also directly observable in the packets. This left only $(e-e')$ the uncertainty in \Cref{Eq: delta t}.
+ where $\hat{t}_A$ and $\hat{t'}_A$ are estimated using the method above.
 
-On the other hand,  based on the results shown in \Cref{Tbl: Statistical features of eR and eA}, we suppose  the variance of $e$ might be negligible in practice and therefore so is $(e - e')$. In this case, we suggest to approximate \Cref{Eq: delta t} as:
+On the other hand,  in all our experiments, error is constantly showing a low variance. Assuming the same will apply to most of the applications, $(e - e')$ can therefore considered negligible. In this case we can approximate \Cref{Eq: delta t} as:
 \begin{equation}
-	\Delta t \approx t_R - t'_R - \hat{t}_P - \hat{t'}_P = \hat{t}_A - \hat{t'}_A
+	\Delta t \approx  \hat{t}_A - \hat{t'}_A
 \end{equation}
 
-However, we consider $(e - e')$ difficult to further quantified, as its value can be affected by the application code (as shown in \Cref{Affection of application code} ) which can hardly be quantified without knowing exactly how it affects the execution time.
+Again $(e - e')$ might be difficult to further quantified as its value can be affected by the application code, which can hardly be quantified unless the exact cause of the error is clear. We leave this as an open question.
 
 \subsection{Execution time of CoAP Implementation}
 
-CoAP, described in \Cref{Subsec: CoAP}, is an interesting target in real world WSN applications. Although the secure version, CoAPs, has not been implemented in Contiki release-3.0 yet, the execution time of CoAP can be considered as a reference to CoAPs, as CoAP directly maps to the application code in \Cref{Fig: A Session with DTLS} during a CoAPs session.
+CoAP, described in \Cref{Subsec: CoAP}, could be an interesting target in real world WSN applications. Although its secure version, CoAPs, has not been implemented in Contiki release-3.0 yet, the execution time of CoAP can still be a reasonable reference to application using CoAPs as the later is simply CoAP over DTLS, which is exactly captured by the model of \Cref{Fig: A Session with DTLS} during a CoAPs session.
 
-We measured the execution time of CoAP on CC2538 by the coaptime application,  derived from the er-example-server application in Contiki examples. A timing module is also added to the CoAP implementation. 
-
-The available resources on coaptime are described in \Cref{Tbl: Resources on coaptime}.
+We developed an example CoAP server, named coaptime, that provides the default sensor data of a CC2538 Development Kit. The available resources of coaptime are summarised in \Cref{Tbl: Resources on coaptime}. The data are replied as text data in CoAP response a GET request.
 
 \begin{table}[ht!]
 	\center
 	\begin{tabular}{|c|c|l|}
 		\hline
 		Resource & Method & \multicolumn{1}{c|}{Description}                          \\ \hline
-		toggle   & POST   & Toggle the red LED.                                       \\ \hline
-		sensors  & GET    & Read all sensors on the board (VDD, temperature and ALS). \\ \hline
-		als      & GET    & Read Ambient Light Sensor, ALS.                           \\ \hline
-		tmp      & GET    & Read temperature sensor.                                  \\ \hline
-		vdd      & GET    & Read voltage sensor.                                      \\ \hline
-		hello    & GET    & Return a string of "Hello world!".                        \\ \hline
-		timing   & GET    & Return the last CoAP request processing time.             \\ \hline
+		Toggle   & POST   & Toggle the red LED.                                       \\ \hline
+		Sensors  & GET    & Read all sensors on the board (VDD, temperature and ALS). \\ \hline
+		ALS      & GET    & Read Ambient Light Sensor, ALS.                           \\ \hline
+		TMP      & GET    & Read temperature sensor.                                  \\ \hline
+		VDD      & GET    & Read voltage sensor.                                      \\ \hline
+		Hello    & GET    & Return a string of "Hello world!".                        \\ \hline
+		Timing   & GET    & Return the last CoAP request processing time.             \\ \hline
 	\end{tabular}
 	\caption{Resources on coaptime}
 	\label{Tbl: Resources on coaptime}
 \end{table}
 
-The processing time of each Coap requests are summarised in \Cref{Tbl: Coap requests processing time of coaptime}.
+The processing time of requests to each resource are summarised in \Cref{Tbl: Coap requests processing time of coaptime}.
 
-\begin{table}
+\begin{table}[ht!]
 	\center
-	\begin{tabular}{|c|c|c|}
+	\begin{tabular}{|c|c|c|c|}
 		\hline
-		Resource & Processing time (Clock Ticks) & Processing time (ms) \\ \hline
-		toggle   & 9.70                          & 0.30                 \\ \hline
-		sensors  & 99.75                         & 3.04                 \\ \hline
-		als      & 85.16                         & 2.60                 \\ \hline
-		tmp      & 18.67                         & 0.57                 \\ \hline
-		vdd      & 16.77                         & 0.51                 \\ \hline
-		hello    & 6.30                          & 0.19                 \\ \hline
+		Resource & Avg Ticks & Ticks Range & Time (ms) \\ \hline
+		Toggle   & 9.70	&[9,10]                          & 0.30                 \\ \hline
+		Sensors  & 99.75	&[99,100]                         & 3.04                 \\ \hline
+		ALS      & 85.16	&[85,86]                         & 2.60                 \\ \hline
+		TMP      & 18.67	&[18,19]                         & 0.57                 \\ \hline
+		VDD      & 16.77	&[16,17]                         & 0.51                 \\ \hline
+		Hello    & 6.30	&[6,7]                          & 0.19                 \\ \hline
 	\end{tabular}
 	\caption{Coap requests processing time of coaptime, on CC2538}
 	\label{Tbl: Coap requests processing time of coaptime}
