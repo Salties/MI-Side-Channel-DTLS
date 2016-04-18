@@ -1,6 +1,6 @@
 #CONTIKI_PROJECT = dtls-server dtls-client
-#CONTIKI_PROJECT = dtls-server
-CONTIKI_PROJECT = simple-udp-server
+CONTIKI_PROJECT = dtls-server
+
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = $(CONTIKI_ROOT)
