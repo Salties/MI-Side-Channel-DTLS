@@ -11,6 +11,15 @@ APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
 
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
+#Non-debug mode.
+CFLAGS += -DNDEBUG
+
+#Disable PSK
+#CFLAGS += -DNO_PSK
+
+#Disable ECC
+#CFLAGS += -DNO_ECC
+
 ifeq ($(TARGET),wismote)
 CFLAGS += -ffunction-sections
 LDFLAGS += -Wl,--gc-sections,--undefined=_reset_vector__,--undefined=InterruptVectors,--undefined=_copy_data_init__,--undefined=_clear_bss_init__,--undefined=_end_of_init__

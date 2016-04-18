@@ -9,7 +9,7 @@
 //Disable Watchdog for ECC timeout
 #define WATCHDOG_CONF_ENABLE 0
 
-
+//Change Packet buffer setting for exceedingly large handshake packets.
 #ifndef QUEUEBUF_CONF_NUM
 #define QUEUEBUF_CONF_NUM          64
 #endif
@@ -22,23 +22,18 @@
 #define UIP_CONF_RECEIVE_WINDOW  120
 #endif
 
-//RDC driver
-//#undef NETSTACK_CONF_RDC
-//#define NETSTACK_CONF_RDC nullrdc_driver
-//#define NETSTACK_CONF_RDC contikimac_driver
-//#define NETSTACK_CONF_RDC sicslowmac_driver
-//#define NETSTACK_CONF_RDC cxmac_driver
+//Disable PSK
+#ifdef NO_PSK
+#ifdef DTLS_PSK
+#undef DTLS_PSK
+#endif //End of DTLS_PSK
+#endif //End of NO_PSK
 
-//MAC driver
-#if 0
-#undef NETSTACK_CONF_MAC
-#define NETSTACK_CONF_MAC nullmac_driver
-#endif
-
-//#define NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE 8
-
-//#define SERVER_RPL_DAG
-//
-
+//Disable ECC
+#ifdef NO_ECC
+#ifdef DTLS_ECC
+#undef DTLS_ECC
+#endif //End of DTLS_ECC
+#endif //End of NO_ECC
 
 #endif
