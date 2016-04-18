@@ -130,7 +130,7 @@ Theoretically, given a specific platform the value of $t_P$ is predictable, as i
 
 \lstinputlisting[label={nullapp}, captionpos=b, caption={Application code with negligible execution time}]{src/nullapp.c} 
 
-Since no effective application code exists in this application, its $t_A$ can be considered negligible; hence $t_R$ can be viewed as an approximation of $t_P$:
+Since no effective application code exists in this application, its $t_A$ can be considered negligible; hence its $t_R$ is approximately equal to $t_P$:
 \begin{equation}
 t_R = t_P + t_A \approx t_P + 0 = t_P
 \end{equation}
@@ -153,7 +153,7 @@ Avoid exceeding 802.15.4 MTU, the length of DTLS Payload ranges from $1$ byte to
 	\label{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS}
 \end{figure}
 
-Similar to the ECHO response time,$t_R$ in the samples also appeared to densely clustered near a specific value with a few outliers; hence we use the sample median to characterise $t_R$ in our experiments. Medians of the examples in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. The data shows that when $|Req|$ and $|Res|$ are at their maximum value, $t_R$ is significantly longer comparing to $Req$ and $Res$ at their minimum value.
+Similar to the ECHO response time, $t_R$ in the samples also appeared to densely clustered near a specific value with a few outliers; hence we use the sample median to characterise $t_R$ in our experiments. Medians of the examples in \Cref{Fig: Example histograms of protocol suite processing time on CC2538 with DTLS} are summarised in \Cref{Tbl: Median of response times in examples}. The data shows that when $|Req|$ and $|Res|$ are at their maximum value, $t_R$ is significantly longer comparing to $Req$ and $Res$ at their minimum value.
  
 \begin{table}
 	\center
@@ -507,17 +507,19 @@ Denote $t_A$ and $t'_A$ to be the application execution time for two different S
  where $\hat{t}_A$ and $\hat{t'}_A$ are estimated using the method above.
 
 On the other hand,  in all our experiments, error is constantly showing a low variance. Assuming the same will apply to most of the applications, $(e - e')$ can therefore considered negligible. In this case we can approximate \Cref{Eq: delta t} as:
-\begin{equation}
+\begin{equation} \label{Delta t approx}
 	\Delta t \approx  \hat{t}_A - \hat{t'}_A
 \end{equation}
+
+Notice that \Cref{Delta t approx} does not hold for low $t_A$ as $e$ does not follow the same feature as of  medium and high $t_A$.
 
 Again $(e - e')$ might be difficult to further quantified as its value can be affected by the application code, which can hardly be quantified unless the exact cause of the error is clear. We leave this as an open question.
 
 \subsection{Execution time of CoAP Implementation}
 
-CoAP, described in \Cref{Subsec: CoAP}, could be an interesting target in real world WSN applications. Although its secure version, CoAPs, has not been implemented in Contiki release-3.0 yet, the execution time of CoAP can still be a reasonable reference to application using CoAPs as the later is simply CoAP over DTLS, which is exactly captured by the model of \Cref{Fig: A Session with DTLS} during a CoAPs session.
+CoAP, described in \Cref{Subsec: CoAP}, could be an interesting target in real world WSN applications. Although its secure version, CoAPs, has not been implemented in Contiki release-3.0 yet, the execution time of CoAP can still be a reasonable reference to CoAPs as the later is simply CoAP over DTLS, which is exactly captured by the model described in \Cref{Fig: A Session with DTLS}.
 
-We developed an example CoAP server, named coaptime, that provides the default sensor data of a CC2538 Development Kit. The available resources of coaptime are summarised in \Cref{Tbl: Resources on coaptime}. The data are replied as text data in CoAP response a GET request.
+We developed an example CoAP server, named coaptime, that provides the default sensor data on a CC2538 Development Kit. The available resources of coaptime are summarised in \Cref{Tbl: Resources on coaptime}. The readings are replied as text data in CoAP response to a GET request. We also added a timing module to the CoAP implementation for this experiment. 
 
 \begin{table}[ht!]
 	\center
@@ -536,25 +538,32 @@ We developed an example CoAP server, named coaptime, that provides the default s
 	\label{Tbl: Resources on coaptime}
 \end{table}
 
-The processing time of requests to each resource are summarised in \Cref{Tbl: Coap requests processing time of coaptime}.
+The processing time of requests to each resource is summarised in \Cref{Tbl: Requests processing time for coaptime}.
 
 \begin{table}[ht!]
 	\center
-	\begin{tabular}{|c|c|c|c|}
+	\begin{tabular}{|c|c|c|c|c|}
 		\hline
-		Resource & Avg Ticks & Ticks Range & Time (ms) \\ \hline
-		Toggle   & 9.70	&[9,10]                          & 0.30                 \\ \hline
-		Sensors  & 99.75	&[99,100]                         & 3.04                 \\ \hline
-		ALS      & 85.16	&[85,86]                         & 2.60                 \\ \hline
-		TMP      & 18.67	&[18,19]                         & 0.57                 \\ \hline
-		VDD      & 16.77	&[16,17]                         & 0.51                 \\ \hline
-		Hello    & 6.30	&[6,7]                          & 0.19                 \\ \hline
+		Resource & Avg Ticks & Ticks Range & Avg Time (ms) & Timg Range (ms)\\ \hline
+		Toggle   & 9.70	&[9,10]                          & 0.30	&	[0.27, 0.31]                 \\ \hline
+		Sensors  & 99.75	&[99,100]                         & 3.04	&	[3.02, 3.05]                \\ \hline
+		ALS      & 85.16	&[85,86]                         & 2.60	&	[2.59,2.62]                 \\ \hline
+		TMP      & 18.67	&[18,19]                         & 0.57	&	[0.55,0.58]             \\ \hline
+		VDD      & 16.77	&[16,17]                         & 0.51	&	[0.48,0.52]                 \\ \hline
+		Hello    & 6.30	&[6,7]                          & 0.19	&[0.18,0.21]                 \\ \hline
 	\end{tabular}
-	\caption{Coap requests processing time of coaptime, on CC2538}
-	\label{Tbl: Coap requests processing time of coaptime}
+	\caption{Requests processing time for coaptime}
+	\label{Tbl: Requests processing time for coaptime}
 \end{table}
 
-The results in \Cref{Tbl: Coap requests processing time of coaptime} suggests that the processing time of sensors and als had fell into the medium $t_A$ category ($[1.5, 25)$ ms), which are potentially distinguishable by timing information when used in CoAPs.
+\Cref{Tbl: Requests processing time for coaptime} suggests that Sensors and ALS are expected to be distinguishable from the timing information by our method. Other resources are expected to be indistinguishable by our method as their execution times are too low to provide reliable estimation.
+
+Therefore assume the error of CoAPs version of coaptime is similar to our experiments which is roughly $1.5$ ms, the adversary may guess the resource accessed in the CoAPs session to be:
+\begin{itemize}
+	\item Sensors, if $\hat{t}_A \approx 1.5 \text{ ms}$ .
+	\item ALS, if $\hat{t}_A \approx 1.1 \text{ ms}$.
+	\item Otherwise it is the other indistinguishable resources.
+\end{itemize}
 
 The source code of our coaptime application and the timed CoAP implementation are available at: \\
 \url{https://github.com/Salties/MyRepository/tree/master/experiments/coaptime}\\
