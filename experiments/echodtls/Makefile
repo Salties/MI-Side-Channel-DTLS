@@ -1,5 +1,6 @@
 #CONTIKI_PROJECT = dtls-server dtls-client
-CONTIKI_PROJECT = dtls-server
+#CONTIKI_PROJECT = dtls-server
+CONTIKI_PROJECT = simple-udp-server
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = $(CONTIKI_ROOT)
@@ -12,7 +13,7 @@ APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
 #Non-debug mode.
-CFLAGS += -DNDEBUG
+#CFLAGS += -DNDEBUG
 
 #Disable PSK
 #CFLAGS += -DNO_PSK
