@@ -44,6 +44,7 @@
 
 #include "contiki.h"
 #include "dev/serial-line.h"
+#include "dev/uart1.h"
 #include "dev/leds.h"
 
 #include "ecc/ecc.h"
@@ -57,10 +58,8 @@ uint32_t pky[KEYSIZE] = { 0 };
 void PrintInt256(uint32_t * i256)
 {
     int i;
-    printf("#");
     for (i = KEYSIZE; i > 0; i--)
         printf("%08lX ", i256[i - 1]);
-    printf("\n");
     return;
 }
 
@@ -90,16 +89,19 @@ void EccTiming(char* inputkey)
 	str2hex((char*)inputkey, sk);
 	//Start timing
         start = RTIMER_NOW();
-        //ecc_gen_pub_key(sk, pkx, pky);
+        ecc_gen_pub_key(sk, pkx, pky);
         end = RTIMER_NOW();
 	//Print result
-	printf("#Secret Key:\n");
+	printf("#Secret Key: \t");
 	PrintInt256(sk);
+	printf("\n");
 	printf("#Public Key:\n");
-	printf("#Q_x: ");
+	printf("#\tQ_x:\t");
 	PrintInt256(pkx);
-	printf("#Q_y: ");
+	printf("\n");
+	printf("#\tQ_y:\t");
 	PrintInt256(pky);
+	printf("\n");
         printf("#Time elapsed:\n %lu\n", end - start);
 }
 
@@ -112,7 +114,8 @@ PROCESS_THREAD(ecc_timing_process, ev, data)
 
 
     PROCESS_BEGIN();
-    
+  
+    uart1_set_input(serial_line_input_byte);  
     serial_line_init();
     leds_init();
     printf("#Hello, world\n");
