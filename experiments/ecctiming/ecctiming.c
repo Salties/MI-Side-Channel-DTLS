@@ -39,6 +39,7 @@
 
 #include "contiki.h"
 #include "dev/serial-line.h"
+#include "lpm.h"
 #include "dev/uart1.h"
 #include "dev/leds.h"
 
@@ -50,18 +51,9 @@
 
 #define KEYSIZE 8
 
-static struct etimer et;
-static struct rtimer rt;
-
 uint32_t sk[KEYSIZE] = { 0 };
 uint32_t pkx[KEYSIZE] = { 0 };
 uint32_t pky[KEYSIZE] = { 0 };
-
-void
-rt_callback(struct rtimer *t, void *ptr)
-{
-  leds_off(LEDS_ALIVE);
-}
 
 void PrintInt256(uint32_t * i256)
 {
@@ -92,7 +84,7 @@ void str2hex(char *str, uint32_t * hexval)
 
 void EccTiming(char *inputkey)
 {
-    unsigned long long start, end;
+    clock_t start, end;
 
     str2hex((char *) inputkey, sk);
     printf("#Parsed Secret Key: \t");
@@ -117,7 +109,7 @@ void EccTiming(char *inputkey)
     printf("#\tQ_y:\t");
     PrintInt256(pky);
     printf("\n");
-    printf("#Time elapsed:\n %llu\n", end - start);
+    printf("#Time elapsed:\n %lu\n", (unsigned long)(end - start));
 }
 
 /*---------------------------------------------------------------------------*/
@@ -130,23 +122,15 @@ PROCESS_THREAD(ecc_timing_process, ev, data)
 
     //serial_line_init();
     //uart1_set_input(serial_line_input_byte);  
-    etimer_set(&et, CLOCK_SECOND);
     leds_init();
+    lpm_set_max_pm(LPM_PM0);
+    
     printf("#ECC Timing\n");
 
     while (1) {
-        PROCESS_YIELD();
-
-        if (ev == PROCESS_EVENT_TIMER) {
-            leds_on(LEDS_ALIVE);
-            etimer_set(&et, 60 * CLOCK_SECOND);
-            rtimer_set(&rt, RTIMER_NOW() + LEDS_OFF_HYSTERISIS, 1,
-                       rt_callback, NULL);
-        } else if (ev == serial_line_event_message) {
-            printf("#Received line:%s\n", (char *) data);
-            EccTiming(data);
-        }
-
+        PROCESS_WAIT_EVENT_UNTIL(ev == serial_line_event_message);
+	printf("#Received line:%s\n", (char *) data);
+	EccTiming(data);
     }
 
     PROCESS_END();
