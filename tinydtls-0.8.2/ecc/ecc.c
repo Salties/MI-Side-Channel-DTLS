@@ -415,8 +415,6 @@ void static ec_double(const uint32_t *px, const uint32_t *py, uint32_t *Dx, uint
 	uint32_t tempC[8];
 	uint32_t tempD[16];
 
-	printf("ecc_double()\n");
-
 	if(isZero(px) && isZero(py)){
 		copy(px, Dx,arrayLength);
 		copy(py, Dy,arrayLength);
