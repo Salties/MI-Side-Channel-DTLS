@@ -36,7 +36,7 @@ top_srcdir:= ..
 
 # files and flags
 SOURCES:= dtls-server.c ccm-test.c prf-test.c \
-  dtls-client.c
+  dtls-client.c ecctest.c
   #cbc_aes128-test.c #dsrv-test.c
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES))
 PROGRAMS:= $(patsubst %.c, %, $(SOURCES))
