@@ -30,12 +30,7 @@
  *
  */
 
-/**
- * \file
- *         A very simple Contiki application showing how Contiki programs look
- * \author
- *         Adam Dunkels <adam@sics.se>
- */
+//This file is tuned for CC2538.
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,11 +44,24 @@
 
 #include "ecc/ecc.h"
 
+#define LEDS_ECC LEDS_RED
+#define LEDS_ALIVE LEDS_BLUE
+#define LEDS_OFF_HYSTERISIS (RTIMER_SECOND * 5)
+
 #define KEYSIZE 8
+
+static struct etimer et;
+static struct rtimer rt;
 
 uint32_t sk[KEYSIZE] = { 0 };
 uint32_t pkx[KEYSIZE] = { 0 };
 uint32_t pky[KEYSIZE] = { 0 };
+
+void
+rt_callback(struct rtimer *t, void *ptr)
+{
+  leds_off(LEDS_ALIVE);
+}
 
 void PrintInt256(uint32_t * i256)
 {
@@ -76,33 +84,40 @@ void str2hex(char *str, uint32_t * hexval)
         if (*cptr == '\0' || *cptr == '\n')
             break;
         strncpy(strbuf, cptr, 8);
-        hexval[i - 1] = strtol(strbuf, NULL, 16);
+        hexval[i - 1] = strtoll(strbuf, NULL, 16);
         cptr += 8;
     }
     return;
 }
 
-void EccTiming(char* inputkey)
+void EccTiming(char *inputkey)
 {
-        unsigned long start, end;
-	
-	str2hex((char*)inputkey, sk);
-	//Start timing
-        start = RTIMER_NOW();
-        ecc_gen_pub_key(sk, pkx, pky);
-        end = RTIMER_NOW();
-	//Print result
-	printf("#Secret Key: \t");
-	PrintInt256(sk);
-	printf("\n");
-	printf("#Public Key:\n");
-	printf("#\tQ_x:\t");
-	PrintInt256(pkx);
-	printf("\n");
-	printf("#\tQ_y:\t");
-	PrintInt256(pky);
-	printf("\n");
-        printf("#Time elapsed:\n %lu\n", end - start);
+    unsigned long long start, end;
+
+    str2hex((char *) inputkey, sk);
+    printf("#Parsed Secret Key: \t");
+    PrintInt256(sk);
+    printf("\n");
+    //Start timing
+    leds_on(LEDS_ECC);
+    printf("#Begin ecc_gen_pubkey() on secp256r1...\n");
+    start = RTIMER_NOW();
+    ecc_gen_pub_key(sk, pkx, pky);
+    end = RTIMER_NOW();
+    printf("Done.\n");
+    leds_off(LEDS_ECC);
+    //Print result
+    printf("#Secret Key: \t");
+    PrintInt256(sk);
+    printf("\n");
+    printf("#Public Key:\n");
+    printf("#\tQ_x:\t");
+    PrintInt256(pkx);
+    printf("\n");
+    printf("#\tQ_y:\t");
+    PrintInt256(pky);
+    printf("\n");
+    printf("#Time elapsed:\n %llu\n", end - start);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -111,21 +126,26 @@ AUTOSTART_PROCESSES(&ecc_timing_process);
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(ecc_timing_process, ev, data)
 {
-
-
     PROCESS_BEGIN();
-  
-    uart1_set_input(serial_line_input_byte);  
-    serial_line_init();
+
+    //serial_line_init();
+    //uart1_set_input(serial_line_input_byte);  
+    etimer_set(&et, CLOCK_SECOND);
     leds_init();
-    printf("#Hello, world\n");
-    leds_on(LEDS_ALL);
-    
-    while(1) {
-	PROCESS_WAIT_EVENT_UNTIL(ev == serial_line_event_message && data != NULL);
-	leds_toggle(LEDS_ALL);
-	printf("#Received line:%s\n", (char*) data);
-	EccTiming(data);
+    printf("#ECC Timing\n");
+
+    while (1) {
+        PROCESS_YIELD();
+
+        if (ev == PROCESS_EVENT_TIMER) {
+            leds_on(LEDS_ALIVE);
+            etimer_set(&et, 60 * CLOCK_SECOND);
+            rtimer_set(&rt, RTIMER_NOW() + LEDS_OFF_HYSTERISIS, 1,
+                       rt_callback, NULL);
+        } else if (ev == serial_line_event_message) {
+            printf("#Received line:%s\n", (char *) data);
+            EccTiming(data);
+        }
 
     }
 
