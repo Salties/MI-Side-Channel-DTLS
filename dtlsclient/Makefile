@@ -51,7 +51,7 @@ OBJECTS:= $(patsubst %.c, %.o, $(SOURCES)) $(SUB_OBJECTS)
 HEADERS:=dtls.h hmac.h debug.h dtls_config.h uthash.h numeric.h tinycrypto.h global.h tinyccm.h \
  netq.h t_list.h alert.h utlist.h prng.h peer.h state.h dtls_time.h session.h \
  tinydtls.h
-CFLAGS:=-Wall -pedantic -std=c99 -g -O2
+CFLAGS:=-Wall -pedantic -std=c99 -g
 CPPFLAGS:= -DDTLSv12 -DWITH_SHA256 -DDTLS_CHECK_CONTENTTYPE
 SUBDIRS:=tests doc platform-specific sha2 aes ecc
 DISTSUBDIRS:=$(SUBDIRS) examples/contiki

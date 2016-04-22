@@ -46,7 +46,7 @@ else
 ECC_OBJECTS:= $(patsubst %.c, %.o, $(ECC_SOURCES)) ecc_test.o
 PROGRAMS:= testecc testfield
 CPPFLAGS= -DDTLSv12 -DWITH_SHA256
-CFLAGS=-Wall -std=c99 -pedantic -g -O2 -DTEST_INCLUDE
+CFLAGS=-Wall -std=c99 -pedantic -g -DTEST_INCLUDE
 LDLIBS=
 
 .PHONY: all dirs clean install distclean .gitignore doc
