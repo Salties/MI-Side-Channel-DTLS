@@ -46,7 +46,7 @@ SOURCES:= dtls.c tinycrypto.c tinyccm.c hmac.c netq.c peer.c dtls_time.c session
 ifneq ("", "1")
 SOURCES += debug.c
 endif
-SUB_OBJECTS:=aes/rijndael.o  sha2/sha2.o
+SUB_OBJECTS:=aes/rijndael.o  ecc/ecc.o sha2/sha2.o
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES)) $(SUB_OBJECTS)
 HEADERS:=dtls.h hmac.h debug.h dtls_config.h uthash.h numeric.h tinycrypto.h global.h tinyccm.h \
  netq.h t_list.h alert.h utlist.h prng.h peer.h state.h dtls_time.h session.h \
