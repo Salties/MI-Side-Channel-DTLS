@@ -38,7 +38,7 @@ SOURCES:= rijndael.c
 HEADERS:= rijndael.h
 OBJECTS:= $(patsubst %.c, %.o, $(SOURCES))
 CPPFLAGS= -DDTLSv12 -DWITH_SHA256
-CFLAGS=-Wall -std=c99 -pedantic -g -O2
+CFLAGS=-Wall -std=c99 -pedantic 
 LDLIBS=
 FILES:=Makefile.in $(SOURCES) $(HEADERS) 
 DISTDIR=$(top_builddir)/tinydtls-0.8.2

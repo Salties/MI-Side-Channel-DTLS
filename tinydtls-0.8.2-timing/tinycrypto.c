@@ -459,6 +459,24 @@ dtls_ecdsa_create_sig_hash(const unsigned char *priv_key, size_t key_size,
   } while (ret);
 }
 
+#ifdef ECDSA_TIMING
+void
+dtls_ecdsa_create_sig_hash_timing(const unsigned char *priv_key, size_t key_size,
+			   const unsigned char *sign_hash, size_t sign_hash_size,
+			   uint32_t point_r[9], uint32_t point_s[9], uint32_t  *rand) {
+  int ret;
+  uint32_t priv[8];
+  uint32_t hash[8];
+  
+  dtls_ec_key_to_uint32(priv_key, key_size, priv);
+  dtls_ec_key_to_uint32(sign_hash, sign_hash_size, hash);
+  do {
+    dtls_prng((unsigned char *)rand, key_size);
+    ret = ecc_ecdsa_sign(priv, hash, rand, point_r, point_s);
+  } while (ret);
+}
+#endif
+
 void
 dtls_ecdsa_create_sig(const unsigned char *priv_key, size_t key_size,
 		      const unsigned char *client_random, size_t client_random_size,
@@ -477,6 +495,27 @@ dtls_ecdsa_create_sig(const unsigned char *priv_key, size_t key_size,
   dtls_ecdsa_create_sig_hash(priv_key, key_size, sha256hash,
 			     sizeof(sha256hash), point_r, point_s);
 }
+
+#ifdef ECDSA_TIMING
+void
+dtls_ecdsa_create_sig_timing(const unsigned char *priv_key, size_t key_size,
+		      const unsigned char *client_random, size_t client_random_size,
+		      const unsigned char *server_random, size_t server_random_size,
+		      const unsigned char *keyx_params, size_t keyx_params_size,
+		      uint32_t point_r[9], uint32_t point_s[9], uint32_t *rand) {
+  dtls_hash_ctx data;
+  unsigned char sha256hash[DTLS_HMAC_DIGEST_SIZE];
+
+  dtls_hash_init(&data);
+  dtls_hash_update(&data, client_random, client_random_size);
+  dtls_hash_update(&data, server_random, server_random_size);
+  dtls_hash_update(&data, keyx_params, keyx_params_size);
+  dtls_hash_finalize(sha256hash, &data);
+  
+  dtls_ecdsa_create_sig_hash_timing(priv_key, key_size, sha256hash,
+			     sizeof(sha256hash), point_r, point_s, rand);
+}
+#endif
 
 /* rfc4492#section-5.4 */
 int

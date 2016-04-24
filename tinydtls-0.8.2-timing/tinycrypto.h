@@ -323,6 +323,20 @@ void dtls_ecdsa_generate_key(unsigned char *priv_key,
 void dtls_ecdsa_create_sig_hash(const unsigned char *priv_key, size_t key_size,
 				const unsigned char *sign_hash, size_t sign_hash_size,
 				uint32_t point_r[9], uint32_t point_s[9]);
+#ifdef ECDSA_TIMING
+void
+dtls_ecdsa_create_sig_hash_timing(const unsigned char *priv_key, size_t key_size,
+			   const unsigned char *sign_hash, size_t sign_hash_size,
+			   uint32_t point_r[9], uint32_t point_s[9], uint32_t  *rand);
+
+void
+dtls_ecdsa_create_sig_timing(const unsigned char *priv_key, size_t key_size,
+		      const unsigned char *client_random, size_t client_random_size,
+		      const unsigned char *server_random, size_t server_random_size,
+		      const unsigned char *keyx_params, size_t keyx_params_size,
+		      uint32_t point_r[9], uint32_t point_s[9], uint32_t *rand);
+#endif
+
 
 void dtls_ecdsa_create_sig(const unsigned char *priv_key, size_t key_size,
 			   const unsigned char *client_random, size_t client_random_size,

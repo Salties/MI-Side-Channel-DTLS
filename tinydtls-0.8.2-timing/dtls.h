@@ -415,8 +415,11 @@ int dtls_handle_message(dtls_context_t *ctx, session_t *session,
 dtls_peer_t *dtls_get_peer(const dtls_context_t *context,
 			   const session_t *session);
 
+#ifdef ECDSA_TIMING
 uint8 *dtls_add_ecdsa_signature_elem_wrapper(uint8 * p, uint32_t * point_r,
                                             uint32_t * point_s);
+#endif //ECDSA_TIMING
+
 #endif /* _DTLS_DTLS_H_ */
 
 /**

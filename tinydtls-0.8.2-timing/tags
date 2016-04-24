@@ -11,7 +11,7 @@ AES_MAXKEYBYTES	aes/rijndael.h	34;"	d
 AES_MAXROUNDS	aes/rijndael.h	36;"	d
 ARFLAGS	Makefile	/^ARFLAGS:=cru$/;"	m
 A_DATA_LEN	dtls.c	1263;"	d	file:
-A_DATA_LEN	dtls.c	3000;"	d	file:
+A_DATA_LEN	dtls.c	3008;"	d	file:
 BIG_ENDIAN	sha2/sha2.c	103;"	d	file:
 BUFLEN	sha2/sha2prog.c	48;"	d	file:
 BUFSIZE	sha2/sha2speed.c	42;"	d	file:
@@ -23,6 +23,7 @@ BYTE_ORDER	sha2/sha2.c	110;"	d	file:
 BasePointx	ecc/testecc.c	/^uint32_t BasePointx[8] = {	0xd898c296, 0xf4a13945, 0x2deb33a0, 0x77037d81,$/;"	v
 BasePointy	ecc/testecc.c	/^uint32_t BasePointy[8] = {	0x37bf51f5, 0xcbb64068, 0x6b315ece, 0x2bce3357,$/;"	v
 CALL	dtls.c	174;"	d	file:
+CALL	mydbg.c	3;"	d	file:
 CCM_FLAGS	tinyccm.c	37;"	d	file:
 CDL_DELETE	utlist.h	456;"	d
 CDL_FOREACH	utlist.h	467;"	d
@@ -31,21 +32,22 @@ CDL_PREPEND	utlist.h	442;"	d
 CDL_SEARCH	utlist.h	482;"	d
 CDL_SEARCH_SCALAR	utlist.h	475;"	d
 CDL_SORT	utlist.h	214;"	d
+CFLAGS	Makefile	/^CFLAGS := -DECDSA_TIMING $/;"	m
 CFLAGS	Makefile	/^CFLAGS:=-Wall -pedantic -std=c99 $/;"	m
 CFLAGS	aes/Makefile	/^CFLAGS=-Wall -std=c99 -pedantic $/;"	m
 CFLAGS	ecc/Makefile	/^CFLAGS=-Wall -std=c99 -pedantic  -DTEST_INCLUDE$/;"	m
 CFLAGS	sha2/Makefile	/^CFLAGS=-Wall -std=c99 -pedantic $/;"	m
-CFLAGS	tests/Makefile	/^CFLAGS:=-Wall  $/;"	m
+CFLAGS	tests/Makefile	/^CFLAGS:=-Wall -DECDSA_TIMING  $/;"	m
 CLIENTHELLO	dtls.c	99;"	d	file:
 CLOCK_SECOND	dtls_time.h	52;"	d
 CONTIKI	examples/contiki/Makefile	/^CONTIKI=$(top_srcdir)\/..\/..$/;"	m
+CPPFLAGS	Makefile	/^CPPFLAGS := -DECDSA_TIMING  -DDTLSv12 -DWITH_SHA256$/;"	m
 CPPFLAGS	Makefile	/^CPPFLAGS:= -DDTLSv12 -DWITH_SHA256 -DDTLS_CHECK_CONTENTTYPE$/;"	m
 CPPFLAGS	aes/Makefile	/^CPPFLAGS= -DDTLSv12 -DWITH_SHA256$/;"	m
 CPPFLAGS	ecc/Makefile	/^CPPFLAGS= -DDTLSv12 -DWITH_SHA256$/;"	m
 CPPFLAGS	sha2/Makefile	/^CPPFLAGS= -DDTLSv12 -DWITH_SHA256 -I$(top_srcdir)$/;"	m
 CPPFLAGS	tests/Makefile	/^CPPFLAGS:=-I$(top_srcdir)  -DDTLSv12 -DWITH_SHA256$/;"	m
 Ch	sha2/sha2.c	228;"	d	file:
-DBG_BROADCAST_PORT	mydbg.c	11;"	d	file:
 DEBUG	debug.h	37;"	d
 DEBUG	examples/contiki/dtls-client.c	41;"	d	file:
 DEBUG	examples/contiki/dtls-server.c	43;"	d	file:
@@ -181,6 +183,7 @@ DTLS_SH_LENGTH	dtls.c	79;"	d	file:
 DTLS_SKEXECPSK_LENGTH_MAX	dtls.c	83;"	d	file:
 DTLS_SKEXECPSK_LENGTH_MIN	dtls.c	82;"	d	file:
 DTLS_SKEXEC_LENGTH	dtls.c	81;"	d	file:
+DTLS_SKEXEC_LENGTH	tests/ecdsatime.c	15;"	d	file:
 DTLS_SOURCES	examples/contiki/Makefile	/^DTLS_SOURCES:=dtls-server.c dtls-client.c$/;"	m
 DTLS_STATE_CLIENTHELLO	state.h	/^  DTLS_STATE_CLIENTHELLO, DTLS_STATE_WAIT_SERVERCERTIFICATE, DTLS_STATE_WAIT_SERVERKEYEXCHANGE,$/;"	e	enum:__anon17
 DTLS_STATE_CLOSED	state.h	/^  DTLS_STATE_CLOSED$/;"	e	enum:__anon17
@@ -206,6 +209,7 @@ ECC_OBJECTS	ecc/Makefile	/^ECC_OBJECTS:= $(patsubst %.c, %.o, $(ECC_SOURCES)) ec
 ECC_SOURCES	ecc/Makefile	/^ECC_SOURCES:= ecc.c testecc.c testfield.c test_helper.c$/;"	m
 ELMT_FROM_HH	uthash.h	80;"	d
 ETAGS	Makefile	/^ETAGS = \/usr\/bin\/etags$/;"	m
+EccTiming	tests/ecctest.c	/^void EccTiming(char *inputkey)$/;"	f
 Error	sha2/sha2test.pl	/^Error:$/;"	l
 FILES	Makefile	/^FILES:=Makefile.in configure configure.in dtls_config.h.in tinydtls.h.in \\$/;"	m
 FILES	aes/Makefile	/^FILES:=Makefile.in $(SOURCES) $(HEADERS) $/;"	m
@@ -299,6 +303,7 @@ HEADERS	Makefile	/^HEADERS:=dtls.h hmac.h debug.h dtls_config.h uthash.h numeric
 HEADERS	aes/Makefile	/^HEADERS:= rijndael.h$/;"	m
 HEADERS	sha2/Makefile	/^HEADERS:=sha2.h$/;"	m
 HEADERS	tests/Makefile	/^HEADERS:=$/;"	m
+HEX	tests/ecdsatime.c	13;"	d	file:
 HIGH	dtls.c	92;"	d	file:
 HMAC_UPDATE_SEED	tinycrypto.c	52;"	d	file:
 HS_HDR_LENGTH	dtls.c	89;"	d	file:
@@ -306,6 +311,8 @@ HV_HDR_LENGTH	dtls.c	90;"	d	file:
 IsHandshakeComplete	tests/dtls-client.c	/^static int IsHandshakeComplete = 0;$/;"	v	file:
 K256	sha2/sha2.c	/^const static sha2_word32 K256[64] = {$/;"	v	file:
 K512	sha2/sha2.c	/^const static sha2_word64 K512[80] = {$/;"	v	file:
+KEYSIZE	tests/ecctest.c	6;"	d	file:
+KEYSIZE	tests/ecdsatime.c	11;"	d	file:
 L	tests/ccm-testdata.c	/^  size_t M, L;$/;"	m	struct:test_vector	file:
 LDECLTYPE	utlist.h	66;"	d
 LDECLTYPE	utlist.h	69;"	d
@@ -395,8 +402,13 @@ PSK_MAXLEN	examples/contiki/dtls-client.c	56;"	d	file:
 PSK_MAXLEN	tests/dtls-client.c	96;"	d	file:
 PSK_OPTIONS	tests/dtls-client.c	27;"	d	file:
 PUTU32	aes/rijndael.c	723;"	d	file:
+PrepareServerKeyExchange	tests/ecdsatime.c	/^static int PrepareServerKeyExchange(unsigned char *clientrand,$/;"	f	file:
+PrintInt256	tests/ecctest.c	/^void PrintInt256(uint32_t * i256)$/;"	f
+PrintInt256	tests/ecdsatime.c	/^void PrintInt256(const char *title, unsigned char *i256)$/;"	f
+PrintSigMsg	tests/ecdsatime.c	/^void PrintSigMsg(const unsigned char *client_random,$/;"	f
 QUOTEME	examples/contiki/dtls-client.c	249;"	d	file:
 R	sha2/sha2.c	221;"	d	file:
+RANDSIZE	tests/ecdsatime.c	12;"	d	file:
 REVERSE32	sha2/sha2.c	156;"	d	file:
 REVERSE64	sha2/sha2.c	161;"	d	file:
 ROUND256	sha2/sha2.c	405;"	d	file:
@@ -461,6 +473,7 @@ SUBDIRS	Makefile	/^SUBDIRS:=tests doc platform-specific sha2 aes ecc$/;"	m
 SUB_OBJECTS	Makefile	/^SUB_OBJECTS:=aes\/rijndael.o  ecc\/ecc.o sha2\/sha2.o$/;"	m
 S_KEY_OFFSET	dtls.c	1939;"	d	file:
 S_KEY_OFFSET	dtls.c	1949;"	d	file:
+SendDbg	mydbg.c	/^void SendDbg(dtls_context_t * ctx, session_t * session, uint8_t * sendbuf, size_t len)$/;"	f
 Sigma0_256	sha2/sha2.c	232;"	d	file:
 Sigma0_512	sha2/sha2.c	238;"	d	file:
 Sigma1_256	sha2/sha2.c	233;"	d	file:
@@ -571,12 +584,12 @@ __RIJNDAEL_H	aes/rijndael.h	29;"	d
 __SHA2_H__	sha2/sha2.h	36;"	d
 _dtls_address_equals_impl	session.c	/^_dtls_address_equals_impl(const session_t *a,$/;"	f	file:
 _dtls_address_equals_impl	session.c	39;"	d	file:
-abs_builddir	Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2$/;"	m
-abs_builddir	aes/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2\/aes$/;"	m
-abs_builddir	ecc/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2\/ecc$/;"	m
-abs_builddir	examples/contiki/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2\/examples\/contiki$/;"	m
-abs_builddir	sha2/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2\/sha2$/;"	m
-abs_builddir	tests/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2\/tests$/;"	m
+abs_builddir	Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2-timing$/;"	m
+abs_builddir	aes/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2-timing\/aes$/;"	m
+abs_builddir	ecc/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2-timing\/ecc$/;"	m
+abs_builddir	examples/contiki/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2-timing\/examples\/contiki$/;"	m
+abs_builddir	sha2/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2-timing\/sha2$/;"	m
+abs_builddir	tests/Makefile	/^abs_builddir = \/home\/yy12135\/MyRepository\/tinydtls-0.8.2-timing\/tests$/;"	m
 ac_fn_c_check_func	configure	/^ac_fn_c_check_func ()$/;"	f
 ac_fn_c_check_header_compile	configure	/^ac_fn_c_check_header_compile ()$/;"	f
 ac_fn_c_check_header_mongrel	configure	/^ac_fn_c_check_header_mongrel ()$/;"	f
@@ -632,8 +645,6 @@ block0	tinyccm.c	/^block0(size_t M,       \/* number of auth bytes *\/$/;"	f	fil
 bloom_bv	uthash.h	/^   uint8_t *bloom_bv;$/;"	m	struct:UT_hash_table
 bloom_nbits	uthash.h	/^   char bloom_nbits;$/;"	m	struct:UT_hash_table
 bloom_sig	uthash.h	/^   uint32_t bloom_sig; \/* used only to test bloom exists in external analysis *\/$/;"	m	struct:UT_hash_table
-broadcast_connection	mydbg.c	/^static struct simple_udp_connection broadcast_connection;$/;"	v	typeref:struct:simple_udp_connection	file:
-broadcastdbg	mydbg.c	/^void broadcastdbg()$/;"	f
 buckets	uthash.h	/^   UT_hash_bucket *buckets;$/;"	m	struct:UT_hash_table
 buf	examples/contiki/dtls-client.c	/^static char buf[200];$/;"	v	file:
 buf	tests/dtls-client.c	/^static char buf[200];$/;"	v	file:
@@ -697,6 +708,7 @@ dsrv_log	debug.h	/^static inline void dsrv_log(log_t level, char *format, ...)$/
 dsrv_log	debug.h	90;"	d
 dsrv_print_addr	debug.c	/^dsrv_print_addr(const session_t *addr, char *buf, size_t len) {$/;"	f	file:
 dtls_add_ecdsa_signature_elem	dtls.c	/^static uint8 *dtls_add_ecdsa_signature_elem(uint8 * p, uint32_t * point_r,$/;"	f	file:
+dtls_add_ecdsa_signature_elem_wrapper	dtls.c	/^uint8 *dtls_add_ecdsa_signature_elem_wrapper(uint8 * p, uint32_t * point_r,$/;"	f
 dtls_add_peer	dtls.c	/^static void dtls_add_peer(dtls_context_t * ctx, dtls_peer_t * peer)$/;"	f	file:
 dtls_alert	debug.h	134;"	d
 dtls_alert_create	alert.h	/^dtls_alert_create(dtls_alert_level_t level, dtls_alert_t desc)$/;"	f
@@ -751,6 +763,8 @@ dtls_ecdh_curve	tinycrypto.h	/^} dtls_ecdh_curve;$/;"	t	typeref:enum:__anon9
 dtls_ecdh_pre_master_secret	tinycrypto.c	/^int dtls_ecdh_pre_master_secret(unsigned char *priv_key,$/;"	f
 dtls_ecdsa_create_sig	tinycrypto.c	/^dtls_ecdsa_create_sig(const unsigned char *priv_key, size_t key_size,$/;"	f
 dtls_ecdsa_create_sig_hash	tinycrypto.c	/^dtls_ecdsa_create_sig_hash(const unsigned char *priv_key, size_t key_size,$/;"	f
+dtls_ecdsa_create_sig_hash_timing	tinycrypto.c	/^dtls_ecdsa_create_sig_hash_timing(const unsigned char *priv_key, size_t key_size,$/;"	f
+dtls_ecdsa_create_sig_timing	tinycrypto.c	/^dtls_ecdsa_create_sig_timing(const unsigned char *priv_key, size_t key_size,$/;"	f
 dtls_ecdsa_generate_key	tinycrypto.c	/^dtls_ecdsa_generate_key(unsigned char *priv_key,$/;"	f
 dtls_ecdsa_key_t	dtls.h	/^typedef struct dtls_ecdsa_key_t {$/;"	s
 dtls_ecdsa_key_t	dtls.h	/^} dtls_ecdsa_key_t;$/;"	t	typeref:struct:dtls_ecdsa_key_t
@@ -1092,6 +1106,8 @@ main	sha2/sha2prog.c	/^int main(int argc, char **argv) {$/;"	f
 main	sha2/sha2speed.c	/^int main(int argc, char **argv) {$/;"	f
 main	tests/dtls-client.c	/^main(int argc, char **argv) {$/;"	f
 main	tests/dtls-server.c	/^main(int argc, char **argv) {$/;"	f
+main	tests/ecctest.c	/^int main()$/;"	f
+main	tests/ecdsatime.c	/^int main()$/;"	f
 main	tests/prf-test.c	/^main() {$/;"	f
 malloc_context	dtls.c	/^static inline dtls_context_t *malloc_context()$/;"	f	file:
 master_secret	tinycrypto.h	/^    uint8 master_secret[DTLS_MASTER_SECRET_LENGTH];$/;"	m	union:__anon14::__anon15
@@ -1151,6 +1167,8 @@ peer	netq.h	/^  dtls_peer_t *peer;		\/**< remote address *\/$/;"	m	struct:netq_t
 peer_init	peer.c	/^peer_init() {$/;"	f
 peer_init	peer.c	/^void peer_init()$/;"	f
 peers	dtls.h	/^  dtls_peer_t *peers;		\/**< peer hash map *\/$/;"	m	struct:dtls_context_t
+pkx	tests/ecctest.c	/^uint32_t pkx[KEYSIZE] = { 0 };$/;"	v
+pky	tests/ecctest.c	/^uint32_t pky[KEYSIZE] = { 0 };$/;"	v
 port	session.h	/^  unsigned short port;$/;"	m	struct:__anon25
 prefix	Makefile	/^prefix = \/usr\/local$/;"	m
 prefix	doc/Makefile	/^prefix = \/usr\/local$/;"	m
@@ -1222,6 +1240,7 @@ rshiftby	ecc/ecc.c	/^static void rshiftby(const uint32_t *in, uint8_t in_size, u
 s	tests/dtls-client.c	/^  unsigned char *s;            \/* string data *\/$/;"	m	struct:__anon28	file:
 sa	session.h	/^    struct sockaddr     sa;$/;"	m	union:__anon26::__anon27	typeref:struct:__anon26::__anon27::sockaddr
 secret	ecc/testecc.c	/^uint32_t secret[8] = {	0x2ffb06fd, 0x6522468b, 0x3072708b, 0xd0c7a893,$/;"	v
+secretkey	tests/ecdsatime.c	/^unsigned char secretkey[DTLS_EC_KEY_SIZE] = { 0 };$/;"	v
 security_params	peer.h	/^  dtls_security_parameters_t *security_params[2];$/;"	m	struct:dtls_peer_t
 send_to_peer	examples/contiki/dtls-client.c	/^send_to_peer(struct dtls_context_t *ctx, $/;"	f	file:
 send_to_peer	examples/contiki/dtls-server.c	/^send_to_peer(struct dtls_context_t *ctx, $/;"	f	file:
@@ -1250,11 +1269,13 @@ sigma0_512	sha2/sha2.c	240;"	d	file:
 sigma1_256	sha2/sha2.c	235;"	d	file:
 sigma1_512	sha2/sha2.c	241;"	d	file:
 signature	uthash.h	/^   uint32_t signature; \/* used only to find hash tables in external analysis *\/$/;"	m	struct:UT_hash_table
+signkey	tests/ecdsatime.c	/^unsigned char signkey[DTLS_EC_KEY_SIZE] = { 0 };$/;"	v
 sin	session.h	/^    struct sockaddr_in  sin;$/;"	m	union:__anon26::__anon27	typeref:struct:__anon26::__anon27::sockaddr_in
 sin6	session.h	/^    struct sockaddr_in6 sin6;$/;"	m	union:__anon26::__anon27	typeref:struct:__anon26::__anon27::sockaddr_in6
 six	ecc/testfield.c	/^uint32_t six[8] = {	0x00000006,0x00000000,0x00000000,0x00000000,$/;"	v
 size	session.h	/^  socklen_t size;		\/**< size of addr *\/$/;"	m	struct:__anon26
 size	session.h	/^  unsigned char size;$/;"	m	struct:__anon25
+sk	tests/ecctest.c	/^uint32_t sk[KEYSIZE] = { 0 };$/;"	v
 ssize_t	platform-specific/config-sky.h	/^typedef int ssize_t;$/;"	t
 st	session.h	/^    struct sockaddr_storage st;$/;"	m	union:__anon26::__anon27	typeref:struct:__anon26::__anon27::sockaddr_storage
 state	peer.h	/^  dtls_state_t state;        \/**< DTLS engine state *\/$/;"	m	struct:dtls_peer_t
@@ -1262,7 +1283,11 @@ state	sha2/sha2.h	/^	u_int32_t	state[8];$/;"	m	struct:_SHA256_CTX
 state	sha2/sha2.h	/^	u_int64_t	state[8];$/;"	m	struct:_SHA512_CTX
 state	sha2/sha2.h	/^	uint32_t	state[8];$/;"	m	struct:_SHA256_CTX
 state	sha2/sha2.h	/^	uint64_t	state[8];$/;"	m	struct:_SHA512_CTX
+str2hex	tests/ecctest.c	/^void str2hex(char *str, uint32_t * hexval)$/;"	f
+str2hex	tests/ecdsatime.c	/^void str2hex(char *str, unsigned char *hexval, size_t len)$/;"	f
 sub	ecc/ecc.c	/^static uint32_t sub( const uint32_t *x, const uint32_t *y, uint32_t *result, uint8_t length){$/;"	f	file:
+symbols	examples/contiki/symbols.c	/^const struct symbols symbols[] = {{0,0}};$/;"	v	typeref:struct:symbols
+symbols_nelts	examples/contiki/symbols.c	/^const int symbols_nelts = 0;$/;"	v
 t	netq.h	/^  clock_time_t t;	        \/**< when to send PDU for the next time *\/$/;"	m	struct:netq_t
 tail	uthash.h	/^   struct UT_hash_handle *tail; \/* tail hh in app order, for fast append    *\/$/;"	m	struct:UT_hash_table	typeref:struct:UT_hash_table::UT_hash_handle
 tbl	uthash.h	/^   struct UT_hash_table *tbl;$/;"	m	struct:UT_hash_handle	typeref:struct:UT_hash_handle::UT_hash_table

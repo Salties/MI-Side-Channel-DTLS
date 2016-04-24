@@ -34,3 +34,4 @@ tinydtls_src += ecc.c
 # CFLAGS += -DNDEBUG
 tinydtls_src += debug.c
 
+CFLAGS+= -O2

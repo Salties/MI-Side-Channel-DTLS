@@ -1990,11 +1990,13 @@ static uint8 *dtls_add_ecdsa_signature_elem(uint8 * p, uint32_t * point_r,
     return p;
 }
 
+#ifdef ECDSA_TIMING
 uint8 *dtls_add_ecdsa_signature_elem_wrapper(uint8 * p, uint32_t * point_r,
                                             uint32_t * point_s)
 {
 	return dtls_add_ecdsa_signature_elem(p,point_r,point_s);
 }
+#endif //ECDSA_TIMING
 
 static int
 dtls_send_server_key_exchange_ecdh(dtls_context_t * ctx,
