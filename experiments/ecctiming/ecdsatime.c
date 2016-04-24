@@ -19,6 +19,8 @@
 
 #define DTLS_SKEXEC_LENGTH (1 + 2 + 1 + 1 + DTLS_EC_KEY_SIZE + DTLS_EC_KEY_SIZE + 1 + 1 + 2 + 70)
 
+#define LEDS_ECC LEDS_RED
+
 unsigned char signkey[DTLS_EC_KEY_SIZE] = { 0 };
 unsigned char secretkey[DTLS_EC_KEY_SIZE] = { 0 };
 
@@ -31,9 +33,19 @@ void PrintInt256(const char *title, unsigned char *i256)
         printf("%02X", i256[i]);
         if ((i + 1) % 4 == 0)
             printf(" ");
-    }
+     }
     printf("\n");
     return;
+}
+
+void PrintNonce(uint32_t *nonce)
+{
+        int i;
+
+	for (i = 0; i < DTLS_EC_KEY_SIZE / sizeof(uint32_t); i++) {
+	    printf("%08lX ", nonce[i]);
+	 }
+	return;
 }
 
 void str2hex(char *str, unsigned char *hexval, size_t len)
@@ -98,12 +110,14 @@ static int PrepareServerKeyExchange(unsigned char *clientrand,
     uint8 *ephemeral_pub_y;
     uint32_t point_r[9];
     uint32_t point_s[9];
+    uint32_t rand[8];
     clock_t start, end;
 
     /* ServerKeyExchange 
      *
      * Start message construction at beginning of buffer. */
     printf("#Begin ServerKeyExchange...");
+    leds_on(LEDS_ECC);
     start = RTIMER_NOW();
     p = buf;
 
@@ -136,15 +150,16 @@ static int PrepareServerKeyExchange(unsigned char *clientrand,
                             DTLS_EC_KEY_SIZE);
 
     /* sign the ephemeral and its paramaters */
-    dtls_ecdsa_create_sig(signkey, DTLS_EC_KEY_SIZE,
+    dtls_ecdsa_create_sig_timing(signkey, DTLS_EC_KEY_SIZE,
                           clientrand, DTLS_RANDOM_LENGTH,
                           serverrand, DTLS_RANDOM_LENGTH,
-                          key_params, p - key_params, point_r, point_s);
+                          key_params, p - key_params, point_r, point_s, rand);
 
     p = dtls_add_ecdsa_signature_elem_wrapper(p, point_r, point_s);
     end = RTIMER_NOW();
     printf("Done.\n");
-   
+    leds_off(LEDS_ECC);
+
     //Print variables.
     PrintInt256("#SecretKey: ", secretkey);
     PrintInt256("#PublicKeyX: ", ephemeral_pub_x);
@@ -152,8 +167,9 @@ static int PrepareServerKeyExchange(unsigned char *clientrand,
     PrintSigMsg(clientrand, DTLS_RANDOM_LENGTH,
                 serverrand, DTLS_RANDOM_LENGTH,
                 key_params, p - key_params);
-    printf("#Time elapsed:\n");
-    printf("%lu\n", (unsigned long)(end - start));
+    printf("#(NonceK, Time):\n ");
+    PrintNonce(rand);
+    printf(", %lu\n", (unsigned long)(end - start));
 
     return 0;
 }
@@ -178,19 +194,19 @@ PROCESS_THREAD(ecdsa_timing_process, ev, data)
     str2hex(data, signkey, DTLS_EC_KEY_SIZE);
     PrintInt256("#SigningKey: ", signkey);
   
-    etimer_set(&periodic_timer, 30 * CLOCK_SECOND);
+    etimer_set(&periodic_timer, 5 * CLOCK_SECOND);
     for (;;) {
 	PROCESS_YIELD();
         if(ev == PROCESS_EVENT_TIMER)
 	{
-	    etimer_reset(&periodic_timer);
-	    //Perform ServerKeyExchange
+            //Perform ServerKeyExchange
 	    dtls_prng(clientrand, DTLS_RANDOM_LENGTH);
 	    dtls_prng(serverrand, DTLS_RANDOM_LENGTH);
 	    PrintInt256("#ClientRandomness: ", clientrand);
 	    PrintInt256("#ServerRandomness: ", serverrand);
 	    PrepareServerKeyExchange(clientrand, serverrand);
 	    //Reset timer for next run.
+            etimer_set(&periodic_timer, 5 * CLOCK_SECOND);
 	}
 	if( ev == serial_line_event_message) 
 	{
