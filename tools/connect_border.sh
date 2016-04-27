@@ -6,8 +6,6 @@ if [[ ! -z $1 ]]; then
 	device=$1;
 fi
 
-echo $1
-
 TUNSLIP=${CONTIKI_ROOT}/tools/tunslip6
 
 sudo $TUNSLIP -s ${device} aaaa::1/64
