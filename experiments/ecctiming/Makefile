@@ -1,4 +1,4 @@
-CONTIKI_PROJECT = ecctiming ecdsatime_server ecdsatime_client
+CONTIKI_PROJECT = ecctiming ecdsatime_server ecdsatime_client prngtest
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = ${CONTIKI_ROOT}
