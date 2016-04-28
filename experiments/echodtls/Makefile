@@ -3,8 +3,10 @@ CONTIKI_PROJECT = dtls-server
 
 all: $(CONTIKI_PROJECT)
 
+DTLSLIB=tinydtls_timing
+
 CONTIKI = $(CONTIKI_ROOT)
-APPS += tinydtls/aes tinydtls/sha2 tinydtls/ecc tinydtls
+APPS += ${DTLSLIB}/aes ${DTLSLIB}/sha2 ${DTLSLIB}/ecc ${DTLSLIB}
 #APPS += servreg-hack
 
 #Uncomment to enable null mac and rdc driver

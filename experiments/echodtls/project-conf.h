@@ -36,4 +36,7 @@
 #endif //End of DTLS_ECC
 #endif //End of NO_ECC
 
+#define ECDSA_TIMING
+#define ECDSA_PRNG_ATTACK
+
 #endif
