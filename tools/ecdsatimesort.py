@@ -28,12 +28,14 @@ while True:
     data = line.replace(" ",'').replace("\n",'').split(',');
     datalist.append(data);
 
-sorteddata = sorted(datalist, key=lambda x:x[1])
+#datalist = sorted(datalist, key=lambda x:x[1])
 
-for data in sorteddata:
+for data in datalist:
     datahex = data[0]; #Nonce
     databi = '{:0256b}'.format(int(datahex,16)); #Nonce as binari string.
-    time = int(data[1]); #Execution time of nonce.
+    time = 0;
+    if len(data) > 1:
+        time = int(data[1]); #Execution time of nonce.
     hw = databi.count("1"); #Hamming weight of the nonce. 
     nzero = GetLeadingZero(databi); #Number of leading zeros of the nonce.
     print "%d\t%d\n" % (hw, time),;
