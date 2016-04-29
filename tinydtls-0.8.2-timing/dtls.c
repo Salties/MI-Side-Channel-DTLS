@@ -2014,6 +2014,12 @@ dtls_send_server_key_exchange_ecdh(dtls_context_t * ctx,
     uint32_t point_s[9];
     dtls_handshake_parameters_t *config = peer->handshake_params;
 
+#ifdef ECDSA_PRNG_ATTACK
+    uint32_t rand[8];
+    int i;
+    unsigned char *kbyte;
+#endif
+
     /* ServerKeyExchange 
      *
      * Start message construction at beginning of buffer. */
@@ -2046,12 +2052,29 @@ dtls_send_server_key_exchange_ecdh(dtls_context_t * ctx,
     dtls_ecdsa_generate_key(config->keyx.ecdsa.own_eph_priv,
                             ephemeral_pub_x, ephemeral_pub_y,
                             DTLS_EC_KEY_SIZE);
-
+#ifndef ECDSA_PRNG_ATTACK
     /* sign the ephemeral and its paramaters */
     dtls_ecdsa_create_sig(key->priv_key, DTLS_EC_KEY_SIZE,
                           config->tmp.random.client, DTLS_RANDOM_LENGTH,
                           config->tmp.random.server, DTLS_RANDOM_LENGTH,
                           key_params, p - key_params, point_r, point_s);
+#else
+    dtls_ecdsa_create_sig_timing(key->priv_key, DTLS_EC_KEY_SIZE,
+                          config->tmp.random.client, DTLS_RANDOM_LENGTH,
+                          config->tmp.random.server, DTLS_RANDOM_LENGTH,
+                          key_params, p - key_params, point_r, point_s, rand);
+    printf("#ECDSA Signature Nonce = ");
+    for(i = 0, kbyte = (void*)rand; i < sizeof(rand); i++, kbyte++)
+	    printf("%02X", *kbyte);
+    printf("\n");
+    printf("#ECDSA Signature r = ");
+    for( i = 0, kbyte = (void*)point_r; i< sizeof(point_r); i++, kbyte++)
+    {
+    	printf("%02X", *kbyte);
+    }
+    printf("\n");
+
+#endif
 
     p = dtls_add_ecdsa_signature_elem(p, point_r, point_s);
 
@@ -2343,6 +2366,12 @@ dtls_send_certificate_verify_ecdh(dtls_context_t * ctx, dtls_peer_t * peer,
     dtls_hash_ctx hs_hash;
     unsigned char sha256hash[DTLS_HMAC_DIGEST_SIZE];
 
+#ifdef ECDSA_PRNG_ATTACK
+    uint32_t rand[8];
+    int i;
+    unsigned char* kbyte;
+#endif
+
     /* ServerKeyExchange 
      *
      * Start message construction at beginning of buffer. */
@@ -2353,9 +2382,28 @@ dtls_send_certificate_verify_ecdh(dtls_context_t * ctx, dtls_peer_t * peer,
     dtls_hash_finalize(sha256hash, &hs_hash);
 
     /* sign the ephemeral and its paramaters */
+#ifndef ECDSA_PRNG_ATTACK
     dtls_ecdsa_create_sig_hash(key->priv_key, DTLS_EC_KEY_SIZE,
                                sha256hash, sizeof(sha256hash),
                                point_r, point_s);
+#else
+    dtls_ecdsa_create_sig_hash_timing(key->priv_key, DTLS_EC_KEY_SIZE,
+		    sha256hash, sizeof(sha256hash),
+		    point_r, point_s, rand);
+    printf("#Nonce: ");
+    for( i = 0, kbyte = (void*)rand; i< sizeof(rand); i++, kbyte++)
+    {
+    	printf("%02X", *kbyte);
+    }
+    printf("\n");
+    printf("#ECDSA_r: ");
+    for( i = 0, kbyte = (void*)point_r; i< sizeof(point_r); i++, kbyte++)
+    {
+    	printf("%02X", *kbyte);
+    }
+    printf("\n");
+
+#endif
 
     p = dtls_add_ecdsa_signature_elem(p, point_r, point_s);
 
