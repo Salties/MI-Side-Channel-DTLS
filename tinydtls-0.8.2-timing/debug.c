@@ -373,9 +373,17 @@ dtls_dsrv_hexdump_log(log_t level, const char *name, const unsigned char *buf, s
     PRINTF("%s: (%zu bytes): ", name, length);
     while (length--) 
       PRINTF("%02X", *buf++);
-  }
+   }
   PRINTF("\n");
-}
+ }
 #endif /* WITH_CONTIKI */
+
+void PrintHex(const unsigned char* val, size_t len) 
+{
+	int i;
+	for( i = 0; i < len; i++)
+		printf("%X", val[i]);
+	return;
+}
 
 #endif /* NDEBUG */

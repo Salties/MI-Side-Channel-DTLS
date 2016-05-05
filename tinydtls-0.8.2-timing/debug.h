@@ -140,4 +140,6 @@ dtls_dsrv_log_addr(log_t level, const char *name, const session_t *addr)
 #define dtls_debug_hexdump(name, buf, length) dtls_dsrv_hexdump_log(DTLS_LOG_DEBUG, name, buf, length, 1)
 #define dtls_debug_dump(name, buf, length) dtls_dsrv_hexdump_log(DTLS_LOG_DEBUG, name, buf, length, 0)
 
+void PrintHex(const unsigned char* val, size_t len);
+
 #endif /* _DTLS_DEBUG_H_ */

@@ -552,6 +552,16 @@ dtls_ecdsa_verify_sig(const unsigned char *pub_key_x,
   dtls_hash_update(&data, client_random, client_random_size);
   dtls_hash_update(&data, server_random, server_random_size);
   dtls_hash_update(&data, keyx_params, keyx_params_size);
+
+  printf("Client random = ");
+  PrintHex(client_random, client_random_size);
+  printf("\n");
+  printf("Server random = ");
+  PrintHex(server_random, server_random_size);
+  printf("\n");
+  printf("Key Params = ");
+  PrintHex(keyx_params, keyx_params_size);
+  printf("\n");
   dtls_hash_finalize(sha256hash, &data);
 
   return dtls_ecdsa_verify_sig_hash(pub_key_x, pub_key_y, key_size, sha256hash,
