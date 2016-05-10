@@ -1,4 +1,4 @@
-CONTIKI_PROJECT = prngtest
+CONTIKI_PROJECT = prngtest cc2538seed
 all: $(CONTIKI_PROJECT)
 
 CONTIKI = ${CONTIKI_ROOT}
