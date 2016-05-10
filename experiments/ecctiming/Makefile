@@ -5,6 +5,8 @@ CONTIKI = ${CONTIKI_ROOT}
 
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
 
-APPS+= tinydtls_timing tinydtls_timing/aes tinydtls_timing/sha2 tinydtls_timing/ecc
+DTLSLIB=tinydtls_timing
+
+APPS+= ${DTLSLIB} ${DTLSLIB}/aes ${DTLSLIB}/sha2 ${DTLSLIB}/ecc
 
 include $(CONTIKI)/Makefile.include

@@ -70,7 +70,7 @@ AUTOSTART_PROCESSES(&prng_testing_process);
 /*---------------------------------------------------------------------------*/
 PROCESS_THREAD(prng_testing_process, ev, data)
 {
-    static int i, j;
+    static int i;
     static int len;
 
     PROCESS_BEGIN();
@@ -87,7 +87,7 @@ PROCESS_THREAD(prng_testing_process, ev, data)
         len = atoi((char*)data);
         for (i = 0; i < 100; i++) {
             memset(sk, 0, sizeof(sk));
-	    dtls_prng(sk, len);
+	    dtls_prng((void*)sk, len);
             PrintInt256(sk);
 	    printf(",%d\n",len);
         }

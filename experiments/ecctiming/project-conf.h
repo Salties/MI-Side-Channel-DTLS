@@ -40,6 +40,7 @@
 
 #define WATCHDOG_CONF_ENABLE 0
 #define ECDSA_TIMING
+#define NDEBUG
 
 #endif /* PROJECT_CONF_H_ */
 
