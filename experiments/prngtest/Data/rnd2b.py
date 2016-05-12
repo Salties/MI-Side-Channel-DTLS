@@ -3,7 +3,7 @@
 import sys;
 
 nbit = 16;
-bitwidth = 16;
+bitwidth = 0;
 
 ContikiMsg= "\
 Contiki-3.0\
@@ -41,12 +41,14 @@ def main(argc, argv):
     total = len(rndbitstream);
     print '#Total: {}'.format(total);
 
-    i = 0;
-    while i < len(rndbitstream):
-        print rndbitstream[i:i+bitwidth];
-        i += bitwidth;
+    if bitwidth == 0:
+        print rndbitstream;
 
-
+    else:
+        i = 0;
+        while i < len(rndbitstream):
+            print rndbitstream[i:i+bitwidth];
+            i += bitwidth;
 
     return;
 
