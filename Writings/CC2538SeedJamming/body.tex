@@ -11,7 +11,7 @@ The greatest difficulty is that details of how the seeding is done is not disclo
 
 \Cref{CC2538_RFRND} shows the description of the crucial RFRND register in its manual.
 
-\begin{figure}[ht!]
+\begin{figure}
 \center
 \caption{Description of RFRND from CC2538 User's Guide}
 \includegraphics[width=\linewidth]{./figures/CC2538_RFRND.png}
@@ -51,7 +51,7 @@ In CC2430 User's Guide, we found the following instructions:
 
 We can see that CC2538 User's Guide basically inherited the same sentences, except that the seed is instead read from different registers, ADCTSTH and ADCTSTL. \Cref{CC2430_ADCTST} shows the detailed description of these registers in its manual.
 
-\begin{figure}[ht!]
+\begin{figure}
 \center
 \caption{Description of ADCTSTH and ADCTSTL from CC2430 User's Guide}
 \includegraphics[width=\linewidth]{./figures/CC2430_ADCTST.png}
@@ -62,7 +62,7 @@ Comparing to CC2538, CC2430 User's Guide explains that the ADCs have resolution 
 
 CC2430 also disclosed more details about its RF. \Cref{CC2430_RF} provides an overview of its RF design, which is relatively classic. We can see that the random seed from IF\_ADC is indeed the output of mixer after band pass filter and AGC, where LO is implemented by the Frequency Synthesiser.
 
-\begin{figure}[ht!]
+\begin{figure}
 \center
 \caption{Radio and Demodulator of CC2430 from CC2430 User's Guide}
 \begin{subfigure}{\linewidth}
@@ -86,7 +86,7 @@ generator seed... (Section 14.2.2, CC253X, CC2540/41 User's Guide)
 
 \Cref{CC253X_RFRND} shows the RFRND register for CC253X.
 
-\begin{figure}[ht!]
+\begin{figure}
 \center
 \caption{Description of RFRND from CC253X, CC2540/41 User's Guide}
 \includegraphics[width=\linewidth]{./figures/CC253X_RFRND.png}
@@ -95,7 +95,7 @@ generator seed... (Section 14.2.2, CC253X, CC2540/41 User's Guide)
 
 Further inspecting the documents, we realised that CC253X and CC2538 reported exactly identical seeding result in their manuals, as shown in \Cref{CC2538_CC253X_SeedComparison}. This suggests that CC2538 and CC253X are likely used the same RF module.
 
-\begin{figure}[ht!]
+\begin{figure}
 \center
 \caption{Seeding Result for CC253X and CC2538}
 \begin{subfigure}{0.8\linewidth}
@@ -115,6 +115,7 @@ Further inspecting the documents, we realised that CC253X and CC2538 reported ex
 But the problem remains that neither CC253X nor CC2538 explained how IF\_ADC is translated to the output of RFRND. Nevertheless, we found the following statement in the instructions for CC2541 running in proprietary mode:
 \begin{quote}
 ...For seeding the pseudo-random number generator and for tasks where higher entropy of the random numbers is needed, the radio can be used as a true-random generator. The register RFRND provides access to the least-significant bits of the radio ADC, which is random when noise is received.... (Section 25.10, CC253X, CC2540/41 User's Guide)
+\label{CC2540 RND}
 \end{quote}
 
 This instruction explicitly explains that RFRND actually reads the least significant bit of IF\_ADC.
@@ -149,18 +150,65 @@ The original source code is listed in \Cref{ContikiRngDriver}. A coding mistake 
 We first tested the randomness of CC2538's seeding method using the NIST Statistical Test Suite\cite{NistTestSuite}. 
 
 The test is performed on 13738816 bits recorded by looping Contiki driver, with each loop reads out 16 bits from RFRND. Since each read to RFRND returns only 1 bit, we concatenated the result into one bit stream. The random bit stream has passed all the tests with $P(0) = 49.9380\%$, which consists to the result of the manual. The full test report is listed in \Cref{NistTestReport}.
+%
+%\section{Extending Seed Length}
+%
+%CC2538 User's Guide suggests that RFRND is used only to seed the CRC16 PRNG and thus only 16 bits are needed. We modified the code to continuously read out 8096 bits from RFRND, which is not an expected legal behaviour according in the manual. The seed is printed through UART to a Linux terminal.
+%
+%\begin{figure}[ht!]
+%\center
+%\caption{Reading 8096 bits from CC2538 RFRND}
+%\includegraphics[width=\linewidth]{./figures/SeedExtend.png}
+%\label{RFRND8096}
+%\end{figure}
+%
+%\Cref{RFRND8096} shows part of the result. Occasionally RFRND falls into a broken state after some readings.  Under such state, it outputs purely 0 or 1 with  a potential flip after the beginning few bits as shown in \Cref{RFRND8096}. Extending the length of seed to 32768 bits, we realised the error happens in every seeding procedure.
 
-\section{Extending Seed Length}
+\section{Theoretical Method of Seed Biasing}
 
-CC2538 User's Guide suggests that RFRND is used only to seed the CRC16 PRNG and thus only 16 bits are needed. We modified the code to continuously read out 8096 bits from RFRND, which is not an expected legal behaviour according in the manual. The seed is printed through UART to a Linux terminal.
+The description of the RFRND implementation on CC2540 (\Cref{CC2540 RND}) gave a hint that CC2538 may also have used the least significant bit of IF\_ADC output as  a random bit. The output of IF\_ADC is effectively the analogue output of the mixer converted to digital.
 
-\begin{figure}[ht!]
+\subsection{About Mixer and RFRND}
+
+Mixer is a electric component used to convert a signal to lower or higher frequencies. A typical mixer is illustrated in \Cref{mixer}.
+
+\begin{figure}
 \center
-\caption{Reading 8096 bits from CC2538 RFRND}
-\includegraphics[width=\linewidth]{./figures/SeedExtend.png}
-\label{RFRND8096}
+\caption{Mixer Illustration}
+\includegraphics[width=0.5\linewidth]{figures/mixer.png}
+\label{mixer}
 \end{figure}
 
-\Cref{RFRND8096} shows part of the result. Occasionally RFRND falls into a broken state after some readings.  Under such state, it outputs purely 0 or 1 with  a potential flip after the beginning few bits as shown in \Cref{RFRND8096}. Extending the length of seed to 32768 bits, we realised the error happens in every seeding procedure.
+The mixer takes two analogue input, RF and LO, and outputs IF which is the mixture of RF and LO. In our specific case,
+\begin{itemize}
+\item RF is the signal received by antenna amplified by LNA\footnote{Low Noise Amplifier}. For 802.15.4 communication, RF frequency $f_{R}$ is specified by 802.15.4 standard\cite{802154_Standard}:
+\begin{eqnarray}
+f_{R} = 2405 + 5(k-11) [MHz] && k \in [11, 26]
+\end{eqnarray}
+where $k$ is the selectable channel number.
 
-\section{Theoretic Method of Seed Biasing}
+\item LO is a signal generated by the frequency synthesiser. The exact frequency of LO, denote as $f_{L}$, is adjusted according to required IF frequency.
+\end{itemize}
+
+Typically, the mixer can be implemented as the multiplication of RF and LO. Denote the signals of RF and LO as $\cos(\omega_{R}t + \theta_{R})$ and $\cos(\omega_{L}t)$ respectively, the signal of IF is:
+\begin{equation} \label{IF}
+A_{R}\cos(\omega_{R}t)A_{L}\cos(\omega_{L}t)  = {\frac{A_{R}A_{L}}{2}}\cos((\omega_{R} + \omega_{L})t) + {\frac{A_{R}A_{L}}{2}}\cos((\omega_{R} - \omega_{L})t)
+\end{equation} 
+
+where $t$ is time and $\omega_i = 2{\pi}f_i$.
+
+\Cref{IF} implies that there are two signals outputted by IF, of one at frequency $(\omega_{R} + \omega_{L})$ and the other $(\omega_{R} - \omega_{L})$. In RF receiving path,  the mixer down converts the high frequency RF signal to low frequency signal that can be processed by local components; thus the signal at the higher frequency is then filtered, e.g. the band pass filters in both I and Q channels in \Cref{CC2430_RF}. Finally the signal is converted to digits by ADC\footnote{Analogue to Digital Converter} after AGC\footnote{Automatic Gain Control}. In practice, mixer may have different implementations to generate approximate signals. Diode ring is a common mixer design in RF applications. 
+
+The RFRND is then read out as the least significant bit of IF converted by ADC.
+
+\subsection{Noise}
+
+In real world deployment, the RF input is inevitably affected by several noise sources, include:
+
+\begin{itemize}
+\item Environmental radio noise.
+\item Radio noise induced by the electronic system itself.
+\item Approximation error.
+\end{itemize}
+
+Given the fact that 

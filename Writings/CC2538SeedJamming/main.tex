@@ -1,12 +1,14 @@
 \documentclass{article}
 
-\usepackage{hyperref}
+\usepackage{amsmath}
 \usepackage{cite}
-\usepackage{cleveref}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{listings}
 \usepackage{float}
+
+\usepackage{hyperref}
+\usepackage{cleveref} %Load this at last.
 
 %Title Settings.
 \title{CC2538 Jamming Experiments Report}
@@ -18,7 +20,10 @@
 \restylefloat{figure}
 
 %Wrap line in long source code.
-\lstset{breaklines}
+ \lstset{breaklines=true,
+ frame = tb,
+ linewidth = \linewidth,
+}
 
 \begin{document}
 
