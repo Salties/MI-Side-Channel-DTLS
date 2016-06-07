@@ -1,9 +1,11 @@
-\section{tinydtls Key Generation}
+\section{CC2538 RNG Design}
 
-\Cref{dtls_prng}
-
-\lstinputlisting[label=dtls_prng, caption=tinydtls Key Generation]{src/dtls_prng.c}
-
-\section{CC2538 RNG}
+The user guide of CC2538 suggests to use the  lower byte of on chip CRC-16 LSFR as a random number with 16 bits seed sampled from RF core.  
 
 \section{Contiki Driver for CC2538 RNG}
+
+\section{Impact: Broken DTLS Handshake}
+
+\Cref{dtls_prng} illustrates how tinydtls generates an ephemeral ECC key which are used in both ECDSA signature and ECDHE key derivation.
+
+\lstinputlisting[label=dtls_prng, caption=tinydtls Key Generation]{src/dtls_prng.c}:

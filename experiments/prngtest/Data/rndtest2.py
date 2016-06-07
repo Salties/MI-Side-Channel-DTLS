@@ -31,9 +31,11 @@ def main(argc, argv):
             continue;
         else:
             rndnum.replace('\n','').replace(' ','');
-
         if rndnum == '':
             break;
+        if len(rndnum) < nbyte:
+            continue;
+
         #Interpret data as heximal.
         try:
             rndval = int(rndnum,16);
