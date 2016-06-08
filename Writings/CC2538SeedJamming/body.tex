@@ -234,4 +234,18 @@ b &= \lfloor{(A'\cos((\omega_{R} - \omega_{L})t) + N(t) )\mod 2V_0 }\rfloor \\
 
 \Cref{RFRND_noise} suggests that any noise above $V_0$ may flip the bit $b$. According to CC2538 data sheet\cite{CC2538_Datasheet}, the RF receiver can be sensitive down to radio signals of $-97$dBm, whereas in our testing office environment, i.e. with multiple electronic devices and strong WiFi signal presented, the environmental noise easily exceeds this level. By nature noise is practically difficult to control, this poses a great difficulty when trying to manipulate the RFRND output.
 
-\subsection{Affection of Jamming Signal}
+\subsection{Affect of Jamming Signal}
+
+When generating RF signal to affect $b$ in \Cref{RFRND_noise}, the adversary can be considered to have full control on RF frequency $\omega_{R}$ and potentially partial control of $A'$ by adjusting $A_{R}$. Since RFRND only outputs one bit at once, the options are either:
+\begin{itemize}
+\item Bias RFRND to $0$. 
+\item Bias RFRND to $1$.
+\end{itemize}
+
+Two methods are considered to bias $RFRND$ to $0$:
+\begin{itemize}
+	\item Cancel, or mitigate, $N(t)$ by RF.  
+	\item Ground the input of IF\_ADC. 
+\end{itemize}
+
+These methods seems impractical in our circumstances given the high sensitivity of the device. The first method  fails due to the unpredictability of $N(t)$. Connecting the antenna to the GND pin on the board does not seem to have a effect neither.
