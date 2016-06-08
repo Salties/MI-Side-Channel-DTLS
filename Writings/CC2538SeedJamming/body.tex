@@ -220,7 +220,7 @@ In real world deployment, the RF input is inevitably affected by several noise s
 \begin{itemize}
 \item Environmental radio noise.
 \item Radio noise induced by the electronic system itself.
-\item Approximation error.
+\item Approximation error within the system.
 \end{itemize}
 
 Denote $N(t)$ to be the noise in the input to IF\_ADC, \Cref{RFRND} should be rewritten as:
@@ -232,4 +232,6 @@ b &= \lfloor{(A'\cos((\omega_{R} - \omega_{L})t) + N(t) )\mod 2V_0 }\rfloor \\
 \end{split}
 \end{equation}
 
-\Cref{RFRND_noise} suggests that any noise above $V_0$ may flip the bit $b$. According to CC2538 data sheet\cite{CC2538_Datasheet}, the RF receiver can be sensitive down to signals of $-97$dBm, whereas in a typical office environment, i.e. with multiple electronic devices and strong WiFi signal presented, the noise easily exceeds this level. By nature noise is practically difficult to control, this poses a great difficulty when trying to manipulate the RFRND output.
+\Cref{RFRND_noise} suggests that any noise above $V_0$ may flip the bit $b$. According to CC2538 data sheet\cite{CC2538_Datasheet}, the RF receiver can be sensitive down to radio signals of $-97$dBm, whereas in our testing office environment, i.e. with multiple electronic devices and strong WiFi signal presented, the environmental noise easily exceeds this level. By nature noise is practically difficult to control, this poses a great difficulty when trying to manipulate the RFRND output.
+
+\subsection{Affection of Jamming Signal}
