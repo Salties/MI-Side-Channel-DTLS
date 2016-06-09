@@ -248,10 +248,21 @@ Two methods are considered to bias RFRND to $0$:
 	\item Ground the input of IF\_ADC. 
 \end{enumerate}
 
-These methods seems impractical in our circumstance given the high sensitivity of the device. The first method fails due to the unpredictability of $N(t)$. For the second method, we tried to connect the antenna to the GND pin on the board it does not seem to have a effect neither.
+These methods seems impractical in our circumstance given the high sensitivity of the device. The first method fails due to the unpredictability of $N(t)$. However for the second method, we tried to connect the antenna to the GND pin on the board. %REMEMBER TO FILL IN HERE!
 
-On the other hand, biasing RFRND to $1$ seems more practical. Ideally, when an input voltage equal or higher than the maximum allowance is given, the ADC will output a fixed maximum value $V_{max}$ which the least significant bit is likely to be $1$. 
+On the other hand, biasing RFRND to $1$ seems more practical. When an input voltage equal or higher than the maximum allowance is given, the ADC is expected to output a fixed maximum value $V_{max}$ where the least significant bit is likely to be $1$. Therefore an idea is to send a jamming signal that is strong enough to saturate ADC and we expect there to be a bias towards $1$ in RFRND.
 
-The idea is therefore to send a jamming signal that is strong enough to saturate ADC. We expect IF\_ADC to output its maximum value which normally has a least significant bit of $1$.
+There are also restraints in this saturation method.  The first and greatest concern is that saturation may permanently damage the device due to excessive voltage. Secondly, the actual input voltage is adjusted by AGC; therefore it is uncertain how the jamming signal strength will be preserved at the ADC input. Also if the required signal strength exceeded any allowed input of the components in the RF receive path, the result could be unpredictable.
 
+One way to design the jamming signal is to simply set its frequency $f_{R}$ to exactly the frequency used for normal communication to pass the bandwidth filter. The strength of signal is controlled by the IF\_GAIN of the jamming device. Ideally the result is expected as depicted in \Cref{Saturate_ADC}.
 
+\begin{figure}
+\center
+\caption{Ideal Saturated input to IF\_ADC}
+\includegraphics[width=\textwidth]{figures/saturate.png}
+\label{Saturate_ADC}
+\end{figure}
+
+Theoretically when RFRND is accessed at moments where the absolute value of IF signal is beyond $V_{max}$, we hope the input to IF\_ADC is saturated; therefore IF\_ADC will output its maximum value resulting into RFRND biased towards $1$.
+
+CC2538 data sheet specifies that 
