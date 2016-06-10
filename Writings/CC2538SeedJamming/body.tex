@@ -164,7 +164,7 @@ The test is performed on 13738816 bits recorded by looping Contiki driver, with 
 %
 %\Cref{RFRND8096} shows part of the result. Occasionally RFRND falls into a broken state after some readings.  Under such state, it outputs purely 0 or 1 with  a potential flip after the beginning few bits as shown in \Cref{RFRND8096}. Extending the length of seed to 32768 bits, we realised the error happens in every seeding procedure.
 
-\section{Theoretical Method of Seed Biasing}
+\section{The IF\_ADC}
 
 The description of the RFRND implementation on CC2540 (\Cref{CC2540 RND}) gave a hint that CC2538 may also have used the least significant bit of IF\_ADC output as  a random bit. The output of IF\_ADC is effectively the analogue output of the mixer converted to digital.
 
@@ -234,12 +234,11 @@ b &= \lfloor{(A'\cos((\omega_{R} - \omega_{L})t) + N(t) )\mod 2V_0 }\rfloor \\
 
 \Cref{RFRND_noise} suggests that any noise above $V_0$ may flip the bit $b$. According to CC2538 data sheet\cite{CC2538_Datasheet}, the RF receiver can be sensitive down to radio signals of $-97$dBm, whereas in our testing office environment, i.e. with multiple electronic devices and strong WiFi signal presented, the environmental noise easily exceeds this level. By nature noise is practically difficult to control, this poses a great difficulty when trying to manipulate the RFRND output.
 
-\subsection{Affection of Jamming Signal}
+\section{Biasing Seed by Jamming Signal}
 
-When generating RF signal to affect $b$ in \Cref{RFRND_noise}, the adversary can be considered to have full control on RF frequency $\omega_{R}$ and potentially partial control of $A'$ by adjusting $A_{R}$. Since RFRND only outputs one bit at once, the options are either:
+As a matter of fact, a jamming signal is usually much stronger than the sensitivity of the device which is $-97$ dBm and practically we do not have much control on the lowest bits of its output due to the physical nature. The following methods are considered to bias RFRND.
+
 \begin{itemize}
-\item Bias RFRND to $0$. 
-\item Bias RFRND to $1$.
 \end{itemize}
 
 Two methods are considered to bias RFRND to $0$:
