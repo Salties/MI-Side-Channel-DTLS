@@ -1,15 +1,15 @@
 \section{Introduction}
 
-This document is to summarise our experiments attempted to bias the seeding procedure of CC2538\cite{CC2538_Manual}.
+This document is to summarise the experiments attempted to bias the seeding procedure of CC2538\cite{CC2538_Manual} manufactured by TI.
 
-The greatest difficulty is that details of how the seeding is done is not disclosed by the released documents from TI. The only descriptions in CC2538 User's Guide are:
+The greatest difficulty in this project is that TI did not disclose details of how the seeding is done. The only descriptions in CC2538 User's Guide are:
 \begin{quote}
 ...For the CC2538, when a random value is required, writing the SOC\_ADC\_RNDL register with random bits from the IF\_ADC in the RF receive path seeds the LFSR. To use this seeding method, first power on the radio. The radio must be placed in the infinite RX state to avoid possible sync detect in the RX state.The random bits from the IF\_ADC are read from the LSB position of the RF register RFCORE\_XREG\_RFRND. These bits should be concatenated over time to form the bytes needed for the RNG seed... This cannot be done while the radio is in use for normal tasks... (Section 16.2.2, CC2538 User's Guide)
 
 ...The RF Core can generate random bits. The chip should be in RX when generation of random bits is required. One must also make sure that the chip has been in RX long enough for the transients to have died out. A convenient way to do this is to wait for the RSSI-valid signal to go high. Single random bits from either the I or Q channel can be read from the RFRND register... (Section 23.12, CC2538 User's Guide)
 \end{quote}
 
-\Cref{CC2538_RFRND} shows the description of the crucial RFRND register in its manual.
+\Cref{CC2538_RFRND} shows the description of the crucial RFRND register in the manual of CC2538.
 
 \begin{figure}
 \center
@@ -18,13 +18,13 @@ The greatest difficulty is that details of how the seeding is done is not disclo
 \label{CC2538_RFRND}
 \end{figure}
 
-What we learned from the above descriptions are:
+In conclusion, the manual tells us:
 \begin{enumerate}
 \item The random bits are derived from the IQ channels of IF\_ADC in the receive path, one bit at once, accessed through RFRND register.
 \item The random bits are not available until the transients of IF\_ADC has died out.
 \end{enumerate}
 
-The above information seems to be good enough for developers to write drivers for this device. But from a security perspective, this method shed a light that the seed can be potentially affected by manipulating IF\_ADC through radio signals. However, there are several critical question that is not clear in the released documents:
+From a security perspective, seeding with the RF module leads to the suspect that is it possible to create bias in the seed by manipulating IF\_ADC through radio signals? There are several critical questions those are not documented but crucial in answering this suspect:
 \begin{enumerate}
 \item How does IF\_ADC converts to a random bit?
 \item Why infinite RX state is required?
@@ -32,7 +32,7 @@ The above information seems to be good enough for developers to write drivers fo
 \item What are the electronic characteristics? Including what is the IF, sample rate, etc.
 \end{enumerate}
 
-Without knowing the answers to these questions, we took two approaches to carry on the research:
+In this report, we mainly took two approaches to carry on the research:
 \begin{enumerate}
 \item Searching for related contents in the documents of product in the same series as they may shared the same design.
 \item Black box experiments.
@@ -42,7 +42,7 @@ CAUTION: Since the statements in this report are based on empirical document stu
 
 \section{Related Documents Study}
 
-CC2538, launched in May 2013, is not the first product that adopts the design of using RF to seed its PRNG, which is a 16-bit CRC16 LSFR register. The same design can trace back to one of its predecessor CC2430\cite{CC2430_Manual}, launched in 2007,  where a RNG failure has been explained by this blog\cite{CC2430Fail}.
+CC2538, launched in May 2013, is not the first product that adopts the design of using RF to seed its PRNG, which is a 16-bit CRC16 LSFR register. The same seeding and PRNG design can trace back to one of its predecessor CC2430\cite{CC2430_Manual}, launched in 2007,  where a RNG failure has been reported by  \cite{CC2430Fail}.
 
 In CC2430 User's Guide, we found the following instructions:
 \begin{quote}
@@ -58,9 +58,9 @@ We can see that CC2538 User's Guide basically inherited the same sentences, exce
 \label{CC2430_ADCTST}
 \end{figure}
 
-Comparing to CC2538, CC2430 User's Guide explains that the ADCs have resolution of 7-bits and one of their values is suggested to be directly used as the random seed. One thing might be worthy pointing out is that the entropy test in the blog post\cite{CC2430Fail} may have incorrectly interpreted these 7-bits readings as a byte, even though it does not change the fact that such seed is strongly biased.
+Comparing to CC2538, CC2430 User's Guide explains that the ADCs have resolution of 7-bits and one of the IQ channel readings is suggested to be directly used as the random seed. One thing might be worthy pointing out is that the entropy test in \cite{CC2430Fail} may have incorrectly interpreted these 7-bits readings as a byte, even though it does not change the fact that such seed is strongly biased.
 
-CC2430 also disclosed more details about its RF. \Cref{CC2430_RF} provides an overview of its RF design, which is relatively classic. We can see that the random seed from IF\_ADC is indeed the output of mixer after band pass filter and AGC, where LO is implemented by the Frequency Synthesiser.
+CC2430 also disclosed more details about its RF. \Cref{CC2430_RF} provides an overview of its RF design.  We can see that the random seed from IF\_ADC is indeed the output of mixer after band pass filter and AGC, where LO is implemented by the Frequency Synthesiser.
 
 \begin{figure}
 \center
@@ -125,7 +125,6 @@ Given the similarities of these SoCs, we suspect RFRND in CC2538 is also  the le
 In summary, we suspect the following undisclosed characteristics of CC2538:
 \begin{enumerate}
 \item CC2538 has a similar classical RF circuit design as of CC2430.
-\item CC2538 has exactly the same RF specifications of CC253X.
 \item RFRND is implemented as the least significant bit from IF\_ADC as of CC2541.
 \end{enumerate}
 
@@ -135,12 +134,12 @@ We based our further experiments on these assumptions.
 
 Contiki release-3.0 exactly followed the instructions in CC2538 User's Guide. Generally speaking, it performed the following operations during seeding the CRC16 PRNG:
 \begin{enumerate}
-\item Turns on the CRC16 PRNG and enables clock for RF.
-\item Sets RF to infinite RX state. This will take effect on next RF start.
-\item Turns on RF. This also triggers the Frequency Synthesiser to recalibrate.
-\item Waits for transients to die out by checking RSSI validity. This also implies that the Frequency Synthesiser is calibrated.
-\item Reads 16 bits from RFRND.
-\item Set PRNG seed by values from RFRND.
+\item Turn on the CRC16 PRNG and enable clock for RF.
+\item Set RF to infinite RX state. This will take effect on next RF start.
+\item Turn on RF. This also triggers the Frequency Synthesiser to recalibrate.
+\item Wait for transients to die out by checking RSSI validity. 
+\item Read 16 bits from RFRND.
+\item Set PRNG to the seed from RFRND.
 \item Turn off RF. It will be turned on again later for normal operation.
 \end{enumerate}
 
@@ -164,11 +163,11 @@ The test is performed on 13738816 bits recorded by looping Contiki driver, with 
 %
 %\Cref{RFRND8096} shows part of the result. Occasionally RFRND falls into a broken state after some readings.  Under such state, it outputs purely 0 or 1 with  a potential flip after the beginning few bits as shown in \Cref{RFRND8096}. Extending the length of seed to 32768 bits, we realised the error happens in every seeding procedure.
 
-\section{The IF\_ADC}
+\section{Generation of RFRND}
 
-The description of the RFRND implementation on CC2540 (\Cref{CC2540 RND}) gave a hint that CC2538 may also have used the least significant bit of IF\_ADC output as  a random bit. The output of IF\_ADC is effectively the analogue output of the mixer converted to digital.
+The description of the RFRND implementation on CC2540 (\Cref{CC2540 RND}) gave a hint that CC2538 may also have used the least significant bit of IF\_ADC, which is the analogue output of the mixer converted to digital. In this section we explain more details of how the bit is sampled.
 
-\subsection{About Mixer and RFRND}
+\subsection{Mixer}
 
 Mixer is a electric component used to convert a signal to lower or higher frequencies. A typical mixer is illustrated in \Cref{mixer}.
 
@@ -181,7 +180,7 @@ Mixer is a electric component used to convert a signal to lower or higher freque
 
 The mixer takes two analogue input, RF and LO, and outputs IF which is the mixture of RF and LO. In our specific case,
 \begin{itemize}
-\item RF is the signal received by antenna amplified by LNA\footnote{Low Noise Amplifier}. For 802.15.4 communication, RF frequency $f_{R}$ is specified by 802.15.4 standard\cite{802154_Standard}:
+\item RF is the signal received by antenna amplified by LNA\footnote{Low Noise Amplifier}. For 802.15.4 communication, RF frequency $f_{R}$ is specified by 802.15.4 standard\cite{802154_Standard} as:
 \begin{eqnarray}
 f_{R} = 2405 + 5(k-11) [MHz] && k \in [11, 26]
 \end{eqnarray}
@@ -190,7 +189,7 @@ where $k$ is the selectable channel number.
 \item LO is a signal generated by the frequency synthesiser. The exact frequency of LO, denote as $f_{L}$, is adjusted according to required IF frequency.
 \end{itemize}
 
-Typically, the mixer can be implemented as the product of RF and LO. Denote the signals of RF and LO as $\cos(\omega_{R}t + \theta_{R})$ and $\cos(\omega_{L}t)$ respectively, the IF output is:
+An ideal mixer is implemented as the product of RF and LO. Denote the signals from RF and LO as $\cos(\omega_{R}t)$ and $\cos(\omega_{L}t)$ respectively, the IF output is:
 
 \begin{equation} \label{IF}
 \begin{split}
@@ -200,13 +199,15 @@ A_{R}\cos(\omega_{R}t)A_{L}\cos(\omega_{L}t) &= {\frac{A_{R}A_{L}}{2}}\cos((\ome
 
 where $t$ is time and $\omega_i = 2{\pi}f_i$.
 
-\Cref{IF} implies that there are two signals outputted by IF, of one at frequency $(\omega_{R} + \omega_{L})$ and the other $(\omega_{R} - \omega_{L})$. In RF receiving path,  the mixer down converts the high frequency RF signal to low frequency signal that can be processed by local components; thus the signal at the higher frequency is then filtered, e.g. the band pass filters in both I and Q channels in \Cref{CC2430_RF}. So the input to IF\_ADC is:
+\Cref{IF} implies that there are two signals at IF, of one at frequency $(\omega_{R} + \omega_{L})$ and the other $(\omega_{R} - \omega_{L})$. In RF receiving path, the goal is to convert the high frequency signals into low frequency signals in order to be processed by local components; thus the signal at the higher frequency part in \Cref{IF} is then filtered by the band pass filters in both I and Q channels in \Cref{CC2430_RF}. 
+
+Hence the input to IF\_ADC is:
 \begin{equation}
 x(t) = A'\cos((\omega_{R} - \omega_{L})t)
 \end{equation}
 where $A'$ is the amplitude adjusted by AGC. 
 
-The random bit $b$ of RFRND can then be represented as:
+Denote $b$ as the random bit read from RFRND. One way to represent $b$ is:
 \begin{equation} \label{RFRND}
 b = \lfloor{x(t)} \mod 2V_0 \rfloor = \lfloor{A'\cos((\omega_{R} - \omega_{L})t) \mod 2V_0 }\rfloor
 \end{equation}
@@ -223,7 +224,7 @@ In real world deployment, the RF input is inevitably affected by several noise s
 \item Approximation error within the system.
 \end{itemize}
 
-Denote $N(t)$ to be the noise in the input to IF\_ADC, \Cref{RFRND} should be rewritten as:
+Denote $N(t)$ to be the noise in the input to IF\_ADC. Taking noise into account, \Cref{RFRND} should be rewritten as:
 
 \begin{equation} \label{RFRND_noise}
 \begin{split}
@@ -234,34 +235,37 @@ b &= \lfloor{(A'\cos((\omega_{R} - \omega_{L})t) + N(t) )\mod 2V_0 }\rfloor \\
 
 \Cref{RFRND_noise} suggests that any noise above $V_0$ may flip the bit $b$. According to CC2538 data sheet\cite{CC2538_Datasheet}, the RF receiver can be sensitive down to radio signals of $-97$dBm, whereas in our testing office environment, i.e. with multiple electronic devices and strong WiFi signal presented, the environmental noise easily exceeds this level. By nature noise is practically difficult to control, this poses a great difficulty when trying to manipulate the RFRND output.
 
-\section{Biasing Seed by Jamming Signal}
+\section{Bias Seeding}
 
-As a matter of fact, a jamming signal is usually much stronger than the sensitivity of the device which is $-97$ dBm and practically we do not have much control on the lowest bits of its output due to the physical nature. The following methods are considered to bias RFRND.
+As a matter of fact, a jamming signal is usually much stronger than the sensitivity of CC2538 ($-97$ dBm). In practice it is difficult to control such micro level voltage due to device limitation such as distortion of DAC.
 
-\begin{itemize}
-\end{itemize}
+On the other hand, the exact time of kernel accessing RFRND is unpredictable and IF\_ADC is buffered; implies that in order to bias RFRND, one would need to sustain a biased IF\_ADC output for a certain period. In this section, we discuss some potential methods to achieve this requirement.
 
-Two methods are considered to bias RFRND to $0$:
-\begin{enumerate}
-	\item Cancel, or mitigate, $N(t)$ by RF.  
-	\item Ground the input of IF\_ADC. 
-\end{enumerate}
+\subsection{Noise Cancelling}
 
-These methods seems impractical in our circumstance given the high sensitivity of the device. The first method fails due to the unpredictability of $N(t)$. However for the second method, we tried to connect the antenna to the GND pin on the board. %REMEMBER TO FILL IN HERE!
+If the jamming signal can exactly cancel the noise including those generated by the device itself than we would expect RFRND to be biased, normally towards $0$. However I do not possess the technique to proceed this method.
 
-On the other hand, biasing RFRND to $1$ seems more practical. When an input voltage equal or higher than the maximum allowance is given, the ADC is expected to output a fixed maximum value $V_{max}$ where the least significant bit is likely to be $1$. Therefore an idea is to send a jamming signal that is strong enough to saturate ADC and we expect there to be a bias towards $1$ in RFRND.
+Compensatory, one can put the device into a shielding box to eliminate environmental noise but it cannot shield the noise generated by the device itself.
 
-There are also restraints in this saturation method.  The first and greatest concern is that saturation may permanently damage the device due to excessive voltage. Secondly, the actual input voltage is adjusted by AGC; therefore it is uncertain how the jamming signal strength will be preserved at the ADC input. Also if the required signal strength exceeded any allowed input of the components in the RF receive path, the result could be unpredictable.
+\subsection{Ground RF}
 
-One way to design the jamming signal is to simply set its frequency $f_{R}$ to exactly the frequency used for normal communication to pass the bandwidth filter. The strength of signal is controlled by the IF\_GAIN of the jamming device. Ideally the result is expected as depicted in \Cref{Saturate_ADC}.
+Ideally by connecting RF to the ground we expect to reduce the input of IF\_ADC to $0$, resulting into a constant output to RFRND. But in practice, jumping on such an integrated device seems to be difficult.
+
+As an attempt I tried to connect the antenna to the USB\_GND pin on the board but no significant change in the RFRND was observed. Although the correct way to do it should be connect it to the signal earth instead of power earth but I could not do it due to the encapsulation of the chip.
+
+\subsection{Saturate IF\_ADC}
+
+When an input voltage equal to or higher than the maximum allowance is given, the many ADC design is expected to output a fixed maximum value $V_{max}$. The idea is to send a jamming signal that is strong enough to saturate the ADC and thus bias RFRND.
+
+There are several concerns in this method.  The first and greatest concern is that saturating the RF input may permanently damage the device due to excessive voltage. Secondly, the actual input voltage is adjusted by AGC; therefore it is uncertain how the jamming signal strength will be preserved at the ADC input. Also if the required signal strength exceeded any allowed input of the components in the RF receive path, the result could be unpredictable.
+
+One way to design the jamming signal is to simply set its frequency to exactly the frequency used for normal communication to pass the band pass filter. The strength of signal is controlled by the IF\_GAIN of the jamming device. Ideally RFRND is expected to have a predictable output whenever RF input is saturated, as depicted in \Cref{Saturate_ADC}.
 
 \begin{figure}
 \center
-\caption{Ideal Saturated input to IF\_ADC}
+\caption{Ideal Saturated input to IF\_ADC over time domain}
 \includegraphics[width=\textwidth]{figures/saturate.png}
 \label{Saturate_ADC}
 \end{figure}
 
-Theoretically when RFRND is accessed at moments where the absolute value of IF signal is beyond $V_{max}$, we hope the input to IF\_ADC is saturated; therefore IF\_ADC will output its maximum value resulting into RFRND biased towards $1$.
-
-CC2538 data sheet specifies that 
+CC2538 data sheet specifies the maximum input level of RF receive to be $10$ dBm. I tried to directly connect the jamming device, a HackRF One, to the CC2538 powered device, an OpenMote Rev C, through a 5m SMA cable in order to increase the input to CC2538 RF. The maximum RSSI I have achieved is $-10$ dBm which is still $20$ dBm down the minimum required. The result suggests that perhaps an amplifier is needed for this method; but this again could be risky to both devices.
