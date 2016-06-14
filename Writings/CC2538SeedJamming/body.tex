@@ -145,7 +145,7 @@ Contiki release-3.0 exactly followed the instructions in CC2538 User's Guide. Ge
 
 The original source code is listed in \Cref{ContikiRngDriver}. A coding mistake caused the least significant bit (the 16th bit) to be constantly 0. We have fixed this bug during our experiments.
 
-\section{Randomness Test}
+\section{Randomness Test} \label{NIST test}
 We first tested the randomness of CC2538's seeding method using the NIST Statistical Test Suite\cite{NistTestSuite}. 
 
 The test is performed on 13738816 bits recorded by looping Contiki driver, with each loop reads out 16 bits from RFRND. Since each read to RFRND returns only 1 bit, we concatenated the result into one bit stream. The random bit stream has passed all the tests with $P(0) = 49.9380\%$, which consists to the result of the manual. The full test report is listed in \Cref{NistTestReport}.
@@ -249,9 +249,7 @@ Compensatory, one can put the device into a shielding box to eliminate environme
 
 \subsection{Ground RF}
 
-Ideally by connecting RF to the ground we expect to reduce the input of IF\_ADC to $0$, resulting into a constant output to RFRND. But in practice, jumping on such an integrated device seems to be difficult.
-
-As an attempt I tried to connect the antenna to the USB\_GND pin on the board but no significant change in the RFRND was observed. Although the correct way to do it should be connect it to the signal earth instead of power earth but I could not do it due to the encapsulation of the chip.
+Ideally by connecting RF to the signal earth we expect to reduce the input of IF\_ADC to $0$, resulting into a constant output to RFRND. But in practice, jumping over such integrated devices seems to be difficult.
 
 \subsection{Saturate IF\_ADC}
 
@@ -263,9 +261,31 @@ One way to design the jamming signal is to simply set its frequency to exactly t
 
 \begin{figure}
 \center
-\caption{Ideal Saturated input to IF\_ADC over time domain}
+\caption{Connecting RF to USB\_GND}
 \includegraphics[width=\textwidth]{figures/saturate.png}
-\label{Saturate_ADC}
+\label{UsbGnd}
 \end{figure}
 
 CC2538 data sheet specifies the maximum input level of RF receive to be $10$ dBm. I tried to directly connect the jamming device, a HackRF One, to the CC2538 powered device, an OpenMote Rev C, through a 5m SMA cable in order to increase the input to CC2538 RF. The maximum RSSI I have achieved is $-10$ dBm which is still $20$ dBm down the minimum required. The result suggests that perhaps an amplifier is needed for this method; but this again could be risky to both devices.
+
+\subsubsection{Connecting RF to USB\_GND}
+
+As an alternative attempt, we tried to connect the antenna of OpenMote to the GND pin on the base board as shown in \Cref{UsbGnd}. In our setup, USB cable is used as the power source of the device; thus we expect a constant input to RF of which equals to the difference between the chassis ground and signal ground. 
+
+\begin{figure}
+\center
+\caption{Connecting OpenMote Antenna to GND Pin}
+\includegraphics[width=\textwidth]{figures/usb_gnd.jpg}
+\label{UsbGnd}
+\end{figure}
+
+We collected $1180901$ bits under this setup and ran them through the NIST test suite. Comparing to \Cref{NIST test}, these bits failed several some of the tests including:
+
+\begin{itemize}
+\item Frequency Test\cite{NistTestSuite}.
+\item Cumulative Sums (Forward) Test\cite{NistTestSuite}.
+\item Cumulative Sums (Reverse) Test\cite{NistTestSuite}.
+\item Maurer's ``Universal Statistical'' Test\cite{NistTestSuite}. 
+\end{itemize}
+
+Specifically, the frequency of bit $0$ has slightly decreased to $P(0) = 49.5868\%$, suggesting this method could have biased the seeding towards $1$ by roughly $0.35\%$. The full report of this test is given in \Cref{GroundedReport}.
