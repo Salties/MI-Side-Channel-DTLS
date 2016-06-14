@@ -39,7 +39,7 @@ void printseed(unsigned char* seedval, size_t seedlen)
 		return;
 
 	for(i = 0; i < seedlen; i++)
-		printf("%X", seedval[i]);
+		printf("%02X", seedval[i]);
 	return;
 }
 
@@ -53,7 +53,6 @@ void RfRnd(unsigned char *seed, size_t seedlen)
 
     //REG(RFCORE_XREG_FREQCTRL) = 0x00;
     //printf("#CORR_THR = %lX\n", REG(RFCORE_XREG_MDMCTRL1) & RFCORE_XREG_MDMCTRL1_CORR_THR);
-    REG(RFCORE_XREG_MDMCTRL1) = 0x00;
     /* Make sure the RNG is on */
     REG(SOC_ADC_ADCCON1) &=
         ~(SOC_ADC_ADCCON1_RCTRL1 | SOC_ADC_ADCCON1_RCTRL0);
