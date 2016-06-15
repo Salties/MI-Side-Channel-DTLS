@@ -5,7 +5,19 @@ import sys;
 windowsize = 20000;
 nbit = 16;
 
-def main(argv, argc):
+HelpMsg="Usage: Read stdin and computes frequency of bit 0."
+
+def ParseCmdArg(argc, argv):
+    if "-h" in argv:
+        print HelpMsg;
+        exit();
+
+    return;
+
+def main(argc, argv):
+    #Parse command line argument.
+    ParseCmdArg(argc, argv);
+
     windowbuffer = "";
     while 1:
         #Read in a newline
