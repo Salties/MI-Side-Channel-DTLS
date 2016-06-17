@@ -263,7 +263,7 @@ One way to design the jamming signal is to simply set its frequency to exactly t
 \center
 \caption{Connecting RF to USB\_GND}
 \includegraphics[width=\textwidth]{figures/saturate.png}
-\label{UsbGnd}
+\label{Saturate_ADC}
 \end{figure}
 
 CC2538 data sheet specifies the maximum input level of RF receive to be $10$ dBm. I tried to directly connect the jamming device, a HackRF One, to the CC2538 powered device, an OpenMote Rev C, through a 5m SMA cable in order to increase the input to CC2538 RF. The maximum RSSI I have achieved is $-10$ dBm which is still $20$ dBm down the minimum required. The result suggests that perhaps an amplifier is needed for this method; but this again could be risky to both devices.
@@ -279,7 +279,7 @@ As an alternative attempt, we tried to connect the antenna of OpenMote to the GN
 \label{UsbGnd}
 \end{figure}
 
-We collected $1180901$ bits under this setup and ran them through the NIST test suite. Comparing to \Cref{NIST test}, these bits failed several some of the tests including:
+We collected $1180901$ bits under this setup and ran them through the NIST test suite. Comparing to \Cref{NIST test}, these bits failed some of the tests including:
 
 \begin{itemize}
 \item Frequency Test\cite{NistTestSuite}.
