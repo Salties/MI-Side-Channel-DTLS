@@ -1,10 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/python -u
 
 import sys;
 
-windowsize = 20000;
-nbit = 16;
-
+windowsize = 2000;
 HelpMsg="Usage: Read stdin and computes frequency of bit 0."
 
 def ParseCmdArg(argc, argv):
@@ -49,7 +47,8 @@ def main(argc, argv):
         #Compute the bit frequency.
         nzero = windowbuffer.count('0');
         #print "{}/{}".format(nzero, windowsize);
-        print "{:.5f}%".format(float(nzero)/float(windowsize));
+        #print "{:.5f}%".format(float(nzero)/float(windowsize));
+        print "{:.5f}".format(float(nzero)/float(windowsize));
 
     return;
 

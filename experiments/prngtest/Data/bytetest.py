@@ -4,8 +4,6 @@ import sys;
 
 nbit = 16;
 bitwidth = 0;
-window = 2000;
-
 
 ContikiMsg= "\
 Contiki-3.0\
@@ -19,6 +17,8 @@ Rime configured with address 00:12:4b:00:04:1e:af:c6\
 HelpMsg= "\
         Usage: bitest.py [HEX_FILE]\
         ";
+
+bytecount = [0] * 256;
 
 #Parse command line arguments.
 def ParseCmdArgs(argc, argv):
@@ -74,6 +74,7 @@ def main(argc, argv):
             rndval = int(rndnum,16);
             rndlist.append(rndval);
             rndbitstream += ('{:0'+str(nbit)+'b}').format(rndval);
+            bytecount[rndval] += 1;
         except:
             continue;
 
@@ -82,6 +83,10 @@ def main(argc, argv):
     print '#Total: {}'.format(total);
     nzero = rndbitstream.count('0');
     print '#{}/{} {:03f}%'.format(nzero, total - nzero, float(nzero)/float(total));
+
+    totalbyte = total / 8;
+    for i in range(0, len(bytecount)):
+        print '{:02X}:\t{}/{}\t{:f}%'.format(i, bytecount[i], totalbyte, 100 * float(float(bytecount[i])/float(totalbyte)));
 
     #Store bit stream into a file if specified.
     if bitfile != -1:
