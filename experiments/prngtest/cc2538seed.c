@@ -21,8 +21,9 @@ PROCESS(prng_test_process, "PRNG test");
 AUTOSTART_PROCESSES(&prng_test_process);
 /*---------------------------------------------------------------------------*/
 
-#define WAIT_TIME ((CLOCK_SECOND / 1))
-#define SEEDLEN ((4096))        //Seed length in bytes.
+#define VERBOSE 1
+#define WAIT_TIME ((CLOCK_SECOND * 0.1))
+#define SEEDLEN ((16))        //Seed length in bytes.
 
 static struct etimer et;
 
@@ -46,13 +47,14 @@ void printseed(unsigned char* seedval, size_t seedlen)
 void RfRnd(unsigned char *seed, size_t seedlen)
  {
     int i = 0, j = 0;
-    int rssi = 0, overheated = 0, freqest = 0;
     unsigned char s = 0;
+    int overheated = 0;
+#if VERBOSE
+    int rssi = 0, freqest = 0;
+#endif
 
     memset(seed, 0, seedlen);
 
-    //REG(RFCORE_XREG_FREQCTRL) = 0x00;
-    //printf("#CORR_THR = %lX\n", REG(RFCORE_XREG_MDMCTRL1) & RFCORE_XREG_MDMCTRL1_CORR_THR);
     /* Make sure the RNG is on */
     REG(SOC_ADC_ADCCON1) &=
         ~(SOC_ADC_ADCCON1_RCTRL1 | SOC_ADC_ADCCON1_RCTRL0);
@@ -70,21 +72,19 @@ void RfRnd(unsigned char *seed, size_t seedlen)
     /* Turn RF on */
     CC2538_RF_CSP_ISRXON();
 #if 0
+    //This is something evil...
     //Turn on PD_OVERRIDE
     REG(RFCORE_XREG_PTEST1) = 0x08;
     //Turn off LNA and mixer.
     REG(RFCORE_XREG_PTEST0) = 0x04;
 #endif
+
     /*
      *    * Wait until "the chip has been in RX long enough for the transients to
      *       * have died out. A convenient way to do this is to wait for the RSSI-valid
      *          * signal to go high."
      *             */
     while (!(REG(RFCORE_XREG_RSSISTAT) & RFCORE_XREG_RSSISTAT_RSSI_VALID));
-    if(128 <= (rssi = REG(RFCORE_XREG_RSSI)))
-	    rssi -= 256;
-    if(128 <= (freqest = REG(RFCORE_XREG_FREQEST)))
-	    freqest -= 256;
      /*
      *    * Form the seed by concatenating bits from IF_ADC in the RF receive path.
      *       * Keep sampling until we have read at least 16 bits AND the seed is valid
@@ -92,9 +92,12 @@ void RfRnd(unsigned char *seed, size_t seedlen)
      *             * Invalid seeds are 0x0000 and 0x8003 and should not be used.
      *                */
     for (i = 0; i < seedlen; i++) {
-        for (j = 0; j < sizeof(s) * 8; j++) {
+	//Read 8 bits from RFRND.
+        for (j = 0; j < 8; j++) {
             if (!((REG(RFCORE_XREG_RSSISTAT) & RFCORE_XREG_RSSISTAT_RSSI_VALID))) 
 	    {
+		//RF core is invalidated. Stop reading.
+		printf("#RFRND invalidated.\n");
                 overheated = 1;
                 break;
             }
@@ -106,19 +109,26 @@ void RfRnd(unsigned char *seed, size_t seedlen)
             break;
 	}
         seed[i] = s;
+	s = 0;
     }
 
+#if VERBOSE
+    //Read out RSSI and FREQEST.
+    if(128 <= (rssi = REG(RFCORE_XREG_RSSI)))
+	    rssi -= 256;
+    if(128 <= (freqest = REG(RFCORE_XREG_FREQEST)))
+	    freqest -= 256;
+    //Print bits read, RSSI and frequency offset.
+    printf("#(NBIT,RSSI,FREQEST) %d %d %d\n", i * 8, rssi - 73, (freqest * 7800 - 15000) / 1000 );
+#else
+    printf("#(NBIT) %d\n", i * 8);
+#endif
 
     /* RF Off. NETSTACK_RADIO.init() will sort out normal RF operation */
     CC2538_RF_CSP_ISRFOFF();
 
-    //Print bits read, RSSI and frequency offset.
-    if (!overheated)
-	i--;
-    printf("# %d %d %d\n", i * 8 + j, rssi - 73, (freqest * 7800 - 15000) / 1000 );
-
     printseed(seed, i);
-    printf("\n\n");
+    printf("\n");
 
     return;
 }
@@ -136,7 +146,6 @@ PROCESS_THREAD(prng_test_process, ev, data)
         PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&et));
         etimer_restart(&et);
         leds_on(LEDS_ALL);
-        //random_init(0);
         RfRnd(seed, sizeof(seed));
         leds_off(LEDS_ALL);
     }

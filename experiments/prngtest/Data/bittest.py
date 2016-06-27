@@ -82,7 +82,7 @@ def main(argc, argv):
     total = len(rndbitstream);
     print '#Total: {}'.format(total);
     nzero = rndbitstream.count('0');
-    print '#{}/{} {:03f}%'.format(nzero, total - nzero, float(nzero)/float(total));
+    print '#{}/{} {:03f}%'.format(nzero, total - nzero, 100 * float(nzero) / float(total));
 
     #Store bit stream into a file if specified.
     if bitfile != -1:

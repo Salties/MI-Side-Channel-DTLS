@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import numpy as np;
 import matplotlib.pyplot as plt;
@@ -7,10 +7,10 @@ import sys;
 
 HelpMsg="Usage: Plot data from stdin."
 
-windowsize = 200; #Window size
+windowsize = 100; #Window size
 rndv = [0.5] * windowsize; #Initialise buffer to 0.5.
-plotrange = 0.1;
-
+plotwidth = 0.02;
+updateinterval = 1;
 
 def update(data):
     line.set_ydata(data);
@@ -19,16 +19,22 @@ def update(data):
 def data_gen():
     while True:
         #Read new value from stdin.
-        newval = input();
+        newval = sys.stdin.readline();
+        #if newval[0] == '#':
+        #    continue;
+
+        try:
+            #Append the latest value to the end.            
+            rndv.append(float(newval));
+        except:
+            continue;
         #Pop out the oldest value.
         rndv.pop(0);
-        #Append the latest value to the end.
-        rndv.append(newval);
-        print(rndv); #For debug use.
+        #print(rndv); #For debug use.
         yield rndv;
 
 fig, ax = plt.subplots();
-ax.set_ylim(0.5 - plotrange, 0.5 + plotrange); #Y axis
+ax.set_ylim(0.5 - plotwidth, 0.5 + plotwidth); #Y axis
 line, = ax.plot(np.random.rand(windowsize));
 
 def main(argc, argv):
@@ -38,7 +44,7 @@ def main(argc, argv):
         print(HelpMsg);
         exit(0);
 
-    ani = animation.FuncAnimation(fig, update, data_gen, interval=10);
+    ani = animation.FuncAnimation(fig, update, data_gen, interval = updateinterval);
     plt.grid(True);
     plt.show();
     exit(0);

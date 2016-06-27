@@ -2,7 +2,7 @@
 
 import sys;
 
-windowsize = 2000;
+windowsize = 128 * 20;
 HelpMsg="Usage: Read stdin and computes frequency of bit 0."
 
 def ParseCmdArg(argc, argv):
@@ -23,10 +23,9 @@ def main(argc, argv):
         if newline == '':
             break;
         #Skip comments and blank line.
-        if newline[0] in "\n#":
+        if newline[0] in {'\n', '#'}:
             continue;
-
-        #Compute the length of new bitstring.
+        #Compute the length of new bitstring. -1 for '\n'.
         rndlen = 4 * (len(newline) - 1);
 
         #Convert into binary form.
@@ -48,7 +47,7 @@ def main(argc, argv):
         nzero = windowbuffer.count('0');
         #print "{}/{}".format(nzero, windowsize);
         #print "{:.5f}%".format(float(nzero)/float(windowsize));
-        print "{:.5f}".format(float(nzero)/float(windowsize));
+        print "{:.4f}".format(float(nzero)/float(windowsize));
 
     return;
 
