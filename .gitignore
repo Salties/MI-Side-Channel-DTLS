@@ -36,7 +36,8 @@ tinydtls/doc
 */tests/dtls-server
 */tests/prf-test
 
-
+#Ignore indent temporary files.
+*~
 
 #Ignore intermediate data
 *.csv
