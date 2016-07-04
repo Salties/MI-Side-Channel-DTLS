@@ -2,7 +2,7 @@
 
 import sys;
 
-windowsize = 128 * 20;
+windowsize = 128 * 100;
 HelpMsg="Usage: Read stdin and computes frequency of bit 0."
 
 def ParseCmdArg(argc, argv):
