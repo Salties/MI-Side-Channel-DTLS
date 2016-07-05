@@ -55,6 +55,7 @@ RfRnd (unsigned char *seed, size_t seedlen)
   unsigned char rndiq;
 #if VERBOSE
   static unsigned int prnd[4] = { 0 };
+  unsigned char rndi, rndq;
   int rssi = 0, freqest = 0;
   unsigned char agc_gain, lna1, lna2, lna3;
 #endif
@@ -117,14 +118,15 @@ RfRnd (unsigned char *seed, size_t seedlen)
 	      overheated = 1;
 	      break;
 	    }
+
+	  //Read one bit from RFRND.
 	  s <<= 1;
-	  //Read RFRND.
 	  rndiq = REG (RFCORE_XREG_RFRND);
+	  //Use random bit on I channel.
+	  s |= rndiq & RFCORE_XREG_RFRND_IRND;
 #if VERBOSE
 	  prnd[rndiq]++;
 #endif
-	  //Read a random bit on I channel.
-	  s |= rndiq & RFCORE_XREG_RFRND_IRND;
 	}
       if (overheated)
 	{
