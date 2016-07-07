@@ -55,7 +55,6 @@ RfRnd (unsigned char *seed, size_t seedlen)
   unsigned char rndiq;
 #if VERBOSE
   static unsigned int prnd[4] = { 0 };
-  unsigned char rndi, rndq;
   int rssi = 0, freqest = 0;
   unsigned char agc_gain, lna1, lna2, lna3;
 #endif
@@ -85,9 +84,9 @@ RfRnd (unsigned char *seed, size_t seedlen)
     //Turn off LNA and mixer.
     //REG(RFCORE_XREG_PTEST0) = 0x02 << 2;
     //AGC override.
-    //REG (RFCORE_XREG_AGCCTRL0) = 0x00;
-    //REG (RFCORE_XREG_AGCCTRL1) = 0x00;
-    //REG (RFCORE_XREG_AGCCTRL2) = 0x01;
+    //REG(RFCORE_XREG_AGCCTRL0) = 0x00; 	//Disable AAF attenuation.
+    //REG (RFCORE_XREG_AGCCTRL1) = 0x00;	//Manipulate refernece voltage.
+    //REG (RFCORE_XREG_AGCCTRL2) = 0xFF;	//Tune all AGCs to maximum.
   }
 
   /*
@@ -129,9 +128,9 @@ RfRnd (unsigned char *seed, size_t seedlen)
 #endif
 	}
       if (overheated)
-	{
-	  break;
-	}
+	break;
+
+      //Store a random byte.
       seed[i] = s;
       s = 0;
     }
