@@ -38,7 +38,7 @@
 #ifndef PROJECT_CONF_H_
 #define PROJECT_CONF_H_
 
-#define WATCHDOG_CONF_ENABLE 0
+#define WATCHDOG_CONF_ENABLE 1
 #define PRNG_TEST
 
 #endif /* PROJECT_CONF_H_ */
