@@ -1,14 +1,23 @@
 \section{Introduction}
-The expanding of IoT applications constantly demands higher requirements of security where cryptography plays a fundamental role.
 
-In this paper we aim to explain a failed RNG implementation for IoT devices.
+The expanding IoT applications constantly proposes higher requirements to security where cryptography plays an important role. Among all issues need to be solved before implementing cryptographic primitives on IoT devices, the implementation of a reliable Random Number Generator (RNG) is critical as it is required in most cryptographic algorithms. In practice, RNG implementations usually involves sampling from a physically high entropy source.
 
-\subsection{Contribution}
-In this paper we focus on two topics:
+In 2013, Texas Instruments released a new System-on-chip (SoC)  CC2538\cite{CC2538}, featuring integrity, 802.15.4 support and feasible for security applications with multiple cryptographic hardware accelerator. It was not long before it draw the community interest. For example, Contiki and OpenWSN soon published their support to CC2538 within the same year. As of writing this paper, this chip remains in the suggested list for Zigbee and 6LoWPAN solution.
+
+To our surprise, despite the advanced cryptographic hardware support, the chip does not have a RNG dedicated for cryptographic applications; instead, the user manual suggested to generate random number by:
 \begin{itemize}
-\item Revised the fact that why using a 16 bit LFSR as PRNG is a bad idea.
-\item Demonstrated a method to bias the RNG seed on an IoT device.
+	\item Sample the radio noise through Radio Frequency (RF) to generate a 16 bit random seed.
+	\item Initialise a 16 bit CRC16 LFSR by the seed and use the LSFR as a Pseudo Random Number Generator (PRNG).
 \end{itemize}
 
-\subsection{Related Work}
-Subsubsection text here and some citations \cite{IEEEexample:conf_typical} \cite{IEEEexample:articledualmonths}.
+This turned out to be a bad practice for building cryptography on these chips as:
+\begin{itemize}
+	\item The PRNG has only 16 bit entropy which can be easily brute forced.
+	\item Sampling the seed from RF induces the potential for an adversary to interfere the seeding procedure through radio signals.
+\end{itemize}
+
+In this paper, ...
+
+
+\section{Related Work}
+%Subsubsection text here and some citations \cite{IEEEexample:conf_typical} \cite{IEEEexample:articledualmonths}.
