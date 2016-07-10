@@ -4,7 +4,7 @@ The expanding IoT applications constantly proposes higher requirements to securi
 
 In 2013, Texas Instruments released a new System-on-chip (SoC)  CC2538\cite{CC2538}, featuring integrity, 802.15.4 support and feasible for security applications with multiple cryptographic hardware accelerator. It was not long before it draw the community interest. For example, Contiki and OpenWSN soon published their support to CC2538 within the same year. As of writing this paper, this chip remains in the suggested list for Zigbee and 6LoWPAN solution.
 
-To our surprise, despite the advanced cryptographic hardware support, the chip does not have a RNG dedicated for cryptographic applications; instead, the user manual suggested to generate random number by:
+To our surprise, despite all the cryptographic hardware support, the chip does not have a RNG dedicated for cryptographic applications; instead, the user manual suggested to generate random number by:
 \begin{itemize}
 	\item Sample the radio noise through Radio Frequency (RF) to generate a 16 bit random seed.
 	\item Initialise a 16 bit CRC16 LFSR by the seed and use the LSFR as a Pseudo Random Number Generator (PRNG).
@@ -16,8 +16,9 @@ This turned out to be a bad practice for building cryptography on these chips as
 	\item Sampling the seed from RF induces the potential for an adversary to interfere the seeding procedure through radio signals.
 \end{itemize}
 
-In this paper, ...
+In this paper, we first revised why such PRNG designed is a bad idea and explain hot this can be exploited to completely break DTLS within constant time.Then we present 
 
 
 \section{Related Work}
 %Subsubsection text here and some citations \cite{IEEEexample:conf_typical} \cite{IEEEexample:articledualmonths}.
+In 2010, the pitfall of using a 16 bit LFSR as PRNG has been reported by \cite{SmartMeterBlog}\cite{CC2530PRNG} for a sibling of this chip, CC2530. 
