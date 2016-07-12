@@ -25,7 +25,7 @@ By nature, the LFSR based PRNG is stateful. Further more, the CRC16 operation is
 \begin{equation} \label{PRNGState}
 \mathbb{S} = \{ S_{i} | S_{i} \in \{2\}^{16}\}
 \end{equation}
-\Cref{PRNGState} also implies that the LFSR can have no more than $|\mathbb{S}| = 2^{16} = 65536$ values, which is feasible to enumerate.
+\Cref{PRNGState} also implies that the LFSR can have no more than $|\mathbb{S}| = 2^{16} = 65536$ values.
 
 We also denote the LFSR update operation as:
 \begin{equation}
@@ -41,18 +41,44 @@ Denote the random seed sampled by the radio noise as $S^*$. The PRNG can be form
 	\end{aligned}
 \end{equation}
 
-Since ${S}$ is finite and $F$ is deterministic, the random number sequence will eventually results into a cyclic sequence. The maximum non-repetitive sequence of PRNG output $R$ can be represented as:
+Since ${S}$ is finite and $F$ is deterministic, the random number sequence will eventually results into a cyclic sequence. The maximum non-repetitive PRNG output sequence $R$ can be represented as:
 \begin{equation}
-R= <F^0(S^{*}), F^{1}(S^{*}), ..., F^{n-1}(S^{*})>
+R_{S^*}= (F^0(S^{*}), F^{1}(S^{*}), ..., F^{n-2}(S^{*}, F^{n-1}(S^{*}))
 \end{equation}
-where $S^{*} = F^{0}(S^{*}) = F^{n}(S^{*})$.
+where $S^{*} = F^{0}(S^{*}) = F^{n}(S^{*})$. Since the sequence is non-repetitive, we have $n \leq |\mathbb{S}|$. In another word, the cycle of PRNG output can be no longer than $65536$ calls.
 
-The sequence $R$ is determined once the seed $S^{*}$ is given. Since outputs in $R$ are non-repetitive, we have $n \leq |\mathbb{S}| = 65536$.
+A property of the sequence is that if a re-sampled seed $S^{*'}$ has appeared in $R_{S^*}$, i.e. $S^{*'} = F^{k}(S^*)$ where $k \in \mathbb{Z}_n$, then its corresponding maximum non-repetitive PRNG output sequence will be:
+\begin{equation}
+	\begin{aligned}
+	R_{S^{*'}} = &( F^{k}(S^*), F^{k+1}(S^{*}), ..., F^{n-1}(S^*), F^{0}(S^*), ...,\\
+	&F^{k-2}(S^{*}), F^{k-1}(S^{*})
+	\end{aligned}
+\end{equation}
 
+That is to say $R_{S^{*'}}$ can be obtained through left rotating $R_{S^*}$ by $k$ times. As a result, assume consecutive calls to the PRNG seeded by $S^*$ generated a random number sequence $R_0$ such that:
+\begin{equation}
+R_0 = (S_i, S_{i+1}, ..., S_{j})
+\end{equation}
 
+Then $R_0$ will definitely be reproduced during consecutive calls to the PRNG seeded by seed $S^{*'}$ as well. This property can be exploited to completely break DTLS as we will explain in \Cref{BreakDTLS}.
 
-\section{Broken DTLS}
-In this section we explain how to exploit the PRNG flaw to break ECDHE-ECDSA in DTLS handshake protocol.
+This property also indicates that if a seed that is not inside $R_{S^*}$, denote as $S^{**} \notin R_{S^*}$, then there will be no over lapping elements in $R_{S^{**}}$, i.e. $R_{S^{*}} \cap R_{S^{**}} = \emptyset$.
+
+By enumerating the 16 bit space of $\mathbb{S}$, our experiment on CC2538 has shown that for CC2538 PRNG there exists only two non-overlapping sequence:
+\begin{itemize}
+	\item $R_{0x0000}$ with $n = 32768$.
+	\item $R_{0x0001}$ with $n = 32767$.
+\end{itemize}
+The source code is available at \cite{prngtest}.
+
+\section{Breaking DTLS} \label{BreakDTLS}
+tinydtls\cite{tinydtls} is a DTLS implementation on Contiki. Its current available version\cite{tinydtls082} (0.8.2) supports two cipher suites, namely Pre Shared Key (PSK) and ECDHE\_ECDSA\cite{rfc4492}. 
+
+During the DTLS handshake, PRNG is used in two scenarios:
+\begin{description}
+	\item[ECDSA]
+	\item[ECDHE]
+\end{description}
 
 \section{Reflection}
 In this section we propose some idea to implement proper PRNGs on IoT devices.

@@ -9,7 +9,7 @@ To our surprise, despite all the cryptographic hardware support, the chip does n
 	\item Sampling the seed from RF induces the potential for an adversary to interfere the seeding procedure through radio signals.
 \end{itemize}
 
-In this paper, we first revised why such PRNG designed is a bad idea, explaining how this can be exploited to completely break DTLS within constant time simply by looking the handshake packets through a sniffer. Then we present a study to its method of sampling the random seed from radio noise and finally demonstrate how the seed could be biased through radio jamming. Our experiments are performed on Contiki release 3.0. The related source code can be accessed at \cite{prngtest}.
+In this paper, we first revised why such PRNG designed is a bad idea, explaining how this can be exploited to completely break DTLS handshake with ECDHE\_ECDSA. Then we present a study to its method of sampling the random seed from radio noise and finally demonstrate how the seed could be biased through radio jamming. Our experiments are performed on Contiki release 3.0. The related source code can be accessed at \cite{prngtest}.
 
 \section{Related Work}
 In 2010, the pitfall of using a 16 bit LFSR as PRNG has been reported by \cite{SmartMeterBlog}\cite{CC2530PRNG} for a sibling of this chip, CC2530...
