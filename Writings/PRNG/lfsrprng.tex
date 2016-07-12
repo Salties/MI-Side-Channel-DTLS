@@ -55,7 +55,7 @@ A property of the sequence is that if a re-sampled seed $S^{*'}$ has appeared in
 	\end{aligned}
 \end{equation}
 
-That is to say $R_{S^{*'}}$ can be obtained through left rotating $R_{S^*}$ by $k$ times. As a result, assume consecutive calls to the PRNG seeded by $S^*$ generated a random number sequence $R_0$ such that:
+That is to say $R_{S^{*'}}$ can be obtained through cyclic left rotating $R_{S^*}$ by $k$ times. As a result, assume consecutive calls to the PRNG seeded by $S^*$ generated a random number sequence $R_0$ such that:
 \begin{equation}
 R_0 = (S_i, S_{i+1}, ..., S_{j})
 \end{equation}
@@ -64,12 +64,12 @@ Then $R_0$ will definitely be reproduced during consecutive calls to the PRNG se
 
 This property also indicates that if a seed that is not inside $R_{S^*}$, denote as $S^{**} \notin R_{S^*}$, then there will be no over lapping elements in $R_{S^{**}}$, i.e. $R_{S^{*}} \cap R_{S^{**}} = \emptyset$.
 
-By enumerating the 16 bit space of $\mathbb{S}$, our experiment on CC2538 has shown that for CC2538 PRNG there exists only two non-overlapping sequence:
+By enumerating the 16 bit space of $\mathbb{S}$, our experiment on CC2538 has shown that for CC2538 PRNG there exists only two non-overlapping sequence(source code available at \cite{prngtest}):
 \begin{itemize}
 	\item $R_{0x0000}$ with $n = 32768$.
 	\item $R_{0x0001}$ with $n = 32767$.
 \end{itemize}
-The source code is available at \cite{prngtest}.
+The enumeration can be done within a few minutes. Any other sequences can be transformed to the above sequences through cyclic left rotation. 
 
 \section{Breaking DTLS} \label{BreakDTLS}
 tinydtls\cite{tinydtls} is a DTLS implementation on Contiki. Its current available version\cite{tinydtls082} (0.8.2) supports two cipher suites, namely Pre Shared Key (PSK) and ECDHE\_ECDSA\cite{rfc4492}. 
