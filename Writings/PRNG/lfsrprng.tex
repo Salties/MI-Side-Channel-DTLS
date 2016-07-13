@@ -72,13 +72,25 @@ By enumerating the 16 bit space of $\mathbb{S}$, our experiment on CC2538 has sh
 The enumeration can be done within a few minutes. Any other sequences can be transformed to the above sequences through cyclic left rotation. 
 
 \section{Breaking DTLS} \label{BreakDTLS}
-tinydtls\cite{tinydtls} is a DTLS implementation on Contiki. Its current available version\cite{tinydtls082} (0.8.2) supports two cipher suites, namely Pre Shared Key (PSK) and ECDHE\_ECDSA\cite{rfc4492}. 
+tinydtls\cite{tinydtls} is a DTLS implementation on Contiki. Its current available version\cite{tinydtls082} (0.8.2) supports two cipher suites, namely Pre Shared Key (PSK) and ECDHE\_ECDSA\cite{rfc4492}. The only curve supported by the implementation is secp256r1\cite{secp256r1}.
 
-During the DTLS handshake, PRNG is used in two scenarios:
-\begin{description}
-	\item[ECDSA]
-	\item[ECDHE]
-\end{description}
+As explained in \Cref{LFSR}, the CC2538 PRNG output is a predictable stream of cycle less than $2^{16}$ calls; therefore the possible key selection can be easily enumerated and leads to a complete break of cryptographic systems relies on its randomness.    
+
+\subsection{Attacking the PRNG}
+
+An ECC key generation is performed as following:
+\begin{algorithmic}[1]
+\REQUIRE Domain Parameter $T = (p, a, b, G, n, h)$ as specified by \cite{secp256r1}.
+\STATE Randomly select $d \in [1, n-1]$.
+\STATE Compute $Q = dG$.
+\RETURN $(Q,d)$, where $Q$ is the public key and $d$ the secret key.
+\end{algorithmic}
+
+tinydtls does not have its own RNG implementation; instead it invokes the Contiki system RNG API random\_rand(), of which output is predictable, in a loop to generate arbitrary length of random number (tinydlts/dtls\_prng.h). Since $T$ is public, this vulnerability would allow an adversary to pre-compute the public keys by enumerating all secret keys beginning in each position of $R_{0x0000}$ and $R_{0x0001}$ and build up a look up table. Upon observing a public key, the adversary can immediately invert its corresponding secret key in the table.
+
+We have generated such a look up table in \cite{prngtest}. The pre-computation for the $65536$ keys takes less than 5 minutes on an laptop powered by i7-2620M. 
+
+\subsection{Affect to DTLS handshake}
 
 \section{Reflection}
 In this section we propose some idea to implement proper PRNGs on IoT devices.
