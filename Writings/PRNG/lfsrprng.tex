@@ -148,7 +148,7 @@ We have tested the attacks by sniffing two CC2538 nodes performing handshake usi
 
 \section{Reflection on PRNG design}
 %Stdlib implementation
-Investigating RNG implementations in other platforms supported by Contiki, we realised that most of them does not have a dedicated RNG implementation and by default wraps rand() in stdlib as the RNG. Hence we investigated the some of the open sourced stdlib implementations. For the majority, i.e. stdlib for ARM\cite{ARMrand}, AVR\cite{AVRrand} and MSP430\cite{MSP430rand}, the rand() implementation can be abstracted as \Cref{rand}. The type of variable \textit{seed}  may vary on different platforms. The \textit{do\_rand()} function outputs a congruent of linear transformation of \textit{seed} before updates it.
+Investigating RNG implementations in other platforms supported by Contiki, we realised that most of them does not have a dedicated RNG implementation and by default wraps rand() in stdlib as the RNG. We then followed to some of the open sourced stdlib implementations. For the majority of the libraries, i.e. stdlib for ARM\cite{ARMrand}, AVR\cite{AVRrand} and MSP430\cite{MSP430rand}, the rand() implementation can be abstracted as \Cref{rand}. The type of variable \textit{seed}  may vary on different platforms. The \textit{do\_rand()} function outputs a congruent of linear transformation of \textit{seed} before updates it.
  
 \begin{figure}
 \lstinputlisting[breaklines=true,basicstyle=\scriptsize]{src/rand.c}
@@ -156,10 +156,8 @@ Investigating RNG implementations in other platforms supported by Contiki, we re
 \label{rand}
 \end{figure}
 
-It is clear that such design would also yield into a predictable random number stream with cycle no longer than the range of \textit{seed}, as the same \textit{seed} will return the same output. On the above platforms, the cycles are no longer than are $2^{32}$, $2^{16}$ and $2^{16}$ respectively.
+It is clear that such design would also yield into a predictable random number stream with cycle no longer than the range of \textit{seed}, as the same \textit{seed} will return the same output. On the above platforms, the cycles are no longer than $2^{32}$, $2^{16}$ and $2^{16}$ calls respectively.
 
 %Improvements (NIST 800-90A)
 As an improvement, we suggest to use more sophisticated PRNG implementation for cryptographic applications. \cite{NISTPRNG} has recommended several PRNG constructions based on approved hash functions and block ciphers. Specifically for CC2538, SHA-256 and AES have hardware coprocessor support and hence can be considered candidates for implementing cryptographically secure PRNG according to \cite{NISTPRNG}.
-
-
 
