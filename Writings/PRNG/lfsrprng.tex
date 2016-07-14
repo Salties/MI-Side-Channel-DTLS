@@ -21,7 +21,9 @@ Another way to update the LFSR is to set the RCTRL bits in the SOC\_ADC\_ADCCON1
 
 In another word, the LFSR is updated by performing 13 CRC16 operations in \Cref{CRC16}.
 
-By nature, the LFSR based PRNG is stateful. Further more, the CRC16 operation is deterministic. Sine there are only 16 bits in the LFSR, we can denote the universal set of its  possible values $\mathbb{S}$ as:
+By nature, the LFSR based PRNG is stateful. Further more, the CRC16 operation is deterministic. Combined with the small space of $16$ bits, the output of PRNG can be easily predicted.
+
+Since there are only 16 bits in the LFSR, we can denote the universal set of its  possible values $\mathbb{S}$ as:
 \begin{equation} \label{PRNGState}
 \mathbb{S} = \{ S_{i} | S_{i} \in \{2\}^{16}\}
 \end{equation}
@@ -62,13 +64,17 @@ R_0 = (S_i, S_{i+1}, ..., S_{j})
 
 Then $R_0$ will definitely be reproduced during consecutive calls to the PRNG seeded by seed $S^{*'}$ as well. This property can be exploited to completely break DTLS as we will explain in \Cref{BreakDTLS}.
 
-This property also indicates that if a seed that is not inside $R_{S^*}$, denote as $S^{**} \notin R_{S^*}$, then there will be no over lapping elements in $R_{S^{**}}$, i.e. $R_{S^{*}} \cap R_{S^{**}} = \emptyset$.
+This property also indicates that if a seed that is not inside $R_{S^*}$, denote as $S^{**} \notin R_{S^*}$, then there will be no over lapped elements between  $R_{S^{**}}$ and  $R_{S^{**}}$.
 
-By enumerating the 16 bit space of $\mathbb{S}$, our experiment on CC2538 has shown that for CC2538 PRNG there exists only two non-overlapping sequence(source code available at \cite{prngtest}):
+By enumerating the 16 bit space of $\mathbb{S}$, our experiment on CC2538 has shown that for CC2538 PRNG there exists four non-overlapping sequence(source code available at \cite{prngtest}):
 \begin{itemize}
-	\item $R_{0x0000}$ with $n = 32768$.
-	\item $R_{0x0001}$ with $n = 32767$.
+	\item $R_{0x0001}$ with $n = 32766$.
+	\item $R_{0x0003}$ with $n = 32767$.
+	\item $R_{0x0000}$ with $n = 1$.
+	\item $R_{0x8003}$ with $n = 1$.
 \end{itemize}
+where $R_{0x0000}$ and $R_{0x8003}$ are excluded by the manual\cite{CC2538Manual}.
+
 The enumeration can be done within a few minutes. Any other sequences can be transformed to the above sequences through cyclic left rotation. 
 
 \section{Breaking DTLS} \label{BreakDTLS}
@@ -79,6 +85,7 @@ As explained in \Cref{LFSR}, the CC2538 PRNG output is a predictable stream of c
 \Cref{KeyGen} briefly describes the ECC Key Generation.
 \begin{figure}
 	\begin{algorithmic}[1]
+	\scriptsize
 	\REQUIRE Domain Parameter $T = (p, a, b, G, n, h)$ as specified by \cite{secp256r1}.
 	\STATE Randomly select $d \in [1, n-1]$.
 	\STATE Compute $Q = dG$.
@@ -97,23 +104,25 @@ The attack can be applied to two targets during a DTLS handshake of ECDHE\_ECDSA
 \item \paragraph{\textbf{ECDHE}}
 	\begin{figure}
 		\begin{algorithmic}[1]
+		\scriptsize
 		\REQUIRE Domain Parameter $T = (p, a, b, G, n, h)$. Party $A$'s key pair $(Q_A, d_A)$ and party $B$'s key pair $(Q_B, d_B)$. 
 		\STATE $A$ randomly picks $r_A \in [0, n-1]$. 
 		\STATE $B$ randomly picks $r_B \in [0, n-1]$.
 		\STATE $A$ computes $Q_A = {r_A}G$ and sends $Q_A$ to $B$.
 		\STATE $B$ computes $Q_B = {r_B}G$ and sends $Q_B$ to $A$.
 		\STATE Both $A$ and $B$ computes $Q_{AB} = {r_A}{r_B}G = {r_A}{Q_B} = {r_B}{Q_A}$.
-		\RETURN Both $A$ and $B$ returns $K = Hash(Q_{AB})$ as the shared symmetric key.
+		\RETURN Both $A$ and $B$ returns $K = Hash(Q_{AB})$ as the shared secret.
 		\end{algorithmic}
 		\caption{ECDHE}
 		\label{ECDHE}
 	\end{figure}
 	
-	ECDHE is a key exchange protocol that allows two party to derive a shared secret. In DTLS, ECDHE is performed at the end of DTLS handshake to derive a shared symmetric key that is used for encrypting data packets. \Cref{ECDHE} provides a brief description of ECDHE. The adversary can recover $r_A$ and $r_B$ by observing $Q_A$ and $Q_B$ that is being sent in the packets; hence computes $K$ to decrypt any further encrypted packets.
+	ECDHE is a key exchange protocol that allows two party to derive a shared secret. In DTLS, ECDHE is performed at the end of DTLS handshake to derive a shared symmetric key that is used for encrypting data packets. \Cref{ECDHE} provides a brief description of ECDHE. The adversary can recover $r_A$ and $r_B$ by observing $Q_A$ and $Q_B$ that is being sent in the packets; hence computes $K$ to derive the symmetric key used in later communication.
 
 \item \paragraph{\textbf{ECDSA}}
 	\begin{figure}
 		\begin{algorithmic}[1]
+		\scriptsize
 		\REQUIRE Domain Parameter $T = (p, a, b, G, n, h)$, server key pair $(Q,d)$ and a message to be signed $m$.
 		\STATE Randomly select $k \in [1, n-1]]$.
 		\STATE Compute $kG = (x_1, y_1)$ and let $r = x_1 \mod n$.
@@ -135,7 +144,22 @@ The attack can be applied to two targets during a DTLS handshake of ECDHE\_ECDSA
 	With the knowledge of $k$, the adversary will be able to impersonate the victim server.
 \end{itemize}
 
-We have tested the attacks by sniffing two CC2538 nodes performing handshake using the example code provided by tinydtls and have successfully recovered the secret keys using the look up table in \cite{prngtest}.
+We have tested the attacks by sniffing two CC2538 nodes performing handshake using the example code provided by tinydtls. The secret keys have been successfully recovered using the look up table in \cite{prngtest}.
 
-\section{Reflection}
-In this section we propose some idea to implement proper PRNGs on IoT devices.
+\section{Reflection on PRNG design}
+%Stdlib implementation
+Investigating RNG implementations in other platforms supported by Contiki, we realised that most of them does not have a dedicated RNG implementation and by default wraps rand() in stdlib as the RNG. Hence we investigated the some of the open sourced stdlib implementations. For the majority, i.e. stdlib for ARM\cite{ARMrand}, AVR\cite{AVRrand} and MSP430\cite{MSP430rand}, the rand() implementation can be abstracted as \Cref{rand}. The type of variable \textit{seed}  may vary on different platforms. The \textit{do\_rand()} function outputs a congruent of linear transformation of \textit{seed} before updates it.
+ 
+\begin{figure}
+\lstinputlisting[breaklines=true,basicstyle=\scriptsize]{src/rand.c}
+\caption{rand() implementations in stdlib}
+\label{rand}
+\end{figure}
+
+It is clear that such design would also yield into a predictable random number stream with cycle no longer than the range of \textit{seed}, as the same \textit{seed} will return the same output. On the above platforms, the cycles are no longer than are $2^{32}$, $2^{16}$ and $2^{16}$ respectively.
+
+%Improvements (NIST 800-90A)
+As an improvement, we suggest to use more sophisticated PRNG implementation for cryptographic applications. \cite{NISTPRNG} has recommended several PRNG constructions based on approved hash functions and block ciphers. Specifically for CC2538, SHA-256 and AES have hardware coprocessor support and hence can be considered candidates for implementing cryptographically secure PRNG according to \cite{NISTPRNG}.
+
+
+
