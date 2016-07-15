@@ -1,4 +1,4 @@
-\section{RF Noise Seeding} \label{Seed}
+\section{Seeding by RF Noise} \label{Seed}
 
 Seeding is important in RNG designs as it is fundamental to the randomness of PRNG. CC2538 suggests in its manual to  use the RF core to generate sample seed, as quote as:(Section 16.2.2 in CC2538 User's Guide\cite{CC2538Manual})
 \begin{quote}
@@ -28,3 +28,7 @@ Their test results are shown in \Cref{SeedResult}.
 \end{figure}
 
 To further verify the randomness of this seeding method, we applied the NIST Statistical Test Suite\cite{NISTTest} on 13263600 bits sampled by this seeding method using our application in \cite{prngtest}. Since each read to RFRND generates only $1$ bit, we concatenated all bits into one bit stream of length $13263600$. The bits has passed all tests in the NIST test suite, with $P(0) = 0.49995001$ and $P(1) = 0.50004999$. The full report and raw data are applicable at \cite{prngtest}.
+
+Despite the good randomness of the seed, sampling from RF noise remains sceptical from a security perspective as such physical source can be easily tampered remotely by sending signal wave to the device.
+
+The released documents did not explain further details of how the output of IF\_ADC in the I/Q channel of receive path is translated to a random bit. We have neither found any open document describes  the RF design of CC2538. However, we also noticed the same RNG design has been applied on several product in TI's SimpleLink\texttrademark series.
