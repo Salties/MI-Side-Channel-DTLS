@@ -90,3 +90,18 @@ Observing \Cref{RNDOutput}, one thing to be noticed is that any difference in $V
 \section{Biasing Seed by Radio Jamming}
 At a first glance one way to bias the seed is to generate a predictable $V_{in}$. \Cref{RNDOutput} indicates that the random bit $b$ is jointly determined by the signal $V$ and noise $N$. Even though $V$ can be viewed as being controlled by the adversary, manipulating $N$ turns out to be difficult in practice. For instance, noises accumulated by different amplification stages are physically inevitable. Hence fixing $V_{in}$ does not seem to be easily achievable in practice.
 
+Therefore an alternative attempt is to provide the RF with an illegal $V_{in}$. Two methods are considered in our experiments:
+\begin{itemize}
+	\item Saturation. This method attempts to provide the RF with a strong signal that is above its acceptance level.
+	\item Decimation. This method attempts to provide the RF with a weak signal that is beneath its acceptance level.
+\end{itemize}
+
+Ideally we expect these illegal inputs will trigger the ADC into a fault state which could potentially result into a predictable output and thus predictable $b$. But in practice, decimation does not seem practical for the same reason that noises induced by the circuits themself is physically inevitable. This made saturation the only viable option.
+
+Meanwhile, the undisclosed circuit design of the device also poses a great difficulty in our experiments as without knowledge of the exact circuit designed it would be difficult to the deduce the most effective signal as well as to predict the outcome. We have only performed black box experiments on OpenMote which is a CC2538 based SoC.
+
+\subsection{Sine wave signal}
+
+\subsection{Sawtooth sine wave signal}
+
+\subsection{Pulse signal}
