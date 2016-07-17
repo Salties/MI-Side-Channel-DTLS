@@ -127,7 +127,7 @@ The signal can be achieved by multiplying a strong sine wave signal at the carri
 	\item Generate bursts that saturates the ADC; therefore bits sampling during the transients will result into predicted bits.
 \end{enumerate}
 
-In our experiments, we used the default frequency $2475MHz$ for the carrier wave. \cite{CC2538Manual} stated a programmable register (RFCORE\_XREG\_AGCCTRL3) which allows the user to select the AGC settle timing between 15, 20, 25 and 30 periods with default at 20. In the same document, the description of register RFCORE\_XREG\_RFC\_OBS\_CTRL0 stated that the random bit at both I and Q channels are updated at $8MHz$ which suggests that the receiver may have a sample rate of $16MHz$. Since the controlling signal should be near the AGC adjustment frequency, this would give us a sawtooth signal near $0.8MHz$.
+In our experiments, we used the default frequency $2475MHz$ for the carrier wave. The CC2538 User's Guide\cite{CC2538Manual} stated a programmable register (RFCORE\_XREG\_AGCCTRL3) which allows the user to select the AGC settle timing between 15, 20, 25 and 30 periods with default at 20. In the same document, the description of register RFCORE\_XREG\_RFC\_OBS\_CTRL0 stated that the random bit at both I and Q channels are updated at $8MHz$ which suggests that the receiver may have a sample rate of $16MHz$. Since the controlling signal should be slightly lower than the AGC adjustment frequency, this would give us a sawtooth signal near $0.8MHz$.
  
 %Formally, denote the carrier signal $V_C$ as:
 %\begin{equation}
@@ -152,6 +152,8 @@ In our experiments, we used the default frequency $2475MHz$ for the carrier wave
 %	\item Generate bursts that saturates the ADC; therefore bits sampling during those period results into predicted bits.
 %\end{enumerate}
 
-We have experimented the signal using a HackRF One\cite{HackRFOne} directly connected to an OpenMote\cite{OpenMote}. Unfortunately no significant bias was reported by the NIST test suite. The reason might be that the period of transient is too short to significantly affect the seed.
+We have experimented the signal using a HackRF One\cite{HackRFOne} directly connected to an OpenMote\cite{OpenMote}., but no significant bias was reported by the NIST test suite. Although the exact cause is unknown due to lack of design documentation but one potential reason might be that the period of transient is too short to significantly affect the seed.
 
 \subsection{Pulse signal} \label{Pulse}
+Another signal we attempted is a strong pulse signal.
+
