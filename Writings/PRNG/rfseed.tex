@@ -176,20 +176,30 @@ Again GRC and HackRF One are used as the signal source. The corresponding GRC so
 \end{tabular}
 \end{table}
 
-We first applied the signal to the same OpenMote we used for the previous experiments. By increasing the IF Gain we begin to observe pure $0$ seed.
+Applying the signal, we observed abnormally 0-runs, i.e. consecutive $0$ bits, appeared in the seeds as we increase IF gain to values above $10dB$. \Cref{IFvsP0} shows how $P(0)$ is biased and \Cref{IFvsN0} shows the maximum number of 0-runs in each seed. We can see that the bias has reached its peak at $IF\_gain = 22dB$ in both figures. At this value $27.709\%$ of the 128 bit seeds have maximum 0-runs more than $64$ bits.
 
-[Some data for pure-zero seed goes here.]
+\begin{figure*}[!t]
+\centering
+\subfloat[$P(0)$ to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_P0_new.png}
+\label{IFvsP0}}
+\hfil
+\subfloat[Average 0-runs to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_N0_new.png}
+\label{IFvsN0}}
+\caption{Seed under Constant Signal}
+\label{ConstantSignalBiased}
+\end{figure*}
 
-We re-applied the signal to a new OpenMote but the same phenomenon was not observed. Applying the NIST test suite, we realise the seed begins to fail several tests. 
+It is not surprise to see the sampled seeds have failed nearly all tests in the NIST test suite, indicating the seed has been strongly biased by our signal. A full report can be accessed at \cite{prngtest}.
 
-[Some analysis goes here.]
+We re-applied the signal to the same OpenMote we used for the previous experiments. A even stronger bias is observed as shown in \Cref{StronglyBiased}. We consider this may be caused by that the strong signal in the previous experiments has created permanent bias to the device. We therefore restored its AGC configuration to default and re-ran the NIST test suite but the sample seed has passed all tests as before. We also tested the device using example application provided by Contiki and found no malfunctioning on the device. The permanent damage does not seem to affect the device under normal operational status. In practice, this indicates that such bias may be difficult to be notice for a victim.
 
-It seems our experiments in \Cref{StrongSine} may have caused permanent damage to the device. We therefore restored its AGC configuration to default and re-ran the NIST test suite but the sample seed has passed all tests as before. We also tested the device using example application provided by Contiki and found no malfunctioning on the device. The permanent damage does not seem to affect the device under normal operational status. In practice, this indicates that such bias may be difficult to be notice for a victim.
-
-In conclusion two types of signal that can bias the seed were found in our experiments:
-\begin{itemize}
-	\item A strong sine wave signal may cause a permanent bias on the device which can be triggered by a constant signal.
-	\item A constant signal itself can also trigger a bias in the random seed.
-\end{itemize}
+\begin{figure*}[!t]
+\centering
+\subfloat[$P(0)$ to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_P0.png}}
+\hfil
+\subfloat[Average 0-runs to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_N0.png}}
+\caption{Biased Seed on OpenMote used in previous experiments}
+\label{StronglyBiased}
+\end{figure*}
 
 Again due to lack of design documentation we can not explain how exactly the bias is triggered by the signal. Nevertheless our experiments have demonstrated that sampling seed using RF noise could potentially be biased by jamming signal and hence potentially breaching any cryptographic protocol relies on its randomness.

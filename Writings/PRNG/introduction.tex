@@ -12,7 +12,9 @@ To our surprise, despite all the cryptographic hardware support, the chip does n
 In this paper, we first revised why such PRNG designed is a bad idea, explaining how this can be exploited to completely break DTLS handshake with ECDHE\_ECDSA. Then we present a study to its method of sampling the random seed from radio noise and finally demonstrate how the seed could be biased through radio jamming. Our experiments are performed on Contiki release 3.0. The related source code can be accessed at \cite{prngtest}.
 
 \section{Related Work}
-In 2010, the pitfall of using a 16 bit LFSR as PRNG has been reported by \cite{SmartMeterBlog}\cite{CC2530PRNG} for a sibling of this chip, CC2530...
+The design flaw of using a 16 bit LFSR as PRNG has been reported by \cite{SmartMeterBlog}\cite{CC2530PRNG} on CC2430, which is one of the predecessors of CC2538. The blogs reported the flaw and warned that it could easily be exploited to break the Z-Stack library\cite{ZStack} and Smart Energy Profile ECC in many Smart Meter applications.
+
+With respect to using jamming signal to bias the seed, this is the first work that has been done on this subject to our knowledge.
 
 \section{Contiki Driver Issue}
 As of writing this paper,  the CC2538 RNG driver in the current Contiki release version (release-3.0) has some coding issues, including:
