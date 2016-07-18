@@ -184,3 +184,12 @@ We re-applied the signal to a new OpenMote but the same phenomenon was not obser
 
 [Some analysis goes here.]
 
+It seems our experiments in \Cref{StrongSine} may have caused permanent damage to the device. We therefore restored its AGC configuration to default and re-ran the NIST test suite but the sample seed has passed all tests as before. We also tested the device using example application provided by Contiki and found no malfunctioning on the device. The permanent damage does not seem to affect the device under normal operational status. In practice, this indicates that such bias may be difficult to be notice for a victim.
+
+In conclusion two types of signal that can bias the seed were found in our experiments:
+\begin{itemize}
+	\item A strong sine wave signal may cause a permanent bias on the device which can be triggered by a constant signal.
+	\item A constant signal itself can also trigger a bias in the random seed.
+\end{itemize}
+
+Again due to lack of design documentation we can not explain how exactly the bias is triggered by the signal. Nevertheless our experiments have demonstrated that sampling seed using RF noise could potentially be biased by jamming signal and hence potentially breaching any cryptographic protocol relies on its randomness.
