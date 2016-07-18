@@ -66,9 +66,9 @@ A block diagram is also provided, as shown in \Cref{CC2520RFRND}.
 
 Interestingly, we noticed that CC2538, CC2520, CC253X and CC2540/41 reported exactly the identical randomness test result in their user manuals (\cite{CC2538Manual} \cite{ CC2520Manual} \cite{CC2530Manual}). This suggests they are very likely to have the same seeding design.
 
-Assuming the same design has been applied to CC2538, it would explained the nice randomness of the seeding method. Denote $V$ as analogue RF signal and $N$ as noise, the analogue input to the ADC $V_{in}$ can be represented as:
-\begin{equation}
-V_{in} = V + N
+Assuming the same design has been applied to CC2538, it would explained the nice randomness of the seeding method. Denote $V_s$ as the analogue RF signal and $N$ as noise, the analogue input to the ADC $V_{in}$ can be represented as:
+\begin{equation} \label{V_in}
+V_{in} = V_s + N
 \end{equation}
 
 The noise $N$ can be induced by multiple sources in practice, including:
@@ -81,14 +81,14 @@ In practice, manipulating the noise could be difficult.
 
 The random bit $b$ can be represented as:
 \begin{equation} \label{RNDOutput}
-b = LSB(V_{in}) = LSB(V + N)
+b = LSB(V_{in}) = LSB(V_s + N)
 \end{equation}
 where $LSB() \in \{0,1\}$ represents the operation of taking the LSB of A/D conversion output.
 
 Observing \Cref{RNDOutput}, one thing to be noticed is that any difference in $V_{in}$ larger than the scale of ADC, i.e. the voltage represented by its LSB, could flip $b$. According to CC2538 data sheet\cite{CC2538Datasheet}, the receiver can be sensitive to signals down to $-97dBm$ (typical value with $T_A = 25^{\circ}C$, $V_{DD} = 3V$ and $f_{C} = 2440MHz$). On the other hand, the typical environmental noise in our experimental environment, which is a typical office with multiple noise sources such as  WiFi, smart phones, etc, is about $-92dBm$ which is significantly higher than the receiver sensitivity. We consider the result of the randomness test as an evidence to this sampling method.
 
 \section{Biasing Seed by Radio Jamming}
-At a first glance one way to bias the seed is to generate a predictable $V_{in}$. \Cref{RNDOutput} indicates that the random bit $b$ is jointly determined by the signal $V$ and noise $N$. Even though $V$ can be viewed as being controlled by the adversary, manipulating $N$ turns out to be difficult in practice. For instance, noises accumulated by different amplification stages are physically inevitable. Hence fixing $V_{in}$ does not seem to be easily achievable in practice.
+At a first glance one way to bias the seed is to generate a predictable $V_{in}$. \Cref{RNDOutput} indicates that the random bit $b$ is jointly determined by the signal $V_s$ and noise $N$. Even though $V_s$ can be viewed as being controlled by the adversary, manipulating $N$ turns out to be difficult in practice. For instance, noises accumulated by different amplification stages are physically inevitable. Hence fixing $V_{in}$ does not seem to be easily achievable in practice.
 
 Therefore an alternative attempt is to provide the RF with an illegal $V_{in}$. Two methods are considered in our experiments:
 \begin{itemize}
@@ -152,8 +152,35 @@ In our experiments, we used the default frequency $2475MHz$ for the carrier wave
 %	\item Generate bursts that saturates the ADC; therefore bits sampling during those period results into predicted bits.
 %\end{enumerate}
 
-We have experimented the signal using a HackRF One\cite{HackRFOne} directly connected to an OpenMote\cite{OpenMote}., but no significant bias was reported by the NIST test suite. Although the exact cause is unknown due to lack of design documentation but one potential reason might be that the period of transient is too short to significantly affect the seed.
+The signal source is implemented using Gnu Radio Companion\cite{GRC} with a HackRF One\cite{HackRFOne} directly connected to an OpenMote\cite{OpenMote}. However, no significant bias was reported by the NIST test suite. The exact cause of failure is unknown due to lack of design documentation but one potential reason might be that the period of transient is too short to significantly affect the seed.
 
-\subsection{Pulse signal} \label{Pulse}
-Another signal we attempted is a strong pulse signal.
+\subsection{Constant signal} \label{Constant}
+Another signal we attempted is a strong constant signal. The idea behind is that the same $V_{in}$ should always generates the same $b$, either $0$ or $1$. In order to achieve constant $V_{in}$ in \Cref{V_in}, the $V_s$ needs to be significantly greater than $N$ to suppress its impact in \Cref{RNDOutput}, as any ADC would have only a limited resolution.
+
+For experimental purpose, we have configured the three programmable LNAs in the AGC to their maximum gain ($6 + 21 + 9 = 36(dBm)$ in total) and has disabled the attenuator in Anti Aliasing Filter (AAF, up to $9dB$). We consider these modifications can be compensated by a strong signal amplifier in practice.
+
+Again GRC and HackRF One are used as the signal source. The corresponding GRC source file is applicable via \cite{prngtest}. \Cref{ConstantSignal} lists the parameters of the signal source configuration.
+
+\begin{table}[!t]
+\caption{Signal source parameters for constant signal}
+\label{ConstantSignal}
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Sample Rate} & 8 MHz             \\ \hline
+\textbf{Output Type} & Complex           \\ \hline
+\textbf{Waveform}    & Sine (can be any) \\ \hline
+\textbf{Frequency}   & 2475 MHz          \\ \hline
+\textbf{Amplitude}   & 0                 \\ \hline
+\textbf{Offset}      & 10                \\ \hline
+\end{tabular}
+\end{table}
+
+We first applied the signal to the same OpenMote we used for the previous experiments. By increasing the IF Gain we begin to observe pure $0$ seed.
+
+[Some data for pure-zero seed goes here.]
+
+We re-applied the signal to a new OpenMote but the same phenomenon was not observed. Applying the NIST test suite, we realise the seed begins to fail several tests. 
+
+[Some analysis goes here.]
 
