@@ -87,7 +87,7 @@ where $LSB() \in \{0,1\}$ represents the operation of taking the LSB of A/D conv
 
 Observing \Cref{RNDOutput}, one thing to be noticed is that any difference in $V_{in}$ larger than the scale of ADC, i.e. the voltage represented by its LSB, could flip $b$. According to CC2538 data sheet\cite{CC2538Datasheet}, the receiver can be sensitive to signals down to $-97dBm$ (typical value with $T_A = 25^{\circ}C$, $V_{DD} = 3V$ and $f_{C} = 2440MHz$). On the other hand, the typical environmental noise in our experimental environment, which is a typical office with multiple noise sources such as  WiFi, smart phones, etc, is about $-92dBm$ which is significantly higher than the receiver sensitivity. We consider the result of the randomness test as an evidence to this sampling method.
 
-\section{Biasing Seed by Radio Jamming}
+\section{Biasing Seed by Radio Jamming}\label{Jamming}
 At a first glance one way to bias the seed is to generate a predictable $V_{in}$. \Cref{RNDOutput} indicates that the random bit $b$ is jointly determined by the signal $V_s$ and noise $N$. Even though $V_s$ can be viewed as being controlled by the adversary, manipulating $N$ turns out to be difficult in practice. For instance, noises accumulated by different amplification stages are physically inevitable. Hence fixing $V_{in}$ does not seem to be easily achievable in practice.
 
 Therefore an alternative attempt is to provide the RF with an illegal $V_{in}$. Two methods are considered in our experiments:
