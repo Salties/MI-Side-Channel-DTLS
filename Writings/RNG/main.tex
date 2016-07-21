@@ -8,8 +8,8 @@
 
 \input{packages}
 
-\title{Really Not Good RNG}
-\author{Yan Yan}
+\title{On the Insecurity of the Randomness Generation in a Large Class of Commercial IoT Devices.}
+\author{}
 \date{\today}
 
 \begin{document}
@@ -17,7 +17,9 @@
 \maketitle
 
 %\tableofcontents
-
+\begin{abstract}
+Smart metering, smart parking, health, environment monitoring, and other applications drive the deployment of the so-called Internet of Things (IoT). Whilst cost and energy efficiency are the main factors that contribute to the popularity of commercial devices in the IoT domain, security features are increasingly desired. Security features typically guarantee authenticity of devices and/or data, as well as confidentiality of data in transit. Our study finds that whilst cryptographic algorithms for confidentiality and authenticity are supported in hardware on a popular class of devices, there is no adequate support for random number generation available. We show how to passively manipulate the on-board source for randomness, and thereby we can completely undermine the security provided by (otherwise) strong cryptographic algorithms, with devastating results. 
+\end{abstract}
 \input{introduction}
 \input{lfsrprng}
 \input{rfseed}
