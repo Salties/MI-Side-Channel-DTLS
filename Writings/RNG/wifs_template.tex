@@ -362,25 +362,24 @@
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
 %\title{Bare Demo of IEEEtran.cls\\ for IEEE Conferences}
-\title{Really Not Good RNG}
+\title{Cryptographic Randomness on a CC2538: a Case Study}
 
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-% Yo
-\author{\IEEEauthorblockN{Anonymous  Author1 }
-\IEEEauthorblockA{Affiliation \\Affiliation \\
-Email: author1@anon.myo.us}
-\and
-\IEEEauthorblockN{Anonymous  Author2}
-\IEEEauthorblockA{ Affiliation\\
-Affiliation\\
-Email:  author2@anon.myo.us}
-\and
-\IEEEauthorblockN{Author 3 and Author 4}
-\IEEEauthorblockA{Affiliation\\
-Affiliation\\
-Email:  \{author3,author4\}@anon.myo.us}}
+%\author{\IEEEauthorblockN{Anonymous  Author1 }
+%\IEEEauthorblockA{Affiliation \\Affiliation \\
+%Email: author1@anon.myo.us}
+%\and
+%\IEEEauthorblockN{Anonymous  Author2}
+%\IEEEauthorblockA{ Affiliation\\
+%Affiliation\\
+%Email:  author2@anon.myo.us}
+%\and
+%\IEEEauthorblockN{Author 3 and Author 4}
+%\IEEEauthorblockA{Affiliation\\
+%Affiliation\\
+%Email:  \{author3,author4\}@anon.myo.us}}
 
 % conference papers do not typically use \thanks and this command
 % is locked out in conference mode. If really needed, such as for
@@ -419,7 +418,7 @@ Email:  \{author3,author4\}@anon.myo.us}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-In this paper, we first revised how a PRNG design flaw on CC2538 can be exploited to completely break DTLS handshake with ECDHE\_ECDSA. Then we present a study to its method of sampling the random seed from radio noise and demonstrate how the seed could be biased through jamming signal.
+Smart metering, smart parking, health, environment monitoring, and other applications drive the deployment of the so-called Internet of Things (IoT). Whilst cost and energy efficiency are the main factors that contribute to the popularity of commercial devices in the IoT domain, security features are increasingly desired. Security features typically guarantee authenticity of devices and/or data, as well as confidentiality of data in transit. Our study finds that whilst cryptographic algorithms for confidentiality and authenticity are supported in hardware on a popular class of devices, there is no adequate support for random number generation available. We show how to passively manipulate the on-board source for randomness, and thereby we can completely undermine the security provided by (otherwise) strong cryptographic algorithms, with devastating results. 
 \end{abstract}
 
 % no keywords

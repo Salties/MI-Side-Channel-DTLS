@@ -1,40 +1,40 @@
-\section{Seeding by RF Noise} \label{Seed}
+\section{Using RF Noise as True Random Number Generator} \label{Seed}
 
-Seeding is important in RNG designs as it is fundamental to the randomness of PRNG. CC2538 suggests in its manual to  use the RF core to generate sample seed:(Section 16.2.2 in CC2538 User's Guide\cite{CC2538Manual})
-\begin{quote}
-For the CC2538, when a random value is required, writing the SOC\_ADC\_RNDL register with random bits from the IF\_ADC in the RF receive path seeds the LFSR.
-\end{quote}
-and also: (Section 23.12 in CC2538 User's Guide\cite{CC2538Manual})
-\begin{quote}
-Single random bits from either the I or Q channel can be read from the RFRND register.
-\end{quote}
+PRNGs require an unpredictable seed, i.e. a true random number as a starting point. Higher end devices, such as security ICs hence come with a dedicated true random number generator. The CC2538 manual does not claim that using RF noise is a suitable source for random numbers in a cryptographic context, however, in the absence of another source, developers are bound to use what is available. The CC2538 User's Guide\cite{CC2538Manual} explains to fill the SOC\_ADC\_RNDL register with random bits from the IF\_ADC in the RF receive path to seed the PRNG (Section 16.2.2). The user guide\cite{CC2538Manual} also reports on the good quality of the randomness (Section 23.12). 
 
-In case of Contiki, the driver only used the bits generated in I channel.
+%\cite{CC2538Manual}:
+%\begin{quote}
+%For the CC2538, when a random value is required, writing the SOC\_ADC\_RNDL register with random bits from the IF\_ADC in the RF receive path seeds the LFSR.
+%\end{quote}
+%and also: (Section 23.12 in CC2538 User's Guide\cite{CC2538Manual})
+%\begin{quote}
+%Single random bits from either the I or Q channel can be read from the RFRND register.
+%\end{quote}
 
-With respect to the randomness of this seeding method, the manual\cite{CC2538Manual} reported: (Section 23.12 in CC2538 User's Guide\cite{CC2538Manual})
-\begin{quote}
-Randomness tests show good results for this module. However, a slight DC component exists. In a simple test where the RFRND.IRND register was read a number of times and the data was grouped into bytes, about 20 million bytes were read. When interpreted as unsigned integers between 0 and 255, the mean value was 127.6518, which indicates that there is a DC component.
-...
-For the first 20 million individual bits, the probability of a 1 is $P(1) = 0.500602$ and $P(0) = 1 - P(1) = 0.499398$.
-\end{quote}
+%We note that the Contiki driver only uses the bits generated in I channel. 
 
-Their test results are shown in \Cref{SeedResult}.
+%\begin{quote}
+%Randomness tests show good results for this module. However, a slight DC component exists. In a simple test where the RFRND.IRND register was read a number of times and the data was grouped into bytes, about 20 million bytes were read. When interpreted as unsigned integers between 0 and 255, the mean value was 127.6518, which indicates that there is a DC component.
+%...
+%For the first 20 million individual bits, the probability of a 1 is $P(1) = 0.500602$ and $P(0) = 1 - P(1) = 0.499398$.
+%\end{quote}
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=2.5in]{fig/CC2538_Seed1.png}
-\includegraphics[width=2.5in]{fig/CC2538_Seed2.png}
-\caption{RF core seeding result, from CC2538 User's Guide}
-\label{SeedResult}
-\end{figure}
+%Their test results are shown in \Cref{SeedResult}.
 
-To further verify the randomness of this seeding method, we applied the NIST Statistical Test Suite\cite{NISTTest} on 13263600 bits sampled by this seeding method using our application in \cite{prngtest}. Since each read to RFRND generates only $1$ bit, we concatenated all bits into one bit stream of length $13263600$. The bits has passed all tests in the NIST test suite, with $P(0) = 0.49995001$ and $P(1) = 0.50004999$. The full report and raw data are applicable at \cite{prngtest}.
+%\begin{figure}[!t]
+%\centering
+%\includegraphics[width=2.5in]{fig/CC2538_Seed1.png}
+%\includegraphics[width=2.5in]{fig/CC2538_Seed2.png}
+%\caption{RF core seeding result, from CC2538 User's Guide}
+%\label{SeedResult}
+%\end{figure}
+
+To verify the claims in the manual, we applied the NIST Statistical Test Suite\cite{NISTTest} on 13263600 bits sampled by this seeding method. Since each read to RFRND generates only $1$ bit, we concatenated all bits into one bit stream of length $13263600$. The bits passed all tests in the NIST test suite, with $P(0) = 0.49995001$ and $P(1) = 0.50004999$, which shows that the RF noise (when not tampered with) is indeed a good source for random numbers. However, it remains unclear if or not it is (easily) possible to influence the RF noise. %The full report and raw data are applicable at \cite{prngtest}.
 
 %Despite the good randomness of the seed, sampling from RF noise remains sceptical from a security perspective as such physical source could be tampered remotely by sending jamming signal to the device.
 
-The released documents did not explain further details of how IF\_ADC in the receive I/Q channels are translated to random bits. We have neither found any open document describes the RF design of CC2538. However, we noticed the same RNG design has been applied on several product in TI's SimpleLink series. Some of them provided better explanation of their RF core and RNG designs. 
-
-In CC2430 user manual\cite{CC2430Manual}, we found a description of the RF core, shown in \Cref{CC2430RF}.
+\subsection{Reverse Engineering the TRNG Design}
+The documents supplied by TI do not explain further details of how IF\_ADC in the receive I/Q channels are translated to random bits. We have also not been able to find any open document describing the RF design of CC2538. However, we noticed that the same design has been applied to several products in TI's SimpleLink series, some of which provided a better explanation of their RF core and RNG designs. 
 
 \begin{figure}[!t]
 \centering
@@ -44,7 +44,8 @@ In CC2430 user manual\cite{CC2430Manual}, we found a description of the RF core,
 \label{CC2430RF}
 \end{figure}
 
-\Cref{CC2430RF} explains that the input analogue signal to IF\_ADC has went through the following components:
+In the CC2430 user manual\cite{CC2430Manual}, we found a description of its RF core as in \Cref{CC2430RF} which explains that the input analogue signal to IF\_ADC goes through the following components:
+
 \begin{itemize}
 	\item Low Noise Amplifier (LNA) which amplifies the signal.
 	\item Mixer which down converts the signal frequency. The Frequency Synthesiser is used as the local oscillator.
@@ -67,18 +68,13 @@ A block diagram is also provided, as shown in \Cref{CC2520RFRND}.
 
 Interestingly, we noticed that CC2538, CC2520, CC253X and CC2540/41 reported exactly the identical randomness test result in their user manuals (\cite{CC2538Manual} \cite{ CC2520Manual} \cite{CC2530Manual}). We suspect the above evidences showed that CC2538 is very likely to have adopted the same design.
 
-The design above would have explained the nice randomness of the seeding method. Denote $V_s$ as the analogue RF signal and $N$ as noise, the analogue input to the ADC, denote as  $V_{in}$, can be represented as:
+The design above could explained the nice randomness of the seeding method. Denote $V_s$ as the analogue RF signal and $N$ as noise, the analogue input to the ADC, denote as  $V_{in}$, can be represented as:
 \begin{equation} \label{V_in}
 V_{in} = V_s + N
 \end{equation}
 
-The noise $N$ can be induced by multiple sources in practice, including:
-\begin{itemize}
-\item Noise produced by the signal source.
-\item Environmental noise.
-\item Noise induced by the components in the device itself.
-\end{itemize}
-%In practice, manipulating the noise could be difficult.
+The noise $N$ can be induced by multiple sources in practice, including noise produced by the signal source, environmental noise, and moise induced by the components in the device itself.
+
 
 The random bit $b$ can be represented as:
 \begin{equation} \label{RNDOutput}
@@ -86,21 +82,16 @@ b = LSB(V_{in}) = LSB(V_s + N)
 \end{equation}
 where $LSB() \in \{0,1\}$ represents the operation of taking the LSB of A/D conversion output.
 
-Observing \Cref{RNDOutput}, one thing to be noticed is that any difference in $V_{in}$ larger than the scale of ADC, i.e. the voltage represented by its LSB, could flip $b$. According to CC2538 data sheet\cite{CC2538Datasheet}, the receiver can be sensitive to signals down to $-97dBm$ (typical value with $T_A = 25^{\circ}C$, $V_{DD} = 3V$ and $f_{C} = 2440MHz$). On the other hand, the typical environmental noise in our experimental environment is about $-92dBm$ which is significantly higher than the receiver sensitivity. We consider the result of the randomness test as an evidence to this sampling method.
+From \Cref{RNDOutput} we observe that any difference in $V_{in}$ that is larger than the scale of ADC, i.e. the voltage represented by its LSB, could flip $b$. According to the CC2538 data sheet\cite{CC2538Datasheet}, the receiver can be sensitive to signals down to $-97dBm$ (typical value with $T_A = 25^{\circ}C$, $V_{DD} = 3V$ and $f_{C} = 2440MHz$). On the other hand, the typical environmental noise in our experimental environment is about $-92dBm$ which is significantly higher than the receiver sensitivity. We consider the result of the randomness test as an evidence to this sampling method.
 
-\section{Biasing Seed by Radio Jamming}\label{Jamming}
- \Cref{RNDOutput} indicates that the random bit $b$ is jointly determined by the signal $V_s$ and noise $N$. Assuming the adversary can generate any signal, i.e. $V_s$ is fully  controlled by the adversary, manipulating $N$ turns out to be difficult in practice. For instance, noises accumulated by different amplification stages are physically inevitable. Hence predicted $V_{in}$ does not seem to be easily achievable in practice.
+\section{Biasing the RF Signal in Practice}\label{Jamming}
+ \Cref{RNDOutput} indicates that the random bit $b$ is jointly determined by the signal $V_s$ and noise $N$. Although an adversary can generate arbitrary signals, i.e. $V_s$ is fully  controlled by the adversary, it is clear that controlling $N$ is difficult in practice. For instance, noises accumulated by different amplification stages are physically inevitable and intrinsic to the physical device. Hence it is not straightforward to fully control $V_{in}= V_s +N$ in practice.
 
-An alternative attempt is to provide the RF with illegal $V_{in}$. Two methods are considered in our experiments:
-\begin{itemize}
-	\item Saturation. This method attempts to provide the RF with a strong signal that is above its acceptance level.
-	\item Decimation. This method attempts to provide the RF with a weak signal that is beneath its acceptance level.
-\end{itemize}
+An alternative attempt is to provide the RF with an `illegal' input $V_{in}$. We considered two methods in our experiments: saturation and decimation. Saturation attempts to provide the RF with a strong signal that is above its acceptance level. Decimation attempts to provide the RF with a weak signal that is beneath its acceptance level.
 
-Ideally we expect these illegal inputs will trigger the ADC into a fault state which could potentially result into a predictable output and thus predictable $b$. But in practice, decimation does not seem practical for the same reason that noises induced by the circuits themself are physically inevitable. This made saturation the only viable option.
+Ideally we expect these illegal inputs will trigger the ADC into a fault state which could potentially result into a predictable output and thus predictable $b$. But in practice, decimation does not seem practical for the same reason that noise induced by the circuit itself are physically inevitable. This made saturation the only viable option for us. We further note that the undisclosed circuit design of the device also posed a difficulty in our experiments. Without knowledge of the exact circuit design, we had to perform black box experiments. 
 
-Meanwhile, the undisclosed circuit design of the device also poses a great difficulty in our experiments. Without knowledge of the exact circuit design, it would be difficult to the deduce the most effective signal as well as to predict the outcome. Therefore we have only performed black box experiments. 
-
+\subsection{Concrete experiments}
 We used OpenMote\cite{OpenMote}, a CC2538 based SoC, for our experiments. The receiver has been configured to $2475MHz$ (channel 25 in 802.15.4) which is the default value for CC2538 in Contiki. 
 
 We extended the length of each seed to 128 bits from RF in our experiments in coping to a potential PRNG design based on AES-128, although we still consider the bits are generated bitwise when applying the NIST test suite.
@@ -173,7 +164,7 @@ In order to achieve constant $V_{in}$ in \Cref{V_in}, the $V_s$ needs to be sign
 
 For experimental purpose, we have configured three programmable LNAs in the AGC to their maximum gain ($6 + 21 + 9 = 36(dBm)$ in total) and has disabled the attenuator in Anti Aliasing Filter (AAF, up to $9dB$). We consider these modifications can be compensated by a strong signal amplifier in practice.
 
-Gnu Radio Companion (GRC)\cite{GRC} and HackRF One\cite{HackRFOne} are used to implement the signal source. The corresponding GRC source file is applicable via \cite{prngtest}. \Cref{ConstantSignal} lists the parameters of the signal source configuration. The HackRF One is directly connected to the OpenMote antenna through a SMA cable to achieve the best signal strength.
+Gnu Radio Companion (GRC)\cite{GRC} and HackRF One\cite{HackRFOne} are used to implement the signal source. \Cref{ConstantSignal} lists the parameters of the signal source configuration. The HackRF One is directly connected to the OpenMote antenna through a SMA cable to achieve the best signal strength.
 
 \begin{table}[!t]
 \caption{Signal source parameters for constant signal}
@@ -190,32 +181,32 @@ Gnu Radio Companion (GRC)\cite{GRC} and HackRF One\cite{HackRFOne} are used to i
 \end{tabular}
 \end{table}
 
-Applying the signal, we observed abnormally 0-runs, i.e. consecutive $0$ bits, appeared in the seeds as we increase IF gain to values above $10dB$. \Cref{IFvsP0} shows how $P(0)$ is biased and \Cref{IFvsN0} shows the maximum number of 0-runs in each seed. We can see that the bias has reached its peak at $IF\_gain = 22dB$ in both figures. At such gain $27.709\%$ of the 128 bit seeds have maximum 0-runs more than $64$ bits.
+Applying the signal, we observed abnormal 0-runs, i.e. consecutive $0$ bits, appeared in the seeds as we increase IF gain to values above $10dB$. \Cref{IFvsP0} shows how $P(0)$ is biased and \Cref{IFvsN0} shows the maximum number of 0-runs in each seed. We can see that the bias has reached its peak at $\text{IF\_Gain} = 22dB$ in both figures. At such gain $27.709\%$ of the 128 bit seeds have maximum 0-runs more than $64$ bits. It is not a surprise to see the sampled seeds have failed nearly all tests in the NIST test suite, indicating the seed has been strongly biased by our signal. 
 
 \begin{figure*}[!t]
 \centering
 \subfloat[$P(0)$ to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_P0_new.png}
 \label{IFvsP0}}
 \hfil
-\subfloat[Average 0-runs to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_N0_new.png}
+\subfloat[Average longest 0-runs in each seed to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_N0_new.png}
 \label{IFvsN0}}
-\caption{Seed under Constant Signal}
+\caption{Biased Seed on OpenMote Under Constant Signal}
 \label{ConstantSignalBiased}
 \end{figure*}
 
-It is not surprise to see the sampled seeds have failed nearly all tests in the NIST test suite, indicating the seed has been strongly biased by our signal. A full report can be accessed at \cite{prngtest}.
+
 
 We re-applied the signal to the same OpenMote we used for the previous experiments. A even stronger bias is observed as shown in \Cref{StronglyBiased}, with $17.820\%$ of the seeds ended in 128 consecutive $0$ bits.
 
-We consider this may be caused by the strong sine wave signal in the previous experiments which permanent bias the device. We therefore restored its AGC configuration to default and re-ran the NIST test suite but the sampled seed has passed all tests as before. We also tested the device using example application provided by Contiki and found no malfunctioning on the device. The permanent bias does not seem to affect the device under normal operational status and can only be triggered by the constant signal. In practice, this indicates that such bias may be difficult to be notice for a victim.
+We consider this may be caused by the strong sine wave signal in the previous experiments which permanently biased the device. We therefore restored its AGC configuration to default and re-ran the NIST test suite but the sampled seed passed all tests as before. We also tested the device using example applications provided by Contiki and found no malfunctioning on the device. The permanent bias does not seem to affect the device under normal operational status and can only be triggered by the constant signal. This leads to a very dangerous attack where devices could be primed in such a way that they remain functional under normal operating conditions, and eventually `activated' via supplying the activation signal upon which they are unable to produce random numbers and hence all DTLS connections would be completely insecure. We were able to replicate this attack on further devices.
 
 \begin{figure*}[!t]
 \centering
 \subfloat[$P(0)$ to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_P0.png}}
 \hfil
-\subfloat[Average 0-runs to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_N0.png}}
+\subfloat[Average longest 0-runs in each seed to IF Gain]{\includegraphics[width=2.5in]{fig/if_vs_N0.png}}
 \caption{Biased Seed on OpenMote used in previous experiments}
 \label{StronglyBiased}
 \end{figure*}
 
-Again due to lack of design documentation we can not explain how exactly the bias is triggered by the signal. Nevertheless our experiments have demonstrated that sampling seed using RF noise could potentially be biased by jamming signal and hence potentially breaching any cryptographic protocol relies on its randomness.
+%Again due to lack of design documentation we can not explain how exactly the bias is triggered by the signal. Nevertheless our experiments have demonstrated that sampling seed using RF noise could potentially be biased by jamming signal and hence potentially breaching any cryptographic protocol relies on its randomness.

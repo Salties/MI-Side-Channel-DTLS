@@ -1,16 +1,12 @@
 \section{Conclusion}\label{Conclusion}
-In this paper we presented a study to the RNG design of CC2538. First, we revised the problem that using a 16 bit LFSR as PRNG is a bad idea and demonstrated how this design flaw can be exploited to break DTLS running on these devices. Secondly we presented a study to its seeding method and showed how the seed could be tampered by an adversary sending jamming signal to the device.
+In this paper we reviewed the provision for cryptographic random numbers on the CC2538 and related devices. First, we discussed the the poor choice of using a 16 bit LFSR as PRNG  and demonstrated how this design flaw can be exploited to break DTLS running on these devices. We also found that the provision for randomness within the popular Contiki software and DTLS implementation tinydtls is inadequate. Any open source efforts, or indeed also any products, that built on them should review their instantiation of random numbers carefully. 
 
-In fact the same RNG design has also been adopted by many other products in the CC series including CC2420\cite{CC2420Manual}, CC2430\cite{CC2430Manual}, CC2520\cite{CC2520Manual} and CC253X, CC2540/41 series\cite{CC2530Manual}. We imagine all these products suffer the same problems. Fortunately the latest CC26XX/CC13XX\cite{CC26XXManual} has abandoned this design and implemented a dedicated RNG which TI describes as: (Chapter 16 in CC26XX/CC13XX Manual\cite{CC26XXManual})
-\begin{quote}
-The true random number generator (TRNG) module provides a true, nondeterministic noise source for the
-purpose of generating keys, initialization vectors (IVs), and other random number requirements. The
-TRNG is built on 24 ring oscillators that create unpredictable output to feed a complex nonlinear
-combinatorial circuit. That post-processing of the output data is required to obtain cryptographically secure
-random data.
-\end{quote}
+Secondly we investigated how easy it is to tamper with the RF source and showed in practice how to configure signals to that end. We reverse engineered the design of the path that produces random bits from the RF module, and developed some attacks that can bias the random bits in practice. This shows that even if the poor PRNG was replaced with a sound one, the source for the seed of any PRNG on the CC2538 is vulnerable to practical attacks.
 
-We sincerely hope this TRNG will provide the future IoT applications a secure RNG.
+We believe that the same design choices have also been adopted by many other products in the CC series including CC2420\cite{CC2420Manual}, CC2430\cite{CC2430Manual}, CC2520\cite{CC2520Manual} and CC253X, CC2540/41 series\cite{CC2530Manual}. To the best of our knowledge all these products suffer from the same problems. Only the latest CC26XX/CC13XX\cite{CC26XXManual} series has abandoned this design and implemented a dedicated RNG suitable for cryptographic purposes.
 
-\section{Acknowledgement}
-We have many thanks to (alphabetically) George Oikonomou for providing us much help in Contiki OS and the OpenMote devices, Geoff Hilton who helped us on RF designs and Jake Longo Galea who offered many signal processing advises.
+
+
+
+%\section{Acknowledgement}
+%We have many thanks to (alphabetically) George Oikonomou for providing us much help in Contiki OS and the OpenMote devices, Geoff Hilton who helped us on RF designs and Jake Longo Galea who offered many signal processing advises.
