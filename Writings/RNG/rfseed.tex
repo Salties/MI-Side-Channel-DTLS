@@ -53,7 +53,7 @@ In the CC2430 user manual\cite{CC2430Manual}, we found a description of its RF c
 	\item The Automatic Gain Control (AGC) circuit further adjusts the signal strength to the input level of ADC.
 \end{itemize}
 
-CC2520 Data Sheet\cite{CC2520Manual} explains the random bit is actually the Least Significant Bit (LSB) from ADC: (Section 24 in \cite{CC2520Manual})
+CC2520 Data Sheet\cite{CC2520Manual} explains the random bit is actually the LSB from ADC output: (Section 24 in CC2520 Data Sheet\cite{CC2520Manual})
 \begin{quote}
 Single random bits from either the I or Q channel (configurable) can be output on GPIO pins at a rate of 8MHz. One can also select to xor the I and Q bits before they are output on a GPIO pin. These bits are taken from the least significant bit in the I and/or Q channel after the decimation filter in the demodulator.
 \end{quote}
@@ -73,10 +73,9 @@ The design above could explained the nice randomness of the seeding method. Deno
 V_{in} = V_s + N
 \end{equation}
 
-The noise $N$ can be induced by multiple sources in practice, including noise produced by the signal source, environmental noise, and moise induced by the components in the device itself.
+The noise $N$ can be induced by multiple sources in practice, including noise produced by the signal source, environmental noise, and noise induced by the components in the device itself, etc.
 
-
-The random bit $b$ can be represented as:
+The random bit $b$ can therefore be represented as:
 \begin{equation} \label{RNDOutput}
 b = LSB(V_{in}) = LSB(V_s + N)
 \end{equation}
@@ -87,9 +86,9 @@ From \Cref{RNDOutput} we observe that any difference in $V_{in}$ that is larger 
 \section{Biasing the RF Signal in Practice}\label{Jamming}
  \Cref{RNDOutput} indicates that the random bit $b$ is jointly determined by the signal $V_s$ and noise $N$. Although an adversary can generate arbitrary signals, i.e. $V_s$ is fully  controlled by the adversary, it is clear that controlling $N$ is difficult in practice. For instance, noises accumulated by different amplification stages are physically inevitable and intrinsic to the physical device. Hence it is not straightforward to fully control $V_{in}= V_s +N$ in practice.
 
-An alternative attempt is to provide the RF with an `illegal' input $V_{in}$. We considered two methods in our experiments: saturation and decimation. Saturation attempts to provide the RF with a strong signal that is above its acceptance level. Decimation attempts to provide the RF with a weak signal that is beneath its acceptance level.
+An alternative attempt is to provide the RF with an `illegal' input $V_{in}$. We considered two methods in our experiments: saturation and decimation. Saturation attempts to provide the RF with a strong signal that is above its acceptance level, whereas decimation attempts to suppress any RF signal to beneath the receiver sensitivity.
 
-Ideally we expect these illegal inputs will trigger the ADC into a fault state which could potentially result into a predictable output and thus predictable $b$. But in practice, decimation does not seem practical for the same reason that noise induced by the circuit itself are physically inevitable. This made saturation the only viable option for us. We further note that the undisclosed circuit design of the device also posed a difficulty in our experiments. Without knowledge of the exact circuit design, we had to perform black box experiments. 
+Ideally we expect these illegal inputs will trigger the ADC into a fault state which could potentially results into a predictable ADC output and thus predictable $b$. But in practice, decimation does not seem practical for the same reason that noise induced by the circuit itself are physically inevitable. This made saturation the only viable option for us. We further note that the undisclosed circuit design of the device also posed a difficulty in our experiments. Without knowledge of the exact circuit design, we had to perform black box experiments. 
 
 \subsection{Concrete experiments}
 We used OpenMote\cite{OpenMote}, a CC2538 based SoC, for our experiments. The receiver has been configured to $2475MHz$ (channel 25 in 802.15.4) which is the default value for CC2538 in Contiki. 
@@ -97,9 +96,9 @@ We used OpenMote\cite{OpenMote}, a CC2538 based SoC, for our experiments. The re
 We extended the length of each seed to 128 bits from RF in our experiments in coping to a potential PRNG design based on AES-128, although we still consider the bits are generated bitwise when applying the NIST test suite.
 
 \subsection{Strong sine wave signal} \label{StrongSine}
-The first signal we attempted was a strong sine wave signal. According to CC2538 data sheet\cite{CC2538Datasheet}, the saturation signal strength for the RF receiver is $10 dBm$. We have attempted to increase the input signal strength up to $13dBm$ which is roughly double of the saturation voltage but no bias was observed. The seed sampled under this signal has passed all tests in the NIST test suite.
+The first signal we attempted was a strong sine wave signal. According to CC2538 data sheet\cite{CC2538Datasheet}, the saturation signal strength for the RF receiver is $10 dBm$. We have attempted to increase the input signal strength up to $13dBm$, which is roughly double of the saturation voltage, but no bias was observed. The seed sampled under this signal has passed all tests in the NIST test suite.
 
-The result implies that the AGC circuit could have tuned down the signal which might consequently prevented the seed from being biased. Although the exact AGC design for CC2538 is unclear, \Cref{AGC_QSL} demonstrates an example of AGC design using 4 Voltage Controlled Amplifiers (VGAs). The output signal is parallelly connected to a detector to estimate the signal strength. The output of detector is compared to a reference voltage and their difference is provided as a feedback to adjust the control voltage of VGAs. To prevent signal distortion caused by abrupt voltage change, such as during a lightning storm, many AGC design adopts an attack time before it adjusts the gain. \cite{AGC} provides a detailed description of different AGC designs. 
+The result implies that the AGC circuit could have tuned down the signal which might consequently prevented the seed from being biased. Although the exact AGC design for CC2538 is unclear, \Cref{AGC_QSL} demonstrates an example of AGC design using 4 Voltage Controlled Amplifiers (VGAs). The output signal is parallelly connected to a detector to estimate the signal strength. The output of detector is compared to a reference voltage and their difference is provided as a feedback to adjust the control voltage of VGAs. To prevent signal distortion caused by abrupt voltage change, such as during a lightning storm, many AGC design adopts an attack time (or called settle time) before it adjusts the gain. \cite{AGC} provides a detailed description of different AGC designs. 
 
 \begin{figure}[!t]
 \centering
@@ -158,7 +157,7 @@ The result implies that the AGC circuit could have tuned down the signal which m
 %The signal source is implemented using Gnu Radio Companion\cite{GRC} with a HackRF One\cite{HackRFOne} directly connected to an OpenMote\cite{OpenMote}. However, no significant bias was reported by the NIST test suite. The exact cause of failure is unknown due to lack of design documentation but one potential reason might be that the period of transient is too short to significantly affect the seed.
 
 \subsection{Strong constant signal} \label{Constant}
-We then attempted a strong constant signal. The idea behind is to treat the whole circuit as a deterministic compression function that maps any $V_{in}$ to $\{0,1\}$. Under this assumption, the same $V_{in}$ should always generates the same $b$, either $0$ or $1$.
+We then attempted a strong constant signal. The idea behind is to treat the whole circuit as a deterministic compression function that maps any $V_{in}$ to $\{0,1\}$. Under this assumption, the same $V_{in}$ should always generate the same $b$, either $0$ or $1$.
 
 In order to achieve constant $V_{in}$ in \Cref{V_in}, the $V_s$ needs to be significantly greater than $N$ to suppress its impact in \Cref{RNDOutput}, as any ADC would have only a limited resolution.
 
@@ -181,7 +180,7 @@ Gnu Radio Companion (GRC)\cite{GRC} and HackRF One\cite{HackRFOne} are used to i
 \end{tabular}
 \end{table}
 
-Applying the signal, we observed abnormal 0-runs, i.e. consecutive $0$ bits, appeared in the seeds as we increase IF gain to values above $10dB$. \Cref{IFvsP0} shows how $P(0)$ is biased and \Cref{IFvsN0} shows the maximum number of 0-runs in each seed. We can see that the bias has reached its peak at $\text{IF\_Gain} = 22dB$ in both figures. At such gain $27.709\%$ of the 128 bit seeds have maximum 0-runs more than $64$ bits. It is not a surprise to see the sampled seeds have failed nearly all tests in the NIST test suite, indicating the seed has been strongly biased by our signal. 
+Applying the signal, we observed abnormal 0-runs, i.e. consecutive $0$ bits, appeared in the seeds as we increase IF gain to values above $10dB$. \Cref{IFvsP0} shows how $P(0)$ is biased and \Cref{IFvsN0} shows the average number of bits of longest 0-runs in each seed. We can see that the bias has reached its peak at $\text{IF\_Gain} = 22dB$ in both figures. At such gain $27.709\%$ of the 128 bit seeds have longest 0-runs over $64$ bits. It is not a surprise to see the sampled seeds have failed nearly all tests in the NIST test suite, indicating the seed has been strongly biased by our signal. 
 
 \begin{figure*}[!t]
 \centering
@@ -194,11 +193,9 @@ Applying the signal, we observed abnormal 0-runs, i.e. consecutive $0$ bits, app
 \label{ConstantSignalBiased}
 \end{figure*}
 
+We also re-applied the signal to the same OpenMote we previously used in the strong sine wave signal experiments. A even stronger bias is observed as shown in \Cref{StronglyBiased}, with $17.820\%$ of the seeds ended in 128 consecutive $0$ bits.
 
-
-We re-applied the signal to the same OpenMote we used for the previous experiments. A even stronger bias is observed as shown in \Cref{StronglyBiased}, with $17.820\%$ of the seeds ended in 128 consecutive $0$ bits.
-
-We consider this may be caused by the strong sine wave signal in the previous experiments which permanently biased the device. We therefore restored its AGC configuration to default and re-ran the NIST test suite but the sampled seed passed all tests as before. We also tested the device using example applications provided by Contiki and found no malfunctioning on the device. The permanent bias does not seem to affect the device under normal operational status and can only be triggered by the constant signal. This leads to a very dangerous attack where devices could be primed in such a way that they remain functional under normal operating conditions, and eventually `activated' via supplying the activation signal upon which they are unable to produce random numbers and hence all DTLS connections would be completely insecure. We were able to replicate this attack on further devices.
+We consider this may be caused by the strong sine wave signal in the previous experiments which permanently biased the device. We therefore restored its AGC configuration to default and re-ran the NIST test suite but the sampled seed passed all tests as before. We also tested using example applications provided by Contiki and found no malfunctioning on the device. The permanent bias does not seem to affect the device under normal operational status and can only be triggered by the constant signal. This leads to a very dangerous attack where devices could be primed in such a way that they remain functional under normal operating conditions, and eventually `activated' via supplying the activation signal upon which they are unable to produce random numbers and hence all DTLS connections would be completely insecure. We were able to replicate this attack on further devices.
 
 \begin{figure*}[!t]
 \centering
