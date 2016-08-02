@@ -44,7 +44,7 @@ Since $\mathbb{S}$ is finite and $F$ is deterministic, the random number stream 
 \begin{equation} \label{R*}
 R_{S^*}= (F^0(S^{*}), F^{1}(S^{*}), ..., F^{n-2}(S^{*}), F^{n-1}(S^{*}))
 \end{equation}
-where $S^{*} = F^{0}(S^{*}) = F^{n}(S^{*})$. Each call to the PRNG effectively returns the first element in the sequence and updates it by one cyclic left rotation. Since the elements within$R_{S^*}$ are non-repetitive, we have $n \leq |\mathbb{S}|$ for any $R_{S^*}$, i.e. the cycle of PRNG output is at most $65536$ calls.
+where $S^{*} = F^{0}(S^{*}) = F^{n}(S^{*})$. Each call to the PRNG effectively returns the first element in the sequence and updates it by one cyclic left rotation. Since the elements within $R_{S^*}$ are non-repetitive, we have $n \leq |\mathbb{S}|$ for any $R_{S^*}$, i.e. the cycle of PRNG output is at most $65536$ calls.
 
 For a re-sampled seed $S^{*'}$ inside $R_{S^*}$, i.e. $S^{*'} = F^{k}(S^*)$ where $k \in \mathbb{Z}_n$, the corresponding sequence $R_{S^{*'}}$ is:
 \begin{equation}\label{R*'}
@@ -74,7 +74,7 @@ Contiki supports DTLS via an implementation called tinydtls\cite{tinydtls082}.  
 
 %As explained in \Cref{LFSR}, the CC2538 PRNG output is a predictable stream of cycle less than $2^{16}$ calls; therefore the possible key selection can be easily enumerated and leads to a complete break of cryptographic systems relies on its randomness.    
 
-Unfortunately, tinydtls does not implement its own RNG; instead it loops the Contiki  API (random\_rand()), which is then implemented by the CC2538 built-in PRNG (see tinydlts/dtls\_prng.h) as we described in \Cref{LFSR}. As a result, the generated random numbers are from a very restricted set that is too small for any cryptographic use. This renders already any key generation vulnerable. A public Elliptic Curve (EC) key $Q$ is the scalar multiple $d$ of public base point $G$, i.e. $Q=[d]G$. Because $d$ can only take $2^{16}$ values, it is trivial to build a table for a specific curve and public base point that contains all pairs of $(d,Q)$. Consequently, upon observing a public EC key $Q$, one can use a simple table-lookup to deduce $d$. Due to the small space of CC2538 PRNG, such table contains only  $65536$ entries of $(d,Q)$ pairs which can be computed on a laptop within a few minutes.
+Unfortunately, tinydtls does not implement its own RNG; instead it loops the Contiki  API (random\_rand()) which is then implemented by the CC2538 built-in PRNG (see tinydlts/dtls\_prng.h) as we described in \Cref{LFSR}. As a result, the generated random numbers are from a very restricted set that is too small for any cryptographic use. This renders already any key generation vulnerable. A public Elliptic Curve (EC) key $Q$ is the scalar multiple $d$ of public base point $G$, i.e. $Q=[d]G$. Because $d$ can only take $2^{16}$ values, it is trivial to build a table for a specific curve and public base point that contains all pairs of $(d,Q)$. Consequently, upon observing a public EC key $Q$, one can use a simple table-lookup to deduce $d$. Due to the small entropy of CC2538 PRNG, such table contains only  $65536$ entries of $(d,Q)$ pairs which can be computed and stored on a laptop within a few minutes.
 
 %When such RNG is used to generate an ECC key, the security notion is immediately broken as the random number is actually predictable as described in \Cref{LFSR}.
 %\begin{figure}

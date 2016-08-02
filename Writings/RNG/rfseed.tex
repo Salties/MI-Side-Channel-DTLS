@@ -1,6 +1,6 @@
 \section{Using RF Noise as True Random Number Generator} \label{Seed}
 
-PRNGs require an unpredictable seed, i.e. a true random number as a starting point. Higher end devices, such as security ICs hence come with a dedicated true random number generator. The CC2538 manual does not claim that using RF noise is a suitable source for random numbers in a cryptographic context, however, in the absence of another source, developers are bound to use what is available. The CC2538 User's Guide\cite{CC2538Manual} explains to fill the SOC\_ADC\_RNDL register with random bits from the Intermediate Frequency Analogue-to-Digital Converter (IF\_ADC) in the RF receive path to seed the PRNG (Section 16.2.2). The user guide\cite{CC2538Manual} also reports on the good quality of the randomness (Section 23.12). 
+PRNGs require an unpredictable seed, i.e. a true random number as a starting point. Higher end devices, such as security ICs hence come with a dedicated true random number generator. The CC2538 manual does not claim that using RF noise is a suitable source for random numbers in a cryptographic context, however, in the absence of another source, developers are bound to use what is available. The CC2538 User's Guide\cite{CC2538Manual} explains to fill the SOC\_ADC\_RNDL register with random bits from the Intermediate Frequency Analogue-to-Digital Converter (IF\_ADC) in the RF receive I/Q channels to seed the PRNG (Section 16.2.2). The user guide\cite{CC2538Manual} also reports on the good quality of the randomness (Section 23.12). 
 
 %\cite{CC2538Manual}:
 %\begin{quote}
@@ -29,7 +29,7 @@ PRNGs require an unpredictable seed, i.e. a true random number as a starting poi
 %\label{SeedResult}
 %\end{figure}
 
-To verify the claims in the manual, we applied the NIST Statistical Test Suite\cite{NISTTest} on 13263600 bits sampled by this seeding method. Since one bit is returned upon each read to the RND register, we concatenated all bits into one bit stream. The bits passed all tests in the NIST test suite, with $P(0) = 0.49995001$ and $P(1) = 0.50004999$, which shows that the RF noise (when not tampered with) is indeed a good source for random numbers. However, it remains unclear whether such source can practically be influenced by crafted RF signals. %The full report and raw data are applicable at \cite{prngtest}.
+To verify the claims in the manual, we applied the NIST Statistical Test Suite\cite{NISTTest} on 13263600 bits sampled by this seeding method. Since one bit is returned upon each read to the RNG register, we concatenated all bits into one bit stream. The bits passed all tests in the NIST test suite, with $P(0) = 0.49995001$ and $P(1) = 0.50004999$, which shows that the RF noise (when not tampered with) is indeed a good source for random numbers. However, it remains unclear whether such source can practically be influenced by crafted RF signals. %The full report and raw data are applicable at \cite{prngtest}.
 
 %Despite the good randomness of the seed, sampling from RF noise remains sceptical from a security perspective as such physical source could be tampered remotely by sending jamming signal to the device.
 
@@ -44,7 +44,7 @@ The documents supplied by TI do not explain further details of how IF\_ADC in th
 \label{CC2430RF}
 \end{figure}
 
-In the CC2430 user manual\cite{CC2430Manual}, we found a description of its RF core as in \Cref{CC2430RF} which explains that the input analogue signal to IF ADC goes through the following components:
+In the CC2430 user manual\cite{CC2430Manual}, we found a description of its RF core as in \Cref{CC2430RF} which explains that the input analogue signal to IF\_ADC goes through the following components:
 
 \begin{itemize}
 	\item Low Noise Amplifier (LNA) which amplifies the signal.
@@ -66,9 +66,9 @@ A block diagram is also provided, as shown in \Cref{CC2520RFRND}.
 \label{CC2520RFRND}
 \end{figure}
 
-Interestingly, we noticed that CC2538, CC2520, CC253X and CC2540/41 reported exactly the identical randomness test result in their user manuals (\cite{CC2538Manual} \cite{ CC2520Manual} \cite{CC2530Manual}). We suspect the above evidence showed that CC2538 is very likely to have adopted the same design.
+Interestingly, we noticed that CC2538, CC2520, CC253X and CC2540/41 reported exactly the identical randomness test result in their user manuals (\cite{CC2538Manual} \cite{ CC2520Manual} \cite{CC2530Manual}). We suspect the above evidence showed that CC2538 is very likely to have adopted the same designs.
 
-The design explains the nice randomness of the seeding method. Denote $V_s$ as the analogue RF signal and $N$ as the noise, the analogue input to the ADC, denote as  $V_{in}$, can be represented as:
+The designs above explained the nice randomness of the seeding method. Denote $V_s$ as the analogue RF signal and $N$ as the noise, the analogue input to the ADC, denote as  $V_{in}$, can be represented as:
 \begin{equation} \label{V_in}
 V_{in} = V_s + N
 \end{equation}
@@ -91,9 +91,8 @@ An alternative attempt is to provide the RF with an `illegal' input $V_{in}$. We
 Ideally we expect these illegal inputs will trigger the ADC into a fault state which could potentially results into a predictable ADC output and thus biased $b$. But in practice, decimation does not seem practical for the same reason that noise induced by the circuit itself is physically inevitable. This made saturation the only viable option for us. We further note that the undisclosed circuit design of the device also posed a difficulty in our experiments. Without knowledge of the exact circuit design, we had to perform black box experiments. 
 
 \subsection{Concrete experiments}
-We used OpenMote\cite{OpenMote}, a CC2538 based SoC, for our experiments. The receiver has been configured to $2475MHz$ (channel 25 in 802.15.4) which is the default value for CC2538 in Contiki. 
-
-We extended the length of each seed to 128 bits from RF in our experiments in coping to a potential PRNG design based on AES-128, although we still consider the bits are generated bitwise when applying the NIST test suite.
+We used OpenMote\cite{OpenMote}, a CC2538 powered SoC, for our experiments. %The receiver has been configured to $2475MHz$ (channel 25 in 802.15.4) which is the default value for CC2538 in Contiki. 
+We extended the length of each seed from RF  to 128 bits in our experiments in coping to a potential PRNG design based on AES-128, although we still consider the bits are generated bitwise when applying the NIST test suite.
 
 \subsection{Strong sine wave signal} \label{StrongSine}
 The first signal we attempted was a strong sine wave signal. According to CC2538 data sheet\cite{CC2538Datasheet}, the saturation signal strength for the RF receiver is $10 dBm$. We have attempted to increase the input signal strength up to $13dBm$, which is roughly double of the saturation voltage, but no bias was observed. The seed sampled under this signal has passed all tests in the NIST test suite.
@@ -174,7 +173,7 @@ Gnu Radio Companion (GRC)\cite{GRC} and HackRF One\cite{HackRFOne} are used to i
 \textbf{Sample Rate} & 8 MHz             \\ \hline
 \textbf{Output Type} & Complex           \\ \hline
 \textbf{Waveform}    & Sine (can be any) \\ \hline
-\textbf{Frequency}   & 2475 MHz          \\ \hline
+%\textbf{Frequency}   & 2475 MHz          \\ \hline
 \textbf{Amplitude}   & 0                 \\ \hline
 \textbf{Offset}      & 10                \\ \hline
 \end{tabular}
