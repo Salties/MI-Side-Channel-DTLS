@@ -36,6 +36,9 @@ tinydtls/doc
 */tests/dtls-server
 */tests/prf-test
 
+#Ignore ctags file
+tags
+
 #Ignore indent temporary files.
 *~
 
