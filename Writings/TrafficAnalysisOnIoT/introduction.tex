@@ -40,8 +40,6 @@ Although not directly linked to the subject of this paper, we realised two issue
 	
 	\item \textbf{Anti-replay} \\
 	Even though the incompatibility between Anti-replay and network key has been pointed out by \cite{802154SecIssues}, the noncoresec implementation has mitigated the issue by using an extra data structure recording the last Frame Counter from each source address. However, this approach also induces a problem that packets sent by a rebooted device will be labelled as replays and thus ignored.
-	
-	
 \end{itemize}
 
-
+Nonce reusing could be mitigated by initialise Frame Counter to a random value on each reboot or record its latest value on a non loss media such as flash memories, but the 4 bytes space of Frame Counter can hardly be considered cryptographically secure. Therefore a full solution may not be achieved without updating the nonce construction specified by the standard\cite{802154}. The anti-replay issue is closely related to the key management which remains an open question in many IoT applications; hence it would be difficult derive a general solution. Our recommendation is to simply disable the anti-replay feature in noncoresec and leave it to upper layer protocols and/or applications.
