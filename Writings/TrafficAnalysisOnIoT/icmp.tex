@@ -1,6 +1,21 @@
 \section{Extract ICMP Messages}
 %Introduction
-ICMP messages in 6LoWPAN (ICMPv6) are defined by \cite{rfc4443} and are dedicated to network maintenance. 
+ICMP messages in 6LoWPAN (ICMPv6) are defined by \cite{rfc4443}. These packets serve the purpose of network maintenance, such as exchanging routing information or network debugging. Although revealing these messages does not directly breach application data confidentially, in IoT applications, such information may still provide adversaries advantages, for example knowing the position of root node might aggravate the damage of Denial of Services (DoS) attacks. Unfortunately, the latest Contiki does not have authentication and encryption implemented for ICMP messages as specified by \cite{rfc2463}, leaving noncoresec the only option for their protection. 
 
-%What ICMP messages exists in 6LoWPAN
-We simulated a 6LoWPAN network using the Contiki example broadcast\_example, which periodically broadcasts a constant message.
+We simulated a Wireless Sensor Network (WSN) application, which is a 6LoWPAN network constituted of multiple Wismote\cite{Wismote} nodes running Contiki unicast examples. The ICMP messages generated in our simulation includes:
+\begin{itemize}
+	\item \textbf{DAG Information Object (DIO)} \\
+	DIO contains the 6LoWPAN global information. It could be periodically broadcasted for network maintenance, or unicasted to a new joining node as a reply to DIS (see below).
+	\item \textbf{DAG Information Solicitation (DIS)} \\
+	DIS is sent by a new started node probing any existing 6LoWPANs and requesting their global information to join in. A DIO is replied if it is received by any neighbour nodes.
+	\item \textbf{Destination Advertisement Object (DAO)} \\
+	DAO is sent by a child node to its precedents to propagate its routing information\footnote{The 6LoWPAN DODAG topology is defined in \cite{rfc6550}.}. This information is later used when routing packets to the child.
+	\item \textbf{Neighbour Solicitation (NS) and Neighbour Advertisement (NA)} \\
+	NS is sent upon a node querying the associated MAC address to an IPv6 address and NA is replied as the answer to NS. In addition, these messages are also used for local link validity check.
+	\item \textbf{Echo Request and Echo Response (PING)} \\
+	Echo Request and Echo Response are also well known as the PING packets. They are mostly used for diagnostic purposes, such as connectivity test or Round Trip Time (RTT) estimation. Echo Request may contain arbitrary user defined data and Echo Response simply echoes its corresponding request.
+\end{itemize}
+
+DIO/DIS/DAO and NS/NA are defined by \cite{rfc6550} and \cite{rfc6775} respectively. PING is defined by \cite{rfc2463}.
+
+Our simulation shows that even though the exact content of these messages are hidden by the encryption provided by noncoresec, some of them are still distinguishable simply by looking their packet sizes and MAC Layer destination addresses.
