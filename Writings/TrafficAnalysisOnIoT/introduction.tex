@@ -29,11 +29,14 @@ Although not directly linked to the subject of this paper, we realised two issue
 	
 	\begin{figure}[th!]
 	\centering
-	\begin{tabular}{|c|c|c|c|c|}
-		\hline 
-		1 (bytes) & 8              & 4             & 1              & 2             \\ \hline
-		Flags      & Source Address & Frame Counter & Security Level & Block Counter \\ \hline
-	\end{tabular}
+	\resizebox{\textwidth}{!}
+	{
+		\begin{tabular}{|c|c|c|c|c|}
+			\hline 
+			1 (bytes) & 8              & 4             & 1              & 2             \\ \hline
+			Flags      & Source Address & Frame Counter & Security Level & Block Counter \\ \hline
+		\end{tabular}
+	}
 	\caption{Noncoresec nonce construction}
 	\label{NoncoresecNonce}
 	\end{figure}
