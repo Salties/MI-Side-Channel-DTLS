@@ -1,1 +1,12 @@
 \section{Distinguish Devices}
+IoT applications utilise a great variation of devices, with each having different processing power. This implies that the processing time of some specific packets can be exploited as a hint to the model of device. 
+
+PING is therefore an ideal feature supported in 6LoWPAN that can be exploited to perform such an attack due to:
+\begin{enumerate}
+	\item PING is processed in a standardised routine where nearly no computation is required, minimising the noise in the data.
+	\item The support of PING is required by the standard\cite{rfc4443}, making the attack universally applicable.
+\end{enumerate}
+
+\subsection{Contiki MAC}
+
+\subsection{Pinging Different Devices}
