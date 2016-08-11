@@ -18,7 +18,7 @@ We simulated a 6LoWPAN application constituted of multiple Wismote\cite{Wismote}
 
 DIO/DIS/DAO and NS/NA are defined by \cite{rfc6550} and \cite{rfc6775} respectively. PING is defined by \cite{rfc2463}.
 
-Our simulation shows that even though the exact content of these messages are hidden under the encryption provided by noncoresec, some of them are still distinguishable simply by packet size and type of MAC destination, as summarised in \Cref{ICMPPacketFeature}:
+Our simulation shows that even though the exact content of these messages are hidden under the encryption provided by noncoresec, some of them are still distinguishable simply by packet size and type of MAC destination, as summarised in \Cref{ICMPPacketFeature} where $x \in \mathbb{Z}_{0}^{+}$ is the size of user defined data in PING packets:
 
 \begin{itemize}
 	\item Both DIO and NS can be sent in either broadcast or unicast. The broadcasted DIO is smaller than unicasted as it uses an abbreviated IPv6 multicast address ``ff02::1a''. Broadcasted NS uses another multicast address ``ff02::1:ff00:0'' which has the same length as an unicast address. However, both of them are mapped to the same ``0xffff'' Link Layer broadcast address in 802.15.4 MAC Header.
@@ -43,9 +43,49 @@ Our simulation shows that even though the exact content of these messages are hi
 			PING   & $101+x$               & unicast                      \\ \hline
 		\end{tabular}
 	}
-	\caption{ICMPv6 Packet in Simulated 6LoWPAN with noncoresec}
+	\caption{ICMPv6 Packets in Simulated 6LoWPAN with noncoresec}
 	\label{ICMPPacketFeature}
 \end{table}
 
 %UDP packet size.
+In practice, the captured traffic contains noises from upper layer applications. In case of the generally used UDP\cite{rfc768}, the packet features are summarised in \Cref{UDPPacketFeature}.
 
+\begin{table}[ht!]
+	\center
+	\adjustbox{max width = \textwidth}
+	{
+		\begin{tabular}{|c|c|c|}
+			\hline
+			       & Packet Size (bytes) & Type of MAC Destination \\ \hline
+			UDP Multicast   & $85+x$                  & broadcast                       \\ \hline
+			UDP Unicast   & $107+x$                  & unicast                       \\ \hline
+		\end{tabular}
+	}
+	\caption{UDP Packets in Simulated 6LoWPAN with noncoresec}
+	\label{UDPPacketFeature}
+\end{table}
+
+Comparing \Cref{ICMPPacketFeature} to \Cref{UDPPacketFeature}, the definitely identifiable ICMP packets are summarised in \Cref{TAICMP}.
+
+\begin{table}[ht!]
+	\center
+	\adjustbox{max width = \textwidth}
+	{
+		\begin{tabular}{|c|c|c|}
+			\hline
+			ICMP Packet & (Size, MAC Destination)\\ \hline
+			DIS   & (85, broadcast)                       \\ \hline
+			DAO   & (97, unicast)                       \\ \hline
+			NS (broadcast)   & (87, broadcast)                       \\ \hline	
+			NS (unicast)   & (87, unicast)                       \\ \hline
+			NA 	& (87, unicast)                       \\ \hline
+		\end{tabular}
+	}
+	\caption{Identifiable ICMP Packets}
+	\label{TAICMP}
+\end{table}
+
+Other packets in \Cref{ICMPPacketFeature} may still be identifiable in the encrypted traffic, depending on the application. One thing to be noticed is that packet fragmentation may induce false positives into \Cref{TAICMP}, although in practice it is avoided by many implementations.
+
+\subsection{Tracking Root Node}
+\textbf{TO BE DONE...}
