@@ -40,11 +40,14 @@ def ReadCandidates(canfilename):
 def GetExclude():
     excludelist = list();
     #Exclude last pick.
-    logfd = open(logfile, "r+");
-    lastpick = GetLastline(logfd).split()[-1];
-    print "#Last pick: {}".format(lastpick);
-    excludelist.append(lastpick);
+    logfd = open(logfile, "w+r");
+    lastline = GetLastline(logfd);
+    if lastline != None:
+        lastpick = GetLastline(logfd).split()[-1];
+        print "#Last pick: {}".format(lastpick);
+        excludelist.append(lastpick);
     print "#Excluding: {}".format(excludelist);
+    logfd.close();
     return excludelist;
 
 def PickToday(canlist, exclude, seed):
@@ -75,6 +78,8 @@ def LogLunch(lunch):
 def main(argc, argv):
     #Read candidates list.
     canlist = ReadCandidates(candidates);
+    if canlist == -1:
+        return -1;
     #Exclude what we don't want to go.
     exclude = GetExclude();
     #Pick what we are going to have today!
