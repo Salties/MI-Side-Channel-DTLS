@@ -1,4 +1,7 @@
 \section{Code Fingerprinting}
 \Cref{PingDevice} reported the existence of outliers in the PRIs. A common cause of the outliers is that the PING response has been delayed by other tasks occupied the CPU when the request is received. 
 
-Our study shows that such outlier data can be exploited to fingerprint a specific device running a specific application.
+\paragraph{Example} \Cref{PingloadExample} illustrates an example prolonged PRI. The victim node was performing a sensor reading when the PING request was received. The PING processing is therefore delayed until the current task is finished, resulting into a prolonged PRI. Such PRIs are treated as outliers in the attack described in \Cref{PingDevice}.
+
+\AddFigure{fig/PINGLOAD_Session.png}{PRI prolonged by Sensor Reading}{PingloadExample}
+
