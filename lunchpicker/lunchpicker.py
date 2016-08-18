@@ -13,13 +13,26 @@ import time;
 #Defualts
 candidates = "candidates.txt";
 logfile = "lunchlog.log";
+date = time.strftime("%Y/%m/%d"); #YY/MM/DD
 
-def GetLastline(fd):
+def GetLastPick(fd):
+    lastpick = "None";
     lines = fd.readlines();
-    if lines:
-        return lines[-1];
+    i = len(lines) - 1;
+    while i >= 0:
+        if lines[i].split()[0] == (date + ':'):
+            i -= 1;
+        else:
+            lastpick = lines[i].split()[-1];
+            break;
+    return lastpick;
+
+def ToMenuList(menulist):
+    menustr = ', '.join(menulist);
+    if menustr == '':
+        return "NONE";
     else:
-        return None;
+        return menustr;
 
 def ReadCandidates(canfilename):
     #Read candidates list.
@@ -33,21 +46,26 @@ def ReadCandidates(canfilename):
     for i in range(0,len(canlist)):
         canlist[i] = canlist[i].replace("\n",'');
 
-    print "#Candidates: {}".format(canlist);
+    #Sort candidates list and print.
+    canlist.sort();
+    print "#Candidates: {}".format(ToMenuList(canlist));
 
     return canlist;
 
 def GetExclude():
     excludelist = list();
+    lastpick = "None";
     #Exclude last pick.
-    logfd = open(logfile, "w+r");
-    lastline = GetLastline(logfd);
-    if lastline != None:
-        lastpick = GetLastline(logfd).split()[-1];
-        print "#Last pick: {}".format(lastpick);
-        excludelist.append(lastpick);
-    print "#Excluding: {}".format(excludelist);
-    logfd.close();
+    try:
+        logfd = open(logfile, "r");
+        lastpick = GetLastPick(logfd);
+        logfd.close();
+    except IOError:
+        pass;
+
+    print "#Last pick: {}".format(lastpick);
+    excludelist.append(lastpick);
+    print "#Excluding: {}".format(ToMenuList(excludelist));
     return excludelist;
 
 def PickToday(canlist, exclude, seed):
@@ -55,9 +73,7 @@ def PickToday(canlist, exclude, seed):
     for i in exclude:
         while i in canlist:
             canlist.remove(i);
-            print "#Excluded: {}.".format(i);
-    print "#Available: {}".format(canlist);
-    print "#{} choies.".format(len(canlist));
+    print "#Available[{}]: {}".format(len(canlist),ToMenuList(canlist));
     #Hash by SHA256.
     randnum = int(hashlib.sha256(seed).hexdigest(),16);
     print "#SHA256: {:X}".format(randnum);
@@ -66,13 +82,17 @@ def PickToday(canlist, exclude, seed):
     return pick;
 
 def LogLunch(lunch):
-    logfd = open(logfile, "w+r");
-    date = time.strftime("%Y/%m/%d");
+    logfd = open(logfile, "a+r");
+    lines = logfd.readlines();
     #Format: "DATE: PICK"
-
     logmessage = "{}: {}\n".format(date, lunch);
-    if logmessage != GetLastline(logfd):
+    #Write when the log file is empty.
+    if len(lines) == 0:
         logfd.write(logmessage);
+    #Ignore duplicated log.
+    elif logmessage != lines[-1]:
+        logfd.write(logmessage);
+
     return;
 
 def main(argc, argv):
@@ -83,13 +103,11 @@ def main(argc, argv):
     #Exclude what we don't want to go.
     exclude = GetExclude();
     #Pick what we are going to have today!
-    date = time.strftime("%d/%m/%Y");
     pick = PickToday(canlist, exclude, date);
     lunch = canlist[pick];
     print("Today's Pick: {}".format(lunch));
     #Log the pick of today.
     LogLunch(lunch);
-
     return 0;
 
 if __name__ == "__main__":
