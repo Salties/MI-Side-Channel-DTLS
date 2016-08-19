@@ -2,7 +2,7 @@ CONTIKI_PROJECT = example-powertrace
 APPS+=powertrace
 all: $(CONTIKI_PROJECT)
 
-CONTIKI = ../..
+CONTIKI=$(CONTIKI_ROOT)
 CONTIKI_WITH_IPV6 = 1
 include $(CONTIKI)/Makefile.include
 
