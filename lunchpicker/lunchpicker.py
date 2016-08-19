@@ -82,7 +82,7 @@ def PickToday(canlist, exclude, seed):
     return pick;
 
 def LogLunch(lunch):
-    logfd = open(logfile, "a+r");
+    logfd = open(logfile, "ar+");
     lines = logfd.readlines();
     #Format: "DATE: PICK"
     logmessage = "{}: {}\n".format(date, lunch);
