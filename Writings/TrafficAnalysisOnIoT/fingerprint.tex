@@ -1,4 +1,4 @@
-\section{Node Fingerprint}
+\section{Node Fingerprint} \label{Pingload}
 \Cref{PingDevice} reported the existence of outliers in the PRIs. A common cause of the outliers is that the PING response has been delayed by other tasks occupied the CPU when the request is received. 
 
 \paragraph{Example} \Cref{PingloadExample} illustrates an example of prolonged PRI. The victim node was performing a sensor reading when the PING request was received. The PING processing is therefore delayed until the current task is finished, resulting into a prolonged PRI. Such prolonged PRIs are treated as outliers in the attack described in \Cref{PingDevice}.
