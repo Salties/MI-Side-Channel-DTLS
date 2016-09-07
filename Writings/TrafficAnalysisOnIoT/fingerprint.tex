@@ -3,7 +3,5 @@
 
 \paragraph{Example} \Cref{PingloadExample} illustrates an example of prolonged PRI. The victim node was performing a sensor reading when the PING request was received. The PING processing is therefore delayed until the current task is finished, resulting into a prolonged PRI. Such prolonged PRIs are treated as outliers in the attack described in \Cref{PingDevice}.
 
-\AddFigure{fig/PINGLOAD_Session.png}{PRI prolonged by Sensor Reading}{PingloadExample}
-
 The prolonged PRI can be hence considered a hint of combined hardware and code execution of a specific node. To be more specifically, the adversary sends PING requests to the node that is to be fingerprinted and collects the PRIs. He then filters the prolonged PRIs (outliers) and uses their distribution as the fingerprint. 
 %How to use it?
