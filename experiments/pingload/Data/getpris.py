@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+#Tool to calculate PRIs. Works for Wireshark >= 2.0.2.
+#Grep the keywords "ICMPv6" and "reply" from the csv file before applying this tool.
+
+
 import sys;
 
 def main(argc, argv):
