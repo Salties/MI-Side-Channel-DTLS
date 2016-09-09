@@ -5,40 +5,55 @@
 
 
 import sys;
+from parse import *;
+
+keywords = ["Echo(ping)", "reply"];
+
+class PingSession:
+    seqno = 0;
+    requesttime = 0;
+    responsetime = 0;
+
+    def __init__(self, seq, reqtime):
+        self.seqno = seq;
+        self.requesttime = reqtime;
 
 def main(argc, argv):
     filename = argv[1];
 
-    packets = [];
-    replies = [];
-    requests = [];
-    PRIs = [];
+    sessions = [];
+    pris = [];
 
     fd = open(filename);
+    fd.readline(); #Read out title line.
 
     #Read captured packet csv file.
     while True:
         packetinfo = fd.readline();
         if packetinfo == '':
             break;
-        packets.append(packetinfo);
+        for i in keywords:
+            if i not in packetinfo:
+                continue;
 
-    #Compute PRIs reversely.
-    i = len(packets) - 1;
-    while i > 0:
-        repliedtime = float(packets[i].split(',')[1].replace('\"',''));
-        requestedtime = float(packets[i-1].split(',')[1].replace('\"',''));
-        pri = 1000 * (repliedtime - requestedtime);
-        PRIs.append(pri);
-        i -= 2;
-
-    #Reverse PRI back in normal order.
-    i = len(PRIs) - 1;
-    while i >= 0:
-        print("{:.3f}".format(PRIs[i]));
-        i -= 1;
-
-
+        #Scan requests.
+        replyseq = search('(reply in {})', packetinfo);
+        if replyseq: #This is a request.
+            i = PingSession(int(replyseq[0]), float(packetinfo.split(',')[1].replace('\"','')));
+            sessions.append(i);
+        #Record reply time.
+        else: #This is a reply.
+            packetattr = packetinfo.split(',');
+            seqno = int(packetattr[0].strip('\"'));
+            replytime = float(packetattr[1].strip('\"'));
+            for i in sessions:
+                if i.seqno == seqno:
+                    i.responsetime = replytime;
+                    pri = 1000*(i.responsetime - i.requesttime);
+                    #print "ReplySeq={}, RequestTime={}, ResponseTime={}, PRI={}".format( i.seqno, i.requesttime, i.responsetime, pri);
+                    print pri;
+                    sessions.remove(i);
+                    break;
     exit(0);
 
 if __name__ == "__main__":
