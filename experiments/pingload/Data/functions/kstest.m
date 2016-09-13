@@ -7,7 +7,7 @@ function retval = kstest(d1, d2)
 	if iscell(d2)
 		d2 = cell2mat(d2);
 	end
-
+	
 	[p ks d] = kolmogorov_smirnov_test_2(d1, d2);
 	d = d * 1000;
 	retval = [p ks d]';
