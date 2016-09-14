@@ -19,7 +19,7 @@
 #include <stdio.h>		/* For printf() */
 
 
-#define APP_VERSION "7"
+#define APP_VERSION "8"
 
 #define PERIOD_TIME ((CLOCK_SECOND * 2))
 
