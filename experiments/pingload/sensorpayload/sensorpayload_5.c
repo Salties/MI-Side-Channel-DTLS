@@ -19,7 +19,7 @@
 #include <stdio.h>		/* For printf() */
 
 
-#define APP_VERSION "7"
+#define APP_VERSION "5"
 
 #define PERIOD_TIME ((CLOCK_SECOND * 2))
 
@@ -73,8 +73,8 @@ inline void Payload()
     int data[3] = {0};
 
     //data[0] = gettemp();
-    data[1] = getambientlight();
-    data[2] = getvdd();
+    //data[1] = getambientlight();
+    //data[2] = getvdd();
     printf("Temperature=%d, Ambient Light=%d, VDD=%d\n", data[0], data[1],data[2]);
     encrypt(data, sizeof(data), mykey);
     uip_udp_packet_sendto(client_conn, data, sizeof(data),

@@ -72,7 +72,7 @@ inline void Payload()
 {
     int data[3] = {0};
 
-    //data[0] = gettemp();
+    data[0] = gettemp();
     data[1] = getambientlight();
     data[2] = getvdd();
     printf("Temperature=%d, Ambient Light=%d, VDD=%d\n", data[0], data[1],data[2]);

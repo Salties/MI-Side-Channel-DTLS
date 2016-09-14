@@ -19,14 +19,14 @@
 #include <stdio.h>		/* For printf() */
 
 
-#define APP_VERSION "7"
+#define APP_VERSION "4"
 
 #define PERIOD_TIME ((CLOCK_SECOND * 2))
 
 #define UDP_CLIENT_PORT 8775
 #define UDP_SERVER_PORT 5688
 
-#define APP_NAME (("Sensorpayload_" APP_VERSION " Process"))
+#define APP_NAME (("Sensorpayload_" APP_VERSION "Process"))
 
 /*---------------------------------------------------------------------------*/
 PROCESS(pingload_process, APP_NAME);
@@ -63,22 +63,16 @@ static int getambientlight()
 	return als_sensor.value(0);
 }
 
-static int getvdd()
-{
-	return vdd3_sensor.value(CC2538_SENSORS_VALUE_TYPE_CONVERTED);
-}
-
 inline void Payload()
 {
-    int data[3] = {0};
+    uint32_t data[2] = {0};
 
     //data[0] = gettemp();
     data[1] = getambientlight();
-    data[2] = getvdd();
-    printf("Temperature=%d, Ambient Light=%d, VDD=%d\n", data[0], data[1],data[2]);
     encrypt(data, sizeof(data), mykey);
     uip_udp_packet_sendto(client_conn, data, sizeof(data),
                         &server_ipaddr, UIP_HTONS(UDP_SERVER_PORT));
+    printf("Data send: temperature=%ld, Ambient Light=%ld\n", data[0], data[1]);
 
 
     return;
