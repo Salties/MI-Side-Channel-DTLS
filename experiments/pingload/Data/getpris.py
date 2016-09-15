@@ -51,7 +51,7 @@ def main(argc, argv):
                     i.responsetime = replytime;
                     pri = 1000*(i.responsetime - i.requesttime);
                     #print "ReplySeq={}, RequestTime={}, ResponseTime={}, PRI={}".format( i.seqno, i.requesttime, i.responsetime, pri);
-                    print pri;
+                    print '{:.03f}'.format(pri);
                     sessions.remove(i);
                     break;
     exit(0);
