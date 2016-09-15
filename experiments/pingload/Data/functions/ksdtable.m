@@ -2,7 +2,7 @@ function ret = ksdtable(data)
 	samplenum = length(data);
 	tablex = samplenum + 1;
 	tabley = samplenum + 1;
-	ret = 0 * ones(tabley, tablex);
+	ret = 1000 * ones(tabley, tablex);
 	ret(1,:) = [0:samplenum];
 	ret(:,1) = [0:samplenum];
 	
