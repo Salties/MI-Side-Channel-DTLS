@@ -39,32 +39,14 @@ PRI = 4.701468 - 4.684369 = 0.017099(s) = 17.099(ms)
 	\caption{PRIs for different devices. \label{PRIs}}
 \end{figure}
 
-We also realised that certain outliers exist in the data. One factor contributes to this phenomenon is that CPU being occupied by other tasks when PING request is received, thus delaying the response.  \Cref{PingloadExample} illustrates an example of PRI being delayed by sensor reading .  To mitigate the affect of the outliers, we propose the use of median to characterise the devices. The medians in our experiments are summarised in \Cref{PRI_SkyCC2538}.
-
-\AddFigure{fig/PINGLOAD_Session.png}{PRI prolonged by Sensor Reading}{PingloadExample}
-
-\begin{table}[ht!]
-	\centering
-	\adjustbox{max width = \textwidth}
-	{
-		\begin{tabular}{|c|c|c|}
-			\hline
-			              & Mean (ms)     & Median (ms)   \\ \hline
-			TelosB & 33.818 & 17.033 \\ \hline
-			CC2538 & 11.205  & 9.551 \\ \hline
-		\end{tabular}
-	}
-	\caption{PRIs of TelosB and CC2538}
-	\label{PRI_SkyCC2538}
-\end{table}
-
+We also realised that certain outliers exist in the data. One factor contributes to this phenomenon is that CPU being occupied by other tasks when PING request is received, thus delaying the response.  
 
 \subsection{Factors Affecting PRI} \label{PingDevice}
 
 Even though \Cref{PRI_Devices} demonstrated that PRI has a nice distinguishability over our experimented devices, other factors must be taken into account when using PRI as a hint to devices. 
 
 %802.15.4 Security Setting
-For example, when 802.15.4 security\cite{802154} is enabled, additional time will be taken for cryptographic operations. PRI can further vary due to different implementations, such as the hardware or software AES implementation on a TelosB. \Cref{802154SecPRI} illustrates a comparison between TelosB SW/HW AES and CC2538 SW AES with 802.15.4 security enabled. 
+For example, when 802.15.4 security\cite{802154} is enabled, additional time will be taken for cryptographic operations. PRI can further vary due to different implementations, such as the hardware or software AES implementation on a TelosB. \Cref{802154SecPRI} illustrates a comparison between TelosB SW/HW AES and CC2538 SW AES with 802.15.4 security enabled. In addition, excessive PING frequent could also have an impact to the measured PRI as the flooding packets would overrun the processing power of the low resourced devices.
 
 \begin{figure}[ht!]
 	\centering
@@ -98,6 +80,5 @@ For example, when 802.15.4 security\cite{802154} is enabled, additional time wil
 	\caption{PRIs with 802.15.4 security\label{802154SecPRI}}
 \end{figure}
 
-%Excessive PING frequency
-As mentioned in \Cref{Sec:DistinguishDevice}, excessive PING frequent could also have an impact to the measured PRI.
+
 
