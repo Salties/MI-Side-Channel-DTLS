@@ -25,7 +25,7 @@ PRI = 4.701468 - 4.684369 = 0.017099(s) = 17.099(ms)
 
 \subsection{PRIs on TelosB and CC2538} \label{PRI_Devices}
 
-\Cref{PRIs} shows PRIs collected on two devices, TelosB and CC2538, running the same Contiki broadcast example. The graph demonstrates that they can be easily distinguished, as PRIs of TelosB are clustered around 17 ms whilst CC2538 are around  10 ms.
+\Cref{PRIs} shows PRIs collected on two devices, TelosB and CC2538, respectively. The graph demonstrates that they can be easily distinguished, as PRIs of TelosB are clustered around $17$ ms whilst CC2538 are around $9.5$ ms.
 
 \begin{figure}[ht!]
 	\begin{subfigure}{0.45\linewidth}
@@ -33,13 +33,13 @@ PRI = 4.701468 - 4.684369 = 0.017099(s) = 17.099(ms)
 		\subcaption{TelosB PRIs}
 	\end{subfigure}
 	\begin{subfigure}{0.45\linewidth}
-		\includegraphics[width=\linewidth]{fig/helloworld_CC2538.png}
+		\includegraphics[width=\linewidth]{fig/helloworld_cc2538.png}
 		\subcaption{CC2538 PRIs}
 	\end{subfigure}
 	\caption{PRIs for different devices. \label{PRIs}}
 \end{figure}
 
-We also realised that certain outliers exist in the data. One factor contributes to this phenomenon is that CPU being occupied by other tasks when PING request is received, thus delaying the response.  
+We also realised that certain outliers exist in our data, represented by the right most bars in \Cref{PRIs}. $13.789$\%  of the PRIs are $\geq$ $18.5$ms on Sky, and $15.307$\% are $\geq$ $11.5$ms on CC2538. A common cause of the outliers is processor being occupied by other tasks when a PING request is received; therefore prolonged the PRI, as illustrated by \Cref{PingloadExample}. The portion of the outlier is hence affected by the payload on the node and the frequency of PING requests. We discuss further details of the outliers in \Cref{Pingload}.
 
 \subsection{Factors Affecting PRI} \label{PingDevice}
 
