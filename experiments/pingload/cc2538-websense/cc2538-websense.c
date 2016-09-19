@@ -158,6 +158,7 @@ httpd_simple_get_script(const char *name)
   return send_values;
 }
 /*---------------------------------------------------------------------------*/
+
 PROCESS_THREAD(web_sense_process, ev, data)
 {
   static struct etimer timer;
