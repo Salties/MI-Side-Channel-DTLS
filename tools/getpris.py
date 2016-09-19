@@ -7,6 +7,12 @@
 import sys;
 from parse import *;
 
+helpmessage = "\
+Extract PING Response Intervals(PRIs) from csv files export by Wireshark. Works for Wireshark >= 2.0.2.\n\
+Usage:\n\
+\tgetpris CSVFILE\
+";
+
 keywords = ["Echo(ping)", "reply"];
 
 class PingSession:
@@ -19,13 +25,19 @@ class PingSession:
         self.requesttime = reqtime;
 
 def main(argc, argv):
+    if ('-h' in argv) or (argc == 1):
+        print helpmessage;
+        exit(0);
+
     filename = argv[1];
 
     sessions = [];
     pris = [];
 
+   
     fd = open(filename);
     fd.readline(); #Read out title line.
+
 
     #Read captured packet csv file.
     while True:
