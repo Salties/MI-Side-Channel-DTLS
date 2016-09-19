@@ -1,3 +1,29 @@
+%=====================================================================
+%WARNING: Obseleted.
+%Function: 
+%	[P_TBL D_TBL] = ksdmatchtable(DATA)
+%
+%Description:
+%	Computes the paired Kolmogorov-Smirnov Test P-value and
+%	Distance among samples in DATA. The tests are performed on 
+%	(X, X+Y).
+%
+%Return Values:
+%	The first row and column in P_TBL and D_TBL represents the 
+%	index of samples in DATA, as specified by DATA(1,:). The last
+%	column presents the best match in each row.
+%	
+%	P_TBL: p-values of the tests. p-values for self tests are 
+%	defined as 0. Best match defined as the maximum of each row.
+%
+%	D_TBL: KS Distance of the tests, multiplied by 1000 for
+%	readability. The distance of self tests are defined as 1000.
+%	Best match defined as the minimum of each row.
+%
+%Arguments:
+%	DATA: Data set to be tested. In the format defined by 
+%	loadall().
+%=====================================================================
 function [ptbl dtbl]= ksdmatchtable(data)
 	samplenum = length(data);
 	tablex = samplenum + 1;

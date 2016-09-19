@@ -1,3 +1,13 @@
+%=====================================================================
+%Function: 
+%	[p KS d] = kstest(X, Y)
+%
+%Description:
+%	Shortcut for kolmogorov_smirnov_test_2().
+%
+%Return Values and Arguments:
+%	Refer to kolmogorov_smirnov_test_2().
+%=====================================================================
 function retval = kstest(d1, d2)
 	format short g;
 

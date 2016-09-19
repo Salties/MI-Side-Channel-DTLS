@@ -1,3 +1,19 @@
+%=====================================================================
+%WARNING: Obseleted.
+%Function: 
+%	KS_D = ksmatch(X, Y)
+%
+%Description:
+%	Computes the Kolmogorov-Smirnov Distance between distribution 
+%	a X and (X+Y).
+%
+%Return Values:
+%	KS_D: Kolmogorov-Smirnov Distance between (X,X+Y). Multiplied 
+%	by 1000 for readability.
+%
+%Arguments:
+%	X,Y: Distributions to be evaluated. Both in a vector form.
+%=====================================================================
 function retval = ksmatch(d1, d2)
 	format short g;
 
