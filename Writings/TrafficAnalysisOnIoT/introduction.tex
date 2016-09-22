@@ -6,8 +6,10 @@ The extensive use of radio communication in exposed environment poses a great se
 In this paper, we discuss the applicability of TA techniques over IoT application traffic. To be more specifically, we present an attempt of TA attacks on a 6LoWPAN\cite{rfc4944} network powered by Contiki\cite{Contiki} and demonstrate the potential of extracting ``supposedly'' private information from. Although revealing these information does not directly imply any security problem in the setup due to the fact that they are purely designed for experimental purposes, but the result indicates that TA attacks should be concerned when designing secure IoT applications.
 
 %Finally the paper structure
-%To be done.
+We first review the related literatures in \Cref{RelatedWork} and explain an implementation flaw in the current Contiki source code in \Cref{noncoresec}. We then present an example that extracts ICMP messages in 6LoWPAN using TA in \Cref{ICMPAttack}, followed by another TA attack that reveals hardware information by timing PING packets and their responses in \Cref{Sec:DistinguishDevice}. In \Cref{PingLoad} we propose a new type of side channel attack, named PingLoad, that fingerprints the application that runs on a node, before we conclude the paper in \Cref{conclusion}.
 
-%\subsection{Related Work}
+\section{Related Work \label{RelatedWork}}
 %Literatures about Traffic Analysis...
+Traffic Analysis is a well studied subject in the Internet security and privacy community.
+
 %Literatures about 6LoWPAN security

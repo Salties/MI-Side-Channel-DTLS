@@ -94,7 +94,7 @@ We used 10 applications to test the PingLoad attack:
 	\item The \textbf{sensorpayload} application family we developed. These applications periodically encrypt some sensor readings and send them back to the network root. We developped $8$ sensorpayload applications corresponding to $8$ different combinations of temperature, light and voltage sensors.
 \end{itemize}
 
-We  ran all applications on a CC2538 device. The PING requests are sent from a Linux host using ``ping6 -s 0 -i 0.4'', i.e. no user defined data and with interval of $0.4$ second. 
+We  ran all applications on a CC2538 device. The PING requests are sent from a Linux host using ``ping6 -s 0 -i 0.4'', i.e. no user defined data and with interval of $0.4$ second. The frequency of PING is configured to such value to maximise the speed of collection without flooding the node.
 
 For each application, we collected $2$ groups of packets dumps (pcapng files), with each dump consists of $200000$ packets. Traces of nearly $7000$ PRIs are extracted from each dump. Applying the empirical $11$ms threshold for CC2538, we gathered roughly 1000 PRIs from each filtered trace those are prolonged by the application. \Cref{PingLoadApps} summarises the data we used in the experiment.
 
@@ -104,7 +104,7 @@ For each of the 20 traces, we computed the KS-distances against all other 19 tra
 
 Assume the traces does not contain any information of their corresponding application, i.e. each trace is uniformly randomly matched to one in the other 19 traces. The theoretical probability $P_0$ of having 13 out of 20 traces correctly matched is:
 \begin{equation*}
-P_0 = C^{13}_{20} (\frac{1}{19})^{13} (\frac{18}{19})^{7} \approx 1.262 * 10^{-12} \leq 1\%
+P_0 = C^{13}_{20} (\frac{1}{19})^{13} (\frac{18}{19})^{7} \approx 1.262 * 10^{-12} \leq 0.01
 \end{equation*}
 
 Therefore we reject the hypothesis and conclude that the traces contain information of the applications.
