@@ -29,8 +29,8 @@
 #define APP_NAME (("Sensorpayload_" APP_VERSION " Process"))
 
 /*---------------------------------------------------------------------------*/
-PROCESS(pingload_process, APP_NAME);
-AUTOSTART_PROCESSES(&pingload_process);
+PROCESS(sensorpayload_process, APP_NAME);
+AUTOSTART_PROCESSES(&sensorpayload_process);
 /*---------------------------------------------------------------------------*/
 
 static struct uip_udp_conn *client_conn;
@@ -84,7 +84,7 @@ inline void Payload()
     return;
 }
 
-PROCESS_THREAD(pingload_process, ev, data)
+PROCESS_THREAD(sensorpayload_process, ev, data)
 {
     static struct etimer et;
 
