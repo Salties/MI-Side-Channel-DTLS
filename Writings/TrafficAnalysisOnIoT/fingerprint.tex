@@ -48,7 +48,7 @@ Similar to many Traffic Analysis literature, we adopted the ``closed world'' set
 
 In reality, such scenario can be motivated as an adversary trying to find out which product a victim might be using among those available on the market.
 
-\subsubsection{Attack Description}
+\subsubsection{Attack Description \label{PingLoadAttackManual}} 
 
 The attack can be described into 4 stages:
 
@@ -98,24 +98,32 @@ where each $T_i$ is collected by repetitively sending PING Request to the device
 
 \subsubsection{Experiment Result}
 
-We used 10 applications to test the PingLoad attack:
+We performed the experiments on CC2538. The ``closed world'' includes 10 applications which are:
 \begin{itemize}
-	\item The \textbf{powertrace} example in Contiki source code which records the power consumption of the node.
-	\item The \textbf{broadcast} example in Contiki source code which broadcasts the string ``Test'' periodically.
-	\item The \textbf{sensorpayload} application family we developed. These applications periodically encrypt some sensor readings and send them back to the network root. We developped $8$ sensorpayload applications corresponding to $8$ different combinations of temperature, light and voltage sensors.
+	\item \textbf{powertrace}: This Contiki example continuously records the power consumption on the node.
+	\item \textbf{broadcast}: This Contiki example broadcasts a test ``Test'' string periodically.
+	\item \textbf{sensorpayload} family: These applications periodically read the sensors and report the readings to the root node encrypted. There are $8$ instances of this type of applications corresponding to $8$ different combinations of temperature, light and voltage sensors.
 \end{itemize}
 
-We  ran all applications on a CC2538 device. The PING requests are sent from a Linux host using ``ping6 -s 0 -i 0.4'', i.e. no user defined data and with interval of $0.4$ second. The frequency of PING is configured to such value to maximise the speed of collection without flooding the node.
+The experiments are summarised in \Cref{PingLoadExpSum}.
 
-For each application, we collected $2$ groups of packets dumps (pcapng files), with each dump consists of $200000$ packets. Traces of nearly $7000$ PRIs are extracted from each dump. Applying the empirical $11$ms threshold for CC2538, we gathered roughly 1000 PRIs from each filtered trace those are prolonged by the application. \Cref{PingLoadApps} summarises the data we used in the experiment.
+PING requests are sent from a Linux host with the command  ``ping6 -s 0 -i 0.4''\footnote{No user defined data and with interval of $0.4$ second}. This frequency is chosen to maximise the speed of data generation without flooding the device.
 
-For each of the 20 traces, we computed the KS-distances against all other 19 traces, with only one collected on the same application. \Cref{ksdistances} shows the result of KS-distances. Referring the indexes of minimum KS-distances in each row in \Cref{ksdistances} to \Cref{PingLoadApps}, our experiment reported 13 out of 20 ($65$\%) cases have successfully matched to the correct applications in our setting.
+For each application, we collected $2$ packet dumps (pcapng files) with each dump consists of $200000$ packets. Traces of nearly $7000$ PRIs are extracted from each dump.
 
-\paragraph{Analysis of Effectiveness}
+We applied the threshold $\alpha = 11\text{(ms)}$ for CC2538. Roughly 1000 PRI outliers are filtered from each trace. \Cref{PingLoadApps} summarises the data we used in the experiment.
 
-Assume the traces does not contain any information of their corresponding application, i.e. each trace is uniformly randomly matched to one in the other 19 traces. The theoretical probability $P_0$ of having 13 out of 20 traces correctly matched is:
+For each trace in the experiment, there is exactly one other trace among the 20 that is collected on the same application. We applied the KS distances method as described in \Cref{PingLoadAttackManual}, as summarised in \Cref{ksdistances}.
+
+The experiments reported 13 out of 20 ($65$\%) traces have successfully matched to the correct application in our setting.
+
+\subsubsection{Result Analysis}
+
+Let null hypothesis be the attack has no effect, then each trace is uniformly matched to one in the other 19 traces. 
+
+Under the null hypothesis, the probability $P_0$ of having 13 out of 20 traces correctly matched is hence:
 \begin{equation*}
 P_0 = C^{13}_{20} (\frac{1}{19})^{13} (\frac{18}{19})^{7} \approx 1.262 * 10^{-12} \leq 0.01
 \end{equation*}
 
-Therefore we reject the hypothesis and conclude that the traces contain information of the applications.
+Therefore we reject the null hypothesis and conclude that the experiments have shown positive result to the attack.
