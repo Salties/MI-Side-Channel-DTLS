@@ -1,42 +1,37 @@
-\section{PingLoad: Application Fingerprint} \label{PingLoad}
+\section{PingProbe: Application Fingerprint} \label{PingProbe}
 \subsection{PRI Outliers}
 %Observation of PRI outliers
-In \Cref{Sec:DistinguishDevice}  we mentioned the phenomenon that processor occupied by other tasks may prolong the PRI as illustrated in  \Cref{PingloadExample}. Extracting these outliers on a CC2538 running Helloworld example using threshold of $\geq 11$ms, we show the distribution of these prolonged PRIs in \Cref{PingLoadOutliers}. The histogram suggests the distribution has a strong discrete tendency, with multiple spikes presented in the graph.
+In \Cref{Sec:DistinguishDevice}  we mentioned the phenomenon that processor occupied by other tasks may prolong the PRI as illustrated in  \Cref{PingProbeExample}. Extracting these outliers on a CC2538 running Helloworld example using threshold of $\geq 11$ms, we show the distribution of these prolonged PRIs in \Cref{PingProbeOutliers}. The histogram suggests the distribution has a strong discrete tendency, with multiple spikes presented in the graph.
 
-\AddFigure{fig/helloworld_cc2538_outlier.png}{Histogram of PRI Outliers on CC2538 running Helloworld Example, using bins of $10$ms}{PingLoadOutliers}
+\AddFigure{fig/helloworld_cc2538_outlier.png}{Histogram of PRI Outliers on CC2538 running Helloworld Example, using bins of $10$ms}{PingProbeOutliers}
 
-We suppose the cause of such discreteness is that the delay is indeed caused by context switching in the kernel; therefore the impact of remaining time for the current task is indeed negligible. We further suppose the existence of multiple spikes is the result of switching from different contexts take different amounts of time. However, due to practical reasons, we found it difficult to experimentally confirm these hypothesises. Nevertheless, we consider this result as a strong indication that different states of the processor would result into different value of PRI, as illustrated in \Cref{PingLoadTheory}.
+We suppose the cause of such discreteness is that the delay is indeed caused by context switching in the kernel; therefore the impact of remaining time for the current task is indeed negligible. We further suppose the existence of multiple spikes is the result of switching from different contexts take different amounts of time. However, due to practical reasons, we found it difficult to experimentally confirm these hypothesises. Nevertheless, we consider this result as a strong indication that different states of the processor would result into different value of PRI, as illustrated in \Cref{PingProbeTheory}.
 
 \begin{figure}[ht!]
 	\center
 	\begin{subfigure}{0.8\textwidth}
 	{
 		\center
-		\includegraphics[width=\textwidth]{fig/PingLoad_temperature.png}
+		\includegraphics[width=\textwidth]{fig/PingProbe_temperature.png}
 	}
 	\subcaption{PRI when reading temperature sensor}
 	\end{subfigure}
 	\begin{subfigure}{0.8\textwidth}
 	{
 		\center
-		\includegraphics[width=\textwidth]{fig/PingLoad_als.png}
+		\includegraphics[width=\textwidth]{fig/PingProbe_als.png}
 		\subcaption{PRI when reading Ambient Light Sensor(ALS)}
 	}
 	\end{subfigure}
 	\caption{An example of reading temperature and ALS sensor results into different PRI.}
-	\label{PingLoadTheory}
+	\label{PingProbeTheory}
 \end{figure}
 
-\subsection{PingLoad Attack}
-%What is PingLoad
-The PingLoad attack is proposed to exploit the distribution of PRI outliers as an indicator of different states of the processor. Considering the fact that many IoT applications perform routine operations, e.g. reading temperature sensor periodically, the constitution of processor states can be effectively viewed as a fingerprint to the application running on the node. 
+\subsection{PingProbe Attack}
+%What is PingProbe
+The PingProbe attack is proposed to exploit the distribution of PRI outliers as an indicator of different states of the processor. Considering the fact that many IoT applications perform routine operations, e.g. reading temperature sensor periodically, the constitution of processor states can be effectively viewed as a fingerprint to the application running on the node. 
 
 To verify the effectiveness of this attack, we performed a proof of concept experiment.
-
-%Manual
-%Therefore when sending a large amount of PING packets to different node running different applications, those prolonged PRIs would show distinctive distributions for different nodes performing different operations. \Cref{PingLoadTheory} illustrates an example that reading temperature sensor and ALS prolongs PRIs differently. 
-
-%The PingLoad attack hence uses such prolonged PRI distributions as fingerprints to different applications, matching an unknown application to known applications by finding  the statistically most similar PRI distribution. To be more specifically, the attack is described using a ``closed world'' setting with the following steps:
 
 \subsubsection{Experiment Design}
 
@@ -48,7 +43,7 @@ Similar to many Traffic Analysis literature, we adopted the ``closed world'' set
 
 In reality, such scenario can be motivated as an adversary trying to find out which product a victim might be using among those available on the market.
 
-\subsubsection{Attack Description \label{PingLoadAttackManual}} 
+\subsubsection{Attack Description \label{PingProbeAttackManual}} 
 
 The attack can be described into 3 stages:
 
@@ -105,15 +100,15 @@ We performed the experiments on CC2538. The ``closed world'' includes 10 applica
 	\item \textbf{sensorpayload} family: These applications periodically read the sensors and report the readings to the root node encrypted. There are $8$ instances of this type of applications corresponding to $8$ different combinations of temperature, light and voltage sensors.
 \end{itemize}
 
-The experiments are summarised in \Cref{PingLoadExpSum}.
+The experiments are summarised in \Cref{PingProbeExpSum}.
 
 PING requests are sent from a Linux host with the command  ``ping6 -s 0 -i 0.4''\footnote{No user defined data and with interval of $0.4$ second}. This frequency is chosen to maximise the speed of data generation without flooding the device.
 
 For each application, we collected $2$ packet dumps (pcapng files) with each dump consists of $200000$ packets. Traces of nearly $7000$ PRIs are extracted from each dump.
 
-We applied the threshold $\alpha = 11\text{(ms)}$ for CC2538. Roughly 1000 PRI outliers are filtered from each trace. \Cref{PingLoadApps} summarises the data we used in the experiment.
+We applied the threshold $\alpha = 11\text{(ms)}$ for CC2538. Roughly 1000 PRI outliers are filtered from each trace. \Cref{PingProbeApps} summarises the data we used in the experiment.
 
-For each trace in the experiment, there is exactly one other trace among the 20 that is collected on the same application. We applied the KS distances method as described in \Cref{PingLoadAttackManual}, as summarised in \Cref{ksdistances}.
+For each trace in the experiment, there is exactly one other trace among the 20 that is collected on the same application. We applied the KS distances method as described in \Cref{PingProbeAttackManual}, as summarised in \Cref{ksdistances}.
 
 The experiments reported 13 out of 20 ($65$\%) traces have successfully matched to the correct application in our setting.
 
