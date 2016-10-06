@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: Top Block
-# Generated: Thu Oct  6 11:37:56 2016
+# Generated: Thu Oct  6 11:52:48 2016
 ##################################################
 
 if __name__ == '__main__':
@@ -18,7 +18,6 @@ if __name__ == '__main__':
 
 from PyQt4 import Qt
 from gnuradio import analog
-from gnuradio import blocks
 from gnuradio import eng_notation
 from gnuradio import gr
 from gnuradio import qtgui
@@ -71,16 +70,16 @@ class top_block(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
         self._signaloffset_range = Range(-10, 10, 1, 1, 200)
-        self._signaloffset_win = RangeWidget(self._signaloffset_range, self.set_signaloffset, "signaloffset", "counter_slider", int)
+        self._signaloffset_win = RangeWidget(self._signaloffset_range, self.set_signaloffset, "Signal Offset", "counter_slider", int)
         self.top_layout.addWidget(self._signaloffset_win)
         self._signalfreq_range = Range(2400e6, 2500e6, 0.01e6, defaultfreq, 200)
-        self._signalfreq_win = RangeWidget(self._signalfreq_range, self.set_signalfreq, "signalfreq", "counter_slider", float)
+        self._signalfreq_win = RangeWidget(self._signalfreq_range, self.set_signalfreq, "Signal Frequency", "counter_slider", float)
         self.top_layout.addWidget(self._signalfreq_win)
         self._signalamp_range = Range(0, 10, 1, 0, 200)
-        self._signalamp_win = RangeWidget(self._signalamp_range, self.set_signalamp, "signalamp", "counter_slider", int)
+        self._signalamp_win = RangeWidget(self._signalamp_range, self.set_signalamp, "Signal Amplitude", "counter_slider", int)
         self.top_layout.addWidget(self._signalamp_win)
         self._if_gain_range = Range(0, 47, 1, 0, 200)
-        self._if_gain_win = RangeWidget(self._if_gain_range, self.set_if_gain, "if_gain", "counter_slider", float)
+        self._if_gain_win = RangeWidget(self._if_gain_range, self.set_if_gain, "IF Gain", "counter_slider", float)
         self.top_layout.addWidget(self._if_gain_win)
         self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
         	1024, #size
@@ -182,16 +181,14 @@ class top_block(gr.top_block, Qt.QWidget):
         self.osmosdr_sink_0.set_antenna("", 0)
         self.osmosdr_sink_0.set_bandwidth(0, 0)
           
-        self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_SIN_WAVE, 1, signalamp, signaloffset)
 
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.analog_sig_source_x_0, 0), (self.blocks_throttle_0, 0))    
         self.connect((self.analog_sig_source_x_0, 0), (self.osmosdr_sink_0, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_freq_sink_x_0, 0))    
-        self.connect((self.blocks_throttle_0, 0), (self.qtgui_time_sink_x_0, 0))    
+        self.connect((self.analog_sig_source_x_0, 0), (self.qtgui_freq_sink_x_0, 0))    
+        self.connect((self.analog_sig_source_x_0, 0), (self.qtgui_time_sink_x_0, 0))    
 
     def closeEvent(self, event):
         self.settings = Qt.QSettings("GNU Radio", "top_block")
@@ -204,8 +201,8 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_defaultfreq(self, defaultfreq):
         self.defaultfreq = defaultfreq
-        self.set_signalfreq(self.defaultfreq)
         self.qtgui_freq_sink_x_0.set_frequency_range(self.defaultfreq, self.samp_rate)
+        self.set_signalfreq(self.defaultfreq)
 
     def get_signaloffset(self):
         return self.signaloffset
@@ -233,11 +230,10 @@ class top_block(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
-        self.blocks_throttle_0.set_sample_rate(self.samp_rate)
         self.osmosdr_sink_0.set_sample_rate(self.samp_rate)
-        self.qtgui_freq_sink_x_0.set_frequency_range(self.defaultfreq, self.samp_rate)
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
+        self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
+        self.qtgui_freq_sink_x_0.set_frequency_range(self.defaultfreq, self.samp_rate)
 
     def get_if_gain(self):
         return self.if_gain
