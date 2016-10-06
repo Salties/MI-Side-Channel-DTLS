@@ -85,6 +85,7 @@ RfRnd (unsigned char *seed, size_t seedlen)
     //REG(RFCORE_XREG_PTEST0) = 0x02 << 2;
     
     //AGC override.
+    //To achieve the best bias result, tune AGCs to max and disable AAF attenuation.
     REG(RFCORE_XREG_AGCCTRL0) = 0x00; 	//Disable AAF attenuation.
     //REG (RFCORE_XREG_AGCCTRL1) = 0x00;	//Manipulate refernece voltage.
     REG (RFCORE_XREG_AGCCTRL2) = 0xFF;	//Tune all AGCs to maximum.
