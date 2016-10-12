@@ -1,10 +1,33 @@
-There are two applications contained under this folder:
-	- prngtest
-	This application enumerates the CRC16 based PRNG on CC2538.
-	- cc2538seed
-	This applications demonstrates the radio jamming attack to bias the TRNG on CC2538.
+BEFORE YOU START:
+The source code contained in this folder depends on Contiki release-3.0. If the repository is cloned from Github, then run:
+	#cd MyRepository/
+	#git submodule update --init --recursive
+	#export CONTIKI_ROOT=`pwd`/MyRepository/contiki
 
-How to use cc2538seed(*1):
+Then run:
+	#cd MyRepository/experiments/cc2538rng/
+	#make
+To compile the applications.
+
+
+APPLICATIONS:
+There are mainly two applications contained under this folder:
+	- prngtest
+	- cc2538seed
+
+(1) prngtest
+This application enumerates the CRC16 based PRNG on CC2538.
+
+Two tools corresponds to this application to generate the EC lookup table:
+	-secp256r1mult
+	This ELF executable performs an EC scalar multiplication on secp256r1 base point. The source file is at: MyRepository/dtlsclient/tests/secp256r1mult.c
+	-genr.py
+	This python script reads the output of prngtest and generates a look up table for CC2538 PRNG based EC key (sk,pk) pairs.
+
+(2) cc2538seed(*1):
+This applications tests RF based TRNG on CC2538. It samples 128-bit seeds in cope to a potential AES-128 based PRNG.
+
+How to use:
 To (best) demonstrate the attack, upload cc2538seed.bin to the device. 
 
 Make sure the 'cheating' code are:
