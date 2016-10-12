@@ -157,12 +157,9 @@ The result implies that the AGC circuit could have tuned down the signal which m
 
 \subsection{Strong constant signal} \label{Constant}
 We then attempted a strong constant signal. The idea is to treat the whole circuit as a deterministic compression function that maps any $V_{in}$ to $\{0,1\}$. Under this assumption, the same $V_{in}$ should always generate the same $b$, either $0$ or $1$.
-
 In order to achieve constant $V_{in}$ in \Cref{V_in}, $V_s$ needs to be significantly greater than $N$ to suppress its impact in \Cref{RNDOutput}, as any ADC would have only a limited resolution.
 
-For experimental purpose, we have configured three programmable LNAs in the AGC to their maximum gain ($6 + 21 + 9 = 36(dB)$ in total) and has disabled the attenuator in Anti Aliasing Filter (AAF, up to $9dB$). We consider these modifications can be compensated by a strong signal amplifier in practice.
-
-Gnu Radio Companion (GRC)\cite{GRC} and HackRF One\cite{HackRFOne} are used to implement the signal source. \Cref{ConstantSignal} lists the parameters of the signal source configuration. The configuration effectively generates a carrier wave on desired frequency. The HackRF One is directly connected to the OpenMote through a SMA cable to achieve the best signal strength.
+For experimental purpose, we have configured three programmable LNAs in the AGC to their maximum gain ($6 + 21 + 9 = 36(dB)$) and has disabled the attenuator in Anti Aliasing Filter (AAF, up to $9dB$). We consider these modifications can be compensated by a strong signal amplifier in practice. The signal source is implemented by Gnu Radio Companion (GRC)\cite{GRC} with HackRF One\cite{HackRFOne}, connected to the target OpenMote through a SMA cable for the best signal strength. \Cref{ConstantSignal} lists the configuration which effectively generates a carrier wave on desired frequency.
 
 \begin{table}[!t]
 \caption{GRC Signal Source Configuration}
@@ -176,10 +173,12 @@ Gnu Radio Companion (GRC)\cite{GRC} and HackRF One\cite{HackRFOne} are used to i
 %\textbf{Frequency}   & 2475 MHz          \\ \hline
 \textbf{Amplitude}   & 0                 \\ \hline
 \textbf{Offset}      & 1                \\ \hline
+\textbf{IF Gain}      & [0, 30] dB               \\ \hline
+\textbf{Output Voltage Amplitude} & [0,176.0] mV \\ \hline
 \end{tabular}
 \end{table}
 
-Applying the signal, we observed abnormal 0-runs, i.e. consecutive $0$ bits, appeared in the seeds as we increase IF gain to values above $10dB$. \Cref{IFvsP0} shows how $P(0)$ is biased and \Cref{IFvsN0} shows the average number of bits of longest 0-runs in each seed. We can see that the bias has reached its peak at $\text{IF\_Gain} = 22dB$ in both figures. At such gain $27.709\%$ of the 128 bit seeds have longest 0-runs over $64$ bits. It is not a surprise to see the sampled seeds have failed nearly all tests in the NIST test suite, indicating the seed has been strongly biased by our signal. We cannot determine the exact cause of bias decrease for IF Gain over $22$dB due to lack of exact circuit design, but one potential caused could be distortion of software simulated signal source.
+Applying the signal, we observed abnormal 0-runs, i.e. consecutive $0$ bits, appeared in the seeds as we increase IF gain to values above $10dB$. \Cref{IFvsP0} shows how $P(0)$ is biased and \Cref{IFvsN0} shows the average number of bits of longest 0-runs in each seed. We can see that the bias has reached its peak at $\text{IF\_Gain} = 22dB$ in both figures. At such gain $27.709\%$ of the 128 bit seeds have longest 0-runs over $64$ bits. It is not a surprise to see the sampled seeds have failed nearly all tests in the NIST test suite, indicating they have been strongly biased by our signal. We cannot determine the exact cause of bias decrease for IF Gain over $22$dB due to lack of circuit design, but one potential caused might be the distortion under strong signal strength.
 
 \begin{figure*}[!t]
 \centering
