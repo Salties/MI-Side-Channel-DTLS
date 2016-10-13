@@ -53,7 +53,7 @@ Make sure the 'cheating' code are:
 i.e. only the configuration for AGCCTRL0 and AGCCTRL2 are enabled.
 
 Once uploaded, connect HackRF One(*2) to the device and execute:
-  ./grc/attack.py
+  .biasseed.py
 
 The python script pops a GRC generated executable, where the signal source is configured to Sinewave(*3).
 Default parameters (frequency, offset, amplitude) are pre-configured for 802.15.4 Channel 25 which is the default for CC2538DK in Contiki.
