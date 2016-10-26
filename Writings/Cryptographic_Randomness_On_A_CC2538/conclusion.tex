@@ -3,10 +3,4 @@ In this paper we reviewed the provision for cryptographic random numbers on the 
 
 Secondly we investigated how to tamper with the RF source and showed in practice how to configure signals to that end. We reverse engineered the design of the path that produces random bits from the RF module, and developed some attacks that can bias the random bits in practice. This shows that even if the poor PRNG was replaced with a sound one, the source for the seed of any PRNG on the CC2538 is vulnerable to practical attacks. However, the signal strength required for the attack might not be achievable unless the adversary have direct physical access to the device.
 
-We believe that the same design choices have also been adopted by many other products in the CC series including CC2420\cite{CC2420Manual}, CC2430\cite{CC2430Manual}, CC2520\cite{CC2520Manual} and CC253X, CC2540/41 series\cite{CC2530Manual}. To the best of our knowledge all these products suffer from the same problems. Only the latest CC26XX/CC13XX\cite{CC26XXManual} series has abandoned this design and implemented a dedicated RNG suitable for cryptographic purposes.
-
-
-
-
-%\section{Acknowledgement}
-%We have many thanks to (alphabetically) George Oikonomou for providing us much help in Contiki OS and the OpenMote devices, Geoff Hilton who helped us on RF designs and Jake Longo Galea who offered many signal processing advises.
+We believe that the same design choices have also been adopted by many other products in the CC series including CC2420\cite{CC2420Manual}, CC2430\cite{CC2430Manual}, CC2520\cite{CC2520Manual} and CC253X, CC2540/41 series\cite{CC2530Manual}. To the best of our knowledge all these products suffer from the same problems. Only the latest CC26XX/CC13XX\cite{CC26XXManual} series has abandoned this design and implemented a dedicated RNG suitable for cryptographic purposes. We recommend to update the legacy devices for security sensitive application.
