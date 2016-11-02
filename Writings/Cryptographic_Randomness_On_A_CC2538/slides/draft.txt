@@ -1,0 +1,23 @@
+WIFS 2016 Presentation Plot:
+
+P1: Title
+
+P2: Introduce TI CC2538.
+
+P3: Introduction to RNG.
+
+P4: RNG issues reported on previous devices.
+
+P5: RNG design on CC2538: predictable sequence and low entropy (same issue). Practically build look up table for key searching => invert EC multiplication.
+
+P6: The RNG leads to a practical issue. DTLS ECDHE/ECDSA totally broken (but not going into algorithm details).
+
+P7: CC2538 uses RF to sample random seed.
+
+P8: Reverse engineering by comparing to siblings. A random bit is sampled as the LSB of IF_ADC output, which goes through mixer, filter and adjusted by AGC.
+
+P9: Strategy: using constant signal. In practice, noise prevented the initial attack. Overcomed by saturation (strong signal). Run a demo attack if possible.
+
+P10: Result of attack. Bias decreased due to (potentially) signal distortion, but can not further explain due to lack of circuit design. A better quantification of bias is fulture work.
+
+P11: Conclusion. Dedicated TRNG on latest series, but lack of (explicit?) crypto support.
