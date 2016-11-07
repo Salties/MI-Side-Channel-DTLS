@@ -1,0 +1,25 @@
+WIFS 2016 Presentation Plot:
+
+P1: Title
+Hello. My name is Yan Yan and I'm here today to present our recent work: [Cryptographic Randomness on a CC2538: A Case Study]. In this paper we studied the random number generator, which is the very fundemental element in any cryptographic schemes,  on an Internet of Things oriented device, CC2538.
+
+P2: Introduce TI CC2538.
+For those who worked in the Wireless Sensor Network community, you might have already heard CC2538, or even played with it. It is a Texas Instrument System on Chip device announce in 2012, featuring high performance, low power consumption and 15.4 compatibility which is therefore suitable for many Zigbee and 6LoWPAN applications. Above these typical IoT oriented features, this chip also has several cryptographic hardware accelerator implemented, including AES and ECC operations. These cryptographic support suggests it is suitable for security applications. Periphrals of this device is available on TI's website, it is listed in the recommended device for Zigbee/6LoWPAN solutions.
+
+P3: Introduction to RNG.
+
+P4: RNG issues reported on previous devices.
+
+P5: RNG design on CC2538: predictable sequence and low entropy (same issue). Practically build look up table for key searching => invert EC multiplication.
+
+P6: The RNG leads to a practical issue. DTLS ECDHE/ECDSA totally broken (but not going into algorithm details).
+
+P7: CC2538 uses RF to sample random seed.
+
+P8: Reverse engineering by comparing to siblings. A random bit is sampled as the LSB of IF_ADC output, which goes through mixer, filter and adjusted by AGC.
+
+P9: Strategy: using constant signal. In practice, noise prevented the initial attack. Overcomed by saturation (strong signal). Run a demo attack if possible.
+
+P10: Result of attack. Bias decreased due to (potentially) signal distortion, but can not further explain due to lack of circuit design. A better quantification of bias is fulture work.
+
+P11: Conclusion. Dedicated TRNG on latest series, but lack of (explicit?) crypto support.
