@@ -1,10 +1,5 @@
 #!/usr/bin/python
 
-'''
-README:
-This program extract traffic features from cooja simulator radio dump (with '6lowPAN analyser with PCAP' option).
-'''
-
 import sys;
 import csv;
 
@@ -15,6 +10,7 @@ client = 'aaaa::1';
 server = 'aaaa::200:0:0:2';
 lenspec=list();
 keywords=list();
+protocols=list();
 
 class Record:
     def __init__(self, packet_dump):
@@ -38,11 +34,12 @@ class Record:
         if self.dst is '-': #FIXME: Replace '-' with broadcast address.
 	    return False;
 
-	#Reserve packets with specific length if lenspec is specified. This can remove the handshake packets.
-	if lenspec:
-	    if not self.length in lenspec:
-		return False;
-
+        #Filter packets with specific protocols.
+        if len(protocols) is not 0:
+            if self.protocol in protocols:
+                       return True;
+            return False;
+ 
         #A packet contains any of the keywords are valid.
         if len(keywords) is not 0:
             for key in keywords:
@@ -50,11 +47,17 @@ class Record:
                     return True;
             return False;
 
+
+	#Reserve packets with specific length if lenspec is specified. This can remove the handshake packets.
+	if lenspec:
+	    if not self.length in lenspec:
+		return False;
+
 	return True;
     
     def PrintRecord(self):
 	#Print the packet. MAC Protocol is ignored.
-        print('%010f\t%s\t => \t%s\t%s\t%s\t%s' %\
+        print('#%010f\t%s\t => \t%s\t%s\t%s\t%s' %\
 	(self.time, self.src, self.dst, self.length, self.protocol, self.info));
 	return;
     
@@ -62,12 +65,13 @@ class Record:
         return;
 
 def PrintHelp():
-    print "Usage: Extract packet features from a wireshark csv.";
-    print "ws_extractor.py LOGFILE [-c CLIENT[=%s]] [-s SERVER[=%s]] [-t TIMEOUT[=500]] [-k KEYWORD] [LENGTHSPEC]" % (client, server);
+    print "Usage: Extract time intervals from a wireshark csv.";
+    print "getintervals.py CSVFILE [-c CLIENT[=%s]] [-s SERVER[=%s]]  [-p PROTOCOLS] [-k KEYWORD] [-t TIMEOUT[=500]] [-l LENGTHSPEC]" % (client, server);
     exit();
 
 def Init():
-    global logfile, timeout, client, server, lenspec, keyword;
+    global logfile, client, server, protocols, keyword, timeout, lenspec;
+
     if len(sys.argv) <= 1 or '-h' in sys.argv or '--help' in sys.argv:
 	PrintHelp();
     
@@ -77,36 +81,43 @@ def Init():
     #Open a cooja radio log specified by command line argument.
     logfile = open(cmdargs[1], 'r');
     del(cmdargs[1]);
-
-    #Set maximum timeout. (Optional)
-    if '-t' in cmdargs:
-	index = cmdargs.index('-t');
-	timeout = int(cmdargs[index + 1]);
-	del(cmdargs[index : index+2]);
 	
-    #Set client's node ID. (Optional)
+    #Set client. (Optional)
     if '-c' in cmdargs:
 	index = cmdargs.index('-c');
 	client = cmdargs[index + 1];
 	del(cmdargs[index : index + 2]);
 
-    #Set server's node ID. (Optional)
+    #Set server. (Optional)
     if '-s' in cmdargs:
 	index = cmdargs.index('-s');
 	server = cmdargs[index + 1];
 	del(cmdargs[index : index + 2]);
-
+ 
+ #Specify keyword in packet info. (Optional)
+    while '-p' in cmdargs:
+        index = cmdargs.index('-p');
+        protocols.append(cmdargs[index + 1]);
+        del(cmdargs[index : index + 2]);
+  
     #Specify keyword in packet info. (Optional)
     while '-k' in cmdargs:
         index = cmdargs.index('-k');
         keywords.append(cmdargs[index + 1]);
         del(cmdargs[index : index + 2]);
     
-    #Specify packet length. (Optional)
-    lenspec = list();
-    if len(cmdargs) > 1:
-	lenspec = cmdargs[1:];
-	
+    #Set maximum timeout. (Optional)
+    if '-t' in cmdargs:
+	index = cmdargs.index('-t');
+	timeout = int(cmdargs[index + 1]);
+	del(cmdargs[index : index+2]);
+
+    #Specify keyword in packet info. (Optional)
+    while '-l' in cmdargs:
+        index = cmdargs.index('-l');
+        lenspec.append(cmdargs[index + 1]);
+        del(cmdargs[index : index + 2]);
+  
     return;
 
 def GetResponseIntervals(records, client, server):
@@ -159,9 +170,9 @@ for rec in records:
 
 #Extrac response interval from records.
 ris = GetResponseIntervals(records, client, server);
-print "RIs =\n";
+#print "RIs =\n";
 for ri in ris:
-    print "%.3f" % ri,;
+    print "%.3f" % ri
 print "";
 
 exit();
