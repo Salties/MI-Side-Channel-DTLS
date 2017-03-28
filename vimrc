@@ -22,7 +22,16 @@ endif
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
-set background=dark
+if has("gui_running")
+    set guifont=Ubuntu\ Mono\ 16
+    colorscheme desert
+    map <up> gk
+    map <down> gj
+    map <home> g<home>
+    map <end> g<end>
+else
+    set background=dark
+endif
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
@@ -43,15 +52,17 @@ set showmatch		" Show matching brackets.
 set ignorecase		" Do case insensitive matching
 set smartcase		" Do smart case matching
 set incsearch		" Incremental search
-"set autowrite		" Automatically save before commands like :next and :make
-"set hidden		" Hide buffers when they are abandoned
-"set mouse=a		" Enable mouse usage (all modes)
+set autowrite		" Automatically save before commands like :next and :make
+set hidden		" Hide buffers when they are abandoned
+set mouse=a		" Enable mouse usage (all modes)
 
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
 endif
 
-set ai
+
 set fdm=syntax
+set ai
 set spelllang=en_gb
+set hlsearch
