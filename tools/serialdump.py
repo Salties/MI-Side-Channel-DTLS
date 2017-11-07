@@ -41,9 +41,9 @@ def main():
     if platform.system() == 'Linux':
         # Initialisation for Linux.
         ser = serial.Serial('/dev/ttyUSB0')
-    elif platform.system('COM1') == 'Windows':
+    elif platform.system() == 'Windows':
         # Initialisation for Windows.
-        ser = serial.Serial()
+        ser = serial.Serial('COM1')
     else:
         print('Unsupported OS.')
         exit(-1)
