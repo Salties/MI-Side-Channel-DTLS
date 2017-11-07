@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 import serial
+import random
+import platform
+
 
 def SwapEndian16(u8ary):
     i = 0
@@ -10,29 +13,64 @@ def SwapEndian16(u8ary):
 
     return u8ary
 
+def PrintArm16Data(data, logfile=None):
+    pdata = bytearray(data)
+    rwdstr = SwapEndian16(pdata).hex().upper()
+    
+    # Insert spaces for between each 16-bits.
+    dstr = ''
+    i = 0
+    while i in range(len(rwdstr)):
+        dstr += rwdstr[i:i+4] + ' '
+        i += 4
+        
+    print(dstr)
+    if logfile != None:
+        logfile.write(dstr+'\r\n')
+        logfile.flush()
+
+    return
+
 
 def main():
-    ser = serial.Serial('/dev/ttyUSB0')
-    plaintext = SwapEndian16(bytes.fromhex('0123456789ABCDEF')) # Initial plaintext.
+    # Detect running OS.
+    os = platform.system()
+    print('#OS: {}'.format(os))
+    
+    if platform.system() == 'Linux':
+        # Initialisation for Linux.
+        ser = serial.Serial('/dev/ttyUSB0')
+    elif platform.system('COM1') == 'Windows':
+        # Initialisation for Windows.
+        ser = serial.Serial() #
+    else:
+        print('Unsupported OS.')
+        exit(-1)
 
-    # Wait until the device is ready.
-    while True:
-        line = ser.readline().decode("utf-8")
-        if line != "#DEVICE READY.\n":
-            print("#Invalid:"+line)
-        else:
-            print("#DEVICE READY")
-            break
+    random.seed()
+
+    #plaintext = SwapEndian16(bytearray(0x0123456789ABCDEF.to_bytes(8, byteorder='big'))) # Initial plaintext.
+    logfd = open('pt.dat','w+')
 
     # Start reading ciphertext.
     while True:
-        #ser.write(plaintext)
-        line = ser.read(8)
-        for i in range(8):
-            print('{:02X}'.format(line[i]), end=''),
-        print('')
-        plaintext = SwapEndian16(line)
+        plaintext = bytearray(random.getrandbits(64).to_bytes(8, 'big'))
+        # Send plaintext to the device.
+        #print('P:', end='')
+        PrintArm16Data(plaintext, logfd)
+        ser.write(plaintext)  
+        
+        # Read out ciphertext.
+        ciphertext = bytearray(ser.read(8))
+        #print('C:', end='')
+        #PrintArm16Data(ciphertext)
 
+        # Update plaintext for the next round.
+        #plaintext = SwapEndian16(ciphertext)
+        plaintext = ciphertext
+
+    ser.close()
+ 
     return
 
 
