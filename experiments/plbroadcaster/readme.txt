@@ -1,1 +1,0 @@
-Pingload broadcast experiment.
