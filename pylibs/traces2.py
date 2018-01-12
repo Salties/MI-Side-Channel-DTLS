@@ -22,10 +22,10 @@ class Trace:
 # Parse a trs file header.
 #   TRSHEADER = |Id(1)|Len(4)|Val(Len)|
 def ParseTrsHeaser(trsfd):
-    id = int.from_bytes(trsfd.read(1), byteorder="little")
-    len = int.from_bytes(trsfd.read(1), byteorder="little")
-    val = trsfd.read(len)
-    return (id, len, val)
+    hid = int.from_bytes(trsfd.read(1), byteorder="little")
+    hlen = int.from_bytes(trsfd.read(1), byteorder="little")
+    hval = trsfd.read(hlen)
+    return (hid, hlen, hval)
 
 
 # Class of trace set.
