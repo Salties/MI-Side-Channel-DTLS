@@ -2,6 +2,7 @@ import glob
 import numpy
 import scipy
 import scipy.stats
+import scipy.io
 import random
 import pickle
 import sys
@@ -76,11 +77,6 @@ class TraceSet:
 
         return rndset
 
-    # Dump the trace set as a pickle object specified by fp.
-    def Dump(self, fp):
-        pickle.dump(self, fp)
-        return
-
     # Match points specified by f using CPA with HW.
     # The hypothetical value hv[i] is given by function F which is defined as:
     #       hv[i] = F(udata[i])
@@ -110,6 +106,18 @@ class TraceSet:
                 t = i
 
         return (t, cors)
+
+    # Dump the trace set as a pickle object specified by fp.
+    def Dump(self, fp):
+        pickle.dump(self, fp)
+        return
+
+    # Dump traces into matlab data.
+    def DumpToMat(self, filename, udataname, tracename):
+        udata = [[numpy.uint8(i) for i in j] for j in self.GetData()]
+        scipy.io.savemat(
+            filename, {udataname: udata, tracename: self.GetAllPoints()})
+        return
 
     # Print trs header information.
     def PrintHeader(self):
@@ -187,7 +195,7 @@ class TraceSet:
                         points.append(struct.unpack('f', measure)[0])
 
                 # Skip points after end.
-                trsfd.read(prc * (self.headers['NS'] - end))
+                trsfd.read(prc * (self.headers['NS'] - self.end))
 
                 # Add the new trace into trace set.
                 points = numpy.array(points)
