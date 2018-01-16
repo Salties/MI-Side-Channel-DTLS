@@ -27,28 +27,28 @@ def ParseArgs(argc, argv):
 
     if argc < 3:
         return False
-    
+
     i = 1
     while i < argc:
-        if argv[i] == '-h': # Print help message.
+        if argv[i] == '-h':  # Print help message.
             PrintHelp()
             exit(0)
 
-        elif argv[i] == '-c': # Use gzip compress.
+        elif argv[i] == '-c':  # Use gzip compress.
             compressed = True
 
         elif argv[i] == '-s':   # Set trace start.
-            start = int(argv[i+1])
+            start = int(argv[i + 1])
             i += 1
 
         elif argv[i] == '-e':    # Set trace end.
             end = int(argv[i + 1])
             i += 1
 
-        elif iFile == None: # First non optional argument as input file.
+        elif iFile == None:  # First non optional argument as input file.
             iFile = argv[i]
 
-        elif oFile == None: # Second non optional argument as output file.
+        elif oFile == None:  # Second non optional argument as output file.
             oFile = argv[i]
 
         else:
@@ -70,9 +70,10 @@ def main(argc, argv):
     else:
         print('#')
         fd = open(oFile, 'wb')
-    
+
     try:
-        ts = traces.TraceSet(iFile, start, end, showprogress = True, showheader = True)
+        ts = traces.TraceSet(
+            iFile, start, end, showprogress=True, showheader=True)
         ts.Dump(fd)
     finally:
         fd.close()
@@ -84,4 +85,3 @@ def main(argc, argv):
 
 if __name__ == '__main__':
     main(len(sys.argv), sys.argv)
-
