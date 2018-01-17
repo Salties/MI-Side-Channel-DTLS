@@ -7,6 +7,7 @@ import random
 import pickle
 import sys
 import struct
+import copy
 from tqdm import tqdm
 
 
@@ -47,10 +48,9 @@ def ReadTrsHeader(trsfd):
 
 # Copy TraceSet Metadata. The traces object is ignored.
 def CopyTraceSetMetadata(src, dst):
-    dst.version = src.version
-    dst.headers = dict(src.headers)
-    dst.start = src.start
-    dst.end = src.end
+    for k in dst.__dict__:
+        if k != 'traces':
+            dst.__dict__[k] = copy.deepcopy(src.__dict__[k])
     return
 
 
@@ -143,7 +143,7 @@ class TraceSet:
 
                 # Add the new trace into trace set.
                 points = numpy.array(points)
-                self.AddTrace(Trace(udata, points))
+                self.traces.append(Trace(udata, points))
 
         finally:
             trsfd.close()
@@ -168,7 +168,7 @@ class TraceSet:
 
     # Return the number of traces.
     def Len(self):
-        return len(self.traces)
+        return self.headers['NT']
 
     # Add a new trace to the list.
     def AddTrace(self, trace):
@@ -178,45 +178,47 @@ class TraceSet:
 
     # Add a set of traces to the list.
     def AddTraceSet(self, traceset):
-        for i in trace:
-            self.traces.append(i)
+        for t in traceset.GetTraces():
+            self.AddTrace(t)
 
-        self.headers['NT'] += traceset.headers['NT']
         return
 
-    # Print out all taces in the list.
-    def Print(self):
-        for trace in self.traces:
-            print("{}:\t {}".format(hex(trace.udata)), traec.points)
-        return
+    # Fork an empty copy of this trace set with all meta data except headers['NT'].
+    def Fork(self):
+        child = TraceSet()
+        CopyTraceSetMetadata(self, child)
+        child.headers['NT'] = 0
+
+        return child
 
     # Returns a random subset of n traces and optionally its residuel.
-    def RandomSubset(self, n, residuel=None):
-        rndset = TraceSet()  # The new random trace set.
+    def RandomSubset(self, n, withResiduel = False):
+        rndset = self.Fork()  # The new random trace set.
         rndnums = list(range(len(self.traces)))
         random.shuffle(rndnums)
         n = min(n, len(rndnums))
 
-        CopyTraceSetMetadata(self, rndset)
-        rndset.headers['NT'] = 0
         for i in range(n):
             # Select a random trace and add it to the new trace set.
             rndset.AddTrace(self.traces[rndnums[i]])
 
-        if residuel != None:
-            CopyTraceSetMetadata(self, residuel)
-            rndset.headers['NT'] = 0
+        if withResiduel:
+            residule = self.Fork()
             for i in range(n, len(self.traces)):
                 residuel.AddTrace(self.traces[rndnums[i]])
 
-        return rndset
+            return (rndset, residule)
+
+
+        else:
+            return rndset
 
     # Match points specified by f using CPA with HW.
     # The hypothetical value hv[i] is given by function F which is defined as:
     #       hv[i] = F(udata[i])
     #   or with the optional args[i]:
     #       hv[i] = F(udata[i], args[i])
-    def CpaMatch(self, F, args=None):
+    def CpaMatch(self, F, args=None, start=0, end=float('inf')):
         hvvec = list()
         cors = list()
 
@@ -229,17 +231,17 @@ class TraceSet:
 
         # Find the point with maximum correlation.
         hvvec = numpy.array(hvvec)
-        tracelen = len(self.traces[0].points)
+        end  = int(min(self.end - self.start, end))
         t = 0
         maxcor = 0
-        for i in range(tracelen):
+        for i in range(start, end):
             cor = scipy.stats.pearsonr(hvvec, self.GetPoint(i))[0]
             cors.append(cor)
             if abs(cor) > maxcor:
                 maxcor = abs(cor)
                 t = i
 
-        return (t, cors)
+        return (t - start, cors)
 
     # Dump the trace set as a pickle object specified by fp.
     def Dump(self, fp):
@@ -258,6 +260,14 @@ class TraceSet:
         for key in self.headers:
             print("#{}\t: {}".format(key, self.headers[key]))
         return
+
+    # Print out all taces in the list.
+    def Print(self):
+        self.PrintHeader()
+        for trace in self.traces:
+            print("{}:\t {}".format(hex(trace.udata)), traec.points)
+        return
+
 
 
 # Load trace set from fp.
