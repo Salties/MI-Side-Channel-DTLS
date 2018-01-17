@@ -217,7 +217,7 @@ class TraceSet:
 
     # Dump the trace set as a pickle object specified by fp.
     def Dump(self, fp):
-        pickle.dump(self, fp)
+        pickle.dump(self.__dict__, fp)
         return
 
     # Dump traces into matlab data.
@@ -236,4 +236,7 @@ class TraceSet:
 
 # Load trace set from fp.
 def LoadTraceSet(fp):
-    return pickle.load(fp)
+    tsobj = TraceSet()
+    tsdata = pickle.load(fp)
+    tsobj.__dict__ = tsdata
+    return tsobj
