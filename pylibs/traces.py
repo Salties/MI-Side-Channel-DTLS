@@ -10,21 +10,39 @@ import struct
 from tqdm import tqdm
 
 
-# Class of a single trace.
-class Trace:
-    def __init__(self, udata=None, points=None):
-        self.udata = udata      # User Defined Data.
-        self.points = points    # Leakage points.
-        return
-
-
 # Parse a trs file header.
 #   TRSHEADER = |Id(1)|Len(4)|Val(Len)|
-def ParseTrsHeaser(trsfd):
+def ParseTrsHeader(trsfd):
     hid = int.from_bytes(trsfd.read(1), byteorder="little")
     hlen = int.from_bytes(trsfd.read(1), byteorder="little")
     hval = trsfd.read(hlen)
-    return (hid, hlen, hval)
+    return (hid,  hlen, hval)
+
+
+# Get only header information from a trs file.
+def ReadTrsHeader(trsfd):
+    headers = dict()
+    while True:
+        (hid, hlen, hval) = ParseTrsHeader(trsfd)
+        if hid == 0x41:  # NT
+            headers['NT'] = int.from_bytes(
+                hval, byteorder="little", signed=False)
+        elif hid == 0x42:  # NS
+            headers['NS'] = int.from_bytes(
+                hval, byteorder="little", signed=False)
+        elif hid == 0x43:  # SC
+            headers['SC'] = int.from_bytes(
+                hval, byteorder="little", signed=False)
+        elif hid == 0x44:  # DS
+            headers['DS'] = int.from_bytes(
+                hval, byteorder="little", signed=False)
+        elif hid == 0x5F:  # TB
+            break
+        else:  # Unsupported optional headers.
+            headers[hex(hid)] = hval
+            continue
+
+    return headers
 
 
 # Copy TraceSet Metadata. The traces object is ignored.
@@ -34,6 +52,14 @@ def CopyTraceSetMetadata(src, dst):
     dst.start = src.start
     dst.end = src.end
     return
+
+
+# Class of a single trace.
+class Trace:
+    def __init__(self, udata=None, points=None):
+        self.udata = udata      # User Defined Data.
+        self.points = points    # Leakage points.
+        return
 
 
 # Class of trace set.
@@ -65,7 +91,7 @@ class TraceSet:
         #   OPTs    : Unsupported optional headers.
         try:
             while True:
-                (hid, hlen, hval) = ParseTrsHeaser(trsfd)
+                (hid, hlen, hval) = ParseTrsHeader(trsfd)
                 if hid == 0x41:  # NT
                     self.headers['NT'] = int.from_bytes(
                         hval, byteorder="little", signed=False)
