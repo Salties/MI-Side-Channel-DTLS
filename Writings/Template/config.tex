@@ -1,0 +1,32 @@
+%Common packages.
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{appendix}
+\usepackage{algorithm}
+
+%NOT TO BE INCLUDED IN SUBMISSION.
+\usepackage{hyperref}
+
+%Need to be at last.
+\usepackage{cleveref}
+
+
+%Add {./sec/} to \input path.
+\makeatletter
+\def\input@path{{./}{./sec/}}
+\makeatother
+
+%Set default figures path.
+\def\FIGURES{fig/}
+\graphicspath{{\FIGURES}}
+
+%Set default tables path.
+\def\TABLES{tbl/}
+\def\Table#1{\input{\TABLES/#1}}
+
+%Set default sources path.
+\def\SOURCES{src/}
+\def\Source#1{\input{\SOURCES/#1}}

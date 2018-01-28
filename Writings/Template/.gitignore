@@ -1,8 +1,14 @@
+#Ignore LATEX output expect source files.
 *.aux
-*.bbl
-*.blg
-*.log
-*.out
 *.pdf
-*.syntex.gz
+*.bbl
+*.log
+*.toc
+*.synctex.gz
+*.blg
+
+#Ignore indent temporary files.
+*~
+
+#Ignore backups
 *.swp
