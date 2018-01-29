@@ -1,3 +1,9 @@
 #!/bin/bash
 
-rm -f *.toc *.pdf *.log *.out *.aux *.bbl *.blg *.synctex.gz 
+AUXFILES='toc pdf log out aux bbl blg synctex.gz'
+
+for i in $AUXFILES
+do
+	TARGET=`find ./ -name *.$i`
+	rm -f $TARGET
+done
