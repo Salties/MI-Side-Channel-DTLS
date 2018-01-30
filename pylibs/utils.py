@@ -15,6 +15,13 @@ def HD(x,y):
     return HW(x^y)
 
 
+# Sort elements in L by dimension d, defualt by ascending.
+def SortDim(L, d = 0, ascend = False):
+    K = sorted([(i[d], i) for i in L], reverse = inv)
+    Ls = [i[1] for i in K]
+    return Ls
+
+
 # Right rotate x by i bits for N-bits register.
 def rotr(x, i, N):
     i = i % N
