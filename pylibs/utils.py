@@ -7,7 +7,7 @@ import scipy.stats
 
 # Compute the Hamming Weight of x.
 def HW(x):
-    return gmpy.popcount(x)
+    return gmpy.popcount(int(x))
 
 
 # Compute the Hamming Distance between x and y.
