@@ -49,3 +49,7 @@ tags
 #Ignore backups
 */backup/*
 *.swp
+
+#Ignore python cache
+*.pyc
+__pycache__
