@@ -10,6 +10,11 @@ def HW(x):
     return gmpy.popcount(x)
 
 
+# Compute the Hamming Distance between x and y.
+def HD(x,y):
+    return HW(x^y)
+
+
 # Right rotate x by i bits for N-bits register.
 def rotr(x, i, N):
     i = i % N
