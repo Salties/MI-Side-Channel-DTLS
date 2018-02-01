@@ -61,8 +61,9 @@ if filereadable("/etc/vim/vimrc.local")
   source /etc/vim/vimrc.local
 endif
 
-
 set fdm=syntax
 set ai
 set spelllang=en_gb
 set hlsearch
+
+autocmd BufRead,BufNewFile *.txt,*.tex setlocal spell
