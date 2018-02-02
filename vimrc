@@ -68,3 +68,5 @@ set hlsearch
 set autoread
 
 autocmd BufRead,BufNewFile *.txt,*.tex setlocal spell
+
+colorscheme peachpuff
