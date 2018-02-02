@@ -65,5 +65,6 @@ set fdm=syntax
 set ai
 set spelllang=en_gb
 set hlsearch
+set autoread
 
 autocmd BufRead,BufNewFile *.txt,*.tex setlocal spell
