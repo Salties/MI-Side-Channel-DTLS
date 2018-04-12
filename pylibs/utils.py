@@ -16,8 +16,8 @@ def HD(x,y):
 
 
 # Sort elements in L by dimension d, defualt by ascending.
-def SortDim(L, d = 0, ascend = False):
-    K = sorted([(i[d], i) for i in L], reverse = ascend)
+def SortDim(L, d = 0, descend = False):
+    K = sorted([(i[d], i) for i in L], reverse = descend)
     Ls = [i[1] for i in K]
     return Ls
 
