@@ -75,4 +75,6 @@ set autoread
 
 autocmd BufRead,BufNewFile *.txt,*.tex setlocal spell
 
-colorscheme peachpuff
+"colorscheme peachpuff
+colorscheme desert
+set clipboard=unnamedplus
