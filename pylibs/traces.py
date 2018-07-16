@@ -194,9 +194,9 @@ class TraceSet:
     # Returns a random subset of n traces and optionally its residuel.
     def RandomSubset(self, n, withResiduel = False):
         rndset = self.Fork()  # The new random trace set.
-        rndnums = list(range(len(self.traces)))
-        random.shuffle(rndnums)
+        rndnums = range(len(self.traces))
         n = min(n, len(rndnums))
+        rndnums = numpy.random.choice(rndnums, n)
 
         for i in range(n):
             # Select a random trace and add it to the new trace set.

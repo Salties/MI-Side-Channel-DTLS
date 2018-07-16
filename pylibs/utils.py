@@ -1,13 +1,19 @@
 #!/usr/bin/python3
 
-import gmpy
+import sys
 import math
 import scipy.stats
 
 
 # Compute the Hamming Weight of x.
-def HW(x):
-    return gmpy.popcount(int(x))
+try:
+    import gmpy
+    def HW(x):
+        return gmpy.popcount(int(x))
+
+except ImportError:
+    def HW(x):
+        return bin(x).count('1')
 
 
 # Compute the Hamming Distance between x and y.
