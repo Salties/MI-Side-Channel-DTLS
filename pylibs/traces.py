@@ -166,9 +166,16 @@ class TraceSet:
     def GetPoint(self, t):
         return numpy.array([x.points[t] for x in self.traces])
 
-    # Return the number of traces.
+    # For backward compatibility.
     def Len(self):
+        return NTrace(self)
+
+    # Return the number of traces.
+    def NTrace(self):
         return self.headers['NT']
+
+    def LTrace(self):
+        return self.end - self.start
 
     # Add a new trace to the list.
     def AddTrace(self, trace):
@@ -196,7 +203,7 @@ class TraceSet:
         rndset = self.Fork()  # The new random trace set.
         rndnums = range(len(self.traces))
         n = min(n, len(rndnums))
-        rndnums = numpy.random.choice(rndnums, n)
+        rndnums = numpy.random.choice(rndnums, n, replace = False)
 
         for i in range(n):
             # Select a random trace and add it to the new trace set.
