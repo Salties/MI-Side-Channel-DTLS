@@ -174,10 +174,9 @@ class TraceSet:
     def LTrace(self):
         return self.end - self.start
 
-
     # For backward compatibility.
     def Len(self):
-        return NTrace(self)
+        return self.NTrace()
 
     # Add a new trace to the list.
     def AddTrace(self, trace):
