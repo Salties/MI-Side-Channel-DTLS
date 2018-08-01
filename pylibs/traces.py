@@ -166,16 +166,18 @@ class TraceSet:
     def GetPoint(self, t):
         return numpy.array([x.points[t] for x in self.traces])
 
-    # For backward compatibility.
-    def Len(self):
-        return NTrace(self)
-
     # Return the number of traces.
     def NTrace(self):
         return self.headers['NT']
 
+    # Return the length of traces.
     def LTrace(self):
         return self.end - self.start
+
+
+    # For backward compatibility.
+    def Len(self):
+        return NTrace(self)
 
     # Add a new trace to the list.
     def AddTrace(self, trace):
